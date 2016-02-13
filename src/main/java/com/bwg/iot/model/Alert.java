@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.data.annotation.Id;
 
 import java.util.Objects;
 
@@ -12,7 +13,8 @@ import java.util.Objects;
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-02-09T01:15:44.374Z")
 public class Alert  {
   
-  private Long alertId = null;
+  @Id
+  private String alertId = null;
   private String name = null;
   public enum SeverityLevelEnum {
      yellow,  red, 
@@ -26,14 +28,14 @@ public class Alert  {
    **/
   @ApiModelProperty(value = "")
   @JsonProperty("alertId")
-  public Long getAlertId() {
+  public String getAlertId() {
     return alertId;
   }
-  public void setAlertId(Long alertId) {
+  public void setAlertId(String alertId) {
     this.alertId = alertId;
   }
 
-  
+
   /**
    * Identifying name of alert
    **/
@@ -46,7 +48,7 @@ public class Alert  {
     this.name = name;
   }
 
-  
+
   /**
    **/
   @ApiModelProperty(value = "")
@@ -58,7 +60,7 @@ public class Alert  {
     this.severityLevel = severityLevel;
   }
 
-  
+
   /**
    **/
   @ApiModelProperty(value = "")
@@ -70,7 +72,7 @@ public class Alert  {
     this.shortDescription = shortDescription;
   }
 
-  
+
   /**
    * verbose alert message
    **/
@@ -83,7 +85,7 @@ public class Alert  {
     this.longDescription = longDescription;
   }
 
-  
+
 
   @Override
   public boolean equals(Object o) {
@@ -108,15 +110,15 @@ public class Alert  {
 
   @Override
   public String toString()  {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class Alert {\n");
-    
-    sb.append("  alertId: ").append(alertId).append("\n");
-    sb.append("  name: ").append(name).append("\n");
-    sb.append("  severityLevel: ").append(severityLevel).append("\n");
-    sb.append("  shortDescription: ").append(shortDescription).append("\n");
-    sb.append("  longDescription: ").append(longDescription).append("\n");
-    sb.append("}\n");
-    return sb.toString();
+      StringBuilder sb = new StringBuilder();
+      sb.append("class Alert {\n");
+
+      sb.append("  alertId: ").append(alertId).append("\n");
+      sb.append("  name: ").append(name).append("\n");
+      sb.append("  severityLevel: ").append(severityLevel).append("\n");
+      sb.append("  shortDescription: ").append(shortDescription).append("\n");
+      sb.append("  longDescription: ").append(longDescription).append("\n");
+      sb.append("}\n");
+      return sb.toString();
   }
 }

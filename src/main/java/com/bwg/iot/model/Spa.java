@@ -33,54 +33,54 @@ public class Spa  {
     }
 
     /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("id")
-  public String getId() {
+    **/
+    @ApiModelProperty(value = "")
+    @JsonProperty("id")
+    public String getId() {
     return id;
-  }
-  public void setId(String id) {
+    }
+    public void setId(String id) {
     this.id = id;
-  }
+    }
 
-  
-  /**
-   * Unique identifier for spa
-   **/
-  @ApiModelProperty(value = "Unique identifier for spa")
-  @JsonProperty("serialNumber")
-  public String getSerialNumber() {
+
+    /**
+    * Unique identifier for spa
+    **/
+    @ApiModelProperty(value = "Unique identifier for spa")
+    @JsonProperty("serialNumber")
+    public String getSerialNumber() {
     return serialNumber;
-  }
-  public void setSerialNumber(String serialNumber) {
+    }
+    public void setSerialNumber(String serialNumber) {
     this.serialNumber = serialNumber;
-  }
+    }
 
-  
-  /**
-   * Name of this spa product
-   **/
-  @ApiModelProperty(value = "Name of this spa product")
-  @JsonProperty("productName")
-  public String getProductName() {
+
+    /**
+    * Name of this spa product
+    **/
+    @ApiModelProperty(value = "Name of this spa product")
+    @JsonProperty("productName")
+    public String getProductName() {
     return productName;
-  }
-  public void setProductName(String productName) {
+    }
+    public void setProductName(String productName) {
     this.productName = productName;
-  }
+    }
 
-  
-  /**
-   * spa model type
-   **/
-  @ApiModelProperty(value = "spa model type")
-  @JsonProperty("model")
-  public String getModel() {
+
+    /**
+    * spa model type
+    **/
+    @ApiModelProperty(value = "spa model type")
+    @JsonProperty("model")
+    public String getModel() {
     return model;
-  }
-  public void setModel(String model) {
+    }
+    public void setModel(String model) {
     this.model = model;
-  }
+    }
 
 
     @ApiModelProperty(value = "spa dealer")
@@ -90,64 +90,66 @@ public class Spa  {
 
 
     /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("owner")
-  public Owner getOwner() {
+    **/
+    @ApiModelProperty(value = "")
+    @JsonProperty("owner")
+    public Owner getOwner() {
     return owner;
-  }
-  public void setOwner(Owner owner) {
+    }
+    public void setOwner(Owner owner) {
     this.owner = owner;
-  }
+    }
 
   
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("alerts")
-  public List<Alert> getAlerts() {
-    return alerts;
-  }
-  public void setAlerts(List<Alert> alerts) {
-    this.alerts = alerts;
-  }
+    /**
+    **/
+    @ApiModelProperty(value = "")
+    @JsonProperty("alerts")
+    public List<Alert> getAlerts() {
+        return alerts;
+    }
+    public void setAlerts(List<Alert> alerts) {
+        this.alerts = alerts;
+    }
 
-  
 
-  @Override
-  public boolean equals(Object o) {
+
+    @Override
+    public boolean equals(Object o) {
     if (this == o) {
-      return true;
+        return true;
     }
     if (o == null || getClass() != o.getClass()) {
-      return false;
+        return false;
     }
     Spa spa = (Spa) o;
     return Objects.equals(id, spa.id) &&
         Objects.equals(serialNumber, spa.serialNumber) &&
         Objects.equals(productName, spa.productName) &&
         Objects.equals(model, spa.model) &&
+        Objects.equals(dealerId, spa.dealerId) &&
         Objects.equals(owner, spa.owner) &&
         Objects.equals(alerts, spa.alerts);
-  }
+    }
 
-  @Override
-  public int hashCode() {
+    @Override
+    public int hashCode() {
     return Objects.hash(id, serialNumber, productName, model, owner, alerts);
-  }
+    }
 
-  @Override
-  public String toString()  {
+    @Override
+    public String toString()  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Spa {\n");
-    
+
     sb.append("  id: ").append(id).append("\n");
     sb.append("  serialNumber: ").append(serialNumber).append("\n");
     sb.append("  productName: ").append(productName).append("\n");
     sb.append("  model: ").append(model).append("\n");
+    sb.append("  dealerId: ").append(dealerId).append("\n");
     sb.append("  owner: ").append(owner).append("\n");
     sb.append("  alerts: ").append(alerts).append("\n");
     sb.append("}\n");
     return sb.toString();
-  }
+    }
 }
