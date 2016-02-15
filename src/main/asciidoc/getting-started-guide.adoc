@@ -10,7 +10,7 @@ Andy Wilkinson;
 [introduction]
 = Introduction
 
-RESTful Notes is a RESTful web service for creating and storing notes. It uses hypermedia
+iot-services is a RESTful web service for creating and storing spas and spa related information. It uses hypermedia
 to describe the relationships between resources and to allow navigation between them.
 
 [getting-started]
@@ -20,21 +20,21 @@ to describe the relationships between resources and to allow navigation between 
 
 [getting-started-running-the-service]
 == Running the service
-RESTful Notes is written using http://projects.spring.io/spring-boot[Spring Boot] which
+iot-services is written using http://projects.spring.io/spring-boot[Spring Boot] which
 makes it easy to get it up and running so that you can start exploring the REST API.
 
 The first step is to clone the Git repository:
 
 [source,bash]
 ----
-$ git clone https://github.com/spring-projects/spring-restdocs
+$ git clone https://iotdev01/git/iot-services.git
 ----
 
 Once the clone is complete, you're ready to get the service up and running:
 
 [source,bash]
 ----
-$ cd samples/rest-notes-spring-data-rest
+$ cd iot-services
 $ ./mvnw clean package
 $ java -jar target/*.jar
 ----
@@ -53,70 +53,70 @@ Note the `_links` in the JSON response. They are key to navigating the API.
 
 
 
-[getting-started-creating-a-note]
-== Creating a note
+[getting-started-creating-a-spa]
+== Creating a spa
 Now that you've started the service and verified that it works, the next step is to use
-it to create a new note. As you saw above, the URI for working with notes is included as
+it to create a new spa. As you saw above, the URI for working with spas is included as
 a link when you perform a `GET` request against the root of the service:
 
 include::{snippets}/index/1/http-response.adoc[]
 
-To create a note, you need to execute a `POST` request to this URI including a JSON
-payload containing the title and body of the note:
+To create a spa, you need to execute a `POST` request to this URI including a JSON
+payload containing the serial number, product id, and model name of the spa:
 
-include::{snippets}/creating-a-note/1/curl-request.adoc[]
+include::{snippets}/creating-a-spa/1/curl-request.adoc[]
 
 The response from this request should have a status code of `201 Created` and contain a
-`Location` header whose value is the URI of the newly created note:
+`Location` header whose value is the URI of the newly created spa:
 
-include::{snippets}/creating-a-note/1/http-response.adoc[]
+include::{snippets}/creating-a-spa/1/http-response.adoc[]
 
-To work with the newly created note you use the URI in the `Location` header. For example,
-you can access the note's details by performing a `GET` request:
+To work with the newly created spa you use the URI in the `Location` header. For example,
+you can access the spa's details by performing a `GET` request:
 
-include::{snippets}/creating-a-note/2/curl-request.adoc[]
+include::{snippets}/creating-a-spa/2/curl-request.adoc[]
 
-This request will produce a response with the note's details in its body:
+This request will produce a response with the spa's details in its body:
 
-include::{snippets}/creating-a-note/2/http-response.adoc[]
+include::{snippets}/creating-a-spa/2/http-response.adoc[]
 
-Note the `tags` link which we'll make use of later.
+Note the `spas` link which we'll make use of later.
 
 
 
-[getting-started-creating-a-tag]
+[getting-started-creating-a-spa]
 == Creating a tag
-To make a note easier to find, it can be associated with any number of tags. To be able
-to tag a note, you must first create the tag.
+To make a spa easier to find, it can be associated with a dealer or and owner. To be able
+to assign and owner to a spa, you must first create the owner.
 
-Referring back to the response for the service's index, the URI for working with tags is
+Referring back to the response for the service's index, the URI for working with owners is
 include as a link:
 
 include::{snippets}/index/1/http-response.adoc[]
 
-To create a tag you need to execute a `POST` request to this URI, including a JSON
-payload containing the name of the tag:
+To create a owner you need to execute a `POST` request to this URI, including a JSON
+payload containing the name of the owner:
 
-include::{snippets}/creating-a-note/3/curl-request.adoc[]
+include::{snippets}/creating-a-spa/3/curl-request.adoc[]
 
 The response from this request should have a status code of `201 Created` and contain a
 `Location` header whose value is the URI of the newly created tag:
 
-include::{snippets}/creating-a-note/3/http-response.adoc[]
+include::{snippets}/creating-a-spa/3/http-response.adoc[]
 
 To work with the newly created tag you use the URI in the `Location` header. For example
 you can access the tag's details by performing a `GET` request:
 
-include::{snippets}/creating-a-note/4/curl-request.adoc[]
+include::{snippets}/creating-a-spa/4/curl-request.adoc[]
 
 This request will produce a response with the tag's details in its body:
 
-include::{snippets}/creating-a-note/4/http-response.adoc[]
+include::{snippets}/creating-a-spa/4/http-response.adoc[]
 
+////
 
-
-[getting-started-tagging-a-note]
-== Tagging a note
+[getting-started-tagging-a-spa]
+== Tagging a spa
 A tag isn't particularly useful until it's been associated with one or more notes. There
 are two ways to tag a note: when the note is first created or by updating an existing
 note. We'll look at both of these in turn.
@@ -175,3 +175,5 @@ single tag:
 
 include::{snippets}/creating-a-note/9/curl-request.adoc[]
 include::{snippets}/creating-a-note/9/http-response.adoc[]
+
+////

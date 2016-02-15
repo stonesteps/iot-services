@@ -1,5 +1,5 @@
-= RESTful Notes API Guide
-Andy Wilkinson;
+= BWG IoT RESTful Services API Guide
+Triton Services;
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
@@ -13,7 +13,7 @@ Andy Wilkinson;
 [[overview-http-verbs]]
 == HTTP verbs
 
-RESTful notes tries to adhere as closely as possible to standard HTTP and REST conventions in its
+RESTful spas tries to adhere as closely as possible to standard HTTP and REST conventions in its
 use of HTTP verbs.
 
 |===
@@ -35,7 +35,7 @@ use of HTTP verbs.
 [[overview-http-status-codes]]
 == HTTP status codes
 
-RESTful notes tries to adhere as closely as possible to standard HTTP and REST conventions in its
+RESTful spas tries to adhere as closely as possible to standard HTTP and REST conventions in its
 use of HTTP status codes.
 
 |===
@@ -66,7 +66,7 @@ that describes the problem. The error object has the following structure:
 
 include::{snippets}/error-example/response-fields.adoc[]
 
-For example, a request that attempts to apply a non-existent tag to a note will produce a
+For example, a request that attempts to apply a non-existent owner of a spa will produce a
 `400 Bad Request` response:
 
 include::{snippets}/error-example/http-response.adoc[]
@@ -74,7 +74,7 @@ include::{snippets}/error-example/http-response.adoc[]
 [[overview-hypermedia]]
 == Hypermedia
 
-RESTful Notes uses hypermedia and resources include links to other resources in their
+RESTful Spas uses hypermedia and resources include links to other resources in their
 responses. Responses are in http://stateless.co/hal_specification.html[Hypertext Application
 from resource to resource.
 Language (HAL)] format. Links can be found beneath the `_links` key. Users of the API should
@@ -114,196 +114,196 @@ include::{snippets}/index-example/links.adoc[]
 
 
 
-[[resources-notes]]
-== Notes
+[[resources-spas]]
+== Spas
 
-The Notes resources is used to create and list notes
-
-
-
-[[resources-notes-list]]
-=== Listing notes
-
-A `GET` request will list all of the service's notes.
-
-==== Response structure
-
-include::{snippets}/notes-list-example/response-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/notes-list-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/notes-list-example/http-response.adoc[]
+The Spas resources is used to create and list spas
 
 
 
-[[resources-notes-create]]
-=== Creating a note
+[[resources-spas-list]]
+=== Listing spas
 
-A `POST` request is used to create a note
-
-==== Request structure
-
-include::{snippets}/notes-create-example/request-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/notes-create-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/notes-create-example/http-response.adoc[]
-
-
-
-[[resources-tags]]
-== Tags
-
-The Tags resource is used to create and list tags.
-
-
-
-[[resources-tags-list]]
-=== Listing tags
-
-A `GET` request will list all of the service's tags.
+A `GET` request will list all of the service's spas.
 
 ==== Response structure
 
-include::{snippets}/tags-list-example/response-fields.adoc[]
+include::{snippets}/spas-list-example/response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/tags-list-example/curl-request.adoc[]
+include::{snippets}/spas-list-example/curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/tags-list-example/http-response.adoc[]
+include::{snippets}/spas-list-example/http-response.adoc[]
 
 
 
-[[resources-tags-create]]
-=== Creating a tag
+[[resources-spas-create]]
+=== Creating a spa
 
-A `POST` request is used to create a note
+A `POST` request is used to create a spa
 
 ==== Request structure
 
-include::{snippets}/tags-create-example/request-fields.adoc[]
+include::{snippets}/spas-create-example/request-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/tags-create-example/curl-request.adoc[]
+include::{snippets}/spas-create-example/curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/tags-create-example/http-response.adoc[]
+include::{snippets}/spas-create-example/http-response.adoc[]
 
 
 
-[[resources-note]]
-== Note
+[[resources-owners]]
+== Owners
 
-The Note resource is used to retrieve, update, and delete individual notes
+The Owners resource is used to create and list owners.
 
 
 
-[[resources-note-links]]
+[[resources-owners-list]]
+=== Listing owners
+
+A `GET` request will list all of the service's owners.
+
+==== Response structure
+
+include::{snippets}/owners-list-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/owners-list-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/owners-list-example/http-response.adoc[]
+
+
+
+[[resources-owners-create]]
+=== Creating a owner
+
+A `POST` request is used to create a spa
+
+==== Request structure
+
+include::{snippets}/owners-create-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/owners-create-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/owners-create-example/http-response.adoc[]
+
+
+
+[[resources-spa]]
+== Spa
+
+The Spa resource is used to retrieve, update, and delete individual spas
+
+
+
+[[resources-spa-links]]
 === Links
 
-include::{snippets}/note-get-example/links.adoc[]
+include::{snippets}/spa-get-example/links.adoc[]
 
 
 
-[[resources-note-retrieve]]
-=== Retrieve a note
+[[resources-spa-retrieve]]
+=== Retrieve a spa
 
-A `GET` request will retrieve the details of a note
+A `GET` request will retrieve the details of a spa
 
 ==== Response structure
 
-include::{snippets}/note-get-example/response-fields.adoc[]
+include::{snippets}/spa-get-example/response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/note-get-example/curl-request.adoc[]
+include::{snippets}/spa-get-example/curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/note-get-example/http-response.adoc[]
+include::{snippets}/spa-get-example/http-response.adoc[]
 
 
 
-[[resources-note-update]]
-=== Update a note
+[[resources-spa-update]]
+=== Update a spa
 
-A `PATCH` request is used to update a note
+A `PATCH` request is used to update a spa
 
 ==== Request structure
 
-include::{snippets}/note-update-example/request-fields.adoc[]
+include::{snippets}/spa-update-example/request-fields.adoc[]
 
-To leave an attribute of a note unchanged, any of the above may be omitted from the request.
+To leave an attribute of a spa unchanged, any of the above may be omitted from the request.
 
 ==== Example request
 
-include::{snippets}/note-update-example/curl-request.adoc[]
+include::{snippets}/spa-update-example/curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/note-update-example/http-response.adoc[]
+include::{snippets}/spa-update-example/http-response.adoc[]
 
 
 
-[[resources-tag]]
-== Tag
+[[resources-owner]]
+== Owner
 
-The Tag resource is used to retrieve, update, and delete individual tags
+The Owner resource is used to retrieve, update, and delete individual owners
 
 
 
-[[resources-tag-links]]
+[[resources-owner-links]]
 === Links
 
-include::{snippets}/tag-get-example/links.adoc[]
+include::{snippets}/owner-get-example/links.adoc[]
 
 
 
-[[resources-tag-retrieve]]
-=== Retrieve a tag
+[[resources-owner-retrieve]]
+=== Retrieve a owner
 
-A `GET` request will retrieve the details of a tag
+A `GET` request will retrieve the details of a owner
 
 ==== Response structure
 
-include::{snippets}/tag-get-example/response-fields.adoc[]
+include::{snippets}/owner-get-example/response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/tag-get-example/curl-request.adoc[]
+include::{snippets}/owner-get-example/curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/tag-get-example/http-response.adoc[]
+include::{snippets}/owner-get-example/http-response.adoc[]
 
 
 
-[[resources-tag-update]]
-=== Update a tag
+[[resources-owner-update]]
+=== Update a owner
 
-A `PATCH` request is used to update a tag
+A `PATCH` request is used to update a owner
 
 ==== Request structure
 
-include::{snippets}/tag-update-example/request-fields.adoc[]
+include::{snippets}/owner-update-example/request-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/tag-update-example/curl-request.adoc[]
+include::{snippets}/owner-update-example/curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/tag-update-example/http-response.adoc[]
+include::{snippets}/owner-update-example/http-response.adoc[]
