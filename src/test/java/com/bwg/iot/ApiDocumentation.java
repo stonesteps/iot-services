@@ -224,6 +224,24 @@ public class ApiDocumentation {
 							fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
 	}
 
+	@Test
+	public void spasFindByDealerExample() throws Exception {
+		this.spaRepository.deleteAll();
+
+		createSpa("01924094", "Shark", "Mako", "101");
+		createSpa("01000000", "Shark", "Hammerhead", "101");
+		createSpa("013t43tt", "Shark", "Nurse", "101");
+		createSpa("0blah345", "Shark", "Land", "101");
+
+		this.mockMvc.perform(get("/spas/search/findByDealerId?dealerId=101"))
+				.andExpect(status().isOk())
+				.andDo(document("spas-findbyDealer-example",
+						responseFields(
+								fieldWithPath("_embedded.spas").description("An array of <<resources-spa, Spa resources>>"),
+								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"),
+								fieldWithPath("page").description("Page information"))));
+	}
+
 //	@Test
 //	public void tagsListExample() throws Exception {
 //		this.spaRepository.deleteAll();

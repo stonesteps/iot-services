@@ -159,6 +159,25 @@ include::{snippets}/spas-create-example/http-response.adoc[]
 
 
 
+[[resources-spas-findByDealerId]]
+=== Listing spas
+
+A `GET` request will list all of the spas related to a given dealer.
+
+==== Response structure
+
+include::{snippets}/spas-findbyDealer-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/spas-findbyDealer-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/spas-findbyDealer-example/http-response.adoc[]
+
+
+
 [[resources-owners]]
 == Owners
 
