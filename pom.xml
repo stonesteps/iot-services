@@ -94,7 +94,7 @@
                 <executions>
                     <execution>
                         <id>generate-docs</id>
-                        <phase>package</phase>
+                        <phase>prepare-package</phase>
                         <goals>
                             <goal>process-asciidoc</goal>
                         </goals>
@@ -119,9 +119,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>
-                                ${project.build.outputDirectory}/static/docs
-                            </outputDirectory>
+                            <outputDirectory>src/main/resources/static</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>
