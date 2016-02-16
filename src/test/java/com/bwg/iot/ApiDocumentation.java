@@ -117,6 +117,7 @@ public class ApiDocumentation {
 					links(
 							linkWithRel("spas").description("The <<resources-spas,spas resource>>"),
 							linkWithRel("owners").description("The <<resources-owners,Owners resource>>"),
+                            linkWithRel("addresses").description("The <<resources-addresses,Addresses resource>>"),
                             linkWithRel("alerts").description("The <<resources-alerts,Alert resource>>"),
 							linkWithRel("profile").description("The ALPS profile for the service")),
 					responseFields(
