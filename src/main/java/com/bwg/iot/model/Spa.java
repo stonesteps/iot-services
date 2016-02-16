@@ -91,15 +91,12 @@ public class Spa  {
     return Objects.equals(id, spa.id) &&
         Objects.equals(serialNumber, spa.serialNumber) &&
         Objects.equals(productName, spa.productName) &&
-        Objects.equals(model, spa.model) &&
-        Objects.equals(dealerId, spa.dealerId) &&
-        Objects.equals(owner, spa.owner) &&
-        Objects.equals(alerts, spa.alerts);
+        Objects.equals(model, spa.model);
     }
 
     @Override
     public int hashCode() {
-    return Objects.hash(id, serialNumber, productName, model, owner, alerts);
+    return Objects.hash(id, serialNumber, productName, model);
     }
 
     @Override
