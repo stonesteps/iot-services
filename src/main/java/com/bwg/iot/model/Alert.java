@@ -1,16 +1,10 @@
 package com.bwg.iot.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.*;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.Id;
 
 import java.util.Objects;
 
 
-@ApiModel(description = "")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-02-09T01:15:44.374Z")
 public class Alert  {
   
   @Id
@@ -24,10 +18,6 @@ public class Alert  {
   private String longDescription = null;
 
   
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("alertId")
   public String getAlertId() {
     return alertId;
   }
@@ -36,11 +26,6 @@ public class Alert  {
   }
 
 
-  /**
-   * Identifying name of alert
-   **/
-  @ApiModelProperty(value = "Identifying name of alert")
-  @JsonProperty("name")
   public String getName() {
     return name;
   }
@@ -49,10 +34,6 @@ public class Alert  {
   }
 
 
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("severityLevel")
   public SeverityLevelEnum getSeverityLevel() {
     return severityLevel;
   }
@@ -61,10 +42,6 @@ public class Alert  {
   }
 
 
-  /**
-   **/
-  @ApiModelProperty(value = "")
-  @JsonProperty("shortDescription")
   public String getShortDescription() {
     return shortDescription;
   }
@@ -73,11 +50,6 @@ public class Alert  {
   }
 
 
-  /**
-   * verbose alert message
-   **/
-  @ApiModelProperty(value = "verbose alert message")
-  @JsonProperty("longDescription")
   public String getLongDescription() {
     return longDescription;
   }

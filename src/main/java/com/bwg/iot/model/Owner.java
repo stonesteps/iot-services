@@ -1,9 +1,5 @@
 package com.bwg.iot.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.*;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.Id;
 
 import java.util.Objects;
@@ -25,11 +21,6 @@ public class Owner  {
     private String phone = null;
 
 
-    /**
-     * display name for customer
-     **/
-    @ApiModelProperty(value = "display name for customer")
-    @JsonProperty("customerName")
     public String getCustomerName() {
       return customerName;
     }
@@ -38,10 +29,6 @@ public class Owner  {
     }
 
 
-    /**
-     **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("firstName")
     public String getFirstName() {
       return firstName;
     }
@@ -50,10 +37,6 @@ public class Owner  {
     }
 
 
-    /**
-     **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("lastName")
     public String getLastName() {
       return lastName;
     }
@@ -62,10 +45,6 @@ public class Owner  {
     }
 
 
-    /**
-     **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("email")
     public String getEmail() {
       return email;
     }
@@ -74,10 +53,6 @@ public class Owner  {
     }
 
 
-    /**
-     **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("address1")
     public String getAddress1() {
       return address1;
     }
@@ -86,10 +61,6 @@ public class Owner  {
     }
 
 
-    /**
-     **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("address2")
     public String getAddress2() {
       return address2;
     }
@@ -98,10 +69,6 @@ public class Owner  {
     }
 
 
-    /**
-     **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("city")
     public String getCity() {
       return city;
     }
@@ -110,10 +77,6 @@ public class Owner  {
     }
 
 
-    /**
-     **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("state")
     public String getState() {
       return state;
     }
@@ -122,10 +85,6 @@ public class Owner  {
     }
 
 
-    /**
-     **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("country")
     public String getCountry() {
       return country;
     }
@@ -134,10 +93,6 @@ public class Owner  {
     }
 
 
-    /**
-     **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("zip")
     public String getZip() {
       return zip;
     }
@@ -146,10 +101,6 @@ public class Owner  {
     }
 
 
-    /**
-     **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("phone")
     public String getPhone() {
       return phone;
     }

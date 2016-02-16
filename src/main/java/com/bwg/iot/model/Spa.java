@@ -1,9 +1,5 @@
 package com.bwg.iot.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.*;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
@@ -11,8 +7,6 @@ import java.util.List;
 import java.util.Objects;
 
 
-@ApiModel(description = "Spa")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-02-09T01:15:44.374Z")
 public class Spa  {
 
     @Id
@@ -32,10 +26,6 @@ public class Spa  {
         this.model = model;
     }
 
-    /**
-    **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("id")
     public String getId() {
     return id;
     }
@@ -44,11 +34,6 @@ public class Spa  {
     }
 
 
-    /**
-    * Unique identifier for spa
-    **/
-    @ApiModelProperty(value = "Unique identifier for spa")
-    @JsonProperty("serialNumber")
     public String getSerialNumber() {
     return serialNumber;
     }
@@ -57,11 +42,6 @@ public class Spa  {
     }
 
 
-    /**
-    * Name of this spa product
-    **/
-    @ApiModelProperty(value = "Name of this spa product")
-    @JsonProperty("productName")
     public String getProductName() {
     return productName;
     }
@@ -70,11 +50,6 @@ public class Spa  {
     }
 
 
-    /**
-    * spa model type
-    **/
-    @ApiModelProperty(value = "spa model type")
-    @JsonProperty("model")
     public String getModel() {
     return model;
     }
@@ -83,16 +58,10 @@ public class Spa  {
     }
 
 
-    @ApiModelProperty(value = "spa dealer")
-    @JsonProperty("dealerId")
     public String getDealerId() { return dealerId; }
     public void setDealerId(String dealerId) { this.dealerId = dealerId; }
 
 
-    /**
-    **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("owner")
     public Owner getOwner() {
     return owner;
     }
@@ -101,10 +70,6 @@ public class Spa  {
     }
 
   
-    /**
-    **/
-    @ApiModelProperty(value = "")
-    @JsonProperty("alerts")
     public List<Alert> getAlerts() {
         return alerts;
     }
