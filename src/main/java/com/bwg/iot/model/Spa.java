@@ -15,7 +15,9 @@ public class Spa  {
     private String productName = null;
     private String model = null;
     private String dealerId = null;
+
     private Owner owner = null;
+
     private List<Alert> alerts = new ArrayList<Alert>();
 
     public Spa(){}
@@ -60,7 +62,6 @@ public class Spa  {
 
     public String getDealerId() { return dealerId; }
     public void setDealerId(String dealerId) { this.dealerId = dealerId; }
-
 
     public Owner getOwner() {
     return owner;

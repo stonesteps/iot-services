@@ -38,6 +38,7 @@ import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 
+import com.bwg.iot.model.Owner;
 import com.bwg.iot.model.Spa;
 import org.junit.Before;
 import org.junit.Rule;
@@ -129,10 +130,11 @@ public class ApiDocumentation {
 	public void spasListExample() throws Exception {
 		this.spaRepository.deleteAll();
 
+//		createOwner("Joliet Jake", "Jake", "Blues");
 		createSpa("01924094", "Shark", "Mako", "101");
         createSpa("01000000", "Shark", "Hammerhead", "101");
         createSpa("013t43tt", "Shark", "Nurse", "101");
-        createSpa("0blah345", "Shark", "Land", "101");
+//        createSpaWithOwner("0blah345", "Shark", "Land", "101", );
 
 		this.mockMvc.perform(get("/spas"))
 			.andExpect(status().isOk())
@@ -145,22 +147,25 @@ public class ApiDocumentation {
 
 	@Test
 	public void spasCreateExample() throws Exception {
-//		Map<String, String> tag = new HashMap<String, String>();
-//		tag.put("name", "REST");
-//
-//		String tagLocation = this.mockMvc
-//				.perform(
-//						post("/tags").contentType(MediaTypes.HAL_JSON).content(
-//								this.objectMapper.writeValueAsString(tag)))
-//				.andExpect(status().isCreated()).andReturn().getResponse()
-//				.getHeader("Location");
+		Map<String, String> owner = new HashMap<String, String>();
+		owner.put("customerName", "Mr. Blues");
+        owner.put("firstName", "Elwood");
+        owner.put("lastName", "Blues");
+
+		String ownerLocation = this.mockMvc
+				.perform(
+						post("/owners").contentType(MediaTypes.HAL_JSON).content(
+								this.objectMapper.writeValueAsString(owner)))
+				.andExpect(status().isCreated()).andReturn().getResponse()
+				.getHeader("Location");
 
 		Map<String, Object> spa = new HashMap<String, Object>();
 		spa.put("serialNumber", "2000");
         spa.put("productName", "Shark");
         spa.put("model", "Sand");
         spa.put("dealerId", "101");
-//		spa.put("tags", Arrays.asList(tagLocation));
+//        spa.put("owner", ownerLocation);
+//		spa.put("alerts", Arrays.asList(tagLocation));
 
 		this.mockMvc.perform(
 				post("/spas").contentType(MediaTypes.HAL_JSON).content(
@@ -378,9 +383,21 @@ public class ApiDocumentation {
 		this.spaRepository.save(spa);
 	}
 
-//	private void createTag(String name) {
-//		Tag tag = new Tag();
-//		tag.setName(name);
-//		this.tagRepository.save(tag);
-//	}
+	private void createSpaWithOwner(String serialNumber, String productName, String model, String dealerId, Owner owner) {
+		Spa spa = new Spa();
+		spa.setSerialNumber(serialNumber);
+		spa.setProductName(productName);
+		spa.setModel(model);
+		spa.setDealerId(dealerId);
+
+		this.spaRepository.save(spa);
+	}
+
+	private void createOwner(String customerName, String firstName, String lastName) {
+		Owner owner = new Owner();
+		owner.setCustomerName(customerName);
+		owner.setLastName(lastName);
+		owner.setFirstName(firstName);
+		this.ownerRepository.save(owner);
+	}
 }
