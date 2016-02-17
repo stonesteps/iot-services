@@ -227,6 +227,12 @@ public class ApiDocumentation {
                             fieldWithPath("owner").description("The owner of the spa"),
                             fieldWithPath("alerts").description("Current Issues with the spa"),
                             fieldWithPath("dealerId").description("The dealer assigned to the spa"),
+                            fieldWithPath("oemId").description("The manufacturer that built spa"),
+                            fieldWithPath("currentState").description("Latest readings from the spa"),
+                            fieldWithPath("manufacturedDate").description("The date the spa was made"),
+                            fieldWithPath("registrationDate").description("The date the spa was sold"),
+                            fieldWithPath("p2pAPSSID").description("Wifi address"),
+                            fieldWithPath("p2pAPPassword").description("Wifi password"),
 							fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
 	}
 
@@ -383,7 +389,7 @@ public class ApiDocumentation {
 		this.spaRepository.save(spa);
 	}
 
-	private void createSpaWithOwner(String serialNumber, String productName, String model, String dealerId, Owner owner) {
+	private void createSpaWithState(String serialNumber, String productName, String model, String dealerId, Owner owner) {
 		Spa spa = new Spa();
 		spa.setSerialNumber(serialNumber);
 		spa.setProductName(productName);

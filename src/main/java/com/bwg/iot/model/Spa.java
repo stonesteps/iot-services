@@ -3,6 +3,7 @@ package com.bwg.iot.model;
 import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,6 +16,12 @@ public class Spa  {
     private String productName = null;
     private String model = null;
     private String dealerId = null;
+    private String oemId = null;
+    private SpaState currentState = null;
+    private Date registrationDate = null;
+    private Date manufacturedDate = null;
+    private String p2pAPSSID = null;
+    private String p2pAPPassword = null;
 
     private Owner owner = null;
 
@@ -63,9 +70,18 @@ public class Spa  {
     public String getDealerId() { return dealerId; }
     public void setDealerId(String dealerId) { this.dealerId = dealerId; }
 
-    public Owner getOwner() {
-    return owner;
+    public String getOemId() {
+        return oemId;
     }
+
+    public void setOemId(String oemId) {
+        this.oemId = oemId;
+    }
+
+    public Owner getOwner() {
+        return owner;
+    }
+
     public void setOwner(Owner owner) {
     this.owner = owner;
     }
@@ -79,6 +95,45 @@ public class Spa  {
     }
 
 
+    public SpaState getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(SpaState currentState) {
+        this.currentState = currentState;
+    }
+
+    public Date getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Date registrationDate) {
+        this.registrationDate = registrationDate;
+    }
+
+    public Date getManufacturedDate() {
+        return manufacturedDate;
+    }
+
+    public void setManufacturedDate(Date manufacuredDate) {
+        this.manufacturedDate = manufacuredDate;
+    }
+
+    public String getP2pAPSSID() {
+        return p2pAPSSID;
+    }
+
+    public void setP2pAPSSID(String p2pAPSSID) {
+        this.p2pAPSSID = p2pAPSSID;
+    }
+
+    public String getP2pAPPassword() {
+        return p2pAPPassword;
+    }
+
+    public void setP2pAPPassword(String p2pAPPassword) {
+        this.p2pAPPassword = p2pAPPassword;
+    }
 
     @Override
     public boolean equals(Object o) {
