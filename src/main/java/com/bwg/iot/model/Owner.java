@@ -14,6 +14,9 @@ public class Owner  {
     private String lastName = null;
     private Address address = null;
 
+    public String getId() {
+        return id;
+    }
 
     public String getCustomerName() {
       return customerName;
