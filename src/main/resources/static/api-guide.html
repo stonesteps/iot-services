@@ -671,7 +671,7 @@ Content-Type: application/json;charset=UTF-8
 Content-Length: 175
 
 {
-  "timestamp" : 1455748306919,
+  "timestamp" : 1455775357103,
   "status" : 400,
   "error" : "Bad Request",
   "message" : "The owner 'http://localhost:8080/owners/123' does not exist",
@@ -735,12 +735,12 @@ not create URIs themselves, instead they should use the above-described links to
 <div class="content">
 <pre class="highlight"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
 Content-Type: application/hal+json
-Content-Length: 547
+Content-Length: 670
 
 {
   "_links" : {
-    "owners" : {
-      "href" : "http://localhost:8080/owners{?page,size,sort}",
+    "alerts" : {
+      "href" : "http://localhost:8080/alerts{?page,size,sort}",
       "templated" : true
     },
     "addresses" : {
@@ -751,8 +751,12 @@ Content-Length: 547
       "href" : "http://localhost:8080/spas{?page,size,sort}",
       "templated" : true
     },
-    "alerts" : {
-      "href" : "http://localhost:8080/alerts{?page,size,sort}",
+    "spaCommands" : {
+      "href" : "http://localhost:8080/spaCommands{?page,size,sort}",
+      "templated" : true
+    },
+    "owners" : {
+      "href" : "http://localhost:8080/owners{?page,size,sort}",
       "templated" : true
     },
     "profile" : {
@@ -791,6 +795,10 @@ Content-Length: 547
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">alerts</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <a href="#resources-alerts">Alert resource</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">spaCommands</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The <a href="#resources-alerts">Alert resource</a></p></td>
 </tr>
 <tr>
@@ -881,10 +889,10 @@ Content-Length: 2103
       "alerts" : [ ],
       "_links" : {
         "self" : {
-          "href" : "http://localhost:8080/spas/56c4f4d5c2e65b110274f773"
+          "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d51d"
         },
         "spa" : {
-          "href" : "http://localhost:8080/spas/56c4f4d5c2e65b110274f773"
+          "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d51d"
         }
       }
     }, {
@@ -902,10 +910,10 @@ Content-Length: 2103
       "alerts" : [ ],
       "_links" : {
         "self" : {
-          "href" : "http://localhost:8080/spas/56c4f4d5c2e65b110274f774"
+          "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d51e"
         },
         "spa" : {
-          "href" : "http://localhost:8080/spas/56c4f4d5c2e65b110274f774"
+          "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d51e"
         }
       }
     }, {
@@ -923,10 +931,10 @@ Content-Length: 2103
       "alerts" : [ ],
       "_links" : {
         "self" : {
-          "href" : "http://localhost:8080/spas/56c4f4d5c2e65b110274f775"
+          "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d51f"
         },
         "spa" : {
-          "href" : "http://localhost:8080/spas/56c4f4d5c2e65b110274f775"
+          "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d51f"
         }
       }
     } ]
@@ -1015,7 +1023,7 @@ Content-Length: 2103
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-http" data-lang="http">HTTP/1.1 201 Created
-Location: http://localhost:8080/spas/56c4f4d5c2e65b110274f772</code></pre>
+Location: http://localhost:8080/spas/56c55e7dc2e63c2838b0d51c</code></pre>
 </div>
 </div>
 </div>
@@ -1092,10 +1100,10 @@ Content-Length: 2559
       "alerts" : [ ],
       "_links" : {
         "self" : {
-          "href" : "http://localhost:8080/spas/56c4f4d6c2e65b110274f776"
+          "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d520"
         },
         "spa" : {
-          "href" : "http://localhost:8080/spas/56c4f4d6c2e65b110274f776"
+          "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d520"
         }
       }
     }, {
@@ -1113,10 +1121,10 @@ Content-Length: 2559
       "alerts" : [ ],
       "_links" : {
         "self" : {
-          "href" : "http://localhost:8080/spas/56c4f4d6c2e65b110274f777"
+          "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d521"
         },
         "spa" : {
-          "href" : "http://localhost:8080/spas/56c4f4d6c2e65b110274f777"
+          "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d521"
         }
       }
     }, {
@@ -1134,10 +1142,10 @@ Content-Length: 2559
       "alerts" : [ ],
       "_links" : {
         "self" : {
-          "href" : "http://localhost:8080/spas/56c4f4d6c2e65b110274f778"
+          "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d522"
         },
         "spa" : {
-          "href" : "http://localhost:8080/spas/56c4f4d6c2e65b110274f778"
+          "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d522"
         }
       }
     }, {
@@ -1155,10 +1163,10 @@ Content-Length: 2559
       "alerts" : [ ],
       "_links" : {
         "self" : {
-          "href" : "http://localhost:8080/spas/56c4f4d6c2e65b110274f779"
+          "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d523"
         },
         "spa" : {
-          "href" : "http://localhost:8080/spas/56c4f4d6c2e65b110274f779"
+          "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d523"
         }
       }
     } ]
@@ -1361,7 +1369,7 @@ Content-Length: 2559
 <h4 id="_example_request_6"><a class="link" href="#_example_request_6">Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/spas/56c4f4d6c2e65b110274f77a' -i</code></pre>
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/spas/56c55e7ec2e63c2838b0d524' -i</code></pre>
 </div>
 </div>
 </div>
@@ -1388,10 +1396,10 @@ Content-Length: 483
   "alerts" : [ ],
   "_links" : {
     "self" : {
-      "href" : "http://localhost:8080/spas/56c4f4d6c2e65b110274f77a"
+      "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d524"
     },
     "spa" : {
-      "href" : "http://localhost:8080/spas/56c4f4d6c2e65b110274f77a"
+      "href" : "http://localhost:8080/spas/56c55e7ec2e63c2838b0d524"
     }
   }
 }</code></pre>
@@ -1450,7 +1458,7 @@ Content-Length: 483
 <h4 id="_example_request_7"><a class="link" href="#_example_request_7">Example request</a></h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/spas/56c4f4d4c2e65b110274f770' -i -X PUT -H 'Content-Type: application/hal+json' -d '{
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'http://localhost:8080/spas/56c55e7dc2e63c2838b0d51a' -i -X PUT -H 'Content-Type: application/hal+json' -d '{
   "dealerId" : "101"
 }'</code></pre>
 </div>
@@ -1461,7 +1469,7 @@ Content-Length: 483
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-http" data-lang="http">HTTP/1.1 204 No Content
-Location: http://localhost:8080/spas/56c4f4d4c2e65b110274f770</code></pre>
+Location: http://localhost:8080/spas/56c55e7dc2e63c2838b0d51a</code></pre>
 </div>
 </div>
 </div>
