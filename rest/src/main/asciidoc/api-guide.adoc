@@ -204,22 +204,22 @@ include::{snippets}/owners-list-example/http-response.adoc[]
 
 
 
-[[resources-owners-create]]
+[[resources-owner-create]]
 === Creating a owner
 
 A `POST` request is used to create a spa
 
 ==== Request structure
 
-include::{snippets}/owners-create-example/request-fields.adoc[]
+include::{snippets}/owner-create-example/request-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/owners-create-example/curl-request.adoc[]
+include::{snippets}/owner-create-example/curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/owners-create-example/http-response.adoc[]
+include::{snippets}/owner-create-example/http-response.adoc[]
 
 
 
