@@ -13,7 +13,7 @@ public class Alert  {
   public enum SeverityLevelEnum {
      yellow,  red, 
   };
-  private SeverityLevelEnum severityLevel = null;
+  private String severityLevel = null;
   private String shortDescription = null;
   private String longDescription = null;
 
@@ -34,10 +34,10 @@ public class Alert  {
   }
 
 
-  public SeverityLevelEnum getSeverityLevel() {
+  public String getSeverityLevel() {
     return severityLevel;
   }
-  public void setSeverityLevel(SeverityLevelEnum severityLevel) {
+  public void setSeverityLevel(String severityLevel) {
     this.severityLevel = severityLevel;
   }
 

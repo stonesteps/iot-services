@@ -16,8 +16,7 @@
 
 package com.bwg.iot;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -32,14 +31,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.lang.reflect.Field;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 
-import com.bwg.iot.model.Owner;
-import com.bwg.iot.model.Spa;
+import com.bwg.iot.model.*;
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -48,7 +50,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.restdocs.JUnitRestDocumentation;
-import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -72,6 +73,12 @@ public class ApiDocumentation {
 
     @Autowired
     private OwnerRepository ownerRepository;
+
+    @Autowired
+    private AlertRepository alertRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
 
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -131,11 +138,10 @@ public class ApiDocumentation {
 	public void spasListExample() throws Exception {
 		this.spaRepository.deleteAll();
 
-//		createOwner("Joliet Jake", "Jake", "Blues");
+		Owner owner = createOwner("Elwood", "Elwood", "Blues");
 		createSpa("01924094", "Shark", "Mako", "101");
         createSpa("01000000", "Shark", "Hammerhead", "101");
-        createSpa("013t43tt", "Shark", "Nurse", "101");
-//        createSpaWithOwner("0blah345", "Shark", "Land", "101", );
+		createSpaWithState("0blah345", "Shark", "Land", "101", owner);
 
 		this.mockMvc.perform(get("/spas"))
 			.andExpect(status().isOk())
@@ -183,38 +189,21 @@ public class ApiDocumentation {
 
 	@Test
 	public void spaGetExample() throws Exception {
-//		Map<String, String> tag = new HashMap<String, String>();
-//		tag.put("name", "REST");
-//
-//		String tagLocation = this.mockMvc
-//				.perform(
-//						post("/tags").contentType(MediaTypes.HAL_JSON).content(
-//								this.objectMapper.writeValueAsString(tag)))
-//				.andExpect(status().isCreated()).andReturn().getResponse()
-//				.getHeader("Location");
 
-		Map<String, Object> spa = new HashMap<String, Object>();
-        spa.put("serialNumber", "2000");
-        spa.put("productName", "Shark");
-        spa.put("model", "Sand");
-        spa.put("dealerId", "101");
-//		spa.put("tags", Arrays.asList(tagLocation));
+        Owner owner = createOwner("Blue Louis", "Lou", "Maroni");
+        Spa spa = createSpaWithState("0blah345", "Shark", "Blue", "101", owner);
 
-		String spaLocation = this.mockMvc
-				.perform(
-						post("/spas").contentType(MediaTypes.HAL_JSON).content(
-								this.objectMapper.writeValueAsString(spa)))
-				.andExpect(status().isCreated()).andReturn().getResponse()
-				.getHeader("Location");
+
+		String spaLocation = "/spas/"+spa.getId();
 
 		this.mockMvc.perform(get(spaLocation))
 			.andExpect(status().isOk())
-			.andExpect(jsonPath("serialNumber", is(spa.get("serialNumber"))))
-			.andExpect(jsonPath("productName", is(spa.get("productName"))))
-            .andExpect(jsonPath("model", is(spa.get("model"))))
-            .andExpect(jsonPath("dealerId", is(spa.get("dealerId"))))
-			.andExpect(jsonPath("_links.self.href", is(spaLocation)))
-            .andExpect(jsonPath("_links.spa.href", is(spaLocation)))
+			.andExpect(jsonPath("serialNumber", is(spa.getSerialNumber())))
+			.andExpect(jsonPath("productName", is(spa.getProductName())))
+            .andExpect(jsonPath("model", is(spa.getModel())))
+            .andExpect(jsonPath("dealerId", is(spa.getDealerId())))
+			.andExpect(jsonPath("_links.self.href", containsString(spaLocation)))
+            .andExpect(jsonPath("_links.spa.href", containsString(spaLocation)))
 //			.andExpect(jsonPath("_links.tags", is(notNullValue())))
 			.andDo(document("spa-get-example",
 					links(
@@ -390,21 +379,85 @@ public class ApiDocumentation {
 		this.spaRepository.save(spa);
 	}
 
-	private void createSpaWithState(String serialNumber, String productName, String model, String dealerId, Owner owner) {
-		Spa spa = new Spa();
+    private Spa createSpa(HashMap<String,Object> attributes) throws Exception {
+
+        Spa spa = new Spa();
+        attributes.forEach((k,v) -> {
+            Class c = v.getClass();
+            System.out.println(c.toGenericString());
+            try {
+                Field f = c.getField(k);
+                f.set(spa, v);
+                System.out.println("Setting field:"+k+" to "+v);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        spaRepository.save(spa);
+        return spa;
+    }
+
+	private Spa createSpaWithState(String serialNumber, String productName, String model, String dealerId, Owner owner) {
+		SpaState spaState = new SpaState();
+		spaState.setRunMode("Ready");
+		spaState.setCurrentTemp("99");
+		spaState.setDesiredTemp("102");
+		spaState.setAlert("green");
+		spaState.setPump1("on");
+        spaState.setPump2("off");
+        spaState.setLights1("off");
+        spaState.setLights2("off");
+        spaState.setFilter1("ok");
+        spaState.setFilter2("ok");
+        spaState.setAux1("on");
+        spaState.setMicrosilk("ok");
+        spaState.setPanelLock("off");
+        spaState.setOzone("ok");
+        spaState.setUplinkTimestamp(LocalDateTime.now().toString());
+
+        Alert alert1 = new Alert();
+        alert1.setName("Replace Filter");
+        alert1.setLongDescription("The filter is old and needs to be replaced");
+        alert1.setSeverityLevel("yellow");
+        alert1.setShortDescription("Replace Filter");
+        alert1 = alertRepository.save(alert1);
+
+        Spa spa = new Spa();
 		spa.setSerialNumber(serialNumber);
 		spa.setProductName(productName);
 		spa.setModel(model);
 		spa.setDealerId(dealerId);
+		spa.setOwner(owner);
+		spa.setCurrentState(spaState);
+        spa.setOemId("cab335");
+        spa.setManufacturedDate(LocalDate.now().toString());
+        spa.setRegistrationDate(LocalDate.now().toString());
+        spa.setP2pAPSSID("myWifi");
+        spa.setP2pAPPassword("*******");
+        spa.setAlerts(Arrays.asList(alert1));
 
 		this.spaRepository.save(spa);
+		return spa;
 	}
 
-	private void createOwner(String customerName, String firstName, String lastName) {
-		Owner owner = new Owner();
+	private Owner createOwner(String customerName, String firstName, String lastName) {
+        Address address = new Address();
+        address.setAddress1("1060 W Addison St");
+        address.setAddress2("Apt. C");
+        address.setCity("Chicago");
+        address.setState("IL");
+        address.setZip("60613");
+        address.setCountry("US");
+        address.setEmail("lou@blues.org");
+        address.setPhone("800-123-4567");
+        addressRepository.save(address);
+
+        Owner owner = new Owner();
 		owner.setCustomerName(customerName);
 		owner.setLastName(lastName);
 		owner.setFirstName(firstName);
+        owner.setAddress(address);
 		this.ownerRepository.save(owner);
+		return owner;
 	}
 }
