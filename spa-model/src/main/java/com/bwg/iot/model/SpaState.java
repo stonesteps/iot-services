@@ -1,6 +1,6 @@
 package com.bwg.iot.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * Created by triton on 2/17/16.
@@ -18,9 +18,9 @@ public class SpaState {
     String filter2 = null;
     String aux1 = null; //on, off;
     String panelLock = null; // on, off;
-    String microsillk = null;
+    String microsilk = null;
     String ozone = null;
-    Date uplinkTimestamp = null;
+    String uplinkTimestamp = null;
 
     public SpaState(){};
 
@@ -116,12 +116,12 @@ public class SpaState {
         this.panelLock = panelLock;
     }
 
-    public String getMicrosillk() {
-        return microsillk;
+    public String getMicrosilk() {
+        return microsilk;
     }
 
-    public void setMicrosillk(String microsillk) {
-        this.microsillk = microsillk;
+    public void setMicrosilk(String microsilk) {
+        this.microsilk = microsilk;
     }
 
     public String getOzone() {
@@ -132,11 +132,11 @@ public class SpaState {
         this.ozone = ozone;
     }
 
-    public Date getUplinkTimestamp() {
+    public String getUplinkTimestamp() {
         return uplinkTimestamp;
     }
 
-    public void setUplinkTimestamp(Date uplinkTimestamp) {
+    public void setUplinkTimestamp(String uplinkTimestamp) {
         this.uplinkTimestamp = uplinkTimestamp;
     }
 

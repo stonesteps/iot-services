@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 /**
  * Created by triton on 2/10/16.
  */
-public interface AlarmRepository extends MongoRepository<Alert, String> {
+public interface AlertRepository extends MongoRepository<Alert, String> {
 
 }

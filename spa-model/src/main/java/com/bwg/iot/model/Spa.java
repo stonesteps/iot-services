@@ -2,8 +2,8 @@ package com.bwg.iot.model;
 
 import org.springframework.data.annotation.Id;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,8 +18,8 @@ public class Spa  {
     private String dealerId = null;
     private String oemId = null;
     private SpaState currentState = null;
-    private Date registrationDate = null;
-    private Date manufacturedDate = null;
+    private String registrationDate = null;
+    private String manufacturedDate = null;
     private String p2pAPSSID = null;
     private String p2pAPPassword = null;
 
@@ -103,19 +103,19 @@ public class Spa  {
         this.currentState = currentState;
     }
 
-    public Date getRegistrationDate() {
+    public String getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(Date registrationDate) {
+    public void setRegistrationDate(String registrationDate) {
         this.registrationDate = registrationDate;
     }
 
-    public Date getManufacturedDate() {
+    public String getManufacturedDate() {
         return manufacturedDate;
     }
 
-    public void setManufacturedDate(Date manufacuredDate) {
+    public void setManufacturedDate(String manufacuredDate) {
         this.manufacturedDate = manufacuredDate;
     }
 

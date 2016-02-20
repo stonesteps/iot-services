@@ -160,7 +160,7 @@ include::{snippets}/spas-create-example/http-response.adoc[]
 
 
 [[resources-spas-findByDealerId]]
-=== Listing spas
+=== Find Spas By Dealer Id
 
 A `GET` request will list all of the spas related to a given dealer.
 
