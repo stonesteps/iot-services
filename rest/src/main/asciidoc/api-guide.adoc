@@ -328,6 +328,73 @@ include::{snippets}/owner-update-example/curl-request.adoc[]
 include::{snippets}/owner-update-example/http-response.adoc[]
 
 
+[[resources-alert]]
+== Alert
+
+The alert resource is used to retrieve, update, and delete individual alerts
+
+
+
+[[resources-alert-links]]
+=== Links
+
+include::{snippets}/alert-get-example/links.adoc[]
+
+
+
+[[resources-alert-retrieve]]
+=== Retrieve an alert
+
+A `GET` request will retrieve the details of an alert
+
+==== Response structure
+
+include::{snippets}/alert-get-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/alert-get-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/alert-get-example/http-response.adoc[]
+
+
+[[resources-alert-create]]
+=== Creating an alert
+
+A `POST` request is used to create an alert
+
+==== Request structure
+
+include::{snippets}/alert-create-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/alert-create-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/alert-create-example/http-response.adoc[]
+
+
+[[resources-alert-update]]
+=== Update an alert
+
+A `PATCH` request is used to update an alert
+
+==== Request structure
+
+include::{snippets}/alert-update-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/alert-update-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/alert-update-example/http-response.adoc[]
+
 [[resources-spa-commands]]
 == Spa Control Commands
 
@@ -350,4 +417,8 @@ include::{snippets}/control-desired-temp-example/curl-request.adoc[]
 ==== Example response
 
 include::{snippets}/control-desired-temp-example/http-response.adoc[]
+
+
+
+
 
