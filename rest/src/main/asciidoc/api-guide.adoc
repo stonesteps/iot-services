@@ -326,3 +326,28 @@ include::{snippets}/owner-update-example/curl-request.adoc[]
 ==== Example response
 
 include::{snippets}/owner-update-example/http-response.adoc[]
+
+
+[[resources-spa-commands]]
+== Spa Control Commands
+
+The following commands are available to control the spa.
+
+[[resources-control-desired-temp]]
+=== Set the desired spa temperature
+
+
+==== Request structure
+
+include::{snippets}/control-desired-temp-example/request-fields.adoc[]
+
+If the originatorId is not sent in the request, one will be created
+
+==== Example request
+
+include::{snippets}/control-desired-temp-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/control-desired-temp-example/http-response.adoc[]
+
