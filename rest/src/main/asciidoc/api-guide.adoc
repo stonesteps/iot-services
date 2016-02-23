@@ -395,6 +395,74 @@ include::{snippets}/alert-update-example/curl-request.adoc[]
 
 include::{snippets}/alert-update-example/http-response.adoc[]
 
+[[resources-dealer]]
+== Dealer
+
+The dealer resource is used to retrieve, update, and delete individual dealers
+
+
+
+[[resources-dealer-links]]
+=== Links
+
+include::{snippets}/dealer-get-example/links.adoc[]
+
+
+
+[[resources-dealer-retrieve]]
+=== Retrieve a dealer
+
+A `GET` request will retrieve the details of a dealer
+
+==== Response structure
+
+include::{snippets}/dealer-get-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/dealer-get-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/dealer-get-example/http-response.adoc[]
+
+
+[[resources-dealer-create]]
+=== Creating a dealer
+
+A `POST` request is used to create a dealer
+
+==== Request structure
+
+include::{snippets}/dealer-create-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/dealer-create-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/dealer-create-example/http-response.adoc[]
+
+
+[[resources-dealer-update]]
+=== Update a dealer
+
+A `PATCH` request is used to update a dealer
+
+==== Request structure
+
+include::{snippets}/dealer-update-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/dealer-update-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/dealer-update-example/http-response.adoc[]
+
+
 [[resources-spa-commands]]
 == Spa Control Commands
 
