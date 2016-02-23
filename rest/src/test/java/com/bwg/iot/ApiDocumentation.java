@@ -128,7 +128,8 @@ public class ApiDocumentation {
                             linkWithRel("addresses").description("The <<resources-addresses,Addresses resource>>"),
                             linkWithRel("alerts").description("The <<resources-alerts,Alert resource>>"),
                             linkWithRel("spaCommands").description("The <<resources-spaCommands,SpaCommand resource>>"),
-							linkWithRel("dealers").description("The <<resources-dealers,Dealer resource>>"),
+							linkWithRel("dealers").description("The <<resources-dealers,Dealers resource>>"),
+							linkWithRel("oems").description("The <<resources-oems,Oems resource>>"),
 							linkWithRel("profile").description("The ALPS profile for the service")),
 					responseFields(
 							fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"))));

@@ -2,6 +2,7 @@ package com.bwg.iot;
 
 import com.bwg.iot.model.Address;
 import com.bwg.iot.model.Dealer;
+import com.bwg.iot.model.Oem;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -13,6 +14,9 @@ public class ModelTestBase {
 
     @Autowired
     private DealerRepository dealerRepository;
+
+    @Autowired
+    private OemRepository oemRepository;
 
     protected Address createAddress() {
         Address address = new Address();
@@ -32,5 +36,12 @@ public class ModelTestBase {
         dealer.setName(name);
         dealer.setAddress(address);
         return dealerRepository.save(dealer);
+    }
+
+    protected Oem createOem(String name, Address address) {
+        Oem oem = new Oem();
+        oem.setName(name);
+        oem.setAddress(address);
+        return oemRepository.save(oem);
     }
 }
