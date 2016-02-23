@@ -328,6 +328,210 @@ include::{snippets}/owner-update-example/curl-request.adoc[]
 include::{snippets}/owner-update-example/http-response.adoc[]
 
 
+[[resources-alert]]
+== Alert
+
+The alert resource is used to retrieve, update, and delete individual alerts
+
+
+
+[[resources-alert-links]]
+=== Links
+
+include::{snippets}/alert-get-example/links.adoc[]
+
+
+
+[[resources-alert-retrieve]]
+=== Retrieve an alert
+
+A `GET` request will retrieve the details of an alert
+
+==== Response structure
+
+include::{snippets}/alert-get-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/alert-get-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/alert-get-example/http-response.adoc[]
+
+
+[[resources-alert-create]]
+=== Creating an alert
+
+A `POST` request is used to create an alert
+
+==== Request structure
+
+include::{snippets}/alert-create-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/alert-create-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/alert-create-example/http-response.adoc[]
+
+
+[[resources-alert-update]]
+=== Update an alert
+
+A `PATCH` request is used to update an alert
+
+==== Request structure
+
+include::{snippets}/alert-update-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/alert-update-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/alert-update-example/http-response.adoc[]
+
+[[resources-dealer]]
+== Dealer
+
+The dealer resource is used to retrieve, update, and delete individual dealers
+
+
+
+[[resources-dealer-links]]
+=== Links
+
+include::{snippets}/dealer-get-example/links.adoc[]
+
+
+
+[[resources-dealer-retrieve]]
+=== Retrieve a dealer
+
+A `GET` request will retrieve the details of a dealer
+
+==== Response structure
+
+include::{snippets}/dealer-get-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/dealer-get-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/dealer-get-example/http-response.adoc[]
+
+
+[[resources-dealer-create]]
+=== Creating a dealer
+
+A `POST` request is used to create a dealer
+
+==== Request structure
+
+include::{snippets}/dealer-create-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/dealer-create-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/dealer-create-example/http-response.adoc[]
+
+
+[[resources-dealer-update]]
+=== Update a dealer
+
+A `PATCH` request is used to update a dealer
+
+==== Request structure
+
+include::{snippets}/dealer-update-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/dealer-update-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/dealer-update-example/http-response.adoc[]
+
+
+[[resources-oem]]
+== Oem
+
+The oem resource is used to retrieve, update, and delete individual oems
+
+
+
+[[resources-oem-links]]
+=== Links
+
+include::{snippets}/oem-get-example/links.adoc[]
+
+
+
+[[resources-oem-retrieve]]
+=== Retrieve an OEM
+
+A `GET` request will retrieve the details of an OEM
+
+==== Response structure
+
+include::{snippets}/oem-get-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/oem-get-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/oem-get-example/http-response.adoc[]
+
+
+[[resources-oem-create]]
+=== Creating an OEM
+
+A `POST` request is used to create an OEM
+
+==== Request structure
+
+include::{snippets}/oem-create-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/oem-create-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/oem-create-example/http-response.adoc[]
+
+
+[[resources-oem-update]]
+=== Update an OEM
+
+A `PATCH` request is used to update an OEM
+
+==== Request structure
+
+include::{snippets}/oem-update-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/oem-update-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/oem-update-example/http-response.adoc[]
+
+
+
 [[resources-spa-commands]]
 == Spa Control Commands
 
@@ -350,4 +554,8 @@ include::{snippets}/control-desired-temp-example/curl-request.adoc[]
 ==== Example response
 
 include::{snippets}/control-desired-temp-example/http-response.adoc[]
+
+
+
+
 
