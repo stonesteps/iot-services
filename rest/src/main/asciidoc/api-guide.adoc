@@ -128,15 +128,15 @@ A `GET` request will list all of the service's spas.
 
 ==== Response structure
 
-include::{snippets}/spas-list-example/response-fields.adoc[]
+include::{snippets}\spas-list-example\response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/spas-list-example/curl-request.adoc[]
+include::{snippets}\spas-list-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/spas-list-example/http-response.adoc[]
+include::{snippets}\spas-list-example\http-response.adoc[]
 
 
 
@@ -147,15 +147,15 @@ A `POST` request is used to create a spa
 
 ==== Request structure
 
-include::{snippets}/spas-create-example/request-fields.adoc[]
+include::{snippets}\spas-create-example\request-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/spas-create-example/curl-request.adoc[]
+include::{snippets}\spas-create-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/spas-create-example/http-response.adoc[]
+include::{snippets}\spas-create-example\http-response.adoc[]
 
 
 
