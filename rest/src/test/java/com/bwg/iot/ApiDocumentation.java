@@ -417,12 +417,6 @@ public class ApiDocumentation {
         spaState.setOzone("ok");
         spaState.setUplinkTimestamp(LocalDateTime.now().toString());
 
-        Alert alert1 = new Alert();
-        alert1.setName("Replace Filter");
-        alert1.setLongDescription("The filter is old and needs to be replaced");
-        alert1.setSeverityLevel("yellow");
-        alert1.setShortDescription("Replace Filter");
-        alert1 = alertRepository.save(alert1);
 
         Spa spa = new Spa();
 		spa.setSerialNumber(serialNumber);
@@ -436,9 +430,21 @@ public class ApiDocumentation {
         spa.setRegistrationDate(LocalDate.now().toString());
         spa.setP2pAPSSID("myWifi");
         spa.setP2pAPPassword("*******");
-        spa.setAlerts(Arrays.asList(alert1));
 
-		this.spaRepository.save(spa);
+		spa = this.spaRepository.save(spa);
+
+		Alert alert1 = new Alert();
+		alert1.setName("Replace Filter");
+		alert1.setLongDescription("The filter is old and needs to be replaced");
+		alert1.setSeverityLevel("yellow");
+		alert1.setComponent("filter1");
+		alert1.setShortDescription("Replace Filter");
+		alert1.setCreationDate(LocalDateTime.now().toString());
+		alert1.setSpaId(spa.getId());
+		alertRepository.save(alert1);
+
+		spa.setAlerts(Arrays.asList(alert1));
+		spa = this.spaRepository.save(spa);
 		return spa;
 	}
 
