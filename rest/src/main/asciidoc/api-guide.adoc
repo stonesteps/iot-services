@@ -591,6 +591,10 @@ This method will retrieve the active terms and agreements.
 
 include::{snippets}\tac-findMostRecent-example\curl-request.adoc[]
 
+==== Response structure
+
+include::{snippets}\tac-findMostRecent-example\response-fields.adoc[]
+
 ==== Example response
 
 include::{snippets}\tac-findMostRecent-example\http-response.adoc[]
@@ -608,6 +612,10 @@ include::{snippets}\tac-agree-example\request-fields.adoc[]
 ==== Example request
 
 include::{snippets}\tac-agree-example\curl-request.adoc[]
+
+==== Response structure
+
+include::{snippets}\tac-agree-example\response-fields.adoc[]
 
 ==== Example response
 

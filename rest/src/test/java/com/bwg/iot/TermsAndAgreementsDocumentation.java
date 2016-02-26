@@ -121,8 +121,8 @@ public final class TermsAndAgreementsDocumentation {
 	public void agreeToTermsExample() throws Exception {
 
 		final Map<String, String> agree = new HashMap<>();
-		agree.put("userId","The User Identifier");
-		agree.put("version","The version of the Terms and Conditions that the user agreed to.");
+		agree.put("userId","56cf7d12c2e6d10fcc9f8783");
+		agree.put("version","0.0.4");
 
 		this.mockMvc
 				.perform(post("/tac/agree").contentType(MediaTypes.HAL_JSON)
