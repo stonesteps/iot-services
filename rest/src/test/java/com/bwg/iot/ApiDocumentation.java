@@ -123,13 +123,14 @@ public class ApiDocumentation {
 			.andExpect(status().isOk())
 			.andDo(document("index-example",
 					links(
-							linkWithRel("spas").description("The <<resources-spas,spas resource>>"),
+							linkWithRel("spas").description("The <<resources-spas,Spa resource>>"),
 							linkWithRel("owners").description("The <<resources-owners,Owners resource>>"),
                             linkWithRel("addresses").description("The <<resources-addresses,Addresses resource>>"),
                             linkWithRel("alerts").description("The <<resources-alerts,Alert resource>>"),
                             linkWithRel("spaCommands").description("The <<resources-spaCommands,SpaCommand resource>>"),
 							linkWithRel("dealers").description("The <<resources-dealers,Dealers resource>>"),
-							linkWithRel("oems").description("The <<resources-oems,Oems resource>>"),
+							linkWithRel("oems").description("The <<resources-oems,Oem resource>>"),
+							linkWithRel("users").description("The <<resources-users,User resource>>"),
 							linkWithRel("profile").description("The ALPS profile for the service")),
 					responseFields(
 							fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"))));
@@ -319,7 +320,7 @@ public class ApiDocumentation {
                                 fieldWithPath("serialNumber").description("The serial of the spa").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("productName").description("The product name of the spa").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("model").description("The spa model").type(JsonFieldType.STRING).optional(),
-                                fieldWithPath("dealerId").description("The dealer assigned to the spa").type(JsonFieldType.STRING).optional())));;
+                                fieldWithPath("dealerId").description("The dealer assigned to the spa").type(JsonFieldType.STRING).optional())));
 //								fieldWithPath("tags").description("An array of tag resource URIs").optional())));
 	}
 

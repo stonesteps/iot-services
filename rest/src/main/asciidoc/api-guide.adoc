@@ -64,12 +64,12 @@ use of HTTP status codes.
 Whenever an error response (status code >= 400) is returned, the body will contain a JSON object
 that describes the problem. The error object has the following structure:
 
-include::{snippets}/error-example/response-fields.adoc[]
+include::{snippets}\error-example\response-fields.adoc[]
 
 For example, a request that attempts to apply a non-existent owner of a spa will produce a
 `400 Bad Request` response:
 
-include::{snippets}/error-example/http-response.adoc[]
+include::{snippets}\error-example\http-response.adoc[]
 
 [[overview-hypermedia]]
 == Hypermedia
@@ -99,18 +99,18 @@ A `GET` request is used to access the index
 
 ==== Response structure
 
-include::{snippets}/index-example/response-fields.adoc[]
+include::{snippets}\index-example\response-fields.adoc[]
 
 ==== Example response
 
-include::{snippets}/index-example/http-response.adoc[]
+include::{snippets}\index-example\http-response.adoc[]
 
 
 
 [[resources-index-links]]
 ==== Links
 
-include::{snippets}/index-example/links.adoc[]
+include::{snippets}\index-example\links.adoc[]
 
 
 
@@ -166,15 +166,15 @@ A `GET` request will list all of the spas related to a given dealer.
 
 ==== Response structure
 
-include::{snippets}/spas-findbyDealer-example/response-fields.adoc[]
+include::{snippets}\spas-findbyDealer-example\response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/spas-findbyDealer-example/curl-request.adoc[]
+include::{snippets}\spas-findbyDealer-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/spas-findbyDealer-example/http-response.adoc[]
+include::{snippets}\spas-findbyDealer-example\http-response.adoc[]
 
 
 
@@ -192,15 +192,15 @@ A `GET` request will list all of the service's owners.
 
 ==== Response structure
 
-include::{snippets}/owners-list-example/response-fields.adoc[]
+include::{snippets}\owners-list-example\response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/owners-list-example/curl-request.adoc[]
+include::{snippets}\owners-list-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/owners-list-example/http-response.adoc[]
+include::{snippets}\owners-list-example\http-response.adoc[]
 
 
 
@@ -211,15 +211,15 @@ A `POST` request is used to create a spa
 
 ==== Request structure
 
-include::{snippets}/owner-create-example/request-fields.adoc[]
+include::{snippets}\owner-create-example\request-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/owner-create-example/curl-request.adoc[]
+include::{snippets}\owner-create-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/owner-create-example/http-response.adoc[]
+include::{snippets}\owner-create-example\http-response.adoc[]
 
 
 
@@ -233,7 +233,7 @@ The Spa resource is used to retrieve, update, and delete individual spas
 [[resources-spa-links]]
 === Links
 
-include::{snippets}/spa-get-example/links.adoc[]
+include::{snippets}\spa-get-example\links.adoc[]
 
 
 
@@ -244,15 +244,15 @@ A `GET` request will retrieve the details of a spa
 
 ==== Response structure
 
-include::{snippets}/spa-get-example/response-fields.adoc[]
+include::{snippets}\spa-get-example\response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/spa-get-example/curl-request.adoc[]
+include::{snippets}\spa-get-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/spa-get-example/http-response.adoc[]
+include::{snippets}\spa-get-example\http-response.adoc[]
 
 
 
@@ -263,17 +263,17 @@ A `PATCH` request is used to update a spa
 
 ==== Request structure
 
-include::{snippets}/spa-update-example/request-fields.adoc[]
+include::{snippets}\spa-update-example\request-fields.adoc[]
 
 To leave an attribute of a spa unchanged, any of the above may be omitted from the request.
 
 ==== Example request
 
-include::{snippets}/spa-update-example/curl-request.adoc[]
+include::{snippets}\spa-update-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/spa-update-example/http-response.adoc[]
+include::{snippets}\spa-update-example\http-response.adoc[]
 
 
 
@@ -287,7 +287,7 @@ The Owner resource is used to retrieve, update, and delete individual owners
 [[resources-owner-links]]
 === Links
 
-include::{snippets}/owner-get-example/links.adoc[]
+include::{snippets}\owner-get-example\links.adoc[]
 
 
 
@@ -298,15 +298,15 @@ A `GET` request will retrieve the details of a owner
 
 ==== Response structure
 
-include::{snippets}/owner-get-example/response-fields.adoc[]
+include::{snippets}\owner-get-example\response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/owner-get-example/curl-request.adoc[]
+include::{snippets}\owner-get-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/owner-get-example/http-response.adoc[]
+include::{snippets}\owner-get-example\http-response.adoc[]
 
 
 
@@ -317,15 +317,15 @@ A `PATCH` request is used to update a owner
 
 ==== Request structure
 
-include::{snippets}/owner-update-example/request-fields.adoc[]
+include::{snippets}\owner-update-example\request-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/owner-update-example/curl-request.adoc[]
+include::{snippets}\owner-update-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/owner-update-example/http-response.adoc[]
+include::{snippets}\owner-update-example\http-response.adoc[]
 
 
 [[resources-alert]]
@@ -338,7 +338,7 @@ The alert resource is used to retrieve, update, and delete individual alerts
 [[resources-alert-links]]
 === Links
 
-include::{snippets}/alert-get-example/links.adoc[]
+include::{snippets}\alert-get-example\links.adoc[]
 
 
 
@@ -349,15 +349,15 @@ A `GET` request will retrieve the details of an alert
 
 ==== Response structure
 
-include::{snippets}/alert-get-example/response-fields.adoc[]
+include::{snippets}\alert-get-example\response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/alert-get-example/curl-request.adoc[]
+include::{snippets}\alert-get-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/alert-get-example/http-response.adoc[]
+include::{snippets}\alert-get-example\http-response.adoc[]
 
 
 [[resources-alert-create]]
@@ -367,15 +367,15 @@ A `POST` request is used to create an alert
 
 ==== Request structure
 
-include::{snippets}/alert-create-example/request-fields.adoc[]
+include::{snippets}\alert-create-example\request-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/alert-create-example/curl-request.adoc[]
+include::{snippets}\alert-create-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/alert-create-example/http-response.adoc[]
+include::{snippets}\alert-create-example\http-response.adoc[]
 
 
 [[resources-alert-update]]
@@ -385,15 +385,15 @@ A `PATCH` request is used to update an alert
 
 ==== Request structure
 
-include::{snippets}/alert-update-example/request-fields.adoc[]
+include::{snippets}\alert-update-example\request-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/alert-update-example/curl-request.adoc[]
+include::{snippets}\alert-update-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/alert-update-example/http-response.adoc[]
+include::{snippets}\alert-update-example\http-response.adoc[]
 
 [[resources-dealer]]
 == Dealer
@@ -405,7 +405,7 @@ The dealer resource is used to retrieve, update, and delete individual dealers
 [[resources-dealer-links]]
 === Links
 
-include::{snippets}/dealer-get-example/links.adoc[]
+include::{snippets}\dealer-get-example\links.adoc[]
 
 
 
@@ -416,15 +416,15 @@ A `GET` request will retrieve the details of a dealer
 
 ==== Response structure
 
-include::{snippets}/dealer-get-example/response-fields.adoc[]
+include::{snippets}\dealer-get-example\response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/dealer-get-example/curl-request.adoc[]
+include::{snippets}\dealer-get-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/dealer-get-example/http-response.adoc[]
+include::{snippets}\dealer-get-example\http-response.adoc[]
 
 
 [[resources-dealer-create]]
@@ -434,15 +434,15 @@ A `POST` request is used to create a dealer
 
 ==== Request structure
 
-include::{snippets}/dealer-create-example/request-fields.adoc[]
+include::{snippets}\dealer-create-example\request-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/dealer-create-example/curl-request.adoc[]
+include::{snippets}\dealer-create-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/dealer-create-example/http-response.adoc[]
+include::{snippets}\dealer-create-example\http-response.adoc[]
 
 
 [[resources-dealer-update]]
@@ -452,15 +452,15 @@ A `PATCH` request is used to update a dealer
 
 ==== Request structure
 
-include::{snippets}/dealer-update-example/request-fields.adoc[]
+include::{snippets}\dealer-update-example\request-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/dealer-update-example/curl-request.adoc[]
+include::{snippets}\dealer-update-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/dealer-update-example/http-response.adoc[]
+include::{snippets}\dealer-update-example\http-response.adoc[]
 
 
 [[resources-oem]]
@@ -473,7 +473,7 @@ The oem resource is used to retrieve, update, and delete individual oems
 [[resources-oem-links]]
 === Links
 
-include::{snippets}/oem-get-example/links.adoc[]
+include::{snippets}\oem-get-example\links.adoc[]
 
 
 
@@ -484,15 +484,15 @@ A `GET` request will retrieve the details of an OEM
 
 ==== Response structure
 
-include::{snippets}/oem-get-example/response-fields.adoc[]
+include::{snippets}\oem-get-example\response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/oem-get-example/curl-request.adoc[]
+include::{snippets}\oem-get-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/oem-get-example/http-response.adoc[]
+include::{snippets}\oem-get-example\http-response.adoc[]
 
 
 [[resources-oem-create]]
@@ -502,15 +502,15 @@ A `POST` request is used to create an OEM
 
 ==== Request structure
 
-include::{snippets}/oem-create-example/request-fields.adoc[]
+include::{snippets}\oem-create-example\request-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/oem-create-example/curl-request.adoc[]
+include::{snippets}\oem-create-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/oem-create-example/http-response.adoc[]
+include::{snippets}\oem-create-example\http-response.adoc[]
 
 
 [[resources-oem-update]]
@@ -520,15 +520,15 @@ A `PATCH` request is used to update an OEM
 
 ==== Request structure
 
-include::{snippets}/oem-update-example/request-fields.adoc[]
+include::{snippets}\oem-update-example\request-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/oem-update-example/curl-request.adoc[]
+include::{snippets}\oem-update-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/oem-update-example/http-response.adoc[]
+include::{snippets}\oem-update-example\http-response.adoc[]
 
 
 
@@ -543,17 +543,75 @@ The following commands are available to control the spa.
 
 ==== Request structure
 
-include::{snippets}/control-desired-temp-example/request-fields.adoc[]
+include::{snippets}\control-desired-temp-example\request-fields.adoc[]
 
 If the originatorId is not sent in the request, one will be created
 
 ==== Example request
 
-include::{snippets}/control-desired-temp-example/curl-request.adoc[]
+include::{snippets}\control-desired-temp-example\curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/control-desired-temp-example/http-response.adoc[]
+include::{snippets}\control-desired-temp-example\http-response.adoc[]
+
+
+
+
+
+[[resources-tac]]
+== Terms And Agreements
+
+The following APIs are for managing Terms and Conditions and User Agreements.
+
+[[resources-tac-create]]
+=== Create New Terms and Conditions
+
+Creating a new Terms and Conditions resource, will mark any existing terms and conditions
+as old.   All current user agreements will also be marked as old.
+
+==== Request structure
+
+include::{snippets}\tac-create-example\request-fields.adoc[]
+
+
+==== Example request
+
+include::{snippets}\tac-create-example\curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}\tac-create-example\http-response.adoc[]
+
+=== Get Most Recent Terms and Conditions
+
+This method will retrieve the active terms and agreements.
+
+==== Example request
+
+include::{snippets}\tac-findMostRecent-example\curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}\tac-findMostRecent-example\http-response.adoc[]
+
+
+=== Agree to Terms and Conditions
+
+For a user to agree to the terms and conditions.
+
+==== Request structure
+
+include::{snippets}\tac-agree-example\request-fields.adoc[]
+
+
+==== Example request
+
+include::{snippets}\tac-agree-example\curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}\tac-agree-example\http-response.adoc[]
 
 
 
