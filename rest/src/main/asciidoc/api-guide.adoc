@@ -463,6 +463,91 @@ include::{snippets}\dealer-update-example\curl-request.adoc[]
 include::{snippets}\dealer-update-example\http-response.adoc[]
 
 
+[[resources-user]]
+== User
+
+The user resource is used to retrieve, update, and delete individual users
+
+
+
+[[resources-user-links]]
+=== Links
+
+include::{snippets}\user-get-example\links.adoc[]
+
+
+[[resources-users-list]]
+=== Listing users
+
+A `GET` request will list all of the service's users.
+
+==== Response structure
+
+include::{snippets}\users-list-example\response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}\users-list-example\curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}\users-list-example\http-response.adoc[]
+
+
+[[resources-user-retrieve]]
+=== Retrieve a user
+
+A `GET` request will retrieve the details of a user
+
+==== Response structure
+
+include::{snippets}\user-get-example\response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}\user-get-example\curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}\user-get-example\http-response.adoc[]
+
+
+[[resources-user-create]]
+=== Creating a user
+
+A `POST` request is used to create a user
+
+==== Request structure
+
+include::{snippets}\user-create-example\request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}\user-create-example\curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}\user-create-example\http-response.adoc[]
+
+
+[[resources-user-update]]
+=== Update a user
+
+A `PATCH` request is used to update a user
+
+==== Request structure
+
+include::{snippets}\user-update-example\request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}\user-update-example\curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}\user-update-example\http-response.adoc[]
+
+
 [[resources-oem]]
 == Oem
 
