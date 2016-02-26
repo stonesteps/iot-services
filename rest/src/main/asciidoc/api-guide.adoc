@@ -707,6 +707,24 @@ include::{snippets}\tac-agree-example\response-fields.adoc[]
 include::{snippets}\tac-agree-example\http-response.adoc[]
 
 
+=== Find Current User Agreement
+
+Find the current Terms and Conditions Agreement for give userId.
+Return Error Code 404 if no current agreement found.
+
+==== Example request
+
+include::{snippets}\tac-findAgreement-example\curl-request.adoc[]
+
+==== Response structure
+
+include::{snippets}\tac-findAgreement-example\response-fields.adoc[]
+
+==== Example response
+
+include::{snippets}\tac-findAgreement-example\http-response.adoc[]
+
+
 
 
 

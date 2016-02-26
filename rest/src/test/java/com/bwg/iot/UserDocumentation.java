@@ -128,7 +128,6 @@ public final class UserDocumentation extends ModelTestBase {
 
         Address address = createAddress();
         User user = createUser("Mo", "Eddy", "111", "222", address, Arrays.asList("USER"), new Date().toString());
-        userRepository.save(user);
 
         final Map<String, Object> userUpdate = new HashMap<>();
         userUpdate.put("firstName", "Moebius");
@@ -160,7 +159,6 @@ public final class UserDocumentation extends ModelTestBase {
 
         Address address = createAddress();
         User user = createUser("Mo", "Eddy", "111", "222", address, Arrays.asList("USER"), new Date().toString());
-        userRepository.save(user);
 
         this.mockMvc.perform(get("/users/{0}", user.getId())).andExpect(status().isOk())
                 .andExpect(jsonPath("firstName", is(user.getFirstName())))
