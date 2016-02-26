@@ -77,6 +77,8 @@ public class TermsAndConditionsController {
         TacUserAgreement agreement = new TacUserAgreement();
         agreement.setUserId(body.get("userId"));
         agreement.setVersion(body.get("version"));
+        agreement.setCurrent(Boolean.TRUE);
+        agreement.setDateAgreed(LocalDateTime.now().toString());
         agreement = tacUserAgreementRepository.save(agreement);
         return new ResponseEntity<TacUserAgreement>(agreement, HttpStatus.OK);
     }
