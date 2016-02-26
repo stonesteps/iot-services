@@ -13,13 +13,16 @@ import java.util.List;
  */
 public class ModelTestBase {
     @Autowired
-    private AddressRepository addressRepository;
+    protected AddressRepository addressRepository;
 
     @Autowired
-    private DealerRepository dealerRepository;
+    protected DealerRepository dealerRepository;
 
     @Autowired
-    private OemRepository oemRepository;
+    protected OemRepository oemRepository;
+
+    @Autowired
+    protected UserRepository userRepository;
 
     protected Address createAddress() {
         Address address = new Address();
@@ -57,6 +60,7 @@ public class ModelTestBase {
         user.setAddress(address);
         user.setRoles(roles);
         user.setCreatedDate(createdDate);
+        userRepository.save(user);
         return user;
     }
 }

@@ -10,6 +10,7 @@ import com.mongodb.WriteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
@@ -39,10 +41,19 @@ public class TermsAndConditionsController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/search/findMostRecent")
-    public @ResponseBody ResponseEntity<?> getCurrent() {
+    public @ResponseBody ResponseEntity<?> getCurrentTerms() {
         TermsAndConditions tac = termsAndConditionsRepository.findByCurrent(true);
 
         return new ResponseEntity<TermsAndConditions>(tac, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/search/findCurrentUserAgreement")
+    public @ResponseBody ResponseEntity<?> getUserAgreement(@Param("userId") String userId) {
+        List<TacUserAgreement> tac = tacUserAgreementRepository.findByUserIdAndCurrent(userId, true);
+        if (tac.size() == 0){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(tac.get(0), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = "application/json")

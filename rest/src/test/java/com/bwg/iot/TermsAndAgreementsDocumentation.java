@@ -16,6 +16,8 @@
 
 package com.bwg.iot;
 
+import com.bwg.iot.model.Address;
+import com.bwg.iot.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
@@ -31,6 +33,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +50,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = IotServicesApplication.class)
 @WebAppConfiguration
-public final class TermsAndAgreementsDocumentation {
+public final class TermsAndAgreementsDocumentation extends ModelTestBase{
 
 	@Rule
 	public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
@@ -120,8 +124,14 @@ public final class TermsAndAgreementsDocumentation {
 	@Test
 	public void agreeToTermsExample() throws Exception {
 
-		final Map<String, String> agree = new HashMap<>();
-		agree.put("userId","56cf7d12c2e6d10fcc9f8783");
+        this.userRepository.deleteAll();
+        this.addressRepository.deleteAll();
+
+        Address address = createAddress();
+        User user = createUser("Murphy", "Matt", "25111", "222", address, Arrays.asList("USER"), new Date().toString());
+
+        final Map<String, String> agree = new HashMap<>();
+		agree.put("userId", user.getId());
 		agree.put("version","0.0.4");
 
 		this.mockMvc
@@ -139,5 +149,34 @@ public final class TermsAndAgreementsDocumentation {
 								fieldWithPath("current").description("Is this agreement current"))));
 	}
 
+	@Test
+    public void getUserAgreement() throws Exception {
+
+        this.userRepository.deleteAll();
+        this.addressRepository.deleteAll();
+
+        Address address = createAddress();
+        User user = createUser("Murphy", "Matt", "25111", "222", address, Arrays.asList("USER"), new Date().toString());
+
+        final Map<String, String> agree = new HashMap<>();
+		agree.put("userId",user.getId());
+		agree.put("version","0.0.4");
+
+        this.mockMvc
+                .perform(post("/tac/agree").contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(agree)))
+                .andExpect(status().is2xxSuccessful());
+
+		this.mockMvc
+				.perform(get("/tac/search/findCurrentUserAgreement?userId="+user.getId()).contentType(MediaTypes.HAL_JSON))
+				.andExpect(status().is2xxSuccessful())
+				.andDo(document("tac-findAgreement-example",
+						responseFields(fieldWithPath("id").description("Unique Id"),
+								fieldWithPath("userId").description("Unique Id for the User"),
+								fieldWithPath("version").description("The version number of the Terms agreed to"),
+								fieldWithPath("dateAgreed").description("Timestamp of the agreement"),
+								fieldWithPath("current").description("Is this agreement current"))));
+
+	}
 
 }
