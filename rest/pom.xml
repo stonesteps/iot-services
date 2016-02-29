@@ -124,7 +124,15 @@
                 </executions>
             </plugin>
         </plugins>
+        <testResources>
+            <testResource>
+                <directory>${project.basedir}/src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
     </build>
-
-
+    <properties>
+        <test.mongodb.host>localhost</test.mongodb.host>
+        <test.mongodb.port>27017</test.mongodb.port>
+    </properties>
 </project>
