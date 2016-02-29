@@ -25,6 +25,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>1.8</java.version>
+		<commons.lang.version>3.4</commons.lang.version>
         <snippetsDirectory>${project.build.directory}/generated-snippets</snippetsDirectory>
         <spring-restdocs.version>1.1.0.BUILD-SNAPSHOT</spring-restdocs.version>
 	</properties>
@@ -73,6 +74,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons.lang.version}</version>
 		</dependency>
 	</dependencies>
 

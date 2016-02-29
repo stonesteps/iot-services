@@ -86,7 +86,7 @@ public final class SpaCommandDocumentation {
 				.andExpect(status().is2xxSuccessful())
 				.andDo(document("control-desired-temp-example",
 						requestFields(fieldWithPath("desiredTemp").description("The desired temperatue in degrees Fahrenheit"),
-								fieldWithPath("originatorId").description("Origination ID").optional())))
+								fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
 				.andDo(document("control-desired-temp-response-example",
 						responseFields(fieldWithPath("id").description("Unique Id of the control request"),
                                 fieldWithPath("spaId").description("Unique Id for the spa"),
@@ -98,4 +98,116 @@ public final class SpaCommandDocumentation {
 								fieldWithPath("values").description("The set temperature"))));
 	}
 
+	@Test
+	public void turnJetOn() throws Exception {
+		this.spaCommandRepository.deleteAll();
+
+		final Map<String, String> command = new HashMap<>();
+		command.put("port","0");
+		command.put("desiredState","ON");
+        command.put("originatorId","optional-tag-0001");
+
+		this.mockMvc
+				.perform(post("/control/56c7f020c2e65656ab93db17/setJetState").contentType(MediaTypes.HAL_JSON)
+						.content(this.objectMapper.writeValueAsString(command)))
+				.andExpect(status().is2xxSuccessful())
+				.andDo(document("control-pump-example",
+						requestFields(fieldWithPath("port").description("The pump number (starting with 0)"),
+								fieldWithPath("desiredState").description("Turn pump: ON or OFF"),
+								fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
+				.andDo(document("control-pump-response-example",
+						responseFields(fieldWithPath("id").description("Unique Id of the control request"),
+								fieldWithPath("spaId").description("Unique Id for the spa"),
+								fieldWithPath("requestTypeId").description("The type of request"),
+								fieldWithPath("originatorId").description("A unique id for this request"),
+								fieldWithPath("sentTimestamp").description("The time the command was sent"),
+								fieldWithPath("processedTimestamp").description("The time the command was processed"),
+								fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+								fieldWithPath("values").description("The set temperature"))));
+	}
+
+    @Test
+    public void turnLightOn() throws Exception {
+        this.spaCommandRepository.deleteAll();
+
+        final Map<String, String> command = new HashMap<>();
+        command.put("port","0");
+        command.put("desiredState","ON");
+        command.put("originatorId","optional-tag-0002");
+
+        this.mockMvc
+                .perform(post("/control/56c7f020c2e65656ab93db17/setLightState").contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(command)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("control-light-example",
+                        requestFields(fieldWithPath("port").description("The light number (starting with 0)"),
+                                fieldWithPath("desiredState").description("Turn light: ON or OFF"),
+                                fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
+                .andDo(document("control-light-response-example",
+                        responseFields(fieldWithPath("id").description("Unique Id of the control request"),
+                                fieldWithPath("spaId").description("Unique Id for the spa"),
+                                fieldWithPath("requestTypeId").description("The type of request"),
+                                fieldWithPath("originatorId").description("A unique id for this request"),
+                                fieldWithPath("sentTimestamp").description("The time the command was sent"),
+                                fieldWithPath("processedTimestamp").description("The time the command was processed"),
+                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+                                fieldWithPath("values").description("The set temperature"))));
+    }
+    
+    @Test
+    public void turnBlowerOn() throws Exception {
+        this.spaCommandRepository.deleteAll();
+
+        final Map<String, String> command = new HashMap<>();
+        command.put("port","0");
+        command.put("desiredState","ON");
+        command.put("originatorId","optional-tag");
+
+        this.mockMvc
+                .perform(post("/control/56c7f020c2e65656ab93db17/setBlowerState").contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(command)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("control-blower-example",
+                        requestFields(fieldWithPath("port").description("The blower number (starting with 0)"),
+                                fieldWithPath("desiredState").description("Turn blower: ON or OFF"),
+                                fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
+                .andDo(document("control-blower-response-example",
+                        responseFields(fieldWithPath("id").description("Unique Id of the control request"),
+                                fieldWithPath("spaId").description("Unique Id for the spa"),
+                                fieldWithPath("requestTypeId").description("The type of request"),
+                                fieldWithPath("originatorId").description("A unique id for this request"),
+                                fieldWithPath("sentTimestamp").description("The time the command was sent"),
+                                fieldWithPath("processedTimestamp").description("The time the command was processed"),
+                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+                                fieldWithPath("values").description("The set temperature"))));
+    }
+    
+    @Test
+    public void turnMisterOn() throws Exception {
+        this.spaCommandRepository.deleteAll();
+
+        final Map<String, String> command = new HashMap<>();
+        command.put("port","0");
+        command.put("desiredState","ON");
+        command.put("originatorId","optional-tag-0001");
+
+        this.mockMvc
+                .perform(post("/control/56c7f020c2e65656ab93db17/setMisterState").contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(command)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("control-mister-example",
+                        requestFields(fieldWithPath("port").description("The mister number (starting with 0)"),
+                                fieldWithPath("desiredState").description("Turn mister: ON or OFF"),
+                                fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
+                .andDo(document("control-mister-response-example",
+                        responseFields(fieldWithPath("id").description("Unique Id of the control request"),
+                                fieldWithPath("spaId").description("Unique Id for the spa"),
+                                fieldWithPath("requestTypeId").description("The type of request"),
+                                fieldWithPath("originatorId").description("A unique id for this request"),
+                                fieldWithPath("sentTimestamp").description("The time the command was sent"),
+                                fieldWithPath("processedTimestamp").description("The time the command was processed"),
+                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+                                fieldWithPath("values").description("The set temperature"))));
+    }
+    
 }
