@@ -625,6 +625,7 @@ The following commands are available to control the spa.
 [[resources-control-desired-temp]]
 === Set the desired spa temperature
 
+This command is used to remotely control the spa temperature
 
 ==== Request structure
 
@@ -641,6 +642,80 @@ include::{snippets}\control-desired-temp-example\curl-request.adoc[]
 include::{snippets}\control-desired-temp-example\http-response.adoc[]
 
 
+=== Jet Control
+
+This command is used to turn the spa jets ON and OFF
+
+==== Request structure
+
+include::{snippets}\control-pump-example\request-fields.adoc[]
+
+If the originatorId is not sent in the request, one will be created
+
+==== Example request
+
+include::{snippets}\control-pump-example\curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}\control-pump-example\http-response.adoc[]
+
+
+=== Spa Lights Control
+
+This command is used to turn the spa lights ON and OFF
+
+==== Request structure
+
+include::{snippets}\control-light-example\request-fields.adoc[]
+
+If the originatorId is not sent in the request, one will be created
+
+==== Example request
+
+include::{snippets}\control-light-example\curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}\control-light-example\http-response.adoc[]
+
+
+=== Blower Control
+
+This command turns the spa blower(s) ON and OFF
+
+==== Request structure
+
+include::{snippets}\control-blower-example\request-fields.adoc[]
+
+If the originatorId is not sent in the request, one will be created
+
+==== Example request
+
+include::{snippets}\control-blower-example\curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}\control-blower-example\http-response.adoc[]
+
+
+=== Mister Control
+
+This command turns the mister(s) ON and OFF
+
+==== Request structure
+
+include::{snippets}\control-mister-example\request-fields.adoc[]
+
+If the originatorId is not sent in the request, one will be created
+
+==== Example request
+
+include::{snippets}\control-mister-example\curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}\control-mister-example\http-response.adoc[]
 
 
 

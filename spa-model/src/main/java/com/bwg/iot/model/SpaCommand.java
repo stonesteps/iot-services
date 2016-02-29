@@ -7,10 +7,26 @@ import java.util.*;
 
 public class SpaCommand {
 
+    public enum RequestType {
+        PUMPS(1), LIGHTS(2), BLOWER(3), MISTER(4), FILTER(5), DIAG_REPORT(6), PANEL(7), HEATER(8);
+
+        private int code;
+        private RequestType(int c){
+            code = c;
+        }
+        public int getCode() {
+            return code;
+        }
+    }
+
+    public enum OnOff { OFF, ON }
+    public enum LightState { OFF, LOW, MID, HIGH }
+
+
     @Id
     private String id = null;
     private String spaId;
-    private String requestTypeId;
+    private Integer requestTypeId;
     private String originatorId;
     private String sentTimestamp;
     private String processedTimestamp;
@@ -35,11 +51,11 @@ public class SpaCommand {
         this.spaId = spaId;
     }
 
-    public String getRequestTypeId() {
+    public Integer getRequestTypeId() {
         return requestTypeId;
     }
 
-    public void setRequestTypeId(String requestTypeId) {
+    public void setRequestTypeId(Integer requestTypeId) {
         this.requestTypeId = requestTypeId;
     }
 
