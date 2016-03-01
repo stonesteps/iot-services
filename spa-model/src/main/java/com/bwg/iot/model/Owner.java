@@ -1,10 +1,12 @@
 package com.bwg.iot.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.Objects;
 
-
+@Document
 public class Owner  {
 
     @Id
@@ -12,6 +14,8 @@ public class Owner  {
     private String customerName = null;
     private String firstName = null;
     private String lastName = null;
+
+    @RestResource
     private Address address = null;
 
     public String getId() {
