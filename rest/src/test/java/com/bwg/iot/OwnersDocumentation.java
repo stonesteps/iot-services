@@ -168,7 +168,9 @@ public final class OwnersDocumentation {
 				.andDo(document("owner-get-example",
 						links(linkWithRel("self").description("This <<resources-owner,owner>>"),
 								linkWithRel("owner").description("This <<resources-owner,owner>>")),
-						responseFields(fieldWithPath("customerName").description("The customer name"),
+						responseFields(
+								fieldWithPath("id").description("Object Id"),
+								fieldWithPath("customerName").description("The customer name"),
 								fieldWithPath("firstName").description("The owner's first name"),
 								fieldWithPath("lastName").description("The owner's last name"),
 								fieldWithPath("address").description("The owner's address"), fieldWithPath("_links")

@@ -28,6 +28,7 @@ public class Spa  {
     @RestResource
     private Owner owner = null;
 
+    @RestResource
     private List<Alert> alerts = new ArrayList<Alert>();
 
 

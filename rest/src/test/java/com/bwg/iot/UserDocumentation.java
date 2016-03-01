@@ -165,7 +165,9 @@ public final class UserDocumentation extends ModelTestBase {
                 .andDo(document("user-get-example",
                         links(linkWithRel("self").description("This <<resources-user,user>>"),
                                 linkWithRel("user").description("This <<resources-user,user>>")),
-                        responseFields(fieldWithPath("firstName").description("First name of the user"),
+                        responseFields(
+                                fieldWithPath("id").description("Object Id"),
+                                fieldWithPath("firstName").description("First name of the user"),
                                 fieldWithPath("lastName").description("Last name of the user"),
                                 fieldWithPath("dealerId").description("dealer id"),
                                 fieldWithPath("oemId").description("Oem id"),
