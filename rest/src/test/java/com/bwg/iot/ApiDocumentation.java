@@ -218,6 +218,7 @@ public class ApiDocumentation {
                             fieldWithPath("productName").description("The product name of the spa"),
                             fieldWithPath("model").description("The spa model"),
                             fieldWithPath("owner").description("The owner of the spa"),
+							fieldWithPath("sold").description("Flag denoting if spa has been sold"),
                             fieldWithPath("alerts").description("Current Issues with the spa"),
                             fieldWithPath("dealerId").description("The dealer assigned to the spa"),
                             fieldWithPath("oemId").description("The manufacturer that built spa"),
