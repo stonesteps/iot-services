@@ -145,7 +145,9 @@ public final class OemDocumentation extends ModelTestBase{
 				.andDo(document("oem-get-example",
 						links(linkWithRel("self").description("This <<resources-oem,oem>>"),
 								linkWithRel("oem").description("This <<resources-oem,oem>>")),
-						responseFields(fieldWithPath("name").description("The name of the oem"),
+						responseFields(
+								fieldWithPath("id").description("Object Id"),
+								fieldWithPath("name").description("The name of the oem"),
 								fieldWithPath("address").description("Contact info for the oem (yellow, red)"),
                                 fieldWithPath("_links")
 										.description("<<resources-oem-links,Links>> to other resources"))));

@@ -146,7 +146,9 @@ public final class DealerDocumentation extends ModelTestBase{
 				.andDo(document("dealer-get-example",
 						links(linkWithRel("self").description("This <<resources-dealer,dealer>>"),
 								linkWithRel("dealer").description("This <<resources-dealer,dealer>>")),
-						responseFields(fieldWithPath("name").description("The name of the dealer"),
+						responseFields(
+								fieldWithPath("id").description("Object Id"),
+								fieldWithPath("name").description("The name of the dealer"),
 								fieldWithPath("address").description("Contact info for the dealer (yellow, red)"),
                                 fieldWithPath("_links")
 										.description("<<resources-dealer-links,Links>> to other resources"))));

@@ -214,6 +214,7 @@ public class ApiDocumentation {
                             linkWithRel("spa").description("This <<resources-spa,spa>>")),
 //							linkWithRel("tags").description("This spa's tags")),
 					responseFields(
+							fieldWithPath("id").description("Object Id"),
                             fieldWithPath("serialNumber").description("The serial of the spa"),
                             fieldWithPath("productName").description("The product name of the spa"),
                             fieldWithPath("model").description("The spa model"),
