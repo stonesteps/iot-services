@@ -30,7 +30,9 @@ public class SpaCommand {
     private String originatorId;
     private String sentTimestamp;
     private String processedTimestamp;
+    private ProcessedResult processedResult;
     private String ackTimestamp;
+    private String ackResponseCode;
     private HashMap<String, String> values;
 
     public SpaCommand(){}
@@ -83,6 +85,10 @@ public class SpaCommand {
         this.processedTimestamp = processedTimestamp;
     }
 
+    public ProcessedResult getProcessedResult() { return processedResult; }
+
+    public void setProcessedResult(ProcessedResult processedResult) { this.processedResult = processedResult; }
+
     public String getAckTimestamp() {
         return ackTimestamp;
     }
@@ -90,6 +96,10 @@ public class SpaCommand {
     public void setAckTimestamp(String ackTimestamp) {
         this.ackTimestamp = ackTimestamp;
     }
+
+    public String getAckResponseCode() { return ackResponseCode; }
+
+    public void setAckResponseCode(String ackResponseCode) { this.ackResponseCode = ackResponseCode; }
 
     public HashMap<String, String> getValues() {
         return values;

@@ -94,7 +94,9 @@ public final class SpaCommandDocumentation {
 								fieldWithPath("originatorId").description("A unique id for this request"),
 								fieldWithPath("sentTimestamp").description("The time the command was sent"),
 								fieldWithPath("processedTimestamp").description("The time the command was processed"),
+								fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
 								fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+								fieldWithPath("ackResponseCode").description("The ack response from device"),
 								fieldWithPath("values").description("The set temperature"))));
 	}
 
@@ -122,7 +124,9 @@ public final class SpaCommandDocumentation {
 								fieldWithPath("originatorId").description("A unique id for this request"),
 								fieldWithPath("sentTimestamp").description("The time the command was sent"),
 								fieldWithPath("processedTimestamp").description("The time the command was processed"),
+								fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
 								fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+								fieldWithPath("ackResponseCode").description("The ack response from device"),
 								fieldWithPath("values").description("The set temperature"))));
 	}
 
@@ -150,7 +154,9 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("originatorId").description("A unique id for this request"),
                                 fieldWithPath("sentTimestamp").description("The time the command was sent"),
                                 fieldWithPath("processedTimestamp").description("The time the command was processed"),
-                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+								fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
+								fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+								fieldWithPath("ackResponseCode").description("The ack response from device"),
                                 fieldWithPath("values").description("The set temperature"))));
     }
     
@@ -178,7 +184,9 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("originatorId").description("A unique id for this request"),
                                 fieldWithPath("sentTimestamp").description("The time the command was sent"),
                                 fieldWithPath("processedTimestamp").description("The time the command was processed"),
-                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+								fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
+								fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+								fieldWithPath("ackResponseCode").description("The ack response from device"),
                                 fieldWithPath("values").description("The set temperature"))));
     }
     
@@ -206,7 +214,9 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("originatorId").description("A unique id for this request"),
                                 fieldWithPath("sentTimestamp").description("The time the command was sent"),
                                 fieldWithPath("processedTimestamp").description("The time the command was processed"),
+								fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+								fieldWithPath("ackResponseCode").description("The ack response from device"),
                                 fieldWithPath("values").description("The set temperature"))));
     }
     
