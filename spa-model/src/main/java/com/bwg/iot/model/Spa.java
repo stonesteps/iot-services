@@ -1,13 +1,14 @@
 package com.bwg.iot.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.rest.core.annotation.RestResource;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
+@Document
 public class Spa  {
 
     @Id
@@ -22,10 +23,14 @@ public class Spa  {
     private String manufacturedDate = null;
     private String p2pAPSSID = null;
     private String p2pAPPassword = null;
+    private String sold = Boolean.FALSE.toString();
 
+    @RestResource
     private Owner owner = null;
 
     private List<Alert> alerts = new ArrayList<Alert>();
+
+
 
     public Spa(){}
 
@@ -83,7 +88,8 @@ public class Spa  {
     }
 
     public void setOwner(Owner owner) {
-    this.owner = owner;
+        this.owner = owner;
+        this.sold = Boolean.toString(owner != null);
     }
 
   
@@ -94,6 +100,9 @@ public class Spa  {
         this.alerts = alerts;
     }
 
+    public String getSold() {
+        return Boolean.toString(!(owner==null));
+    }
 
     public SpaState getCurrentState() {
         return currentState;
