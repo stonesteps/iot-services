@@ -3,14 +3,15 @@ package com.bwg.iot.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Objects;
 
 @Document
-public class Owner  {
+public class Owner extends ResourceSupport {
 
     @Id
-    private String id;
+    private String _id;
     private String customerName = null;
     private String firstName = null;
     private String lastName = null;
@@ -18,8 +19,8 @@ public class Owner  {
     @RestResource
     private Address address = null;
 
-    public String getId() {
-        return id;
+    public String get_id() {
+        return _id;
     }
 
     public String getCustomerName() {

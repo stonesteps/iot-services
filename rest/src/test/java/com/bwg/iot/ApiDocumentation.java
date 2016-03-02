@@ -41,7 +41,6 @@ import java.util.Map;
 import javax.servlet.RequestDispatcher;
 
 import com.bwg.iot.model.*;
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -197,7 +196,7 @@ public class ApiDocumentation {
         Spa spa = createSpaWithState("0blah345", "Shark", "Blue", "101", owner);
 
 
-		String spaLocation = "/spas/"+spa.getId();
+		String spaLocation = "/spas/"+spa.get_id();
 
 		this.mockMvc.perform(get(spaLocation))
 			.andExpect(status().isOk())
@@ -207,14 +206,14 @@ public class ApiDocumentation {
             .andExpect(jsonPath("dealerId", is(spa.getDealerId())))
 			.andExpect(jsonPath("_links.self.href", containsString(spaLocation)))
             .andExpect(jsonPath("_links.spa.href", containsString(spaLocation)))
-//			.andExpect(jsonPath("_links.tags", is(notNullValue())))
 			.andDo(document("spa-get-example",
 					links(
 							linkWithRel("self").description("This <<resources-spa,spa>>"),
-                            linkWithRel("spa").description("This <<resources-spa,spa>>")),
-//							linkWithRel("tags").description("This spa's tags")),
+                            linkWithRel("spa").description("This <<resources-spa,spa>>"),
+							linkWithRel("owner").description("This <<resources-owner,owner>>"),
+							linkWithRel("alert_1").description("This <<resources-alert,alert>>")),
 					responseFields(
-							fieldWithPath("id").description("Object Id"),
+							fieldWithPath("_id").description("Object Id"),
                             fieldWithPath("serialNumber").description("The serial of the spa"),
                             fieldWithPath("productName").description("The product name of the spa"),
                             fieldWithPath("model").description("The spa model"),
@@ -249,36 +248,6 @@ public class ApiDocumentation {
 								fieldWithPath("page").description("Page information"))));
 	}
 
-//	@Test
-//	public void tagsListExample() throws Exception {
-//		this.spaRepository.deleteAll();
-//		this.tagRepository.deleteAll();
-//
-//		createTag("REST");
-//		createTag("Hypermedia");
-//		createTag("HTTP");
-//
-//		this.mockMvc.perform(get("/tags"))
-//			.andExpect(status().isOk())
-//			.andDo(document("tags-list-example",
-//					responseFields(
-//							fieldWithPath("_embedded.tags").description("An array of <<resources-tag,Tag resources>>"))));
-//	}
-//
-//	@Test
-//	public void tagsCreateExample() throws Exception {
-//		Map<String, String> tag = new HashMap<String, String>();
-//		tag.put("name", "REST");
-//
-//		this.mockMvc.perform(
-//				post("/tags").contentType(MediaTypes.HAL_JSON).content(
-//						this.objectMapper.writeValueAsString(tag)))
-//				.andExpect(status().isCreated())
-//				.andDo(document("tags-create-example",
-//						requestFields(
-//								fieldWithPath("name").description("The name of the tag"))));
-//	}
-
 	@Test
 	public void spaUpdateExample() throws Exception {
 		Map<String, Object> spa = new HashMap<String, Object>();
@@ -298,17 +267,7 @@ public class ApiDocumentation {
                 .andExpect(jsonPath("productName", is(spa.get("productName"))))
                 .andExpect(jsonPath("model", is(spa.get("model"))))
 				.andExpect(jsonPath("_links.self.href", is(spaLocation)));
-//				.andExpect(jsonPath("_links.tags", is(notNullValue())));
 
-//		Map<String, String> tag = new HashMap<String, String>();
-//		tag.put("name", "REST");
-//
-//		String tagLocation = this.mockMvc
-//				.perform(
-//						post("/tags").contentType(MediaTypes.HAL_JSON).content(
-//								this.objectMapper.writeValueAsString(tag)))
-//				.andExpect(status().isCreated()).andReturn().getResponse()
-//				.getHeader("Location");
 
 		Map<String, Object> spaUpdate = new HashMap<String, Object>();
 		spaUpdate.put("dealerId", "101");
@@ -323,56 +282,8 @@ public class ApiDocumentation {
                                 fieldWithPath("productName").description("The product name of the spa").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("model").description("The spa model").type(JsonFieldType.STRING).optional(),
                                 fieldWithPath("dealerId").description("The dealer assigned to the spa").type(JsonFieldType.STRING).optional())));
-//								fieldWithPath("tags").description("An array of tag resource URIs").optional())));
 	}
 
-//	@Test
-//	public void tagGetExample() throws Exception {
-//		Map<String, String> tag = new HashMap<String, String>();
-//		tag.put("name", "REST");
-//
-//		String tagLocation = this.mockMvc
-//				.perform(
-//						post("/tags").contentType(MediaTypes.HAL_JSON).content(
-//								this.objectMapper.writeValueAsString(tag)))
-//				.andExpect(status().isCreated()).andReturn().getResponse()
-//				.getHeader("Location");
-//
-//		this.mockMvc.perform(get(tagLocation))
-//			.andExpect(status().isOk())
-//			.andExpect(jsonPath("name", is(tag.get("name"))))
-//			.andDo(document("tag-get-example",
-//					links(
-//							linkWithRel("self").description("This <<resources-tag,tag>>"),
-//							linkWithRel("spas").description("The <<resources-tagged-spas,spas>> that have this tag")),
-//					responseFields(
-//							fieldWithPath("name").description("The name of the tag"),
-//							fieldWithPath("_links").description("<<resources-tag-links,Links>> to other resources"))));
-//	}
-//
-//	@Test
-//	public void tagUpdateExample() throws Exception {
-//		Map<String, String> tag = new HashMap<String, String>();
-//		tag.put("name", "REST");
-//
-//		String tagLocation = this.mockMvc
-//				.perform(
-//						post("/tags").contentType(MediaTypes.HAL_JSON).content(
-//								this.objectMapper.writeValueAsString(tag)))
-//				.andExpect(status().isCreated()).andReturn().getResponse()
-//				.getHeader("Location");
-//
-//		Map<String, Object> tagUpdate = new HashMap<String, Object>();
-//		tagUpdate.put("name", "RESTful");
-//
-//		this.mockMvc.perform(
-//				patch(tagLocation).contentType(MediaTypes.HAL_JSON).content(
-//						this.objectMapper.writeValueAsString(tagUpdate)))
-//				.andExpect(status().isNoContent())
-//				.andDo(document("tag-update-example",
-//						requestFields(
-//								fieldWithPath("name").description("The name of the tag"))));
-//	}
 
 	private void createSpa(String serialNumber, String productName, String model, String dealerId) {
 		Spa spa = new Spa();
@@ -443,7 +354,7 @@ public class ApiDocumentation {
 		alert1.setComponent("filter1");
 		alert1.setShortDescription("Replace Filter");
 		alert1.setCreationDate(LocalDateTime.now().toString());
-		alert1.setSpaId(spa.getId());
+		alert1.setSpaId(spa.get_id());
 		alertRepository.save(alert1);
 
 		spa.setAlerts(Arrays.asList(alert1));

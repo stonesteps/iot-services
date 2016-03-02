@@ -1,12 +1,13 @@
 package com.bwg.iot.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.hateoas.ResourceSupport;
 
 
-public class TermsAndConditions {
+public class TermsAndConditions extends ResourceSupport {
 
     @Id
-    private String id;
+    private String _id;
     private String text;
     private String version;
     private String createdTimestamp;
@@ -14,8 +15,8 @@ public class TermsAndConditions {
 
     public TermsAndConditions(){}
 
-    public String getId() {
-        return id;
+    public String get_id() {
+        return _id;
     }
 
     public String getText() {
@@ -57,7 +58,7 @@ public class TermsAndConditions {
 
         TermsAndConditions that = (TermsAndConditions) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (_id != null ? !_id.equals(that._id) : that._id != null) return false;
         if (text != null ? !text.equals(that.text) : that.text != null) return false;
         if (version != null ? !version.equals(that.version) : that.version != null) return false;
         if (createdTimestamp != null ? !createdTimestamp.equals(that.createdTimestamp) : that.createdTimestamp != null) return false;
@@ -68,7 +69,7 @@ public class TermsAndConditions {
     @Override
     public String toString() {
         return "TermsAndConditions{" +
-                "id='" + id + '\'' +
+                " _id='" + _id + '\'' +
                 ", text='" + text + '\'' +
                 ", version='" + version + '\'' +
                 ", createdTimestamp='" + createdTimestamp + '\'' +
@@ -78,7 +79,7 @@ public class TermsAndConditions {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = _id != null ? _id.hashCode() : 0;
         result = 31 * result + (text != null ? text.hashCode() : 0);
         result = 31 * result + (version != null ? version.hashCode() : 0);
         result = 31 * result + (createdTimestamp != null ? createdTimestamp.hashCode() : 0);

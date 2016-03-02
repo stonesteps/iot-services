@@ -123,7 +123,7 @@ public final class OemDocumentation extends ModelTestBase{
 		oemUpdate.put("name", "Spalicious");
 
 		this.mockMvc
-				.perform(patch("/oems/{0}", oem.getId()).contentType(MediaTypes.HAL_JSON)
+				.perform(patch("/oems/{0}", oem.get_id()).contentType(MediaTypes.HAL_JSON)
 						.content(this.objectMapper.writeValueAsString(oemUpdate)))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(document("oem-update-example",
@@ -139,14 +139,14 @@ public final class OemDocumentation extends ModelTestBase{
         Oem oem = createOem("Backyard Beach", address);
 
 
-        this.mockMvc.perform(get("/oems/{0}", oem.getId())).andExpect(status().isOk())
+        this.mockMvc.perform(get("/oems/{0}", oem.get_id())).andExpect(status().isOk())
 				.andExpect(jsonPath("name", is(oem.getName())))
 //				.andExpect(jsonPath("address", is(oem.getAddress())))
 				.andDo(document("oem-get-example",
 						links(linkWithRel("self").description("This <<resources-oem,oem>>"),
 								linkWithRel("oem").description("This <<resources-oem,oem>>")),
 						responseFields(
-								fieldWithPath("id").description("Object Id"),
+								fieldWithPath("_id").description("Object Id"),
 								fieldWithPath("name").description("The name of the oem"),
 								fieldWithPath("address").description("Contact info for the oem (yellow, red)"),
                                 fieldWithPath("_links")

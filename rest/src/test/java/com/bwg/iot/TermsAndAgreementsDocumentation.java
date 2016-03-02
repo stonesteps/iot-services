@@ -91,11 +91,12 @@ public final class TermsAndAgreementsDocumentation extends ModelTestBase{
 						requestFields(fieldWithPath("text").description("The text of the terms and conditions"),
 								fieldWithPath("version").description("A version number"))))
 				.andDo(document("tac-create-response-example",
-						responseFields(fieldWithPath("id").description("Unique Id of the control request"),
+						responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
                                 fieldWithPath("text").description("Unique Id for the spa"),
 								fieldWithPath("version").description("The version number of these Terms"),
 								fieldWithPath("createdTimestamp").description("Timestamp the Terms were created"),
-								fieldWithPath("current").description("True if the most recent. False if old"))));
+								fieldWithPath("current").description("True if the most recent. False if old"),
+								fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"))));
 	}
 
 	@Test
@@ -114,11 +115,12 @@ public final class TermsAndAgreementsDocumentation extends ModelTestBase{
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("current", is(true)))
                 .andDo(document("tac-findMostRecent-example",
-                    responseFields(fieldWithPath("id").description("Unique Id of the control request"),
+                    responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
                             fieldWithPath("text").description("Unique Id for the spa"),
                             fieldWithPath("version").description("The version number of these Terms"),
                             fieldWithPath("createdTimestamp").description("Timestamp the Terms were created"),
-                            fieldWithPath("current").description("True if the most recent. False if old"))));
+                            fieldWithPath("current").description("True if the most recent. False if old"),
+							fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"))));
 	}
 
 	@Test
@@ -131,7 +133,7 @@ public final class TermsAndAgreementsDocumentation extends ModelTestBase{
         User user = createUser("Murphy", "Matt", "25111", "222", address, Arrays.asList("USER"), new Date().toString());
 
         final Map<String, String> agree = new HashMap<>();
-		agree.put("userId", user.getId());
+		agree.put("userId", user.get_id());
 		agree.put("version","0.0.4");
 
 		this.mockMvc
@@ -142,11 +144,12 @@ public final class TermsAndAgreementsDocumentation extends ModelTestBase{
 						requestFields(fieldWithPath("userId").description("The user Id"),
 								fieldWithPath("version").description("The version of the terms and conditions"))))
 				.andDo(document("tac-agree-example",
-						responseFields(fieldWithPath("id").description("Unique Id"),
+						responseFields(fieldWithPath("_id").description("Unique Id"),
 								fieldWithPath("userId").description("Unique Id for the User"),
 								fieldWithPath("version").description("The version number of the Terms agreed to"),
 								fieldWithPath("dateAgreed").description("Timestamp of the agreement"),
-								fieldWithPath("current").description("Is this agreement current"))));
+								fieldWithPath("current").description("Is this agreement current"),
+								fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"))));
 	}
 
 	@Test
@@ -159,7 +162,7 @@ public final class TermsAndAgreementsDocumentation extends ModelTestBase{
         User user = createUser("Murphy", "Matt", "25111", "222", address, Arrays.asList("USER"), new Date().toString());
 
         final Map<String, String> agree = new HashMap<>();
-		agree.put("userId",user.getId());
+		agree.put("userId",user.get_id());
 		agree.put("version","0.0.4");
 
         this.mockMvc
@@ -168,14 +171,15 @@ public final class TermsAndAgreementsDocumentation extends ModelTestBase{
                 .andExpect(status().is2xxSuccessful());
 
 		this.mockMvc
-				.perform(get("/tac/search/findCurrentUserAgreement?userId="+user.getId()).contentType(MediaTypes.HAL_JSON))
+				.perform(get("/tac/search/findCurrentUserAgreement?userId="+user.get_id()).contentType(MediaTypes.HAL_JSON))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(document("tac-findAgreement-example",
-						responseFields(fieldWithPath("id").description("Unique Id"),
+						responseFields(fieldWithPath("_id").description("Unique Id"),
 								fieldWithPath("userId").description("Unique Id for the User"),
 								fieldWithPath("version").description("The version number of the Terms agreed to"),
 								fieldWithPath("dateAgreed").description("Timestamp of the agreement"),
-								fieldWithPath("current").description("Is this agreement current"))));
+								fieldWithPath("current").description("Is this agreement current"),
+								fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"))));
 
 	}
 

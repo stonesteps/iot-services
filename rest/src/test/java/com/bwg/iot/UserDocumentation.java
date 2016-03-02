@@ -139,7 +139,7 @@ public final class UserDocumentation extends ModelTestBase {
         userUpdate.put("roles", Arrays.asList("USER"));
 
         this.mockMvc
-                .perform(patch("/users/{0}", user.getId()).contentType(MediaTypes.HAL_JSON)
+                .perform(patch("/users/{0}", user.get_id()).contentType(MediaTypes.HAL_JSON)
                         .content(this.objectMapper.writeValueAsString(userUpdate)))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("user-update-example",
@@ -160,13 +160,13 @@ public final class UserDocumentation extends ModelTestBase {
         Address address = createAddress();
         User user = createUser("Mo", "Eddy", "111", "222", address, Arrays.asList("USER"), new Date().toString());
 
-        this.mockMvc.perform(get("/users/{0}", user.getId())).andExpect(status().isOk())
+        this.mockMvc.perform(get("/users/{0}", user.get_id())).andExpect(status().isOk())
                 .andExpect(jsonPath("firstName", is(user.getFirstName())))
                 .andDo(document("user-get-example",
                         links(linkWithRel("self").description("This <<resources-user,user>>"),
                                 linkWithRel("user").description("This <<resources-user,user>>")),
                         responseFields(
-                                fieldWithPath("id").description("Object Id"),
+                                fieldWithPath("_id").description("Object Id"),
                                 fieldWithPath("firstName").description("First name of the user"),
                                 fieldWithPath("lastName").description("Last name of the user"),
                                 fieldWithPath("dealerId").description("dealer id"),

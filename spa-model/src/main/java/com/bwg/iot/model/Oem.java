@@ -1,23 +1,24 @@
 package com.bwg.iot.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Objects;
 
 
-public class Oem {
+public class Oem extends ResourceSupport {
 
     @Id
-    private String id;
+    private String _id;
     private String name;
     private Address address;
 
-    public String getId() {
-        return id;
+    public String get_id() {
+        return _id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void set_id(String id) {
+        this._id = id;
     }
 
     public String getName() {
@@ -45,13 +46,13 @@ public class Oem {
         return false;
       }
       Oem dealer = (Oem) o;
-      return Objects.equals(id, dealer.id) &&
+      return Objects.equals(_id, dealer._id) &&
           Objects.equals(name, dealer.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(_id, name);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class Oem {
         StringBuilder sb = new StringBuilder();
         sb.append("class Dealer {\n");
 
-        sb.append("  id: ").append(id).append("\n");
+        sb.append("  id: ").append(_id).append("\n");
         sb.append("  name: ").append(name).append("\n");
         sb.append("  address: ").append(address.toString()).append("\n");
         sb.append("}\n");

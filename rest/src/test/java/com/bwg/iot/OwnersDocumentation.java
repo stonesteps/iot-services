@@ -62,7 +62,10 @@ public final class OwnersDocumentation {
 	@Autowired
 	private OwnerRepository ownerRepository;
 
-	@Autowired
+    @Autowired
+    private AddressRepository addressRepository;
+
+    @Autowired
 	private ObjectMapper objectMapper;
 
 	@Autowired
@@ -145,7 +148,7 @@ public final class OwnersDocumentation {
 		ownerUpdate.put("address", address);
 
 		this.mockMvc
-				.perform(patch("/owners/{0}", owner.getId()).contentType(MediaTypes.HAL_JSON)
+				.perform(patch("/owners/{0}", owner.get_id()).contentType(MediaTypes.HAL_JSON)
 						.content(this.objectMapper.writeValueAsString(ownerUpdate)))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(document("owner-update-example",
@@ -161,20 +164,21 @@ public final class OwnersDocumentation {
 
 		final Owner owner = createOwner("Joliet Jake", "Jake", "Blues");
 
-		this.mockMvc.perform(get("/owners/{0}", owner.getId())).andExpect(status().isOk())
+		this.mockMvc.perform(get("/owners/{0}", owner.get_id())).andExpect(status().isOk())
 				.andExpect(jsonPath("customerName", is(owner.getCustomerName())))
 				.andExpect(jsonPath("firstName", is(owner.getFirstName())))
 				.andExpect(jsonPath("lastName", is(owner.getLastName())))
 				.andDo(document("owner-get-example",
 						links(linkWithRel("self").description("This <<resources-owner,owner>>"),
-								linkWithRel("owner").description("This <<resources-owner,owner>>")),
+								linkWithRel("owner").description("This <<resources-owner,owner>>"),
+                                linkWithRel("address").description("This <<resources-address,address>>")),
 						responseFields(
-								fieldWithPath("id").description("Object Id"),
+								fieldWithPath("_id").description("Object Id"),
 								fieldWithPath("customerName").description("The customer name"),
 								fieldWithPath("firstName").description("The owner's first name"),
 								fieldWithPath("lastName").description("The owner's last name"),
-								fieldWithPath("address").description("The owner's address"), fieldWithPath("_links")
-										.description("<<resources-owner-links,Links>> to other resources"))));
+								fieldWithPath("address").description("The owner's address"),
+								fieldWithPath("_links").description("<<resources-owner-links,Links>> to other resources"))));
 	}
 
 	private Owner createOwner(final String customerName, final String firstName, final String lastName) {
@@ -196,6 +200,7 @@ public final class OwnersDocumentation {
 		address.setCountry("US");
 		address.setEmail("gordon@gordon.com");
 		address.setPhone("(506) 471-2382");
+        addressRepository.save(address);
 		return address;
 	}
 }
