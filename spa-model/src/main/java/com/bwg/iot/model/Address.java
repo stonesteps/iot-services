@@ -2,14 +2,15 @@ package com.bwg.iot.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Objects;
 
 @Document
-public class Address {
+public class Address extends ResourceSupport {
 
     @Id
-    private String id;
+    private String _id;
     private String address1 = null;
     private String address2 = null;
     private String city = null;
@@ -19,6 +20,13 @@ public class Address {
     private String phone = null;
     private String email = null;
 
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String id) {
+        this._id = id;
+    }
 
     public String getEmail() {
       return email;

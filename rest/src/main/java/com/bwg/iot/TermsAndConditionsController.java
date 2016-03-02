@@ -12,6 +12,8 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.hateoas.EntityLinks;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import java.util.List;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @RepositoryRestController
 @RequestMapping("/tac")
@@ -36,6 +39,9 @@ public class TermsAndConditionsController {
     TacUserAgreementRepository tacUserAgreementRepository;
 
     @Autowired
+    EntityLinks entityLinks;
+
+    @Autowired
     public TermsAndConditionsController(TermsAndConditionsRepository repo){
         termsAndConditionsRepository = repo;
     }
@@ -43,6 +49,9 @@ public class TermsAndConditionsController {
     @RequestMapping(method = RequestMethod.GET, value = "/search/findMostRecent")
     public @ResponseBody ResponseEntity<?> getCurrentTerms() {
         TermsAndConditions tac = termsAndConditionsRepository.findByCurrent(true);
+
+        Link link = linkTo(TermsAndConditionsController.class).slash("/search/findMostRecent").withSelfRel();
+        tac.add(link);
 
         return new ResponseEntity<TermsAndConditions>(tac, HttpStatus.OK);
     }
@@ -53,6 +62,12 @@ public class TermsAndConditionsController {
         if (tac.size() == 0){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        Link link = linkTo(TermsAndConditionsController.class).slash("/search/findMostRecent").withRel("mostRecent");
+        Link link2 = linkTo(TermsAndConditionsController.class)
+                .slash("/search/findCurrentUserAgreement?userId="+userId).withSelfRel();
+        tac.get(0).add(link);
+        tac.get(0).add(link2);
+
         return new ResponseEntity<>(tac.get(0), HttpStatus.OK);
     }
 
@@ -73,6 +88,9 @@ public class TermsAndConditionsController {
         tac.setCurrent(Boolean.TRUE);
         tac = termsAndConditionsRepository.save(tac);
 
+        Link link = linkTo(TermsAndConditionsController.class).slash("/search/findMostRecent").withSelfRel();
+        tac.add(link);
+
         // invalidate all existing user aggreements
         wr = mongoOps.updateMulti(
                 query(where("current").is(Boolean.TRUE)),
@@ -91,6 +109,12 @@ public class TermsAndConditionsController {
         agreement.setCurrent(Boolean.TRUE);
         agreement.setDateAgreed(LocalDateTime.now().toString());
         agreement = tacUserAgreementRepository.save(agreement);
+
+        Link link = linkTo(TermsAndConditionsController.class).slash("/search/findMostRecent").withRel("mostRecent");
+        Link link2 = linkTo(TermsAndConditionsController.class)
+                .slash("/search/findCurrentUserAgreement?userId="+agreement.getUserId()).withSelfRel();
+        agreement.add(link);
+        agreement.add(link2);
         return new ResponseEntity<TacUserAgreement>(agreement, HttpStatus.OK);
     }
 

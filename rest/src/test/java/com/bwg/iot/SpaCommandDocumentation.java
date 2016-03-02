@@ -16,8 +16,6 @@
 
 package com.bwg.iot;
 
-import com.bwg.iot.model.Address;
-import com.bwg.iot.model.Owner;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
@@ -36,14 +34,10 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.hamcrest.Matchers.is;
-import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
-import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -88,7 +82,7 @@ public final class SpaCommandDocumentation {
 						requestFields(fieldWithPath("desiredTemp").description("The desired temperatue in degrees Fahrenheit"),
 								fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
 				.andDo(document("control-desired-temp-response-example",
-						responseFields(fieldWithPath("id").description("Unique Id of the control request"),
+						responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
                                 fieldWithPath("spaId").description("Unique Id for the spa"),
 								fieldWithPath("requestTypeId").description("The type of request"),
 								fieldWithPath("originatorId").description("A unique id for this request"),
@@ -118,7 +112,7 @@ public final class SpaCommandDocumentation {
 								fieldWithPath("desiredState").description("Turn pump: ON or OFF"),
 								fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
 				.andDo(document("control-pump-response-example",
-						responseFields(fieldWithPath("id").description("Unique Id of the control request"),
+						responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
 								fieldWithPath("spaId").description("Unique Id for the spa"),
 								fieldWithPath("requestTypeId").description("The type of request"),
 								fieldWithPath("originatorId").description("A unique id for this request"),
@@ -148,7 +142,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("desiredState").description("Turn light: ON or OFF"),
                                 fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
                 .andDo(document("control-light-response-example",
-                        responseFields(fieldWithPath("id").description("Unique Id of the control request"),
+                        responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
                                 fieldWithPath("spaId").description("Unique Id for the spa"),
                                 fieldWithPath("requestTypeId").description("The type of request"),
                                 fieldWithPath("originatorId").description("A unique id for this request"),
@@ -178,7 +172,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("desiredState").description("Turn blower: ON or OFF"),
                                 fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
                 .andDo(document("control-blower-response-example",
-                        responseFields(fieldWithPath("id").description("Unique Id of the control request"),
+                        responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
                                 fieldWithPath("spaId").description("Unique Id for the spa"),
                                 fieldWithPath("requestTypeId").description("The type of request"),
                                 fieldWithPath("originatorId").description("A unique id for this request"),
@@ -208,7 +202,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("desiredState").description("Turn mister: ON or OFF"),
                                 fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
                 .andDo(document("control-mister-response-example",
-                        responseFields(fieldWithPath("id").description("Unique Id of the control request"),
+                        responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
                                 fieldWithPath("spaId").description("Unique Id for the spa"),
                                 fieldWithPath("requestTypeId").description("The type of request"),
                                 fieldWithPath("originatorId").description("A unique id for this request"),

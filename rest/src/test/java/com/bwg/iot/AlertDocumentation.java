@@ -126,7 +126,7 @@ public final class AlertDocumentation {
 		alertUpdate.put("severityLevel", "Red");
 
 		this.mockMvc
-				.perform(patch("/alerts/{0}", alert.getId()).contentType(MediaTypes.HAL_JSON)
+				.perform(patch("/alerts/{0}", alert.get_id()).contentType(MediaTypes.HAL_JSON)
 						.content(this.objectMapper.writeValueAsString(alertUpdate)))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(document("alert-update-example",
@@ -139,7 +139,7 @@ public final class AlertDocumentation {
 
         final Alert alert = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
 
-		this.mockMvc.perform(get("/alerts/{0}", alert.getId())).andExpect(status().isOk())
+		this.mockMvc.perform(get("/alerts/{0}", alert.get_id())).andExpect(status().isOk())
 				.andExpect(jsonPath("name", is(alert.getName())))
 				.andExpect(jsonPath("severityLevel", is(alert.getSeverityLevel())))
 				.andExpect(jsonPath("shortDescription", is(alert.getShortDescription())))
@@ -150,7 +150,7 @@ public final class AlertDocumentation {
 						links(linkWithRel("self").description("This <<resources-alert,alert>>"),
 								linkWithRel("alert").description("This <<resources-alert,alert>>")),
 						responseFields(
-								fieldWithPath("id").description("Object Id"),
+								fieldWithPath("_id").description("Object Id"),
 								fieldWithPath("name").description("The name of the alert"),
 								fieldWithPath("severityLevel").description("The severity of the alert (yellow, red)"),
 								fieldWithPath("shortDescription").description("A brief description of the alert"),

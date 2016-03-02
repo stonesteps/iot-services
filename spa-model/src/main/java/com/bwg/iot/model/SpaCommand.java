@@ -24,7 +24,7 @@ public class SpaCommand {
 
 
     @Id
-    private String id = null;
+    private String _id;
     private String spaId;
     private Integer requestTypeId;
     private String originatorId;
@@ -38,11 +38,11 @@ public class SpaCommand {
     public SpaCommand(){}
 
 
-    public String getId() {
-    return id;
+    public String get_id() {
+    return _id;
     }
-    public void setId(String id) {
-    this.id = id;
+    public void set_id(String id) {
+    this._id = id;
     }
 
     public String getSpaId() {
@@ -118,12 +118,12 @@ public class SpaCommand {
             return false;
         }
         SpaCommand spaCommand = (SpaCommand) o;
-        return Objects.equals(id, spaCommand.id);
+        return Objects.equals(_id, spaCommand._id);
     }
 
     @Override
     public int hashCode() {
-    return Objects.hash(id, spaId, originatorId, requestTypeId);
+    return Objects.hash(_id, spaId, originatorId, requestTypeId);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class SpaCommand {
         StringBuilder sb = new StringBuilder();
         sb.append("class SpaCommand {\n");
 
-        sb.append("  id: ").append(id).append("\n");
+        sb.append("  id: ").append(_id).append("\n");
         sb.append("  spaId: " ).append(spaId).append("\n");
         sb.append("  requestTypeId: " ).append(requestTypeId).append("\n");
         sb.append("  originatorId: " ).append(originatorId).append("\n");

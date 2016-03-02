@@ -124,7 +124,7 @@ public final class DealerDocumentation extends ModelTestBase{
 		dealerUpdate.put("name", "Spalicious");
 
 		this.mockMvc
-				.perform(patch("/dealers/{0}", dealer.getId()).contentType(MediaTypes.HAL_JSON)
+				.perform(patch("/dealers/{0}", dealer.get_id()).contentType(MediaTypes.HAL_JSON)
 						.content(this.objectMapper.writeValueAsString(dealerUpdate)))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(document("dealer-update-example",
@@ -140,14 +140,14 @@ public final class DealerDocumentation extends ModelTestBase{
         Dealer dealer = createDealer("Backyard Beach", address);
 
 
-        this.mockMvc.perform(get("/dealers/{0}", dealer.getId())).andExpect(status().isOk())
+        this.mockMvc.perform(get("/dealers/{0}", dealer.get_id())).andExpect(status().isOk())
 				.andExpect(jsonPath("name", is(dealer.getName())))
 //				.andExpect(jsonPath("address", is(dealer.getAddress())))
 				.andDo(document("dealer-get-example",
 						links(linkWithRel("self").description("This <<resources-dealer,dealer>>"),
 								linkWithRel("dealer").description("This <<resources-dealer,dealer>>")),
 						responseFields(
-								fieldWithPath("id").description("Object Id"),
+								fieldWithPath("_id").description("Object Id"),
 								fieldWithPath("name").description("The name of the dealer"),
 								fieldWithPath("address").description("Contact info for the dealer (yellow, red)"),
                                 fieldWithPath("_links")

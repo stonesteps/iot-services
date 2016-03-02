@@ -1,15 +1,15 @@
 package com.bwg.iot.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.util.List;
-import java.util.Objects;
 
 
-public class User {
+public class User extends ResourceSupport {
 
     @Id
-    private String id;
+    private String _id;
     private String dealerId;
     private String oemId;
     private String lastName;
@@ -84,8 +84,8 @@ public class User {
 
     private String modifiedDate;
 
-    public String getId() {
-        return id;
+    public String get_id() {
+        return _id;
     }
 
     @Override
@@ -95,7 +95,7 @@ public class User {
 
         User user = (User) o;
 
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
+        if (_id != null ? !_id.equals(user._id) : user._id != null) return false;
         if (dealerId != null ? !dealerId.equals(user.dealerId) : user.dealerId != null) return false;
         if (oemId != null ? !oemId.equals(user.oemId) : user.oemId != null) return false;
         if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
@@ -109,7 +109,7 @@ public class User {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = _id != null ? _id.hashCode() : 0;
         result = 31 * result + (dealerId != null ? dealerId.hashCode() : 0);
         result = 31 * result + (oemId != null ? oemId.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
@@ -122,7 +122,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
+                "id='" + _id + '\'' +
                 ", dealerId='" + dealerId + '\'' +
                 ", oemId='" + oemId + '\'' +
                 ", lastName='" + lastName + '\'' +

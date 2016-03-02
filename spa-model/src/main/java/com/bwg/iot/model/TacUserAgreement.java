@@ -1,19 +1,20 @@
 package com.bwg.iot.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.hateoas.ResourceSupport;
 
 
-public class TacUserAgreement {
+public class TacUserAgreement extends ResourceSupport {
 
     @Id
-    private String id;
+    private String _id;
     private String userId;
     private String version;
     private String dateAgreed;
     private Boolean current;
 
-    public String getId() {
-        return id;
+    public String get_id() {
+        return _id;
     }
 
     public String getUserId() {
@@ -56,7 +57,7 @@ public class TacUserAgreement {
 
         TacUserAgreement that = (TacUserAgreement) o;
 
-        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (_id != null ? !_id.equals(that._id) : that._id != null) return false;
         if (userId != null ? !userId.equals(that.userId) : that.userId != null) return false;
         return version != null ? version.equals(that.version) : that.version == null;
 
@@ -64,7 +65,7 @@ public class TacUserAgreement {
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = _id != null ? _id.hashCode() : 0;
         result = 31 * result + (userId != null ? userId.hashCode() : 0);
         result = 31 * result + (version != null ? version.hashCode() : 0);
         return result;
@@ -75,7 +76,7 @@ public class TacUserAgreement {
         StringBuilder sb = new StringBuilder();
         sb.append("class Owner {\n");
 
-        sb.append("  id: ").append(id).append("\n");
+        sb.append("  _id: ").append(_id).append("\n");
         sb.append("  userId: ").append(userId).append("\n");
         sb.append("  version: ").append(version).append("\n");
         sb.append("  dateAgreed: ").append(dateAgreed).append("\n");

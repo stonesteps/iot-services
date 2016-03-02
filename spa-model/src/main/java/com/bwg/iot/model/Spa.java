@@ -3,16 +3,17 @@ package com.bwg.iot.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.rest.core.annotation.RestResource;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Document
-public class Spa  {
+public class Spa extends ResourceSupport {
 
     @Id
-    private String id = null;
+    private String _id = null;
     private String serialNumber = null;
     private String productName = null;
     private String model = null;
@@ -41,11 +42,11 @@ public class Spa  {
         this.model = model;
     }
 
-    public String getId() {
-    return id;
+    public String get_id() {
+        return _id;
     }
-    public void setId(String id) {
-    this.id = id;
+    public void set_id(String id) {
+        this._id = id;
     }
 
 
@@ -154,7 +155,7 @@ public class Spa  {
         return false;
     }
     Spa spa = (Spa) o;
-    return Objects.equals(id, spa.id) &&
+    return Objects.equals(_id, spa._id) &&
         Objects.equals(serialNumber, spa.serialNumber) &&
         Objects.equals(productName, spa.productName) &&
         Objects.equals(model, spa.model);
@@ -162,7 +163,7 @@ public class Spa  {
 
     @Override
     public int hashCode() {
-    return Objects.hash(id, serialNumber, productName, model);
+    return Objects.hash(_id, serialNumber, productName, model);
     }
 
     @Override
@@ -170,7 +171,7 @@ public class Spa  {
     StringBuilder sb = new StringBuilder();
     sb.append("class Spa {\n");
 
-    sb.append("  id: ").append(id).append("\n");
+    sb.append("  id: ").append(_id).append("\n");
     sb.append("  serialNumber: ").append(serialNumber).append("\n");
     sb.append("  productName: ").append(productName).append("\n");
     sb.append("  model: ").append(model).append("\n");

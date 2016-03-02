@@ -2,18 +2,19 @@ package com.bwg.iot.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Objects;
 
 @Document
-public class Alert  {
+public class Alert extends ResourceSupport {
 
   public enum SeverityLevelEnum {
     yellow,  red,
   };
 
   @Id
-  private String id = null;
+  private String _id = null;
   private String name = null;
   private String severityLevel = null;
   private String shortDescription = null;
@@ -23,11 +24,11 @@ public class Alert  {
   private String creationDate;
 
   
-  public String getId() {
-    return id;
+  public String get_id() {
+    return _id;
   }
-  public void setId(String alertId) {
-    this.id = id;
+  public void set_id(String id) {
+    this._id = id;
   }
 
 
@@ -98,7 +99,7 @@ public class Alert  {
       return false;
     }
     Alert alert = (Alert) o;
-    return Objects.equals(id, alert.id) &&
+    return Objects.equals(_id, alert._id) &&
         Objects.equals(name, alert.name) &&
         Objects.equals(severityLevel, alert.severityLevel) &&
         Objects.equals(spaId, alert.spaId) &&
@@ -111,7 +112,7 @@ public class Alert  {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, severityLevel, shortDescription, longDescription, spaId, creationDate);
+    return Objects.hash(_id, name, severityLevel, shortDescription, longDescription, spaId, creationDate);
   }
 
   @Override
@@ -119,7 +120,7 @@ public class Alert  {
       StringBuilder sb = new StringBuilder();
       sb.append("class Alert {\n");
 
-      sb.append("  alertId: ").append(id).append("\n");
+      sb.append("  _id: ").append(_id).append("\n");
       sb.append("  name: ").append(name).append("\n");
       sb.append("  severityLevel: ").append(severityLevel).append("\n");
       sb.append("  shortDescription: ").append(shortDescription).append("\n");
