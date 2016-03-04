@@ -21,10 +21,11 @@ Pre-Requisites:   Java8, MongoDB, Maven
                         $ cd iot-services
     2. Build:           $ mvn clean install
     3. Run:             $ cd rest/target
-                        $ java -jar IotServicesApplication.java
+                        $ java -jar iot-services-0.0.1-SNAPSHOT.jar IotServicesApplication
 
-    Access API Docs from running server:  http://localhost:8080/api-guide.html
-    Invoke Spa List API:   http://localhost:8080/spas
+
+Access API Docs from running server:  http://localhost:8080/api-guide.html
+Invoke Spa List API:   http://localhost:8080/spas
 
 
 ## Artifacts
@@ -39,6 +40,11 @@ The project produces two software artifacts:
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-## Development Test Environment:  http://iotdev03:8800
+## Development Test Environment:
+
+Latest API Documentation: http://iotdev03:8800/api-guide.html
+
+Live running example url: http://localhost:8080/spas
+
 
 ## Jenkins: http://iotdev01:8080/job/iot-services-build/
