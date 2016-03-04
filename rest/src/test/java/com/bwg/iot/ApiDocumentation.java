@@ -40,6 +40,7 @@ import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 
+import com.bwg.iot.builders.SpaStateBuilder;
 import com.bwg.iot.model.*;
 import org.junit.Before;
 import org.junit.Rule;
@@ -62,22 +63,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = IotServicesApplication.class)
 @WebAppConfiguration
-public class ApiDocumentation {
+public class ApiDocumentation extends ModelTestBase{
 	
 	@Rule
 	public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
-
-	@Autowired
-	private SpaRepository spaRepository;
-
-    @Autowired
-    private OwnerRepository ownerRepository;
-
-    @Autowired
-    private AlertRepository alertRepository;
-
-    @Autowired
-    private AddressRepository addressRepository;
 
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -130,6 +119,7 @@ public class ApiDocumentation {
 							linkWithRel("dealers").description("The <<resources-dealers,Dealers resource>>"),
 							linkWithRel("oems").description("The <<resources-oems,Oem resource>>"),
 							linkWithRel("users").description("The <<resources-users,User resource>>"),
+							linkWithRel("components").description("The <<resources-components,Component resource>>"),
 							linkWithRel("profile").description("The ALPS profile for the service")),
 					responseFields(
 							fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"))));
@@ -143,7 +133,7 @@ public class ApiDocumentation {
 		Owner owner = createOwner("Elwood", "Elwood", "Blues");
 		createSpa("01924094", "Shark", "Mako", "101");
         createSpa("01000000", "Shark", "Hammerhead", "101");
-		createSpaWithState("0blah345", "Shark", "Land", "101", owner);
+		createFullSpaWithState("0blah345", "Shark", "Land", "101", owner);
 
 		this.mockMvc.perform(get("/spas"))
 			.andExpect(status().isOk())
@@ -193,7 +183,7 @@ public class ApiDocumentation {
 	public void spaGetExample() throws Exception {
 
         Owner owner = createOwner("Blue Louis", "Lou", "Maroni");
-        Spa spa = createSpaWithState("0blah345", "Shark", "Blue", "101", owner);
+        Spa spa = createFullSpaWithState("0blah345", "Shark", "Blue", "101", owner);
 
 
 		String spaLocation = "/spas/"+spa.get_id();
@@ -210,8 +200,7 @@ public class ApiDocumentation {
 					links(
 							linkWithRel("self").description("This <<resources-spa,spa>>"),
                             linkWithRel("spa").description("This <<resources-spa,spa>>"),
-							linkWithRel("owner").description("This <<resources-owner,owner>>"),
-							linkWithRel("alert_1").description("This <<resources-alert,alert>>")),
+							linkWithRel("owner").description("This <<resources-owner,owner>>")),
 					responseFields(
 							fieldWithPath("_id").description("Object Id"),
                             fieldWithPath("serialNumber").description("The serial of the spa"),
@@ -285,16 +274,6 @@ public class ApiDocumentation {
 	}
 
 
-	private void createSpa(String serialNumber, String productName, String model, String dealerId) {
-		Spa spa = new Spa();
-        spa.setSerialNumber(serialNumber);
-        spa.setProductName(productName);
-        spa.setModel(model);
-        spa.setDealerId(dealerId);
-
-		this.spaRepository.save(spa);
-	}
-
     private Spa createSpa(HashMap<String,Object> attributes) throws Exception {
 
         Spa spa = new Spa();
@@ -313,73 +292,6 @@ public class ApiDocumentation {
         return spa;
     }
 
-	private Spa createSpaWithState(String serialNumber, String productName, String model, String dealerId, Owner owner) {
-		SpaState spaState = new SpaState();
-		spaState.setRunMode("Ready");
-		spaState.setCurrentTemp("99");
-		spaState.setDesiredTemp("102");
-		spaState.setAlert("green");
-		spaState.setPump1("on");
-        spaState.setPump2("off");
-        spaState.setLights1("off");
-        spaState.setLights2("off");
-        spaState.setFilter1("ok");
-        spaState.setFilter2("ok");
-        spaState.setAux1("on");
-        spaState.setMicrosilk("ok");
-        spaState.setPanelLock("off");
-        spaState.setOzone("ok");
-        spaState.setUplinkTimestamp(LocalDateTime.now().toString());
 
 
-        Spa spa = new Spa();
-		spa.setSerialNumber(serialNumber);
-		spa.setProductName(productName);
-		spa.setModel(model);
-		spa.setDealerId(dealerId);
-		spa.setOwner(owner);
-		spa.setCurrentState(spaState);
-        spa.setOemId("cab335");
-        spa.setManufacturedDate(LocalDate.now().toString());
-        spa.setRegistrationDate(LocalDate.now().toString());
-        spa.setP2pAPSSID("myWifi");
-        spa.setP2pAPPassword("*******");
-
-		spa = this.spaRepository.save(spa);
-
-		Alert alert1 = new Alert();
-		alert1.setName("Replace Filter");
-		alert1.setLongDescription("The filter is old and needs to be replaced");
-		alert1.setSeverityLevel("yellow");
-		alert1.setComponent("filter1");
-		alert1.setShortDescription("Replace Filter");
-		alert1.setCreationDate(LocalDateTime.now().toString());
-		alert1.setSpaId(spa.get_id());
-		alertRepository.save(alert1);
-
-		spa.setAlerts(Arrays.asList(alert1));
-		spa = this.spaRepository.save(spa);
-		return spa;
-	}
-
-	private Owner createOwner(String customerName, String firstName, String lastName) {
-        Address address = new Address();
-        address.setAddress1("1060 W Addison St");
-        address.setAddress2("Apt. C");
-        address.setCity("Chicago");
-        address.setState("IL");
-        address.setZip("60613");
-        address.setCountry("US");
-        address.setEmail("lou@blues.org");
-        address.setPhone("800-123-4567");
-        addressRepository.save(address);
-
-        Owner owner = new Owner();
-		owner.setCustomerName(customerName);
-		owner.setLastName(lastName);
-		owner.setFirstName(firstName);
-        owner.setAddress(address);
-		this.ownerRepository.save(owner);
-		return owner;
-	}
 }

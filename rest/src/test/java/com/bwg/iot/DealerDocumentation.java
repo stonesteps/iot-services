@@ -118,7 +118,7 @@ public final class DealerDocumentation extends ModelTestBase{
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-		Dealer dealer = createDealer("Backyard Beach", address);
+		Dealer dealer = createDealer("Backyard Beach", address, null);
 
 		final Map<String, String> dealerUpdate = new HashMap<>();
 		dealerUpdate.put("name", "Spalicious");
@@ -137,11 +137,12 @@ public final class DealerDocumentation extends ModelTestBase{
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        Dealer dealer = createDealer("Backyard Beach", address);
+        Dealer dealer = createDealer("Backyard Beach", address, null);
 
 
         this.mockMvc.perform(get("/dealers/{0}", dealer.get_id())).andExpect(status().isOk())
 				.andExpect(jsonPath("name", is(dealer.getName())))
+				.andExpect(jsonPath("oemId", is(dealer.getOemId())))
 //				.andExpect(jsonPath("address", is(dealer.getAddress())))
 				.andDo(document("dealer-get-example",
 						links(linkWithRel("self").description("This <<resources-dealer,dealer>>"),
@@ -149,7 +150,8 @@ public final class DealerDocumentation extends ModelTestBase{
 						responseFields(
 								fieldWithPath("_id").description("Object Id"),
 								fieldWithPath("name").description("The name of the dealer"),
-								fieldWithPath("address").description("Contact info for the dealer (yellow, red)"),
+								fieldWithPath("address").description("Contact info for the dealer"),
+								fieldWithPath("oemId").description("Manufacturer"),
                                 fieldWithPath("_links")
 										.description("<<resources-dealer-links,Links>> to other resources"))));
 	}
