@@ -20,11 +20,11 @@ public class SpaResourceProcessor implements ResourceProcessor<Resource<Spa>> {
 
     public Resource<Spa> process(Resource<Spa> resource) {
         Spa spa = resource.getContent();
-        Owner owner = spa.getOwner();
+        User owner = spa.getOwner();
         if (owner != null) {
-            owner.add(entityLinks.linkToSingleResource(Owner.class, owner.get_id()).withSelfRel());
+            owner.add(entityLinks.linkToSingleResource(User.class, owner.get_id()).withSelfRel());
             owner.add(entityLinks.linkToSingleResource(Address.class, owner.getAddress().get_id()).withRel("address"));
-            resource.add(entityLinks.linkToSingleResource(Owner.class, owner.get_id()).withRel("owner"));
+            resource.add(entityLinks.linkToSingleResource(User.class, owner.get_id()).withRel("owner"));
         }
 
         List<Alert> alerts = spa.getAlerts();

@@ -116,7 +116,7 @@ public class Address extends ResourceSupport {
     @Override
     public String toString()  {
         StringBuilder sb = new StringBuilder();
-        sb.append("class Owner {\n");
+        sb.append("class Address {\n");
 
         sb.append("  email: ").append(email).append("\n");
         sb.append("  address1: ").append(address1).append("\n");

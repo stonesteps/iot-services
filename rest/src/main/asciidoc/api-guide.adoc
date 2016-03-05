@@ -114,10 +114,17 @@ include::{snippets}/index-example/links.adoc[]
 
 
 
-[[resources-spas]]
-== Spas
+[[resources-spa]]
+== Spa
 
-The Spas resources is used to create and list spas
+The Spa resource is used to retrieve, update, and delete individual spas
+
+
+
+[[resources-spa-links]]
+=== Links
+
+include::{snippets}/spa-get-example/links.adoc[]
 
 
 
@@ -140,24 +147,6 @@ include::{snippets}/spas-list-example/http-response.adoc[]
 
 
 
-[[resources-spas-create]]
-=== Creating a spa
-
-A `POST` request is used to create a spa
-
-==== Request structure
-
-include::{snippets}/spas-create-example/request-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/spas-create-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/spas-create-example/http-response.adoc[]
-
-
 
 [[resources-spas-findByDealerId]]
 === Find Spas By Dealer Id
@@ -178,65 +167,6 @@ include::{snippets}/spas-findbyDealer-example/http-response.adoc[]
 
 
 
-[[resources-owners]]
-== Owners
-
-The Owners resource is used to create and list owners.
-
-
-
-[[resources-owners-list]]
-=== Listing owners
-
-A `GET` request will list all of the service's owners.
-
-==== Response structure
-
-include::{snippets}/owners-list-example/response-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/owners-list-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/owners-list-example/http-response.adoc[]
-
-
-
-[[resources-owner-create]]
-=== Creating a owner
-
-A `POST` request is used to create a spa
-
-==== Request structure
-
-include::{snippets}/owner-create-example/request-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/owner-create-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/owner-create-example/http-response.adoc[]
-
-
-
-[[resources-spa]]
-== Spa
-
-The Spa resource is used to retrieve, update, and delete individual spas
-
-
-
-[[resources-spa-links]]
-=== Links
-
-include::{snippets}/spa-get-example/links.adoc[]
-
-
-
 [[resources-spa-retrieve]]
 === Retrieve a spa
 
@@ -253,6 +183,23 @@ include::{snippets}/spa-get-example/curl-request.adoc[]
 ==== Example response
 
 include::{snippets}/spa-get-example/http-response.adoc[]
+
+[[resources-spas-create]]
+=== Creating a spa
+
+A `POST` request is used to create a spa
+
+==== Request structure
+
+include::{snippets}/spas-create-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/spas-create-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/spas-create-example/http-response.adoc[]
 
 
 
@@ -275,57 +222,6 @@ include::{snippets}/spa-update-example/curl-request.adoc[]
 
 include::{snippets}/spa-update-example/http-response.adoc[]
 
-
-
-[[resources-owner]]
-== Owner
-
-The Owner resource is used to retrieve, update, and delete individual owners
-
-
-
-[[resources-owner-links]]
-=== Links
-
-include::{snippets}/owner-get-example/links.adoc[]
-
-
-
-[[resources-owner-retrieve]]
-=== Retrieve a owner
-
-A `GET` request will retrieve the details of a owner
-
-==== Response structure
-
-include::{snippets}/owner-get-example/response-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/owner-get-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/owner-get-example/http-response.adoc[]
-
-
-
-[[resources-owner-update]]
-=== Update a owner
-
-A `PATCH` request is used to update a owner
-
-==== Request structure
-
-include::{snippets}/owner-update-example/request-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/owner-update-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/owner-update-example/http-response.adoc[]
 
 
 [[resources-alert]]

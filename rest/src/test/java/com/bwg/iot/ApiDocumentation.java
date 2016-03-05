@@ -32,7 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.lang.reflect.Field;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -40,7 +39,6 @@ import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 
-import com.bwg.iot.builders.SpaStateBuilder;
 import com.bwg.iot.model.*;
 import org.junit.Before;
 import org.junit.Rule;
@@ -112,7 +110,6 @@ public class ApiDocumentation extends ModelTestBase{
 			.andDo(document("index-example",
 					links(
 							linkWithRel("spas").description("The <<resources-spas,Spa resource>>"),
-							linkWithRel("owners").description("The <<resources-owners,Owners resource>>"),
                             linkWithRel("addresses").description("The <<resources-addresses,Addresses resource>>"),
                             linkWithRel("alerts").description("The <<resources-alerts,Alert resource>>"),
                             linkWithRel("spaCommands").description("The <<resources-spaCommands,SpaCommand resource>>"),
@@ -130,9 +127,9 @@ public class ApiDocumentation extends ModelTestBase{
 	public void spasListExample() throws Exception {
 		this.spaRepository.deleteAll();
 
-		Owner owner = createOwner("Elwood", "Elwood", "Blues");
-		createSpa("01924094", "Shark", "Mako", "101");
-        createSpa("01000000", "Shark", "Hammerhead", "101");
+		User owner = createUser("Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), LocalDateTime.now().toString());
+		createUnsoldSpa("01924094", "Shark", "Mako", "101");
+        createUnsoldSpa("01000000", "Shark", "Hammerhead", "101");
 		createFullSpaWithState("0blah345", "Shark", "Land", "101", owner);
 
 		this.mockMvc.perform(get("/spas"))
@@ -146,25 +143,11 @@ public class ApiDocumentation extends ModelTestBase{
 
 	@Test
 	public void spasCreateExample() throws Exception {
-		Map<String, String> owner = new HashMap<String, String>();
-		owner.put("customerName", "Mr. Blues");
-        owner.put("firstName", "Elwood");
-        owner.put("lastName", "Blues");
-
-		String ownerLocation = this.mockMvc
-				.perform(
-						post("/owners").contentType(MediaTypes.HAL_JSON).content(
-								this.objectMapper.writeValueAsString(owner)))
-				.andExpect(status().isCreated()).andReturn().getResponse()
-				.getHeader("Location");
-
 		Map<String, Object> spa = new HashMap<String, Object>();
 		spa.put("serialNumber", "2000");
         spa.put("productName", "Shark");
         spa.put("model", "Sand");
         spa.put("dealerId", "101");
-//        spa.put("owner", ownerLocation);
-//		spa.put("alerts", Arrays.asList(tagLocation));
 
 		this.mockMvc.perform(
 				post("/spas").contentType(MediaTypes.HAL_JSON).content(
@@ -176,15 +159,13 @@ public class ApiDocumentation extends ModelTestBase{
 									fieldWithPath("productName").description("The product name of the spa"),
                                     fieldWithPath("model").description("The spa model"),
                                     fieldWithPath("dealerId").description("The dealer assigned to the spa"))));
-//									fieldWithPath("tags").description("An array of tag resource URIs"))));
 	}
 
 	@Test
 	public void spaGetExample() throws Exception {
 
-        Owner owner = createOwner("Blue Louis", "Lou", "Maroni");
+		User owner = createUser("Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), LocalDateTime.now().toString());
         Spa spa = createFullSpaWithState("0blah345", "Shark", "Blue", "101", owner);
-
 
 		String spaLocation = "/spas/"+spa.get_id();
 
@@ -200,7 +181,7 @@ public class ApiDocumentation extends ModelTestBase{
 					links(
 							linkWithRel("self").description("This <<resources-spa,spa>>"),
                             linkWithRel("spa").description("This <<resources-spa,spa>>"),
-							linkWithRel("owner").description("This <<resources-owner,owner>>")),
+							linkWithRel("owner").description("This <<resources-user,user>>")),
 					responseFields(
 							fieldWithPath("_id").description("Object Id"),
                             fieldWithPath("serialNumber").description("The serial of the spa"),
@@ -223,10 +204,10 @@ public class ApiDocumentation extends ModelTestBase{
 	public void spasFindByDealerExample() throws Exception {
 		this.spaRepository.deleteAll();
 
-		createSpa("01924094", "Shark", "Mako", "101");
-		createSpa("01000000", "Shark", "Hammerhead", "101");
-		createSpa("013t43tt", "Shark", "Nurse", "101");
-		createSpa("0blah345", "Shark", "Land", "101");
+		createUnsoldSpa("01924094", "Shark", "Mako", "101");
+		createUnsoldSpa("01000000", "Shark", "Hammerhead", "101");
+		createUnsoldSpa("013t43tt", "Shark", "Nurse", "101");
+		createUnsoldSpa("0blah345", "Shark", "Land", "101");
 
 		this.mockMvc.perform(get("/spas/search/findByDealerId?dealerId=101"))
 				.andExpect(status().isOk())

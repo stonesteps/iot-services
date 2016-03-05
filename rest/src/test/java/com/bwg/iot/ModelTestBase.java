@@ -36,9 +36,6 @@ public class ModelTestBase {
     protected ComponentRepository componentRepository;
 
     @Autowired
-    protected OwnerRepository ownerRepository;
-
-    @Autowired
     protected AlertRepository alertRepository;
 
 
@@ -113,11 +110,11 @@ public class ModelTestBase {
         return component;
     }
 
-    protected ComponentState createComponentState(String type, String port, String serialNumber, String value) {
+    protected ComponentState createComponentState(Component component, String value) {
         ComponentState cs = new ComponentState();
-        cs.setComponentType(type);
-        cs.setPort(port);
-        cs.setSerialNumber(serialNumber);
+        cs.setComponentType(component.getComponentType());
+        cs.setPort(component.getPort());
+        cs.setSerialNumber(component.getSerialNumber());
         cs.setValue(value);
         return cs;
     }
@@ -131,7 +128,7 @@ public class ModelTestBase {
         this.userRepository.deleteAll();
     }
 
-    protected void createSpa(String serialNumber, String productName, String model, String dealerId) {
+    protected Spa createUnsoldSpa(String serialNumber, String productName, String model, String dealerId) {
         Spa spa = new Spa();
         spa.setSerialNumber(serialNumber);
         spa.setProductName(productName);
@@ -139,68 +136,69 @@ public class ModelTestBase {
         spa.setDealerId(dealerId);
 
         this.spaRepository.save(spa);
+        return spa;
     }
 
-    protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String dealerId, Owner owner) {
+    protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String dealerId, User owner) {
 
-        Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", "riot-00255");
+        Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", serialNumber+"riot-00255");
         gateway.setRegistrationDate(LocalDate.now().toString());
         componentRepository.save(gateway);
 
-        Component mote1 = createComponent(Component.ComponentType.PUMP.name(), "0", "riot-002:2683069");
+        Component mote1 = createComponent(Component.ComponentType.MOTE.name(), "0", serialNumber+"riot-002:2683069");
         gateway.setRegistrationDate(LocalDate.now().toString());
         componentRepository.save(mote1);
 
-        Component mote2 = createComponent(Component.ComponentType.PUMP.name(), "0", "riot-002:1551515152a");
+        Component mote2 = createComponent(Component.ComponentType.MOTE.name(), "0", serialNumber+"riot-002:1551515152a");
         gateway.setRegistrationDate(LocalDate.now().toString());
         componentRepository.save(mote2);
 
-        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "20398-0298s");
-        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "20398-52335");
-        Component pump3 = createComponent(Component.ComponentType.PUMP.name(), "2", "20398-25511");
-        Component pump4 = createComponent(Component.ComponentType.PUMP.name(), "3", "20398-25511-abd-f");
-        Component pump5 = createComponent(Component.ComponentType.PUMP.name(), "4", "20398-25lskjf:3:3");
-        Component pump6 = createComponent(Component.ComponentType.PUMP.name(), "5", "203s");
-        Component blower1 = createComponent(Component.ComponentType.BLOWER.name(), "0", "987-987-987");
-        Component blower2 = createComponent(Component.ComponentType.BLOWER.name(), "1", "98acedf37-98");
-        Component mister1 = createComponent(Component.ComponentType.MISTER.name(), "0", "3246050-4s");
-        Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", "09sf-slk:332s:001");
-        Component light2 = createComponent(Component.ComponentType.LIGHT.name(), "1", "09sf-slk:336a:002");
-        Component light3 = createComponent(Component.ComponentType.LIGHT.name(), "2", "09sf-slk:336a:003");
-        Component light4 = createComponent(Component.ComponentType.LIGHT.name(), "3", "09sf-slk:336a:35251a");
-        Component light5 = createComponent(Component.ComponentType.LIGHT.name(), "4", "09affa3g");
-        Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "0295885928");
-        Component filter2 = createComponent(Component.ComponentType.FILTER.name(), "1", "a345345");
-        Component aux1 = createComponent(Component.ComponentType.AUX.name(), "0", "radio-3987");
-        Component aux2 = createComponent(Component.ComponentType.AUX.name(), "1", "waterfall-251-1");
-        Component aux3 = createComponent(Component.ComponentType.AUX.name(), "2", "disco-ball-1555551");
-        Component microsilk = createComponent(Component.ComponentType.MICROSILK.name(), "0", "m33");
-        Component panel = createComponent(Component.ComponentType.PANEL.name(), "0", "bwg-0250-t25525");
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", serialNumber+"20398-0298s");
+        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", serialNumber+"20398-52335");
+        Component pump3 = createComponent(Component.ComponentType.PUMP.name(), "2", serialNumber+"20398-25511");
+        Component pump4 = createComponent(Component.ComponentType.PUMP.name(), "3", serialNumber+"20398-25511-abd-f");
+        Component pump5 = createComponent(Component.ComponentType.PUMP.name(), "4", serialNumber+"20398-25lskjf:3:3");
+        Component pump6 = createComponent(Component.ComponentType.PUMP.name(), "5", serialNumber+"203s");
+        Component blower1 = createComponent(Component.ComponentType.BLOWER.name(), "0", serialNumber+"987-987-987");
+        Component blower2 = createComponent(Component.ComponentType.BLOWER.name(), "1", serialNumber+"98acedf37-98");
+        Component mister1 = createComponent(Component.ComponentType.MISTER.name(), "0", serialNumber+"3246050-4s");
+        Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", serialNumber+"09sf-slk:332s:001");
+        Component light2 = createComponent(Component.ComponentType.LIGHT.name(), "1", serialNumber+"09sf-slk:336a:002");
+        Component light3 = createComponent(Component.ComponentType.LIGHT.name(), "2", serialNumber+"09sf-slk:336a:003");
+        Component light4 = createComponent(Component.ComponentType.LIGHT.name(), "3", serialNumber+"09sf-slk:336a:35251a");
+        Component light5 = createComponent(Component.ComponentType.LIGHT.name(), "4", serialNumber+"09affa3g");
+        Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", serialNumber+"0295885928");
+        Component filter2 = createComponent(Component.ComponentType.FILTER.name(), "1", serialNumber+"a345345");
+        Component aux1 = createComponent(Component.ComponentType.AUX.name(), "0", serialNumber+"radio-3987");
+        Component aux2 = createComponent(Component.ComponentType.AUX.name(), "1", serialNumber+"waterfall-251-1");
+        Component aux3 = createComponent(Component.ComponentType.AUX.name(), "2", serialNumber+"disco-ball-1555551");
+        Component microsilk = createComponent(Component.ComponentType.MICROSILK.name(), "0", serialNumber+"m33");
+        Component panel = createComponent(Component.ComponentType.PANEL.name(), "0", serialNumber+"bwg-0250-t25525");
 
-        ComponentState p1State = createComponentState(Component.ComponentType.PUMP.name(), "0", "20398-0298s", "ON");
-        ComponentState p2State = createComponentState(Component.ComponentType.PUMP.name(), "1", "20398-52335", "OFF");
-        ComponentState p3State = createComponentState(Component.ComponentType.PUMP.name(), "2", "20398-25511", "ON");
-        ComponentState p4State = createComponentState(Component.ComponentType.PUMP.name(), "3", "20398-25511-abd-f","OFF");
-        ComponentState p5State = createComponentState(Component.ComponentType.PUMP.name(), "4", "20398-25lskjf:3:3", "MED");
-        ComponentState p6State = createComponentState(Component.ComponentType.PUMP.name(), "5", "203s", "HI");
-        ComponentState blower1State = createComponentState(Component.ComponentType.BLOWER.name(), "0", "987-987-987", "OFF");
-        ComponentState blower2State = createComponentState(Component.ComponentType.BLOWER.name(), "1", "98acedf37-98", "ON");
-        ComponentState mister1State = createComponentState(Component.ComponentType.MISTER.name(), "0", "3246050-4s", "ON");
-        ComponentState light1State = createComponentState(Component.ComponentType.LIGHT.name(), "0", "09sf-slk:332s", "OFF");
-        ComponentState light2State = createComponentState(Component.ComponentType.LIGHT.name(), "0", "09sf-slk:336a", "OFF");
-        ComponentState light3State = createComponentState(Component.ComponentType.LIGHT.name(), "2", "09sf-slk:336a:003", "ON");
-        ComponentState light4State = createComponentState(Component.ComponentType.LIGHT.name(), "3", "09sf-slk:336a:35251a", "ON");
-        ComponentState light5State = createComponentState(Component.ComponentType.LIGHT.name(), "4", "09affa3g", "OFF");
-        ComponentState filter1State = createComponentState(Component.ComponentType.FILTER.name(), "0", "0295885928", "ON");
-        ComponentState filter2State = createComponentState(Component.ComponentType.FILTER.name(), "0", "a345345", "OFF");
-        ComponentState aux1State = createComponentState(Component.ComponentType.AUX.name(), "0", "radio-3987", "ON");
-        ComponentState aux2State = createComponentState(Component.ComponentType.AUX.name(), "1", "waterfall-251-1", "OFF");
-        ComponentState aux3State = createComponentState(Component.ComponentType.AUX.name(), "2", "disco-ball-1555551", "OFF");
-        ComponentState microsilkState = createComponentState(Component.ComponentType.MICROSILK.name(), "0", "m33", "ON");
-        ComponentState panelState = createComponentState(Component.ComponentType.PANEL.name(), "0", "bwg-0250-t25525", "Locked");
-        ComponentState gatewayState = createComponentState(Component.ComponentType.GATEWAY.name(), "0", "riot-00255", "Connected");
-        ComponentState mote1State = createComponentState(Component.ComponentType.MOTE.name(), "0", "riot-002:2683069", "2 amps");
-        ComponentState mote2State = createComponentState(Component.ComponentType.MOTE.name(), "0", "riot-002:1551515152a", "300 ma");
+        ComponentState p1State = createComponentState(pump1, "ON");
+        ComponentState p2State = createComponentState(pump2, "OFF");
+        ComponentState p3State = createComponentState(pump3, "ON");
+        ComponentState p4State = createComponentState(pump4,"OFF");
+        ComponentState p5State = createComponentState(pump5, "MED");
+        ComponentState p6State = createComponentState(pump6, "HI");
+        ComponentState blower1State = createComponentState(blower1, "OFF");
+        ComponentState blower2State = createComponentState(blower2, "ON");
+        ComponentState mister1State = createComponentState(mister1, "ON");
+        ComponentState light1State = createComponentState(light1, "OFF");
+        ComponentState light2State = createComponentState(light2, "OFF");
+        ComponentState light3State = createComponentState(light3, "ON");
+        ComponentState light4State = createComponentState(light4, "ON");
+        ComponentState light5State = createComponentState(light5, "OFF");
+        ComponentState filter1State = createComponentState(filter1, "ON");
+        ComponentState filter2State = createComponentState(filter2, "OFF");
+        ComponentState aux1State = createComponentState(aux1, "ON");
+        ComponentState aux2State = createComponentState(aux2, "OFF");
+        ComponentState aux3State = createComponentState(aux3, "OFF");
+        ComponentState microsilkState = createComponentState(microsilk, "ON");
+        ComponentState panelState = createComponentState(panel, "Locked");
+        ComponentState gatewayState = createComponentState(gateway, "Connected");
+        ComponentState mote1State = createComponentState(mote1, "2 amps");
+        ComponentState mote2State = createComponentState(mote2, "300 ma");
 
         SpaState spaState = new SpaStateBuilder()
                 .runMode("Ready")
@@ -245,26 +243,60 @@ public class ModelTestBase {
         return spa;
     }
 
-    protected Owner createOwner(String customerName, String firstName, String lastName) {
-        Address address = new Address();
-        address.setAddress1("1060 W Addison St");
-        address.setAddress2("Apt. C");
-        address.setCity("Chicago");
-        address.setState("IL");
-        address.setZip("60613");
-        address.setCountry("US");
-        address.setEmail("lou@blues.org");
-        address.setPhone("800-123-4567");
-        addressRepository.save(address);
+    protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String dealerId, User owner) {
 
-        Owner owner = new Owner();
-        owner.setCustomerName(customerName);
-        owner.setLastName(lastName);
-        owner.setFirstName(firstName);
-        owner.setAddress(address);
-        this.ownerRepository.save(owner);
-        return owner;
+        Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", serialNumber+"001g");
+        gateway.setRegistrationDate(LocalDate.now().toString());
+        componentRepository.save(gateway);
+
+        Component mote1 = createComponent(Component.ComponentType.MOTE.name(), "0", serialNumber+"0028:69");
+        gateway.setRegistrationDate(LocalDate.now().toString());
+        componentRepository.save(mote1);
+
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", serialNumber+"20398-0298s");
+        Component blower1 = createComponent(Component.ComponentType.BLOWER.name(), "0", serialNumber+"987-987-987");
+        Component mister1 = createComponent(Component.ComponentType.MISTER.name(), "0", serialNumber+"3246050-4s");
+        Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", serialNumber+"09sf-slk:332s:001");
+        Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", serialNumber+"0295885928");
+        Component panel = createComponent(Component.ComponentType.PANEL.name(), "0", serialNumber+"bwg-0250-t25525");
+
+        ComponentState p1State = createComponentState(pump1, "ON");
+        ComponentState blower1State = createComponentState(blower1, "OFF");
+        ComponentState mister1State = createComponentState(mister1, "ON");
+        ComponentState light1State = createComponentState(light1, "OFF");
+        ComponentState filter1State = createComponentState(filter1, "ON");
+        ComponentState panelState = createComponentState(panel, "Locked");
+        ComponentState gatewayState = createComponentState(gateway, "Connected");
+        ComponentState mote1State = createComponentState(mote1, "2 amps");
+
+        SpaState spaState = new SpaStateBuilder()
+                .runMode("Ready")
+                .component(p1State)
+                .component(blower1State)
+                .component(mister1State)
+                .component(light1State)
+                .component(panelState)
+                .component(gatewayState).component(mote1State)
+                .build();
+
+        Spa spa = new Spa();
+        spa.setSerialNumber(serialNumber);
+        spa.setProductName(productName);
+        spa.setModel(model);
+        spa.setDealerId(dealerId);
+        spa.setOwner(owner);
+        spa.setCurrentState(spaState);
+        spa.setOemId("cab335");
+        spa.setManufacturedDate(LocalDate.now().toString());
+        spa.setRegistrationDate(LocalDate.now().toString());
+        spa.setP2pAPSSID("myWifi");
+        spa.setP2pAPPassword("*******");
+
+        spa = this.spaRepository.save(spa);
+
+        return spa;
     }
+
 
 
 }
