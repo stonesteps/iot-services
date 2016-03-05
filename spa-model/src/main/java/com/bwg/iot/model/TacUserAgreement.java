@@ -74,7 +74,7 @@ public class TacUserAgreement extends ResourceSupport {
     @Override
     public String toString()  {
         StringBuilder sb = new StringBuilder();
-        sb.append("class Owner {\n");
+        sb.append("class TacUserAgreement {\n");
 
         sb.append("  _id: ").append(_id).append("\n");
         sb.append("  userId: ").append(userId).append("\n");

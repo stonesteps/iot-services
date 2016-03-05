@@ -27,7 +27,7 @@ public class Spa extends ResourceSupport {
     private String sold = Boolean.FALSE.toString();
 
     @RestResource
-    private Owner owner = null;
+    private User owner = null;
 
     @RestResource
     private List<Alert> alerts = new ArrayList<Alert>();
@@ -85,11 +85,11 @@ public class Spa extends ResourceSupport {
         this.oemId = oemId;
     }
 
-    public Owner getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public void setOwner(Owner owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
         this.sold = Boolean.toString(owner != null);
     }

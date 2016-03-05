@@ -1,15 +1,12 @@
 package com.bwg.iot;
 
-import com.bwg.iot.model.Address;
-import com.bwg.iot.model.Alert;
-import com.bwg.iot.model.Owner;
-import com.bwg.iot.model.Spa;
+import com.bwg.iot.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.EntityLinks;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.ResourceProcessor;
+import org.springframework.hateoas.*;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,19 +20,27 @@ public class SpaResourceProcessor implements ResourceProcessor<Resource<Spa>> {
 
     public Resource<Spa> process(Resource<Spa> resource) {
         Spa spa = resource.getContent();
-        Owner owner = spa.getOwner();
+        User owner = spa.getOwner();
         if (owner != null) {
-            owner.add(entityLinks.linkToSingleResource(Owner.class, owner.get_id()).withSelfRel());
+            owner.add(entityLinks.linkToSingleResource(User.class, owner.get_id()).withSelfRel());
             owner.add(entityLinks.linkToSingleResource(Address.class, owner.getAddress().get_id()).withRel("address"));
-            resource.add(entityLinks.linkToSingleResource(Owner.class, owner.get_id()).withRel("owner"));
-        }
-        List<Alert> alerts = spa.getAlerts();
-        for (int i=0; i<alerts.size(); i++) {
-            Alert alert = alerts.get(i);
-            alert.add(entityLinks.linkToSingleResource(Alert.class, alert.get_id()).withSelfRel());
-            resource.add(entityLinks.linkToSingleResource(Alert.class, alert.get_id()).withRel("alert_"+(i+1)));
+            resource.add(entityLinks.linkToSingleResource(User.class, owner.get_id()).withRel("owner"));
         }
 
+        List<Alert> alerts = spa.getAlerts();
+        List<Link> alertLinks = new ArrayList<>();
+        alerts.stream().forEach(alert -> {
+            alert.add(entityLinks.linkToSingleResource(Alert.class, alert.get_id()).withSelfRel());
+        });
+
+        if (spa.getCurrentState() != null) {
+            List<ComponentState> cs = spa.getCurrentState().getComponents();
+            cs.stream().forEach(state -> {
+                state.add(entityLinks.linkFor(com.bwg.iot.model.Component.class)
+                        .slash("/search/findBySerialNumber?serialNumber=" + state.getSerialNumber())
+                        .withRel(state.getSerialNumber()));
+            });
+        }
         return resource;
     }
 

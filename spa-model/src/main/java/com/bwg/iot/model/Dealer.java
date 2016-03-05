@@ -10,6 +10,7 @@ public class Dealer extends ResourceSupport {
 
     @Id
     private String _id;
+    private String oemId;
     private String name;
     private Address address;
 
@@ -35,6 +36,14 @@ public class Dealer extends ResourceSupport {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public String getOemId() {
+        return oemId;
+    }
+
+    public void setOemId(String oemId) {
+        this.oemId = oemId;
     }
 
     @Override
