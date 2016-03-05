@@ -38,6 +38,24 @@ public class ModelTestBase {
     @Autowired
     protected AlertRepository alertRepository;
 
+    @Autowired
+    protected TermsAndConditionsRepository termsAndConditionsRepository;
+
+    @Autowired
+    protected TacUserAgreementRepository tacUserAgreementRepository;
+
+
+    protected void clearAllData(){
+        this.addressRepository.deleteAll();
+        this.dealerRepository.deleteAll();
+        this.oemRepository.deleteAll();
+        this.spaRepository.deleteAll();
+        this.componentRepository.deleteAll();
+        this.userRepository.deleteAll();
+        this.alertRepository.deleteAll();
+        this.tacUserAgreementRepository.deleteAll();
+        this.termsAndConditionsRepository.deleteAll();
+    }
 
     protected Address createAddress() {
         Address address = new Address();
@@ -117,15 +135,6 @@ public class ModelTestBase {
         cs.setSerialNumber(component.getSerialNumber());
         cs.setValue(value);
         return cs;
-    }
-
-    protected void clearAllData(){
-        this.addressRepository.deleteAll();
-        this.dealerRepository.deleteAll();
-        this.oemRepository.deleteAll();
-        this.spaRepository.deleteAll();
-        this.componentRepository.deleteAll();
-        this.userRepository.deleteAll();
     }
 
     protected Spa createUnsoldSpa(String serialNumber, String productName, String model, String dealerId) {
@@ -297,6 +306,24 @@ public class ModelTestBase {
         return spa;
     }
 
+    protected TermsAndConditions createTermsAndAgreement(String version, String text){
+        TermsAndConditions tac = new TermsAndConditions();
+        tac.setText(text);
+        tac.setVersion(version);
+        tac.setCreatedTimestamp(LocalDateTime.now().toString());
+        tac.setCurrent(Boolean.TRUE);
+        tac = termsAndConditionsRepository.save(tac);
+        return tac;
+    }
 
+    protected TacUserAgreement createAgreement(String userId, String version){
+        TacUserAgreement agreement = new TacUserAgreement();
+        agreement.setUserId(userId);
+        agreement.setVersion(version);
+        agreement.setCurrent(Boolean.TRUE);
+        agreement.setDateAgreed(LocalDateTime.now().toString());
+        agreement = tacUserAgreementRepository.save(agreement);
+        return agreement;
+    }
 
 }
