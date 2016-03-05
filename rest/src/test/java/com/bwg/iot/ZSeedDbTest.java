@@ -105,6 +105,9 @@ public final class ZSeedDbTest extends ModelTestBase {
         User tech2  = createUser("Stefan", "Jobs", dealer1.get_id(),oem1.get_id(), addresses.get(14), techRole, now);
 
         // create term and conditions
+        TermsAndConditions tac1 = createTermsAndAgreement("1.0", TAC1_TEXT);
+        TacUserAgreement agreement1 = createAgreement(owner1.get_id(), tac1.getVersion());
+        TacUserAgreement agreement2 = createAgreement(owner2.get_id(), tac1.getVersion());
 
         // create a variety of spas.  sold, unsold, fully populated w components, some with alerts...
         Spa spa1  = createUnsoldSpa("111111", "Shark", "Hammerhead", dealer1.get_id());
@@ -141,5 +144,7 @@ public final class ZSeedDbTest extends ModelTestBase {
 
 	}
 
+    private static final String TAC1_TEXT =
+            "We the People, in Order to form a more perfect Union, establish Justice, insure domestic Tranquility, provide for the common defence,[note 1] promote the general Welfare, and secure the Blessings of Liberty to ourselves and our Posterity, do ordain and establish these Terms an Agreements. And agree to donate all of our assets to Balboa Water Group upon acceptance of this aggrement.";
 
 }

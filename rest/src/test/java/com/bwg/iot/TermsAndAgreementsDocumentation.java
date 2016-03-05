@@ -56,12 +56,6 @@ public final class TermsAndAgreementsDocumentation extends ModelTestBase{
 	public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
 
 	@Autowired
-	private TermsAndConditionsRepository termsAndConditionsRepository;
-
-	@Autowired
-	private TacUserAgreementRepository tacUserAgreementRepository;
-
-	@Autowired
 	private ObjectMapper objectMapper;
 
 	@Autowired
