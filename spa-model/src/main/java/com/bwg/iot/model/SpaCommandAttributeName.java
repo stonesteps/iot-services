@@ -5,7 +5,7 @@ package com.bwg.iot.model;
  */
 public final class SpaCommandAttributeName {
 
-    //TODO - Marek, remove this class, use the Bwg.SpaCommandAttribName enum from bwg.proto instead
+    //Keep these in sync with SpaCommandAttribName enum in bwg.proto or remove here and use spa-gateway-idl
     public static final String DESIRED_TEMP = "desiredTemp";
     public static final String DESIRED_STATE = "desiredState";
     public static final String PORT = "port";
