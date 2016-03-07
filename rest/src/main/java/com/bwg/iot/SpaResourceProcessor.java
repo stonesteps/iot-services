@@ -36,9 +36,11 @@ public class SpaResourceProcessor implements ResourceProcessor<Resource<Spa>> {
         if (spa.getCurrentState() != null) {
             List<ComponentState> cs = spa.getCurrentState().getComponents();
             cs.stream().forEach(state -> {
-                state.add(entityLinks.linkFor(com.bwg.iot.model.Component.class)
-                        .slash("/search/findBySerialNumber?serialNumber=" + state.getSerialNumber())
-                        .withRel(state.getSerialNumber()));
+                if (state.getSerialNumber() != null) {
+                    state.add(entityLinks.linkFor(com.bwg.iot.model.Component.class)
+                            .slash("/search/findBySerialNumber?serialNumber=" + state.getSerialNumber())
+                            .withRel(state.getSerialNumber()));
+                }
             });
         }
         return resource;
