@@ -99,7 +99,7 @@ public final class SpaCommandDocumentation {
 		this.spaCommandRepository.deleteAll();
 
 		final Map<String, String> command = new HashMap<>();
-		command.put("port","0");
+		command.put("deviceNumber","0");
 		command.put("desiredState","ON");
         command.put("originatorId","optional-tag-0001");
 
@@ -108,7 +108,7 @@ public final class SpaCommandDocumentation {
 						.content(this.objectMapper.writeValueAsString(command)))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(document("control-pump-example",
-						requestFields(fieldWithPath("port").description("The pump number (starting with 0)"),
+						requestFields(fieldWithPath("deviceNumber").description("The pump number (starting with 0)"),
 								fieldWithPath("desiredState").description("Turn pump: ON or OFF"),
 								fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
 				.andDo(document("control-pump-response-example",
@@ -129,7 +129,7 @@ public final class SpaCommandDocumentation {
         this.spaCommandRepository.deleteAll();
 
         final Map<String, String> command = new HashMap<>();
-        command.put("port","0");
+        command.put("deviceNumber","0");
         command.put("desiredState","ON");
         command.put("originatorId","optional-tag-0002");
 
@@ -138,7 +138,7 @@ public final class SpaCommandDocumentation {
                         .content(this.objectMapper.writeValueAsString(command)))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("control-light-example",
-                        requestFields(fieldWithPath("port").description("The light number (starting with 0)"),
+                        requestFields(fieldWithPath("deviceNumber").description("The light number (starting with 0)"),
                                 fieldWithPath("desiredState").description("Turn light: ON or OFF"),
                                 fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
                 .andDo(document("control-light-response-example",
@@ -159,7 +159,7 @@ public final class SpaCommandDocumentation {
         this.spaCommandRepository.deleteAll();
 
         final Map<String, String> command = new HashMap<>();
-        command.put("port","0");
+        command.put("deviceNumber","0");
         command.put("desiredState","ON");
         command.put("originatorId","optional-tag");
 
@@ -168,7 +168,7 @@ public final class SpaCommandDocumentation {
                         .content(this.objectMapper.writeValueAsString(command)))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("control-blower-example",
-                        requestFields(fieldWithPath("port").description("The blower number (starting with 0)"),
+                        requestFields(fieldWithPath("deviceNumber").description("The blower number (starting with 0)"),
                                 fieldWithPath("desiredState").description("Turn blower: ON or OFF"),
                                 fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
                 .andDo(document("control-blower-response-example",
@@ -189,7 +189,7 @@ public final class SpaCommandDocumentation {
         this.spaCommandRepository.deleteAll();
 
         final Map<String, String> command = new HashMap<>();
-        command.put("port","0");
+        command.put("deviceNumber","0");
         command.put("desiredState","ON");
         command.put("originatorId","optional-tag-0001");
 
@@ -198,7 +198,7 @@ public final class SpaCommandDocumentation {
                         .content(this.objectMapper.writeValueAsString(command)))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("control-mister-example",
-                        requestFields(fieldWithPath("port").description("The mister number (starting with 0)"),
+                        requestFields(fieldWithPath("deviceNumber").description("The mister number (starting with 0)"),
                                 fieldWithPath("desiredState").description("Turn mister: ON or OFF"),
                                 fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
                 .andDo(document("control-mister-response-example",
