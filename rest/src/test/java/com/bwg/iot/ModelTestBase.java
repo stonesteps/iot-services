@@ -134,6 +134,7 @@ public class ModelTestBase {
         cs.setPort(component.getPort());
         cs.setSerialNumber(component.getSerialNumber());
         cs.setValue(value);
+        cs.setTargetValue(value);
         return cs;
     }
 

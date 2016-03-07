@@ -12,6 +12,7 @@ public class ComponentState extends ResourceSupport {
     private String port;
     private String serialNumber;
     private String value;
+    private String targetValue;
 
     public String getComponentType() {
         return componentType;
@@ -45,6 +46,14 @@ public class ComponentState extends ResourceSupport {
         this.value = value;
     }
 
+    public String getTargetValue() {
+        return targetValue;
+    }
+
+    public void setTargetValue(String value) {
+        this.targetValue = value;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -76,6 +85,7 @@ public class ComponentState extends ResourceSupport {
                 ", port='" + port + '\'' +
                 ", serialNumber='" + serialNumber + '\'' +
                 ", value='" + value + '\'' +
+                ", targetValue='" + targetValue + '\'' +
                 '}';
     }
 }
