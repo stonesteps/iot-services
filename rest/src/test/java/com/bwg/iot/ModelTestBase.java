@@ -221,6 +221,7 @@ public class ModelTestBase {
                 .component(aux1State).component(aux2State).component(aux3State)
                 .component(microsilkState).component(panelState)
                 .component(gatewayState).component(mote1State).component(mote2State)
+                .targetDesiredTemp("101")
                 .build();
 
         Spa spa = new Spa();
@@ -287,6 +288,7 @@ public class ModelTestBase {
                 .component(light1State)
                 .component(panelState)
                 .component(gatewayState).component(mote1State)
+                .targetDesiredTemp("100")
                 .build();
 
         Spa spa = new Spa();

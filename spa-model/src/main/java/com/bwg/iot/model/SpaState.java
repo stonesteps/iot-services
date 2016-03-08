@@ -16,6 +16,7 @@ public class SpaState {
     String spaId;
     String runMode = null; // rest, ready
     String desiredTemp = null;
+    String targetDesiredTemp;
 
     List<ComponentState> components;
     List<Measurement> measurements;
@@ -41,6 +42,14 @@ public class SpaState {
 
     public void setDesiredTemp(String desiredTemp) {
         this.desiredTemp = desiredTemp;
+    }
+
+    public String getTargetDesiredTemp() {
+        return targetDesiredTemp;
+    }
+
+    public void setTargetDesiredTemp(String targetDesiredTemp) {
+        this.targetDesiredTemp = targetDesiredTemp;
     }
 
     public List<ComponentState> getComponents() {
@@ -93,6 +102,7 @@ public class SpaState {
                 ", spaId='" + spaId + '\'' +
                 ", runMode='" + runMode + '\'' +
                 ", desiredTemp='" + desiredTemp + '\'' +
+                ", targetDesiredTemp='" + targetDesiredTemp + '\'' +
                 ", components=" + components +
                 ", measurements=" + measurements +
                 ", uplinkTimestamp='" + uplinkTimestamp + '\'' +

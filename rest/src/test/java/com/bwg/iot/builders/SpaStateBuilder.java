@@ -30,6 +30,10 @@ public class SpaStateBuilder {
         spaState.setUplinkTimestamp(timestamp);
         return this;
     }
+    public SpaStateBuilder targetDesiredTemp(String temp) {
+        spaState.setTargetDesiredTemp(temp);
+        return this;
+    }
     public SpaStateBuilder runMode(String mode) {
         spaState.setRunMode(mode);
         return this;
