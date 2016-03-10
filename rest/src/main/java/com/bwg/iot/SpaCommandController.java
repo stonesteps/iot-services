@@ -76,6 +76,34 @@ public class SpaCommandController {
         return response;
     }
 
+    @RequestMapping(value = "/{spaId}/setOzoneState", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> setOzoneState(@PathVariable String spaId, @RequestBody HashMap<String,String> body){
+
+        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.OZONE.getCode());
+        return response;
+    }
+
+    @RequestMapping(value = "/{spaId}/setMicrosilkState", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> setMicrosilkState(@PathVariable String spaId, @RequestBody HashMap<String,String> body){
+
+        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.MICROSILK.getCode());
+        return response;
+    }
+
+    @RequestMapping(value = "/{spaId}/setAuxState", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> setAuxState(@PathVariable String spaId, @RequestBody HashMap<String,String> body){
+
+        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.AUX.getCode());
+        return response;
+    }
+
+    @RequestMapping(value = "/{spaId}/setFilterCycleState", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> setFilterCycleState(@PathVariable String spaId, @RequestBody HashMap<String,String> body){
+
+        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.FILTER_CYCLE.getCode());
+        return response;
+    }
+
     private ResponseEntity<?> setButtonCommand(String spaId, HashMap<String, String> body, int requestCode) {
         // TODO: confirm spa exists
         if (spaId == null){
