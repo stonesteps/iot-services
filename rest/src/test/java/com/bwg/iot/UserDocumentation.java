@@ -127,7 +127,7 @@ public final class UserDocumentation extends ModelTestBase {
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        User user = createUser("Mo", "Eddy", "111", "222", address, Arrays.asList("USER"), new Date().toString());
+        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("USER"), new Date().toString());
 
         final Map<String, Object> userUpdate = new HashMap<>();
         userUpdate.put("firstName", "Moebius");
@@ -158,7 +158,7 @@ public final class UserDocumentation extends ModelTestBase {
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        User user = createUser("Mo", "Eddy", "111", "222", address, Arrays.asList("USER"), new Date().toString());
+        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("USER"), new Date().toString());
 
         this.mockMvc.perform(get("/users/{0}", user.get_id())).andExpect(status().isOk())
                 .andExpect(jsonPath("firstName", is(user.getFirstName())))
@@ -167,6 +167,7 @@ public final class UserDocumentation extends ModelTestBase {
                                 linkWithRel("user").description("This <<resources-user,user>>")),
                         responseFields(
                                 fieldWithPath("_id").description("Object Id"),
+                                fieldWithPath("username").description("Unique string for the user"),
                                 fieldWithPath("firstName").description("First name of the user"),
                                 fieldWithPath("lastName").description("Last name of the user"),
                                 fieldWithPath("dealerId").description("dealer id"),
