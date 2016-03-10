@@ -87,22 +87,22 @@ public final class ZSeedDbTest extends ModelTestBase {
         List<String> bwgRole = Arrays.asList("BWG");
         List<String> adminRole = Arrays.asList("OWNER", "ASSOCIATE", "TECHNICIAN", "OEM", "BWG");
 
-        User owner1 = createUser("Bonnie", "Raitt", dealer1.get_id(),oem1.get_id(), addresses.get(4), ownerRole, now);
-        User owner2 = createUser("Pete", "Townsend", dealer1.get_id(),oem1.get_id(), addresses.get(4), ownerRole, now);
-        User owner3 = createUser("Peter", "Gabriel", dealer1.get_id(),oem1.get_id(), addresses.get(5), ownerRole, now);
-        User owner4 = createUser("Lady", "Gaga", dealer2.get_id(),oem1.get_id(), addresses.get(6), ownerRole, now);
-        User owner5 = createUser("Chrissie", "Hynde", dealer3.get_id(),oem2.get_id(), addresses.get(7), ownerRole, now);
+        User owner1 = createUser("braitt", "Bonnie", "Raitt", dealer1.get_id(),oem1.get_id(), addresses.get(4), ownerRole, now);
+        User owner2 = createUser("ptownsend", "Pete", "Townsend", dealer1.get_id(),oem1.get_id(), addresses.get(4), ownerRole, now);
+        User owner3 = createUser("pgabriel", "Peter", "Gabriel", dealer1.get_id(),oem1.get_id(), addresses.get(5), ownerRole, now);
+        User owner4 = createUser("lgaga", "Lady", "Gaga", dealer2.get_id(),oem1.get_id(), addresses.get(6), ownerRole, now);
+        User owner5 = createUser("chynde", "Chrissie", "Hynde", dealer3.get_id(),oem2.get_id(), addresses.get(7), ownerRole, now);
 
-        User maker1 = createUser("Ace", "Face", null, oem1.get_id(), addresses.get(8), oemRole, now);
-        User maker2 = createUser("Peter", "Fenton", null, oem1.get_id(), addresses.get(9), oemRole, now);
-        User pink   = createUser("Bob", "Geldof", null, null, addresses.get(10), bwgRole, now);
-        User oz     = createUser("Ozzie", "Osborn", null, null, addresses.get(11), adminRole, now);
+        User maker1 = createUser("face", "Ace", "Face", null, oem1.get_id(), addresses.get(8), oemRole, now);
+        User maker2 = createUser("pfenton", "Peter", "Fenton", null, oem1.get_id(), addresses.get(9), oemRole, now);
+        User pink   = createUser("bgeldof", "Bob", "Geldof", null, null, addresses.get(10), bwgRole, now);
+        User oz     = createUser("oosborn", "Ozzie", "Osborn", null, null, addresses.get(11), adminRole, now);
 
-        User sales1 = createUser("Larry", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole, now);
-        User sales2 = createUser("Curly", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole, now);
-        User sales3 = createUser("Mo", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole, now);
-        User tech1  = createUser("William", "Gates", dealer1.get_id(),oem1.get_id(), addresses.get(13), techRole, now);
-        User tech2  = createUser("Stefan", "Jobs", dealer1.get_id(),oem1.get_id(), addresses.get(14), techRole, now);
+        User sales1 = createUser("lstooge", "Larry", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole, now);
+        User sales2 = createUser("cstooge", "Curly", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole, now);
+        User sales3 = createUser("mstooge", "Mo", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole, now);
+        User tech1  = createUser("wgates", "William", "Gates", dealer1.get_id(),oem1.get_id(), addresses.get(13), techRole, now);
+        User tech2  = createUser("sjobs", "Stefan", "Jobs", dealer1.get_id(),oem1.get_id(), addresses.get(14), techRole, now);
 
         // create term and conditions
         TermsAndConditions tac1 = createTermsAndAgreement("1.0", TAC1_TEXT);

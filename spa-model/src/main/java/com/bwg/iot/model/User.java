@@ -1,5 +1,6 @@
 package com.bwg.iot.model;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -10,6 +11,7 @@ public class User extends ResourceSupport {
 
     @Id
     private String _id;
+    private String username;
     private String dealerId;
     private String oemId;
     private String lastName;
@@ -17,6 +19,28 @@ public class User extends ResourceSupport {
     private Address address;
     private List<String> roles;
     private String createdDate;
+    private String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String username) {
+        this.username = username;
+    }
+
+    public boolean doesPasswordMatch(String pwd){
+        if (StringUtils.isEmpty(this.password)){
+            return true;
+        } else if (this.password.equals(pwd)) {
+            return true;
+        }
+        return false;
+    }
 
     public String getDealerId() {
         return dealerId;
@@ -98,6 +122,7 @@ public class User extends ResourceSupport {
         if (_id != null ? !_id.equals(user._id) : user._id != null) return false;
         if (dealerId != null ? !dealerId.equals(user.dealerId) : user.dealerId != null) return false;
         if (oemId != null ? !oemId.equals(user.oemId) : user.oemId != null) return false;
+        if (username != null ? !username.equals(user.username) : user.username != null) return false;
         if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
         if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
         if (address != null ? !address.equals(user.address) : user.address != null) return false;
@@ -112,6 +137,7 @@ public class User extends ResourceSupport {
         int result = _id != null ? _id.hashCode() : 0;
         result = 31 * result + (dealerId != null ? dealerId.hashCode() : 0);
         result = 31 * result + (oemId != null ? oemId.hashCode() : 0);
+        result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
@@ -125,6 +151,7 @@ public class User extends ResourceSupport {
                 "id='" + _id + '\'' +
                 ", dealerId='" + dealerId + '\'' +
                 ", oemId='" + oemId + '\'' +
+                ", username='" + username + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", address=" + address +
