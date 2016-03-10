@@ -24,8 +24,8 @@ public interface SpaRepository extends MongoRepository<Spa, String> , QueryDslPr
     @RestResource
     public Page findByDealerId(@Param("dealerId") String dealerId, Pageable p);
 
-    @Query(value = "{ 'owner._id' : ?0 }")
-    public Spa findByOwnerId(@Param("ownerId") String ownerId);
+    @Query(value = "{ 'owner.username' : ?0 }")
+    public Spa findByUsername(@Param("username") String username);
 
     /*
      * (non-Javadoc)
