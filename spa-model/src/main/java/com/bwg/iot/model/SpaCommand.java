@@ -9,7 +9,7 @@ public class SpaCommand {
 
     public enum RequestType {
         PUMPS(1), LIGHTS(2), BLOWER(3), MISTER(4), FILTER(5), DIAG_REPORT(6), PANEL(7), HEATER(8), OZONE(9),
-        MICROSILK(10);
+        MICROSILK(10), AUX(11), FILTER_CYCLE(12);
 
         private int code;
         private RequestType(int c){
