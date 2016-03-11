@@ -5,7 +5,9 @@ package com.bwg.iot;
  */
 
 import com.bwg.iot.model.SpaCommand;
+import com.bwg.iot.model.util.SpaRequestUtil;
 import org.apache.commons.lang3.EnumUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -111,13 +113,20 @@ public class SpaCommandController {
         }
 
         String desiredState = body.get("desiredState");
-        if (desiredState == null || !EnumUtils.isValidEnum(SpaCommand.OnOff.class, desiredState)){
-            return new ResponseEntity<>("Desired Light State Invalid", HttpStatus.BAD_REQUEST);
+        if (desiredState == null || !SpaRequestUtil.validState(requestCode, desiredState)){
+            return new ResponseEntity<>("Desired State Invalid", HttpStatus.BAD_REQUEST);
         }
 
-        HashMap<String,String> values = new HashMap<String,String>();
-        values.put("port", body.get("deviceNumber"));
+        String deviceNumber = body.get("deviceNumber");
+        if (deviceNumber != null && NumberUtils.isNumber(deviceNumber) && !SpaRequestUtil.validPort(requestCode, NumberUtils.createInteger(deviceNumber))) {
+            return new ResponseEntity<>("Device Number Invalid", HttpStatus.BAD_REQUEST);
+        }
+
+        HashMap<String,String> values = new HashMap<>();
         values.put("desiredState", desiredState);
+        if (deviceNumber != null) {
+            values.put("port", deviceNumber);
+        }
 
         String originatorId = body.get("originatorId");
         SpaCommand command = buildAndSaveCommand(spaId, originatorId, requestCode, values);
