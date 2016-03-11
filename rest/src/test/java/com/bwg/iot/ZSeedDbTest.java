@@ -110,6 +110,12 @@ public final class ZSeedDbTest extends ModelTestBase {
         TacUserAgreement agreement2 = createAgreement(owner2.get_id(), tac1.getVersion());
 
         // create a variety of spas.  sold, unsold, fully populated w components, some with alerts...
+        Spa spa22 = createFullSpaWithState("001:", "Shark", "Blue", dealer1.get_id(), owner1);
+        Spa spa24 = createSmallSpaWithState("002-", "Shark", "Tiger", dealer1.get_id(), owner2);
+        Spa spa25 = createSmallSpaWithState("003-", "Fish", "Minnow", dealer1.get_id(), owner3);
+        Spa spa26 = createSmallSpaWithState("004-", "Shark", "Tiger", dealer2.get_id(), owner4);
+        Spa spa27 = createFullSpaWithState("005-", "Whale", "Sperm", dealer3.get_id(), owner5);
+
         Spa spa1  = createUnsoldSpa("111111", "Shark", "Hammerhead", dealer1.get_id());
         Spa spa2  = createUnsoldSpa("222222", "Shark", "Hammerhead", dealer1.get_id());
         Spa spa3  = createUnsoldSpa("33333", "Shark", "Mako", dealer1.get_id());
@@ -131,12 +137,6 @@ public final class ZSeedDbTest extends ModelTestBase {
         Spa spa19 = createUnsoldSpa("191919999", "Whale", "Sperm", dealer3.get_id());
         Spa spa20 = createUnsoldSpa("20twenty:", "Whale", "Humpback", dealer3.get_id());
         Spa spa21 = createUnsoldSpa("21_", "Whale", "Sperm", dealer3.get_id());
-
-        Spa spa22 = createFullSpaWithState("001:", "Shark", "Blue", dealer1.get_id(), owner1);
-        Spa spa24 = createSmallSpaWithState("002-", "Shark", "Tiger", dealer1.get_id(), owner2);
-        Spa spa25 = createSmallSpaWithState("003-", "Fish", "Minnow", dealer1.get_id(), owner3);
-        Spa spa26 = createSmallSpaWithState("004-", "Shark", "Tiger", dealer2.get_id(), owner4);
-        Spa spa27 = createFullSpaWithState("005-", "Whale", "Sperm", dealer3.get_id(), owner5);
 
 
         // Create some measurements
