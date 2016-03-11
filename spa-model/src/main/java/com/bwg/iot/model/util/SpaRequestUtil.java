@@ -31,10 +31,10 @@ public final class SpaRequestUtil {
         stateValidatorMap.put(SpaCommand.RequestType.LIGHTS.getCode(), LIGHT_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.BLOWER.getCode(), ON_OFF_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.MISTER.getCode(), ON_OFF_STATE_VALIDATOR);
+        stateValidatorMap.put(SpaCommand.RequestType.FILTER.getCode(), ON_OFF_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.OZONE.getCode(), ON_OFF_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.MICROSILK.getCode(), ON_OFF_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.AUX.getCode(), ON_OFF_STATE_VALIDATOR);
-        stateValidatorMap.put(SpaCommand.RequestType.FILTER_CYCLE.getCode(), ON_OFF_STATE_VALIDATOR);
     }
 
     private SpaRequestUtil() {

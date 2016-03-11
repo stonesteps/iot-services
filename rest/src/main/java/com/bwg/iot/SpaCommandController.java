@@ -102,7 +102,7 @@ public class SpaCommandController {
     @RequestMapping(value = "/{spaId}/setFilterCycleState", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setFilterCycleState(@PathVariable String spaId, @RequestBody HashMap<String,String> body){
 
-        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.FILTER_CYCLE.getCode());
+        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.FILTER.getCode());
         return response;
     }
 
