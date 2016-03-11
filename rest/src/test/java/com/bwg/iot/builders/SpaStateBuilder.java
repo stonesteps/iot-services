@@ -34,6 +34,14 @@ public class SpaStateBuilder {
         spaState.setTargetDesiredTemp(temp);
         return this;
     }
+    public SpaStateBuilder desiredTemp(String temp) {
+        spaState.setDesiredTemp(temp);
+        return this;
+    }
+    public SpaStateBuilder currentTemp(String temp) {
+        spaState.setCurrentTemp(temp);
+        return this;
+    }
     public SpaStateBuilder runMode(String mode) {
         spaState.setRunMode(mode);
         return this;
