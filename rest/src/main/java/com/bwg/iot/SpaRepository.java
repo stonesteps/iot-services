@@ -8,6 +8,7 @@ import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
@@ -22,6 +23,9 @@ public interface SpaRepository extends MongoRepository<Spa, String> , QueryDslPr
 
     @RestResource
     public Page findByDealerId(@Param("dealerId") String dealerId, Pageable p);
+
+    @Query(value = "{ 'owner.username' : ?0 }")
+    public Spa findByUsername(@Param("username") String username);
 
     /*
      * (non-Javadoc)

@@ -127,7 +127,7 @@ public class ApiDocumentation extends ModelTestBase{
 	public void spasListExample() throws Exception {
 		this.spaRepository.deleteAll();
 
-		User owner = createUser("Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), LocalDateTime.now().toString());
+		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), LocalDateTime.now().toString());
 		createUnsoldSpa("01924094", "Shark", "Mako", "101");
         createUnsoldSpa("01000000", "Shark", "Hammerhead", "101");
 		createFullSpaWithState("0blah345", "Shark", "Land", "101", owner);
@@ -164,7 +164,7 @@ public class ApiDocumentation extends ModelTestBase{
 	@Test
 	public void spaGetExample() throws Exception {
 
-		User owner = createUser("Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), LocalDateTime.now().toString());
+		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), LocalDateTime.now().toString());
         Spa spa = createFullSpaWithState("0blah345", "Shark", "Blue", "101", owner);
 
 		String spaLocation = "/spas/"+spa.get_id();

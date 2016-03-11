@@ -106,8 +106,9 @@ public class ModelTestBase {
         return oemRepository.save(oem);
     }
 
-    protected User createUser(String firstName, String lastName, String dealerId, String oemId, Address address, List<String> roles, String createdDate) {
+    protected User createUser(String username, String firstName, String lastName, String dealerId, String oemId, Address address, List<String> roles, String createdDate) {
         User user = new User();
+        user.setUsername(username);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setDealerId(dealerId);
