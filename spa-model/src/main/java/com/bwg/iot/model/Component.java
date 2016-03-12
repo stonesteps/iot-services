@@ -8,7 +8,7 @@ import org.springframework.hateoas.ResourceSupport;
 @Document
 public class Component extends ResourceSupport {
 
-    public enum ComponentType { GATEWAY, MOTE, PUMP, LIGHT, BLOWER, MISTER, FILTER, AUX, PANEL, OZONE, MICROSILK };
+    public enum ComponentType { GATEWAY, MOTE, PUMP, LIGHT, BLOWER, MISTER, FILTER, AUX, PANEL, OZONE, MICROSILK, CONTROLLER };
 
     @Id
     private String _id;
