@@ -106,9 +106,12 @@ public class SpaCommandController {
         }
 
         String desiredState = body.get("desiredState");
+        String desiredPort = body.get("deviceNumber");
 
         HashMap<String,String> values = new HashMap<String,String>();
-        values.put("port", body.get("deviceNumber"));
+        if (desiredPort != null) {
+            values.put("port", desiredPort);
+        }
         values.put("desiredState", desiredState);
 
         String originatorId = body.get("originatorId");
