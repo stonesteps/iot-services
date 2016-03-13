@@ -28,8 +28,6 @@ public class SpaCommandController {
 
     @RequestMapping(value = "/{spaId}/setDesiredTemp", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setDesiredTemp(@PathVariable String spaId, @RequestBody HashMap<String,String> body){
-
-        // TODO: confirm spa exists
         if (spaId == null){
             return new ResponseEntity<>("Spa Id not provided", HttpStatus.BAD_REQUEST);
         }
@@ -38,8 +36,6 @@ public class SpaCommandController {
         if (desiredTemp == null){
             return new ResponseEntity<>("Desired Temperature not provided", HttpStatus.BAD_REQUEST);
         }
-        // TODO: validate temperature
-        BigInteger tempInt = new BigInteger(body.get("desiredTemp"));
         HashMap<String,String> values = new HashMap<String,String>();
         values.put("desiredTemp", desiredTemp);
 
@@ -105,15 +101,11 @@ public class SpaCommandController {
     }
 
     private ResponseEntity<?> setButtonCommand(String spaId, HashMap<String, String> body, int requestCode) {
-        // TODO: confirm spa exists
         if (spaId == null){
             return new ResponseEntity<>("Spa Id not provided", HttpStatus.BAD_REQUEST);
         }
 
         String desiredState = body.get("desiredState");
-        if (desiredState == null || !EnumUtils.isValidEnum(SpaCommand.OnOff.class, desiredState)){
-            return new ResponseEntity<>("Desired Light State Invalid", HttpStatus.BAD_REQUEST);
-        }
 
         HashMap<String,String> values = new HashMap<String,String>();
         values.put("port", body.get("deviceNumber"));
