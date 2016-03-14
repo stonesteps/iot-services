@@ -36,7 +36,7 @@ import java.util.Map;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -45,92 +45,92 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 public final class SpaCommandDocumentation {
 
-	@Rule
-	public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
+    @Rule
+    public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
 
-	@Autowired
-	private SpaCommandRepository spaCommandRepository;
+    @Autowired
+    private SpaCommandRepository spaCommandRepository;
 
-	@Autowired
-	private ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-	@Autowired
-	private WebApplicationContext context;
+    @Autowired
+    private WebApplicationContext context;
 
-	private MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-	@Before
-	public void setUp() {
-		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
-				.apply(documentationConfiguration(this.restDocumentation)).build();
-	}
+    @Before
+    public void setUp() {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
+                .apply(documentationConfiguration(this.restDocumentation)).build();
+    }
 
-	@Test
-	public void setDesiredTempExample() throws Exception {
-		this.spaCommandRepository.deleteAll();
+    @Test
+    public void setDesiredTempExample() throws Exception {
+        this.spaCommandRepository.deleteAll();
 
-		final Map<String, String> command = new HashMap<>();
-		command.put("desiredTemp","101");
-        command.put("originatorId","myspacommand000001");
+        final Map<String, String> command = new HashMap<>();
+        command.put("desiredTemp", "101");
+        command.put("originatorId", "myspacommand000001");
 
-		this.mockMvc
-				.perform(post("/control/56c7f020c2e65656ab93db17/setDesiredTemp").contentType(MediaTypes.HAL_JSON)
-						.content(this.objectMapper.writeValueAsString(command)))
-				.andExpect(status().is2xxSuccessful())
-				.andDo(document("control-desired-temp-example",
-						requestFields(fieldWithPath("desiredTemp").description("The desired temperatue in degrees Fahrenheit"),
-								fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
-				.andDo(document("control-desired-temp-response-example",
-						responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
+        this.mockMvc
+                .perform(post("/control/56c7f020c2e65656ab93db17/setDesiredTemp").contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(command)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("control-desired-temp-example",
+                        requestFields(fieldWithPath("desiredTemp").description("The desired temperatue in degrees Fahrenheit"),
+                                fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
+                .andDo(document("control-desired-temp-response-example",
+                        responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
                                 fieldWithPath("spaId").description("Unique Id for the spa"),
-								fieldWithPath("requestTypeId").description("The type of request"),
-								fieldWithPath("originatorId").description("A unique id for this request"),
-								fieldWithPath("sentTimestamp").description("The time the command was sent"),
-								fieldWithPath("processedTimestamp").description("The time the command was processed"),
-								fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
-								fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
-								fieldWithPath("ackResponseCode").description("The ack response from device"),
-								fieldWithPath("values").description("The set temperature"))));
-	}
+                                fieldWithPath("requestTypeId").description("The type of request"),
+                                fieldWithPath("originatorId").description("A unique id for this request"),
+                                fieldWithPath("sentTimestamp").description("The time the command was sent"),
+                                fieldWithPath("processedTimestamp").description("The time the command was processed"),
+                                fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
+                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+                                fieldWithPath("ackResponseCode").description("The ack response from device"),
+                                fieldWithPath("values").description("The set temperature"))));
+    }
 
-	@Test
-	public void turnJetOn() throws Exception {
-		this.spaCommandRepository.deleteAll();
+    @Test
+    public void turnJetOn() throws Exception {
+        this.spaCommandRepository.deleteAll();
 
-		final Map<String, String> command = new HashMap<>();
-		command.put("deviceNumber","0");
-		command.put("desiredState","ON");
-        command.put("originatorId","optional-tag-0001");
+        final Map<String, String> command = new HashMap<>();
+        command.put("deviceNumber", "0");
+        command.put("desiredState", "LOW");
+        command.put("originatorId", "optional-tag-0001");
 
-		this.mockMvc
-				.perform(post("/control/56c7f020c2e65656ab93db17/setJetState").contentType(MediaTypes.HAL_JSON)
-						.content(this.objectMapper.writeValueAsString(command)))
-				.andExpect(status().is2xxSuccessful())
-				.andDo(document("control-pump-example",
-						requestFields(fieldWithPath("deviceNumber").description("The pump number (starting with 0)"),
-								fieldWithPath("desiredState").description("Turn pump: ON or OFF"),
-								fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
-				.andDo(document("control-pump-response-example",
-						responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
-								fieldWithPath("spaId").description("Unique Id for the spa"),
-								fieldWithPath("requestTypeId").description("The type of request"),
-								fieldWithPath("originatorId").description("A unique id for this request"),
-								fieldWithPath("sentTimestamp").description("The time the command was sent"),
-								fieldWithPath("processedTimestamp").description("The time the command was processed"),
-								fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
-								fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
-								fieldWithPath("ackResponseCode").description("The ack response from device"),
-								fieldWithPath("values").description("The set temperature"))));
-	}
+        this.mockMvc
+                .perform(post("/control/56c7f020c2e65656ab93db17/setJetState").contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(command)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("control-pump-example",
+                        requestFields(fieldWithPath("deviceNumber").description("The pump number (starting with 0)"),
+                                fieldWithPath("desiredState").description("Pump state options: OFF, LOW or HIGH"),
+                                fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
+                .andDo(document("control-pump-response-example",
+                        responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
+                                fieldWithPath("spaId").description("Unique Id for the spa"),
+                                fieldWithPath("requestTypeId").description("The type of request"),
+                                fieldWithPath("originatorId").description("A unique id for this request"),
+                                fieldWithPath("sentTimestamp").description("The time the command was sent"),
+                                fieldWithPath("processedTimestamp").description("The time the command was processed"),
+                                fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
+                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+                                fieldWithPath("ackResponseCode").description("The ack response from device"),
+                                fieldWithPath("values").description("The set temperature"))));
+    }
 
     @Test
     public void turnLightOn() throws Exception {
         this.spaCommandRepository.deleteAll();
 
         final Map<String, String> command = new HashMap<>();
-        command.put("deviceNumber","0");
-        command.put("desiredState","ON");
-        command.put("originatorId","optional-tag-0002");
+        command.put("deviceNumber", "0");
+        command.put("desiredState", "MED");
+        command.put("originatorId", "optional-tag-0002");
 
         this.mockMvc
                 .perform(post("/control/56c7f020c2e65656ab93db17/setLightState").contentType(MediaTypes.HAL_JSON)
@@ -138,7 +138,7 @@ public final class SpaCommandDocumentation {
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("control-light-example",
                         requestFields(fieldWithPath("deviceNumber").description("The light number (starting with 0)"),
-                                fieldWithPath("desiredState").description("Turn light: ON or OFF"),
+                                fieldWithPath("desiredState").description("Light state options: OFF, LOW, MED or HIGH"),
                                 fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
                 .andDo(document("control-light-response-example",
                         responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
@@ -147,20 +147,20 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("originatorId").description("A unique id for this request"),
                                 fieldWithPath("sentTimestamp").description("The time the command was sent"),
                                 fieldWithPath("processedTimestamp").description("The time the command was processed"),
-								fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
-								fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
-								fieldWithPath("ackResponseCode").description("The ack response from device"),
+                                fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
+                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+                                fieldWithPath("ackResponseCode").description("The ack response from device"),
                                 fieldWithPath("values").description("The set temperature"))));
     }
-    
+
     @Test
     public void turnBlowerOn() throws Exception {
         this.spaCommandRepository.deleteAll();
 
         final Map<String, String> command = new HashMap<>();
-        command.put("deviceNumber","0");
-        command.put("desiredState","ON");
-        command.put("originatorId","optional-tag");
+        command.put("deviceNumber", "0");
+        command.put("desiredState", "LOW");
+        command.put("originatorId", "optional-tag");
 
         this.mockMvc
                 .perform(post("/control/56c7f020c2e65656ab93db17/setBlowerState").contentType(MediaTypes.HAL_JSON)
@@ -168,7 +168,7 @@ public final class SpaCommandDocumentation {
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("control-blower-example",
                         requestFields(fieldWithPath("deviceNumber").description("The blower number (starting with 0)"),
-                                fieldWithPath("desiredState").description("Turn blower: ON or OFF"),
+                                fieldWithPath("desiredState").description("Blower state options: OFF. LOW, MED or HIGH"),
                                 fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
                 .andDo(document("control-blower-response-example",
                         responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
@@ -177,20 +177,20 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("originatorId").description("A unique id for this request"),
                                 fieldWithPath("sentTimestamp").description("The time the command was sent"),
                                 fieldWithPath("processedTimestamp").description("The time the command was processed"),
-								fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
-								fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
-								fieldWithPath("ackResponseCode").description("The ack response from device"),
+                                fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
+                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+                                fieldWithPath("ackResponseCode").description("The ack response from device"),
                                 fieldWithPath("values").description("The set temperature"))));
     }
-    
+
     @Test
     public void turnMisterOn() throws Exception {
         this.spaCommandRepository.deleteAll();
 
         final Map<String, String> command = new HashMap<>();
-        command.put("deviceNumber","0");
-        command.put("desiredState","ON");
-        command.put("originatorId","optional-tag-0001");
+        command.put("deviceNumber", "0");
+        command.put("desiredState", "ON");
+        command.put("originatorId", "optional-tag-0001");
 
         this.mockMvc
                 .perform(post("/control/56c7f020c2e65656ab93db17/setMisterState").contentType(MediaTypes.HAL_JSON)
@@ -207,123 +207,123 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("originatorId").description("A unique id for this request"),
                                 fieldWithPath("sentTimestamp").description("The time the command was sent"),
                                 fieldWithPath("processedTimestamp").description("The time the command was processed"),
-								fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
+                                fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
-								fieldWithPath("ackResponseCode").description("The ack response from device"),
+                                fieldWithPath("ackResponseCode").description("The ack response from device"),
                                 fieldWithPath("values").description("The set temperature"))));
     }
 
-	@Test
-	public void turnOzoneOn() throws Exception {
-		this.spaCommandRepository.deleteAll();
+    @Test
+    public void turnOzoneOn() throws Exception {
+        this.spaCommandRepository.deleteAll();
 
-		final Map<String, String> command = new HashMap<>();
-		command.put("desiredState","ON");
-		command.put("originatorId","optional-tag-0001");
+        final Map<String, String> command = new HashMap<>();
+        command.put("desiredState", "ON");
+        command.put("originatorId", "optional-tag-0001");
 
-		this.mockMvc
-				.perform(post("/control/56c7f020c2e65656ab93db17/setOzoneState").contentType(MediaTypes.HAL_JSON)
-						.content(this.objectMapper.writeValueAsString(command)))
-				.andExpect(status().is2xxSuccessful())
-				.andDo(document("control-ozone-example",
-						requestFields(fieldWithPath("desiredState").description("Turn ozone: ON or OFF"),
-								fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
-				.andDo(document("control-ozone-response-example",
-						responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
-								fieldWithPath("spaId").description("Unique Id for the spa"),
-								fieldWithPath("requestTypeId").description("The type of request"),
-								fieldWithPath("originatorId").description("A unique id for this request"),
-								fieldWithPath("sentTimestamp").description("The time the command was sent"),
-								fieldWithPath("processedTimestamp").description("The time the command was processed"),
-								fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
-								fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
-								fieldWithPath("ackResponseCode").description("The ack response from device"),
-								fieldWithPath("values").description("The set temperature"))));
-	}
+        this.mockMvc
+                .perform(post("/control/56c7f020c2e65656ab93db17/setOzoneState").contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(command)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("control-ozone-example",
+                        requestFields(fieldWithPath("desiredState").description("Turn ozone: ON or OFF"),
+                                fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
+                .andDo(document("control-ozone-response-example",
+                        responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
+                                fieldWithPath("spaId").description("Unique Id for the spa"),
+                                fieldWithPath("requestTypeId").description("The type of request"),
+                                fieldWithPath("originatorId").description("A unique id for this request"),
+                                fieldWithPath("sentTimestamp").description("The time the command was sent"),
+                                fieldWithPath("processedTimestamp").description("The time the command was processed"),
+                                fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
+                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+                                fieldWithPath("ackResponseCode").description("The ack response from device"),
+                                fieldWithPath("values").description("The set temperature"))));
+    }
 
-	@Test
-	public void turnMicrosilkOn() throws Exception {
-		this.spaCommandRepository.deleteAll();
+    @Test
+    public void turnMicrosilkOn() throws Exception {
+        this.spaCommandRepository.deleteAll();
 
-		final Map<String, String> command = new HashMap<>();
-		command.put("desiredState","ON");
-		command.put("originatorId","optional-tag-0001");
+        final Map<String, String> command = new HashMap<>();
+        command.put("desiredState", "ON");
+        command.put("originatorId", "optional-tag-0001");
 
-		this.mockMvc
-				.perform(post("/control/56c7f020c2e65656ab93db17/setMicrosilkState").contentType(MediaTypes.HAL_JSON)
-						.content(this.objectMapper.writeValueAsString(command)))
-				.andExpect(status().is2xxSuccessful())
-				.andDo(document("control-microsilk-example",
-						requestFields(fieldWithPath("desiredState").description("Turn microsilk: ON or OFF"),
-								fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
-				.andDo(document("control-microsilk-response-example",
-						responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
-								fieldWithPath("spaId").description("Unique Id for the spa"),
-								fieldWithPath("requestTypeId").description("The type of request"),
-								fieldWithPath("originatorId").description("A unique id for this request"),
-								fieldWithPath("sentTimestamp").description("The time the command was sent"),
-								fieldWithPath("processedTimestamp").description("The time the command was processed"),
-								fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
-								fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
-								fieldWithPath("ackResponseCode").description("The ack response from device"),
-								fieldWithPath("values").description("The set temperature"))));
-	}
+        this.mockMvc
+                .perform(post("/control/56c7f020c2e65656ab93db17/setMicrosilkState").contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(command)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("control-microsilk-example",
+                        requestFields(fieldWithPath("desiredState").description("Turn microsilk: ON or OFF"),
+                                fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
+                .andDo(document("control-microsilk-response-example",
+                        responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
+                                fieldWithPath("spaId").description("Unique Id for the spa"),
+                                fieldWithPath("requestTypeId").description("The type of request"),
+                                fieldWithPath("originatorId").description("A unique id for this request"),
+                                fieldWithPath("sentTimestamp").description("The time the command was sent"),
+                                fieldWithPath("processedTimestamp").description("The time the command was processed"),
+                                fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
+                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+                                fieldWithPath("ackResponseCode").description("The ack response from device"),
+                                fieldWithPath("values").description("The set temperature"))));
+    }
 
-	@Test
-	public void turnAuxOn() throws Exception {
-		this.spaCommandRepository.deleteAll();
+    @Test
+    public void turnAuxOn() throws Exception {
+        this.spaCommandRepository.deleteAll();
 
-		final Map<String, String> command = new HashMap<>();
-		command.put("desiredState","ON");
-		command.put("deviceNumber", "0");
-		command.put("originatorId","optional-tag-0001");
+        final Map<String, String> command = new HashMap<>();
+        command.put("desiredState", "ON");
+        command.put("deviceNumber", "0");
+        command.put("originatorId", "optional-tag-0001");
 
-		this.mockMvc
-				.perform(post("/control/56c7f020c2e65656ab93db17/setAuxState").contentType(MediaTypes.HAL_JSON)
-						.content(this.objectMapper.writeValueAsString(command)))
-				.andExpect(status().is2xxSuccessful())
-				.andDo(document("control-aux-example",
-						requestFields(fieldWithPath("desiredState").description("Turn aux: ON or OFF"),
-								fieldWithPath("deviceNumber").description("Aux number, starting with 0"),
-								fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
-				.andDo(document("control-aux-response-example",
-						responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
-								fieldWithPath("spaId").description("Unique Id for the spa"),
-								fieldWithPath("requestTypeId").description("The type of request"),
-								fieldWithPath("originatorId").description("A unique id for this request"),
-								fieldWithPath("sentTimestamp").description("The time the command was sent"),
-								fieldWithPath("processedTimestamp").description("The time the command was processed"),
-								fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
-								fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
-								fieldWithPath("ackResponseCode").description("The ack response from device"),
-								fieldWithPath("values").description("The set temperature"))));
-	}
+        this.mockMvc
+                .perform(post("/control/56c7f020c2e65656ab93db17/setAuxState").contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(command)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("control-aux-example",
+                        requestFields(fieldWithPath("desiredState").description("Turn aux: ON or OFF"),
+                                fieldWithPath("deviceNumber").description("Aux number, starting with 0"),
+                                fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
+                .andDo(document("control-aux-response-example",
+                        responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
+                                fieldWithPath("spaId").description("Unique Id for the spa"),
+                                fieldWithPath("requestTypeId").description("The type of request"),
+                                fieldWithPath("originatorId").description("A unique id for this request"),
+                                fieldWithPath("sentTimestamp").description("The time the command was sent"),
+                                fieldWithPath("processedTimestamp").description("The time the command was processed"),
+                                fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
+                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+                                fieldWithPath("ackResponseCode").description("The ack response from device"),
+                                fieldWithPath("values").description("The set temperature"))));
+    }
 
-	@Test
-	public void turnFilterCycleOn() throws Exception {
-		this.spaCommandRepository.deleteAll();
+    @Test
+    public void turnFilterCycleOn() throws Exception {
+        this.spaCommandRepository.deleteAll();
 
-		final Map<String, String> command = new HashMap<>();
-		command.put("desiredState","ON");
-		command.put("originatorId","optional-tag-0001");
+        final Map<String, String> command = new HashMap<>();
+        command.put("desiredState", "ON");
+        command.put("originatorId", "optional-tag-0001");
 
-		this.mockMvc
-				.perform(post("/control/56c7f020c2e65656ab93db17/setFilterCycleState").contentType(MediaTypes.HAL_JSON)
-						.content(this.objectMapper.writeValueAsString(command)))
-				.andExpect(status().is2xxSuccessful())
-				.andDo(document("control-filtercycle-example",
-						requestFields(fieldWithPath("desiredState").description("Turn filter cycle: ON or OFF"),
-								fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
-				.andDo(document("control-filtercycle-response-example",
-						responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
-								fieldWithPath("spaId").description("Unique Id for the spa"),
-								fieldWithPath("requestTypeId").description("The type of request"),
-								fieldWithPath("originatorId").description("A unique id for this request"),
-								fieldWithPath("sentTimestamp").description("The time the command was sent"),
-								fieldWithPath("processedTimestamp").description("The time the command was processed"),
-								fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
-								fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
-								fieldWithPath("ackResponseCode").description("The ack response from device"),
-								fieldWithPath("values").description("The set temperature"))));
-	}
+        this.mockMvc
+                .perform(post("/control/56c7f020c2e65656ab93db17/setFilterCycleState").contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(command)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("control-filtercycle-example",
+                        requestFields(fieldWithPath("desiredState").description("Turn filter cycle: ON or OFF"),
+                                fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
+                .andDo(document("control-filtercycle-response-example",
+                        responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
+                                fieldWithPath("spaId").description("Unique Id for the spa"),
+                                fieldWithPath("requestTypeId").description("The type of request"),
+                                fieldWithPath("originatorId").description("A unique id for this request"),
+                                fieldWithPath("sentTimestamp").description("The time the command was sent"),
+                                fieldWithPath("processedTimestamp").description("The time the command was processed"),
+                                fieldWithPath("processedResult").description("Indicates if processing was successful or not"),
+                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command"),
+                                fieldWithPath("ackResponseCode").description("The ack response from device"),
+                                fieldWithPath("values").description("The set temperature"))));
+    }
 }
