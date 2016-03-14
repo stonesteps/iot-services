@@ -43,6 +43,10 @@ public final class SpaRequestUtil {
         // utility class
     }
 
+    public static boolean portRequired(final int requestType) {
+        return codeRangeMap.get(requestType) != null;
+    }
+
     public static boolean validPort(final int requestType, final int port) {
         boolean valid = false;
 
@@ -78,30 +82,44 @@ public final class SpaRequestUtil {
             this.max = max;
         }
 
-        public int getMin() { return min; }
+        public int getMin() {
+            return min;
+        }
 
-        public int getMax() { return max; }
+        public int getMax() {
+            return max;
+        }
 
-        public boolean inRange(final int value) { return value >= min && value <= max; }
+        public boolean inRange(final int value) {
+            return value >= min && value <= max;
+        }
     }
 
     private static final class LightStateValidator implements StateValidator {
         @Override
-        public boolean validState(String state) { return EnumUtils.isValidEnum(LightState.class, state); }
+        public boolean validState(String state) {
+            return EnumUtils.isValidEnum(LightState.class, state);
+        }
     }
 
     private static final class BlowerStateValidator implements StateValidator {
         @Override
-        public boolean validState(String state) { return EnumUtils.isValidEnum(BlowerState.class, state); }
+        public boolean validState(String state) {
+            return EnumUtils.isValidEnum(BlowerState.class, state);
+        }
     }
 
     private static final class PumpStateValidator implements StateValidator {
         @Override
-        public boolean validState(String state) { return EnumUtils.isValidEnum(PumpState.class, state); }
+        public boolean validState(String state) {
+            return EnumUtils.isValidEnum(PumpState.class, state);
+        }
     }
 
     private static final class OnOffStateValidator implements StateValidator {
         @Override
-        public boolean validState(String state) { return EnumUtils.isValidEnum(OnOffState.class, state); }
+        public boolean validState(String state) {
+            return EnumUtils.isValidEnum(OnOffState.class, state);
+        }
     }
 }

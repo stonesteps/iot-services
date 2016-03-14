@@ -113,8 +113,16 @@ public class SpaCommandController {
         }
 
         String deviceNumber = body.get("deviceNumber");
-        if (deviceNumber != null && NumberUtils.isNumber(deviceNumber) && !SpaRequestUtil.validPort(requestCode, NumberUtils.createInteger(deviceNumber))) {
+        if (deviceNumber == null && SpaRequestUtil.portRequired(requestCode)) {
+            return new ResponseEntity<>("Device Number Required", HttpStatus.BAD_REQUEST);
+        }
+
+        if (deviceNumber != null && !NumberUtils.isNumber(deviceNumber) && SpaRequestUtil.portRequired(requestCode)) {
             return new ResponseEntity<>("Device Number Invalid", HttpStatus.BAD_REQUEST);
+        }
+
+        if (deviceNumber != null && NumberUtils.isNumber(deviceNumber) && SpaRequestUtil.portRequired(requestCode) && !SpaRequestUtil.validPort(requestCode, NumberUtils.createInteger(deviceNumber))) {
+            return new ResponseEntity<>("Device Number Invalid, out of range", HttpStatus.BAD_REQUEST);
         }
 
         HashMap<String,String> values = new HashMap<>();
