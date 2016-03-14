@@ -28,9 +28,6 @@ public class SpaCommand {
         public String getKeyName() { return this.keyName; }
     }
 
-    public enum OnOff { OFF, ON }
-    public enum LightState { OFF, LOW, MID, HIGH }
-
     @Id
     private String _id;
     private String spaId;

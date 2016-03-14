@@ -1,6 +1,6 @@
 package com.bwg.iot.model.util;
 
-import com.bwg.iot.model.SpaCommand;
+import com.bwg.iot.model.*;
 import org.apache.commons.lang3.EnumUtils;
 
 import java.util.HashMap;
@@ -12,6 +12,8 @@ import java.util.Map;
 public final class SpaRequestUtil {
 
     private static final StateValidator LIGHT_STATE_VALIDATOR = new LightStateValidator();
+    private static final StateValidator PUMP_STATE_VALIDATOR = new PumpStateValidator();
+    private static final StateValidator BLOWER_STATE_VALIDATOR = new BlowerStateValidator();
     private static final StateValidator ON_OFF_STATE_VALIDATOR = new OnOffStateValidator();
 
     private static final Map<Integer, Range> codeRangeMap = new HashMap<>();
@@ -27,9 +29,9 @@ public final class SpaRequestUtil {
     private static final Map<Integer, StateValidator> stateValidatorMap = new HashMap<>();
 
     static {
-        stateValidatorMap.put(SpaCommand.RequestType.PUMPS.getCode(), ON_OFF_STATE_VALIDATOR);
+        stateValidatorMap.put(SpaCommand.RequestType.PUMPS.getCode(), PUMP_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.LIGHTS.getCode(), LIGHT_STATE_VALIDATOR);
-        stateValidatorMap.put(SpaCommand.RequestType.BLOWER.getCode(), ON_OFF_STATE_VALIDATOR);
+        stateValidatorMap.put(SpaCommand.RequestType.BLOWER.getCode(), BLOWER_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.MISTER.getCode(), ON_OFF_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.FILTER.getCode(), ON_OFF_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.OZONE.getCode(), ON_OFF_STATE_VALIDATOR);
@@ -39,6 +41,10 @@ public final class SpaRequestUtil {
 
     private SpaRequestUtil() {
         // utility class
+    }
+
+    public static boolean portRequired(final int requestType) {
+        return codeRangeMap.get(requestType) != null;
     }
 
     public static boolean validPort(final int requestType, final int port) {
@@ -76,20 +82,44 @@ public final class SpaRequestUtil {
             this.max = max;
         }
 
-        public int getMin() { return min; }
+        public int getMin() {
+            return min;
+        }
 
-        public int getMax() { return max; }
+        public int getMax() {
+            return max;
+        }
 
-        public boolean inRange(final int value) { return value >= min && value <= max; }
+        public boolean inRange(final int value) {
+            return value >= min && value <= max;
+        }
     }
 
     private static final class LightStateValidator implements StateValidator {
         @Override
-        public boolean validState(String state) { return EnumUtils.isValidEnum(SpaCommand.LightState.class, state); }
+        public boolean validState(String state) {
+            return EnumUtils.isValidEnum(LightState.class, state);
+        }
+    }
+
+    private static final class BlowerStateValidator implements StateValidator {
+        @Override
+        public boolean validState(String state) {
+            return EnumUtils.isValidEnum(BlowerState.class, state);
+        }
+    }
+
+    private static final class PumpStateValidator implements StateValidator {
+        @Override
+        public boolean validState(String state) {
+            return EnumUtils.isValidEnum(PumpState.class, state);
+        }
     }
 
     private static final class OnOffStateValidator implements StateValidator {
         @Override
-        public boolean validState(String state) { return EnumUtils.isValidEnum(SpaCommand.OnOff.class, state); }
+        public boolean validState(String state) {
+            return EnumUtils.isValidEnum(OnOffState.class, state);
+        }
     }
 }
