@@ -1,11 +1,13 @@
 package com.bwg.iot.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Objects;
 
 
+@JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class Oem extends ResourceSupport {
 
     @Id

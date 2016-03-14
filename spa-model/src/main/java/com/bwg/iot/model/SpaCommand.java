@@ -1,10 +1,12 @@
 package com.bwg.iot.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 
 import java.util.*;
 
 
+@JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class SpaCommand {
 
     public enum RequestType {
