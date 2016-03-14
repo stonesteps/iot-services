@@ -13,6 +13,7 @@ public class ComponentState extends ResourceSupport {
     private String serialNumber;
     private String value;
     private String targetValue;
+    private String name;
 
     public String getComponentType() {
         return componentType;
@@ -52,6 +53,14 @@ public class ComponentState extends ResourceSupport {
 
     public void setTargetValue(String value) {
         this.targetValue = value;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
