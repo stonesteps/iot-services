@@ -5,13 +5,13 @@ package com.bwg.iot;
  */
 
 import com.bwg.iot.model.SpaCommand;
-import org.apache.commons.lang3.EnumUtils;
+import com.bwg.iot.model.util.SpaRequestUtil;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.UUID;
@@ -96,7 +96,7 @@ public class SpaCommandController {
     @RequestMapping(value = "/{spaId}/setFilterCycleState", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setFilterCycleState(@PathVariable String spaId, @RequestBody HashMap<String,String> body){
 
-        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.FILTER_CYCLE.getCode());
+        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.FILTER.getCode());
         return response;
     }
 
@@ -106,13 +106,20 @@ public class SpaCommandController {
         }
 
         String desiredState = body.get("desiredState");
-        String desiredPort = body.get("deviceNumber");
+        if (desiredState == null || !SpaRequestUtil.validState(requestCode, desiredState)){
+            return new ResponseEntity<>("Desired State Invalid", HttpStatus.BAD_REQUEST);
+        }
+
+        String deviceNumber = body.get("deviceNumber");
+        if (deviceNumber != null && NumberUtils.isNumber(deviceNumber) && !SpaRequestUtil.validPort(requestCode, NumberUtils.createInteger(deviceNumber))) {
+            return new ResponseEntity<>("Device Number Invalid", HttpStatus.BAD_REQUEST);
+        }
 
         HashMap<String,String> values = new HashMap<String,String>();
-        if (desiredPort != null) {
-            values.put("port", desiredPort);
-        }
         values.put("desiredState", desiredState);
+        if (deviceNumber != null) {
+            values.put("port", deviceNumber);
+        }
 
         String originatorId = body.get("originatorId");
         SpaCommand command = buildAndSaveCommand(spaId, originatorId, requestCode, values);

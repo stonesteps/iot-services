@@ -129,7 +129,7 @@ public final class SpaCommandDocumentation {
 
         final Map<String, String> command = new HashMap<>();
         command.put("deviceNumber","0");
-        command.put("desiredState","ON");
+        command.put("desiredState","MID");
         command.put("originatorId","optional-tag-0002");
 
         this.mockMvc
@@ -138,7 +138,7 @@ public final class SpaCommandDocumentation {
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("control-light-example",
                         requestFields(fieldWithPath("deviceNumber").description("The light number (starting with 0)"),
-                                fieldWithPath("desiredState").description("Turn light: ON or OFF"),
+                                fieldWithPath("desiredState").description("Turn light: OFF, LOW, MID or HIGH"),
                                 fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
                 .andDo(document("control-light-response-example",
                         responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
