@@ -1,11 +1,13 @@
 package com.bwg.iot.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
 
 @Document
+@JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class Component extends ResourceSupport {
 
     public enum ComponentType { GATEWAY, MOTE, PUMP, LIGHT, BLOWER, MISTER, FILTER, AUX, PANEL, OZONE, MICROSILK, CONTROLLER };

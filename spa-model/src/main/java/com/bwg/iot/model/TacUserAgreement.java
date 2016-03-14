@@ -1,9 +1,11 @@
 package com.bwg.iot.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.hateoas.ResourceSupport;
 
 
+@JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class TacUserAgreement extends ResourceSupport {
 
     @Id

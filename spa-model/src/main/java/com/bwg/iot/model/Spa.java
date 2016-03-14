@@ -1,5 +1,6 @@
 package com.bwg.iot.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.rest.core.annotation.RestResource;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Document
+@JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class Spa extends ResourceSupport {
 
     @Id

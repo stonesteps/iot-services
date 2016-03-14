@@ -1,5 +1,6 @@
 package com.bwg.iot.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.hateoas.ResourceSupport;
@@ -7,6 +8,7 @@ import org.springframework.hateoas.ResourceSupport;
 import java.util.List;
 
 
+@JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class User extends ResourceSupport {
 
     @Id
