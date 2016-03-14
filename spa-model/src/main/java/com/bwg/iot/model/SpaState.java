@@ -14,9 +14,10 @@ public class SpaState {
     @Id
     String _id;
     String spaId;
-    String runMode = null; // rest, ready
-    String desiredTemp = null;
+    String runMode; // rest, ready
+    String desiredTemp;
     String targetDesiredTemp;
+    String currentTemp;
 
     List<ComponentState> components;
     List<Measurement> measurements;
@@ -54,6 +55,14 @@ public class SpaState {
 
     public List<ComponentState> getComponents() {
         return components;
+    }
+
+    public String getCurrentTemp() {
+        return currentTemp;
+    }
+
+    public void setCurrentTemp(String currentTemp) {
+        this.currentTemp = currentTemp;
     }
 
     public void setComponents(List<ComponentState> components) {
@@ -98,11 +107,12 @@ public class SpaState {
     @Override
     public String toString() {
         return "SpaState{" +
-                "_id='" + _id + '\'' +
+                " _id='" + _id + '\'' +
                 ", spaId='" + spaId + '\'' +
                 ", runMode='" + runMode + '\'' +
                 ", desiredTemp='" + desiredTemp + '\'' +
                 ", targetDesiredTemp='" + targetDesiredTemp + '\'' +
+                ", currentTemp='" + currentTemp + '\'' +
                 ", components=" + components +
                 ", measurements=" + measurements +
                 ", uplinkTimestamp='" + uplinkTimestamp + '\'' +

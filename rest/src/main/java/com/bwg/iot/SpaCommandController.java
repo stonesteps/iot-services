@@ -6,14 +6,12 @@ package com.bwg.iot;
 
 import com.bwg.iot.model.SpaCommand;
 import com.bwg.iot.model.util.SpaRequestUtil;
-import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.UUID;
@@ -30,8 +28,6 @@ public class SpaCommandController {
 
     @RequestMapping(value = "/{spaId}/setDesiredTemp", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setDesiredTemp(@PathVariable String spaId, @RequestBody HashMap<String,String> body){
-
-        // TODO: confirm spa exists
         if (spaId == null){
             return new ResponseEntity<>("Spa Id not provided", HttpStatus.BAD_REQUEST);
         }
@@ -40,8 +36,6 @@ public class SpaCommandController {
         if (desiredTemp == null){
             return new ResponseEntity<>("Desired Temperature not provided", HttpStatus.BAD_REQUEST);
         }
-        // TODO: validate temperature
-        BigInteger tempInt = new BigInteger(body.get("desiredTemp"));
         HashMap<String,String> values = new HashMap<String,String>();
         values.put("desiredTemp", desiredTemp);
 
@@ -107,7 +101,6 @@ public class SpaCommandController {
     }
 
     private ResponseEntity<?> setButtonCommand(String spaId, HashMap<String, String> body, int requestCode) {
-        // TODO: confirm spa exists
         if (spaId == null){
             return new ResponseEntity<>("Spa Id not provided", HttpStatus.BAD_REQUEST);
         }
@@ -122,7 +115,7 @@ public class SpaCommandController {
             return new ResponseEntity<>("Device Number Invalid", HttpStatus.BAD_REQUEST);
         }
 
-        HashMap<String,String> values = new HashMap<>();
+        HashMap<String,String> values = new HashMap<String,String>();
         values.put("desiredState", desiredState);
         if (deviceNumber != null) {
             values.put("port", deviceNumber);

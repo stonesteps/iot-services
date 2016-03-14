@@ -1,9 +1,17 @@
 package com.bwg.iot;
 
 import com.bwg.iot.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
+import org.springframework.web.filter.AbstractRequestLoggingFilter;
+
+import javax.servlet.Filter;
+import javax.servlet.http.HttpServletRequest;
 
 @Configuration
 public class RepositoryConfig extends RepositoryRestMvcConfiguration {
@@ -12,4 +20,30 @@ public class RepositoryConfig extends RepositoryRestMvcConfiguration {
         config.exposeIdsFor(Spa.class, Owner.class, Alert.class, User.class, SpaCommand.class,
                 Dealer.class, Oem.class, TacUserAgreement.class, TermsAndConditions.class);
     }
+
+    @Bean
+    public Filter loggingFilter(){
+        AbstractRequestLoggingFilter f = new AbstractRequestLoggingFilter() {
+        private final Logger logger = LoggerFactory.getLogger(RepositoryConfig.class);
+
+            @Override
+            protected void beforeRequest(HttpServletRequest request, String message) {
+                logger.info(message);
+            }
+
+            @Override
+            protected void afterRequest(HttpServletRequest request, String message) {
+                logger.info(message);
+            }
+        };
+        f.setIncludeClientInfo(true);
+        f.setIncludePayload(true);
+        f.setIncludeQueryString(true);
+
+        f.setBeforeMessagePrefix("BEFORE REQUEST  [");
+        f.setAfterMessagePrefix("AFTER REQUEST    [");
+        f.setAfterMessageSuffix("]\n");
+        return f;
+    }
 }
+
