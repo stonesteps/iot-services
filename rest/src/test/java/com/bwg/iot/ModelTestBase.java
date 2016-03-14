@@ -120,11 +120,14 @@ public class ModelTestBase {
         return user;
     }
 
-    protected Component createComponent(String type, String port, String serialNumber) {
+    protected Component createComponent(String type, String port, String name, String serialNumber, String spaId) {
+        int randomSN = (int)(Math.random()*10000);
         Component component = new Component();
         component.setComponentType(type);
-        component.setSerialNumber(serialNumber);
+        component.setSerialNumber(serialNumber+randomSN);
         component.setPort(port);
+        component.setSpaId(spaId);
+        component.setName(name);
         componentRepository.save(component);
         return component;
     }
@@ -134,6 +137,7 @@ public class ModelTestBase {
         cs.setComponentType(component.getComponentType());
         cs.setPort(component.getPort());
         cs.setSerialNumber(component.getSerialNumber());
+        cs.setName(component.getName());
         cs.setValue(value);
         cs.setTargetValue(value);
         return cs;
@@ -152,39 +156,55 @@ public class ModelTestBase {
 
     protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String dealerId, User owner) {
 
-        Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", serialNumber+"riot-00255");
+        Spa spa = new Spa();
+        int randomSN = (int)(Math.random()*10000);
+        spa.setSerialNumber(serialNumber+randomSN);
+        spa.setProductName(productName);
+        spa.setModel(model);
+        spa.setDealerId(dealerId);
+        spa.setOwner(owner);
+        spa.setOemId("cab335");
+        spa.setManufacturedDate(LocalDate.now().toString());
+        spa.setRegistrationDate(LocalDate.now().toString());
+        spa.setP2pAPSSID("myWifi");
+        spa.setP2pAPPassword("*******");
+        spa = this.spaRepository.save(spa);
+
+        Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "IoT Gateway", "0", serialNumber, spa.get_id());
         gateway.setRegistrationDate(LocalDate.now().toString());
         componentRepository.save(gateway);
 
-        Component mote1 = createComponent(Component.ComponentType.MOTE.name(), "0", serialNumber+"riot-002:2683069");
+        Component mote1 = createComponent(Component.ComponentType.MOTE.name(), "0", "Pump #1 Measurement", serialNumber, spa.get_id());
         gateway.setRegistrationDate(LocalDate.now().toString());
         componentRepository.save(mote1);
 
-        Component mote2 = createComponent(Component.ComponentType.MOTE.name(), "0", serialNumber+"riot-002:1551515152a");
+        Component mote2 = createComponent(Component.ComponentType.MOTE.name(), "1", "Pump #1 Measurement", serialNumber, spa.get_id());
         gateway.setRegistrationDate(LocalDate.now().toString());
         componentRepository.save(mote2);
 
-        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", serialNumber+"20398-0298s");
-        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", serialNumber+"20398-52335");
-        Component pump3 = createComponent(Component.ComponentType.PUMP.name(), "2", serialNumber+"20398-25511");
-        Component pump4 = createComponent(Component.ComponentType.PUMP.name(), "3", serialNumber+"20398-25511-abd-f");
-        Component pump5 = createComponent(Component.ComponentType.PUMP.name(), "4", serialNumber+"20398-25lskjf:3:3");
-        Component pump6 = createComponent(Component.ComponentType.PUMP.name(), "5", serialNumber+"203s");
-        Component blower1 = createComponent(Component.ComponentType.BLOWER.name(), "0", serialNumber+"987-987-987");
-        Component blower2 = createComponent(Component.ComponentType.BLOWER.name(), "1", serialNumber+"98acedf37-98");
-        Component mister1 = createComponent(Component.ComponentType.MISTER.name(), "0", serialNumber+"3246050-4s");
-        Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", serialNumber+"09sf-slk:332s:001");
-        Component light2 = createComponent(Component.ComponentType.LIGHT.name(), "1", serialNumber+"09sf-slk:336a:002");
-        Component light3 = createComponent(Component.ComponentType.LIGHT.name(), "2", serialNumber+"09sf-slk:336a:003");
-        Component light4 = createComponent(Component.ComponentType.LIGHT.name(), "3", serialNumber+"09sf-slk:336a:35251a");
-        Component light5 = createComponent(Component.ComponentType.LIGHT.name(), "4", serialNumber+"09affa3g");
-        Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", serialNumber+"0295885928");
-        Component filter2 = createComponent(Component.ComponentType.FILTER.name(), "1", serialNumber+"a345345");
-        Component aux1 = createComponent(Component.ComponentType.AUX.name(), "0", serialNumber+"radio-3987");
-        Component aux2 = createComponent(Component.ComponentType.AUX.name(), "1", serialNumber+"waterfall-251-1");
-        Component aux3 = createComponent(Component.ComponentType.AUX.name(), "2", serialNumber+"disco-ball-1555551");
-        Component microsilk = createComponent(Component.ComponentType.MICROSILK.name(), "0", serialNumber+"m33");
-        Component panel = createComponent(Component.ComponentType.PANEL.name(), "0", serialNumber+"bwg-0250-t25525");
+        String pumpPartNo1 = "1016205*";
+        String pumpPartNo2 = "1042118*";
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Circulation", pumpPartNo1+serialNumber, spa.get_id());
+        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Massage Jets", pumpPartNo1+serialNumber, spa.get_id());
+        Component pump3 = createComponent(Component.ComponentType.PUMP.name(), "2", "Captain's Chair", pumpPartNo1+serialNumber, spa.get_id());
+        Component pump4 = createComponent(Component.ComponentType.PUMP.name(), "3", "Foot Massage", pumpPartNo2+serialNumber, spa.get_id());
+        Component pump5 = createComponent(Component.ComponentType.PUMP.name(), "4", "Side Jets", pumpPartNo2+serialNumber, spa.get_id());
+        Component pump6 = createComponent(Component.ComponentType.PUMP.name(), "5", "2nd Chair", pumpPartNo2+serialNumber, spa.get_id());
+        Component blower1 = createComponent(Component.ComponentType.BLOWER.name(), "0", "Bubbles", serialNumber, spa.get_id());
+        Component blower2 = createComponent(Component.ComponentType.BLOWER.name(), "1", "Captains Bubbles", serialNumber, spa.get_id());
+        Component mister1 = createComponent(Component.ComponentType.MISTER.name(), "0", "Mister", serialNumber, spa.get_id());
+        Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", "Main Light", serialNumber, spa.get_id());
+        Component light2 = createComponent(Component.ComponentType.LIGHT.name(), "1", "Captain's Blue", serialNumber, spa.get_id());
+        Component light3 = createComponent(Component.ComponentType.LIGHT.name(), "2", "Red Light", serialNumber, spa.get_id());
+        Component light4 = createComponent(Component.ComponentType.LIGHT.name(), "3", "Black Light", serialNumber, spa.get_id());
+        Component light5 = createComponent(Component.ComponentType.LIGHT.name(), "4", "Strobe Light", serialNumber, spa.get_id());
+        Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "Main Filter", serialNumber, spa.get_id());
+        Component filter2 = createComponent(Component.ComponentType.FILTER.name(), "1", "Filter #2", serialNumber, spa.get_id());
+        Component aux1 = createComponent(Component.ComponentType.AUX.name(), "0", "Stereo", serialNumber, spa.get_id());
+        Component aux2 = createComponent(Component.ComponentType.AUX.name(), "1", "Waterfall", serialNumber, spa.get_id());
+        Component aux3 = createComponent(Component.ComponentType.AUX.name(), "2", "Aux. #3", serialNumber, spa.get_id());
+        Component microsilk = createComponent(Component.ComponentType.MICROSILK.name(), "0", "Microsilk", serialNumber, spa.get_id());
+        Component panel = createComponent(Component.ComponentType.PANEL.name(), "0", "Controller Panel", "56549-"+serialNumber, spa.get_id());
 
         ComponentState p1State = createComponentState(pump1, "ON");
         ComponentState p2State = createComponentState(pump2, "OFF");
@@ -208,8 +228,8 @@ public class ModelTestBase {
         ComponentState microsilkState = createComponentState(microsilk, "ON");
         ComponentState panelState = createComponentState(panel, "Locked");
         ComponentState gatewayState = createComponentState(gateway, "Connected");
-        ComponentState mote1State = createComponentState(mote1, "2 amps");
-        ComponentState mote2State = createComponentState(mote2, "300 ma");
+        ComponentState mote1State = createComponentState(mote1, "2.50");
+        ComponentState mote2State = createComponentState(mote2, "3.3367");
 
         SpaState spaState = new SpaStateBuilder()
                 .runMode("Ready")
@@ -227,19 +247,7 @@ public class ModelTestBase {
                 .currentTemp("100")
                 .build();
 
-        Spa spa = new Spa();
-        spa.setSerialNumber(serialNumber);
-        spa.setProductName(productName);
-        spa.setModel(model);
-        spa.setDealerId(dealerId);
-        spa.setOwner(owner);
         spa.setCurrentState(spaState);
-        spa.setOemId("cab335");
-        spa.setManufacturedDate(LocalDate.now().toString());
-        spa.setRegistrationDate(LocalDate.now().toString());
-        spa.setP2pAPSSID("myWifi");
-        spa.setP2pAPPassword("*******");
-
         spa = this.spaRepository.save(spa);
 
         Alert alert1 = new Alert();
@@ -259,20 +267,34 @@ public class ModelTestBase {
 
     protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String dealerId, User owner) {
 
-        Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", serialNumber+"001g");
+        Spa spa = new Spa();
+        spa.setSerialNumber(serialNumber);
+        spa.setProductName(productName);
+        spa.setModel(model);
+        spa.setDealerId(dealerId);
+        spa.setOwner(owner);
+        spa.setOemId("cab335");
+        spa.setManufacturedDate(LocalDate.now().toString());
+        spa.setRegistrationDate(LocalDate.now().toString());
+        spa.setP2pAPSSID("myWifi");
+        spa.setP2pAPPassword("*******");
+        spa = this.spaRepository.save(spa);
+
+        Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", "IoT Gateway", serialNumber, spa.get_id());
         gateway.setRegistrationDate(LocalDate.now().toString());
         componentRepository.save(gateway);
 
-        Component mote1 = createComponent(Component.ComponentType.MOTE.name(), "0", serialNumber+"0028:69");
+        Component mote1 = createComponent(Component.ComponentType.MOTE.name(), "0", "Pump #1 Measurement", serialNumber, spa.get_id());
         gateway.setRegistrationDate(LocalDate.now().toString());
         componentRepository.save(mote1);
 
-        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", serialNumber+"20398-0298s");
-        Component blower1 = createComponent(Component.ComponentType.BLOWER.name(), "0", serialNumber+"987-987-987");
-        Component mister1 = createComponent(Component.ComponentType.MISTER.name(), "0", serialNumber+"3246050-4s");
-        Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", serialNumber+"09sf-slk:332s:001");
-        Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", serialNumber+"0295885928");
-        Component panel = createComponent(Component.ComponentType.PANEL.name(), "0", serialNumber+"bwg-0250-t25525");
+        String pumpPartNo1 = "1016205*";
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Jets", pumpPartNo1+serialNumber, spa.get_id());
+        Component blower1 = createComponent(Component.ComponentType.BLOWER.name(), "0", "Bubbles", serialNumber, spa.get_id());
+        Component mister1 = createComponent(Component.ComponentType.MISTER.name(), "0", "Mister", serialNumber, spa.get_id());
+        Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", "Main Light", serialNumber, spa.get_id());
+        Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
+        Component panel = createComponent(Component.ComponentType.PANEL.name(), "0", "Controller Panel", "56549-"+serialNumber, spa.get_id());
 
         ComponentState p1State = createComponentState(pump1, "ON");
         ComponentState blower1State = createComponentState(blower1, "OFF");
@@ -281,7 +303,7 @@ public class ModelTestBase {
         ComponentState filter1State = createComponentState(filter1, "ON");
         ComponentState panelState = createComponentState(panel, "Locked");
         ComponentState gatewayState = createComponentState(gateway, "Connected");
-        ComponentState mote1State = createComponentState(mote1, "2 amps");
+        ComponentState mote1State = createComponentState(mote1, "2.11555 amps");
 
         SpaState spaState = new SpaStateBuilder()
                 .runMode("Ready")
@@ -296,19 +318,7 @@ public class ModelTestBase {
                 .currentTemp("97")
                 .build();
 
-        Spa spa = new Spa();
-        spa.setSerialNumber(serialNumber);
-        spa.setProductName(productName);
-        spa.setModel(model);
-        spa.setDealerId(dealerId);
-        spa.setOwner(owner);
         spa.setCurrentState(spaState);
-        spa.setOemId("cab335");
-        spa.setManufacturedDate(LocalDate.now().toString());
-        spa.setRegistrationDate(LocalDate.now().toString());
-        spa.setP2pAPSSID("myWifi");
-        spa.setP2pAPPassword("*******");
-
         spa = this.spaRepository.save(spa);
 
         return spa;
