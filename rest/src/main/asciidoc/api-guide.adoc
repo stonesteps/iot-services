@@ -380,8 +380,7 @@ include::{snippets}/dealer-update-example/http-response.adoc[]
 [[resources-user]]
 == User
 
-The user resource is used to retrieve, update, and delete individual users
-
+The user resource is used to retrieve, update, and delete individual users of the system.
 
 
 [[resources-user-links]]
@@ -391,7 +390,7 @@ include::{snippets}/user-get-example/links.adoc[]
 
 
 [[resources-users-list]]
-=== Listing users
+=== Listing All Users
 
 A `GET` request will list all of the service's users.
 
@@ -409,7 +408,7 @@ include::{snippets}/users-list-example/http-response.adoc[]
 
 
 [[resources-user-retrieve]]
-=== Retrieve a user
+=== Retrieve a User by Id
 
 A `GET` request will retrieve the details of a user
 
@@ -424,6 +423,24 @@ include::{snippets}/user-get-example/curl-request.adoc[]
 ==== Example response
 
 include::{snippets}/user-get-example/http-response.adoc[]
+
+
+[[resources-user-findByUserName]]
+=== Find User by Username
+
+A `GET` request will retrieve the details of a user given the username assigned to the person.
+
+==== Response structure
+
+include::{snippets}/user-findByUsername-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/user-findByUsername-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/user-findByUsername-example/http-response.adoc[]
 
 
 [[resources-user-create]]
