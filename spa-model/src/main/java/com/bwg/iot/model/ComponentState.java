@@ -16,6 +16,7 @@ public class ComponentState extends ResourceSupport {
     private String targetValue;
     private List<String> availableValues;
     private String name;
+    private String registeredTimestamp;
 
     public String getComponentType() {
         return componentType;
@@ -57,9 +58,7 @@ public class ComponentState extends ResourceSupport {
         this.targetValue = value;
     }
 
-    public List<String> getAvailableValues() {
-        return availableValues;
-    }
+    public List<String> getAvailableValues() { return availableValues; }
 
     public void setAvailableValues(List<String> availableValues) {
         this.availableValues = availableValues;
@@ -72,6 +71,10 @@ public class ComponentState extends ResourceSupport {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getRegisteredTimestamp() { return registeredTimestamp; }
+
+    public void setRegisteredTimestamp(String registeredTimestamp) { this.registeredTimestamp = registeredTimestamp; }
 
     @Override
     public boolean equals(Object o) {
