@@ -117,7 +117,7 @@ public final class ZSeedDbTest extends ModelTestBase {
         Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", dealer1.get_id(), owner3);
         this.add2Alerts(spa25);
         Spa spa26 = createSmallSpaWithState("160229", "Shark", "Tiger", dealer2.get_id(), owner4);
-        Spa spa27 = createFullSpaWithState("160315", "Whale", "Grey", dealer3.get_id(), owner5);
+        Spa spa27 = createDemoSpa("160315", "Whale", "Beluga", dealer3.get_id(), owner5);
 
         Spa spa1  = createUnsoldSpa("160217", "Shark", "Hammerhead", dealer1.get_id());
         Spa spa2  = createUnsoldSpa("160217", "Shark", "Hammerhead", dealer1.get_id());
