@@ -348,6 +348,61 @@ public class ModelTestBase {
         return spa;
     }
 
+    protected Spa createDemoSpa(String serialNumber, String productName, String model, String dealerId, User owner) {
+        Spa spa = new Spa();
+        spa.setSerialNumber(serialNumber+(serialSuffix++));
+        spa.setProductName(productName);
+        spa.setModel(model);
+        spa.setDealerId(dealerId);
+        spa.setOwner(owner);
+        spa.setOemId("cab335");
+        spa.setManufacturedDate(LocalDate.now().toString());
+        spa.setRegistrationDate(LocalDate.now().toString());
+        spa.setP2pAPSSID("pirateRadio");
+        spa.setP2pAPPassword("*******");
+        spa = this.spaRepository.save(spa);
+
+        Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", "IoT Gateway", serialNumber, spa.get_id());
+        gateway.setRegistrationDate(LocalDate.now().toString());
+        componentRepository.save(gateway);
+
+
+        String pumpPartNo1 = "1016205*";
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Main Jets", pumpPartNo1+serialNumber, spa.get_id());
+        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Caotain's Chair", pumpPartNo1+serialNumber, spa.get_id());
+        Component pump3 = createComponent(Component.ComponentType.PUMP.name(), "2", "Massage Jets", pumpPartNo1+serialNumber, spa.get_id());
+
+        Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", "Main Light", serialNumber, spa.get_id());
+//        Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
+//        Component filter2 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
+        Component panel = createComponent(Component.ComponentType.PANEL.name(), "0", "Controller Panel", "56549-"+serialNumber, spa.get_id());
+
+        ComponentState p1State = createComponentState(pump1, "ON");
+        ComponentState p2State = createComponentState(pump2, "ON");
+        ComponentState p3State = createComponentState(pump3, "ON");
+        ComponentState light1State = createComponentState(light1, "OFF");
+        ComponentState panelState = createComponentState(panel, "Unlocked");
+        ComponentState gatewayState = createComponentState(gateway, "Connected");
+
+        SpaState spaState = new SpaStateBuilder()
+                .runMode("Ready")
+                .component(p1State)
+                .component(p2State)
+                .component(p3State)
+                .component(light1State)
+                .component(panelState)
+                .component(gatewayState)
+                .targetDesiredTemp("100")
+                .desiredTemp("100")
+                .currentTemp("97")
+                .build();
+
+        spa.setCurrentState(spaState);
+        spa = this.spaRepository.save(spa);
+
+        return spa;
+    }
+
     public static final String LF_INDICATES = "Persistent water flow problem. ";
     public static final String LF_WAPPENS = "Heater wil shut down while spa continues to function normally. ";
     public static final String LF_CAUSE = "Possible Causes: Plugged Filter, Low Water. ";
