@@ -128,6 +128,7 @@ public class ModelTestBase {
         component.setPort(port);
         component.setSpaId(spaId);
         component.setName(name);
+
         componentRepository.save(component);
         return component;
     }
@@ -140,24 +141,51 @@ public class ModelTestBase {
         cs.setName(component.getName());
         cs.setValue(value);
         cs.setTargetValue(value);
+
+        List<String> availableStates = null;
+        String type = component.getComponentType();
+        if (Component.ComponentType.MICROSILK.toString().equalsIgnoreCase(type)
+                || Component.ComponentType.AUX.toString().equalsIgnoreCase(type)
+                || Component.ComponentType.MISTER.toString().equalsIgnoreCase(type)
+                || Component.ComponentType.OZONE.toString().equalsIgnoreCase(type)) {
+            availableStates = Arrays.asList("OFF", "ON");
+        } else if (Component.ComponentType.PUMP.toString().equalsIgnoreCase(type)) {
+            if ("0".equalsIgnoreCase(component.getPort())){
+                availableStates = Arrays.asList("OFF", "LOW", "HIGH");
+            } else {
+                availableStates = Arrays.asList("OFF", "HIGH");
+            }
+        } else if (Component.ComponentType.LIGHT.toString().equalsIgnoreCase(type)) {
+            if ("0".equalsIgnoreCase(component.getPort())){
+                availableStates = Arrays.asList("OFF", "LOW", "MED", "HIGH");
+            } else if ("1".equalsIgnoreCase(component.getPort())){
+                availableStates = Arrays.asList("OFF", "LOW", "HIGH");
+            } else {
+                availableStates = Arrays.asList("OFF", "HIGH");
+            }
+        } else if (Component.ComponentType.BLOWER.toString().equalsIgnoreCase(type)) {
+            availableStates = Arrays.asList("OFF", "LOW", "MED", "HIGH");
+        }
+        cs.setAvailableValues(availableStates);
         return cs;
     }
 
     protected Spa createUnsoldSpa(String serialNumber, String productName, String model, String dealerId) {
+        int randomSN = (int)(Math.random()*10000);
+
         Spa spa = new Spa();
-        spa.setSerialNumber(serialNumber);
+        spa.setSerialNumber(serialNumber+randomSN);
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
-
         this.spaRepository.save(spa);
         return spa;
     }
 
     protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String dealerId, User owner) {
+        int randomSN = (int)(Math.random()*10000);
 
         Spa spa = new Spa();
-        int randomSN = (int)(Math.random()*10000);
         spa.setSerialNumber(serialNumber+randomSN);
         spa.setProductName(productName);
         spa.setModel(model);
@@ -170,7 +198,7 @@ public class ModelTestBase {
         spa.setP2pAPPassword("*******");
         spa = this.spaRepository.save(spa);
 
-        Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "IoT Gateway", "0", serialNumber, spa.get_id());
+        Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", "IoT Gateway", serialNumber, spa.get_id());
         gateway.setRegistrationDate(LocalDate.now().toString());
         componentRepository.save(gateway);
 
@@ -266,6 +294,7 @@ public class ModelTestBase {
     }
 
     protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String dealerId, User owner) {
+        int randomSN = (int)(Math.random()*10000);
 
         Spa spa = new Spa();
         spa.setSerialNumber(serialNumber);
@@ -303,7 +332,7 @@ public class ModelTestBase {
         ComponentState filter1State = createComponentState(filter1, "ON");
         ComponentState panelState = createComponentState(panel, "Locked");
         ComponentState gatewayState = createComponentState(gateway, "Connected");
-        ComponentState mote1State = createComponentState(mote1, "2.11555 amps");
+        ComponentState mote1State = createComponentState(mote1, "2.11555");
 
         SpaState spaState = new SpaStateBuilder()
                 .runMode("Ready")
