@@ -228,19 +228,31 @@ public class ApiDocumentation extends ModelTestBase{
 		List<Address> addresses = createAddresses(1);
 		List<String> ownerRole = Arrays.asList("OWNER");
 		User owner1 = createUser("braitt", "Bonnie", "Raitt", null, null, addresses.get(0), ownerRole, now);
+		Spa spa24 = createSmallSpaWithState("160104", "Shark", "Tiger", "101", owner1);
 
-		createUnsoldSpa("01924094", "Shark", "Mako", "101");
-		createUnsoldSpa("01000000", "Shark", "Hammerhead", "101");
-		createUnsoldSpa("013t43tt", "Shark", "Nurse", "101");
-		createUnsoldSpa("0blah345", "Shark", "Land", "101");
-
-		this.mockMvc.perform(get("/spas/search/findByDealerId?dealerId=101"))
+		this.mockMvc.perform(get("/spas/search/findByUsername?username=braitt"))
 				.andExpect(status().isOk())
-				.andDo(document("spas-findbyDealer-example",
-						responseFields(
-								fieldWithPath("_embedded.spas").description("An array of <<resources-spa, Spa resources>>"),
-								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"),
-								fieldWithPath("page").description("Page information"))));
+				.andDo(document("spas-findbyUsername-example",
+					links(
+							linkWithRel("self").description("This <<resources-spa,spa>>"),
+							linkWithRel("spa").description("This <<resources-spa,spa>>"),
+							linkWithRel("owner").description("This <<resources-user,user>>")),
+					responseFields(
+							fieldWithPath("_id").description("Object Id"),
+							fieldWithPath("serialNumber").description("The serial of the spa"),
+							fieldWithPath("productName").description("The product name of the spa"),
+							fieldWithPath("model").description("The spa model"),
+							fieldWithPath("owner").description("The owner of the spa"),
+							fieldWithPath("sold").description("Flag denoting if spa has been sold"),
+							fieldWithPath("alerts").description("Current Issues with the spa").optional().type(Alert.class),
+							fieldWithPath("dealerId").description("The dealer assigned to the spa"),
+							fieldWithPath("oemId").description("The manufacturer that built spa").optional().type(String.class),
+							fieldWithPath("currentState").description("Latest readings from the spa"),
+							fieldWithPath("manufacturedDate").description("The date the spa was made"),
+							fieldWithPath("registrationDate").description("The date the spa was sold"),
+							fieldWithPath("p2pAPSSID").description("Wifi address"),
+							fieldWithPath("p2pAPPassword").description("Wifi password"),
+							fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
 	}
 
 	@Test
