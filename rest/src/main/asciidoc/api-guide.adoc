@@ -129,9 +129,9 @@ include::{snippets}/spa-get-example/links.adoc[]
 
 
 [[resources-spas-list]]
-=== Listing spas
+=== List All Spas
 
-A `GET` request will list all of the service's spas.
+A `GET` request to will list all of the service's spas.
 
 ==== Response structure
 
@@ -165,12 +165,30 @@ include::{snippets}/spas-findbyDealer-example/curl-request.adoc[]
 
 include::{snippets}/spas-findbyDealer-example/http-response.adoc[]
 
+[[resources-spas-findByUsername]]
+=== Find Spas By Username
+
+A `GET` request to /spas/search/findByUsername will return the spa associated with a user if it exists.
+A 404 error is returned if the user does not exist or is not associated with a spa.
+
+==== Response structure
+
+include::{snippets}/spas-findbyUsername-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/spas-findbyUsername-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/spas-findbyUsername-example/http-response.adoc[]
+
 
 
 [[resources-spa-retrieve]]
-=== Retrieve a spa
+=== Retrieve a spa by Id
 
-A `GET` request will retrieve the details of a spa
+A `GET` request will retrieve the details of a single spa.
 
 ==== Response structure
 
