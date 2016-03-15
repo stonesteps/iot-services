@@ -44,6 +44,7 @@ public class ModelTestBase {
     @Autowired
     protected TacUserAgreementRepository tacUserAgreementRepository;
 
+    protected static int serialSuffix = 1001;
 
     protected void clearAllData(){
         this.addressRepository.deleteAll();
@@ -121,10 +122,9 @@ public class ModelTestBase {
     }
 
     protected Component createComponent(String type, String port, String name, String serialNumber, String spaId) {
-        int randomSN = (int)(Math.random()*10000);
         Component component = new Component();
         component.setComponentType(type);
-        component.setSerialNumber(serialNumber+randomSN);
+        component.setSerialNumber(serialNumber+(serialSuffix++));
         component.setPort(port);
         component.setSpaId(spaId);
         component.setName(name);
@@ -171,10 +171,8 @@ public class ModelTestBase {
     }
 
     protected Spa createUnsoldSpa(String serialNumber, String productName, String model, String dealerId) {
-        int randomSN = (int)(Math.random()*10000);
-
         Spa spa = new Spa();
-        spa.setSerialNumber(serialNumber+randomSN);
+        spa.setSerialNumber(serialNumber+(serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
@@ -183,10 +181,8 @@ public class ModelTestBase {
     }
 
     protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String dealerId, User owner) {
-        int randomSN = (int)(Math.random()*10000);
-
         Spa spa = new Spa();
-        spa.setSerialNumber(serialNumber+randomSN);
+        spa.setSerialNumber(serialNumber+(serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
@@ -295,10 +291,8 @@ public class ModelTestBase {
     }
 
     protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String dealerId, User owner) {
-        int randomSN = (int)(Math.random()*10000);
-
         Spa spa = new Spa();
-        spa.setSerialNumber(serialNumber+randomSN);
+        spa.setSerialNumber(serialNumber+(serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
