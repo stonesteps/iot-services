@@ -35,6 +35,7 @@ import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -216,6 +217,42 @@ public class ApiDocumentation extends ModelTestBase{
 								fieldWithPath("_embedded.spas").description("An array of <<resources-spa, Spa resources>>"),
 								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"),
 								fieldWithPath("page").description("Page information"))));
+	}
+
+	@Test
+	public void spasFindByUsername() throws Exception {
+
+		clearAllData();
+		String now = LocalDateTime.now().toString();
+
+		List<Address> addresses = createAddresses(1);
+		List<String> ownerRole = Arrays.asList("OWNER");
+		User owner1 = createUser("braitt", "Bonnie", "Raitt", null, null, addresses.get(0), ownerRole, now);
+		Spa spa24 = createSmallSpaWithState("160104", "Shark", "Tiger", "101", owner1);
+
+		this.mockMvc.perform(get("/spas/search/findByUsername?username=braitt"))
+				.andExpect(status().isOk())
+				.andDo(document("spas-findbyUsername-example",
+					links(
+							linkWithRel("self").description("This <<resources-spa,spa>>"),
+							linkWithRel("spa").description("This <<resources-spa,spa>>"),
+							linkWithRel("owner").description("This <<resources-user,user>>")),
+					responseFields(
+							fieldWithPath("_id").description("Object Id"),
+							fieldWithPath("serialNumber").description("The serial of the spa"),
+							fieldWithPath("productName").description("The product name of the spa"),
+							fieldWithPath("model").description("The spa model"),
+							fieldWithPath("owner").description("The owner of the spa"),
+							fieldWithPath("sold").description("Flag denoting if spa has been sold"),
+							fieldWithPath("alerts").description("Current Issues with the spa").optional().type(Alert.class),
+							fieldWithPath("dealerId").description("The dealer assigned to the spa"),
+							fieldWithPath("oemId").description("The manufacturer that built spa").optional().type(String.class),
+							fieldWithPath("currentState").description("Latest readings from the spa"),
+							fieldWithPath("manufacturedDate").description("The date the spa was made"),
+							fieldWithPath("registrationDate").description("The date the spa was sold"),
+							fieldWithPath("p2pAPSSID").description("Wifi address"),
+							fieldWithPath("p2pAPPassword").description("Wifi password"),
+							fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
 	}
 
 	@Test

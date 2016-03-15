@@ -1,8 +1,5 @@
 package com.bwg.iot.model;
 
-import org.springframework.data.annotation.Id;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,15 +7,15 @@ import java.util.List;
  * Created by triton on 2/17/16.
  */
 public class SpaState {
-
-    @Id
-    String _id;
-    String spaId;
     String runMode; // rest, ready
     String desiredTemp;
     String targetDesiredTemp;
     String currentTemp;
-
+    boolean filterCycle1Active;
+    boolean filterCycle2Active;
+    int errorCode;
+    boolean cleanupCycle;
+    int messageSeverity;
     List<ComponentState> components;
     List<Measurement> measurements;
 
@@ -27,7 +24,23 @@ public class SpaState {
     public SpaState(){
         components = new ArrayList<ComponentState>();
         measurements = new ArrayList<Measurement>();
-    };
+    }
+
+    public boolean isFilterCycle1Active() {
+        return filterCycle1Active;
+    }
+
+    public void setFilterCycle1Active(boolean filterCycle1Active) {
+        this.filterCycle1Active = filterCycle1Active;
+    }
+
+    public boolean isFilterCycle2Active() {
+        return filterCycle2Active;
+    }
+
+    public void setFilterCycle2Active(boolean filterCycle2Active) {
+        this.filterCycle2Active = filterCycle2Active;
+    }
 
     public String getRunMode() {
         return runMode;
@@ -85,31 +98,34 @@ public class SpaState {
         this.uplinkTimestamp = uplinkTimestamp;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        SpaState spaState = (SpaState) o;
-
-        if (spaId != null ? !spaId.equals(spaState.spaId) : spaState.spaId != null) return false;
-        return uplinkTimestamp != null ? uplinkTimestamp.equals(spaState.uplinkTimestamp) : spaState.uplinkTimestamp == null;
-
+    public int getErrorCode() {
+        return errorCode;
     }
 
-    @Override
-    public int hashCode() {
-        int result = spaId != null ? spaId.hashCode() : 0;
-        result = 31 * result + (uplinkTimestamp != null ? uplinkTimestamp.hashCode() : 0);
-        return result;
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public boolean isCleanupCycle() {
+        return cleanupCycle;
+    }
+
+    public void setCleanupCycle(boolean cleanupCycle) {
+        this.cleanupCycle = cleanupCycle;
+    }
+
+    public int getMessageSeverity() {
+        return messageSeverity;
+    }
+
+    public void setMessageSeverity(int messageSeverity) {
+        this.messageSeverity = messageSeverity;
     }
 
     @Override
     public String toString() {
         return "SpaState{" +
-                " _id='" + _id + '\'' +
-                ", spaId='" + spaId + '\'' +
-                ", runMode='" + runMode + '\'' +
+                "  runMode='" + runMode + '\'' +
                 ", desiredTemp='" + desiredTemp + '\'' +
                 ", targetDesiredTemp='" + targetDesiredTemp + '\'' +
                 ", currentTemp='" + currentTemp + '\'' +

@@ -175,7 +175,35 @@ public final class UserDocumentation extends ModelTestBase {
                                 fieldWithPath("roles").description("Roles of this user"),
                                 fieldWithPath("address").description("User's address"),
                                 fieldWithPath("createdDate").description("User creation date"),
-                                fieldWithPath("modifiedDate").description("Date of update"),
+                                fieldWithPath("modifiedDate").description("Date of update").optional().type("String"),
+                                fieldWithPath("_links")
+                                        .description("<<resources-user-links,Links>> to other resources"))));
+    }
+
+    @Test
+    public void userFindByUsername() throws Exception {
+        this.userRepository.deleteAll();
+        this.addressRepository.deleteAll();
+
+        Address address = createAddress();
+        User user = createUser("veddy", "Eddie", "Vedder", "111", "222", address, Arrays.asList("OWNER"), new Date().toString());
+
+        this.mockMvc.perform(get("/users/search/findByUsername?username={0}", user.getUsername())).andExpect(status().isOk())
+                .andExpect(jsonPath("firstName", is(user.getFirstName())))
+                .andDo(document("user-findByUsername-example",
+                        links(linkWithRel("self").description("This <<resources-user,user>>"),
+                                linkWithRel("user").description("This <<resources-user,user>>")),
+                        responseFields(
+                                fieldWithPath("_id").description("Object Id"),
+                                fieldWithPath("username").description("Unique string for the user"),
+                                fieldWithPath("firstName").description("First name of the user"),
+                                fieldWithPath("lastName").description("Last name of the user"),
+                                fieldWithPath("dealerId").description("Dealer id"),
+                                fieldWithPath("oemId").description("Oem id"),
+                                fieldWithPath("roles").description("Roles of this user"),
+                                fieldWithPath("address").description("User's address"),
+                                fieldWithPath("createdDate").description("User creation date"),
+                                fieldWithPath("modifiedDate").description("Date of update").optional().type("String"),
                                 fieldWithPath("_links")
                                         .description("<<resources-user-links,Links>> to other resources"))));
     }

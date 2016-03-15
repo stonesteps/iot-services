@@ -137,7 +137,7 @@ public final class DealerDocumentation extends ModelTestBase{
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        Dealer dealer = createDealer("Backyard Beach", address, null);
+        Dealer dealer = createDealer("Backyard Beach", address, "oem00001");
 
 
         this.mockMvc.perform(get("/dealers/{0}", dealer.get_id())).andExpect(status().isOk())

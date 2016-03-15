@@ -110,33 +110,33 @@ public final class ZSeedDbTest extends ModelTestBase {
         TacUserAgreement agreement2 = createAgreement(owner2.get_id(), tac1.getVersion());
 
         // create a variety of spas.  sold, unsold, fully populated w components, some with alerts...
-        Spa spa22 = createFullSpaWithState("001:", "Shark", "Blue", dealer1.get_id(), owner1);
-        Spa spa24 = createSmallSpaWithState("002-", "Shark", "Tiger", dealer1.get_id(), owner2);
-        Spa spa25 = createSmallSpaWithState("003-", "Fish", "Minnow", dealer1.get_id(), owner3);
-        Spa spa26 = createSmallSpaWithState("004-", "Shark", "Tiger", dealer2.get_id(), owner4);
-        Spa spa27 = createFullSpaWithState("005-", "Whale", "Sperm", dealer3.get_id(), owner5);
+        Spa spa22 = createFullSpaWithState("150307", "Shark", "Blue", dealer1.get_id(), owner1);
+        Spa spa24 = createSmallSpaWithState("160104", "Shark", "Tiger", dealer1.get_id(), owner2);
+        Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", dealer1.get_id(), owner3);
+        Spa spa26 = createSmallSpaWithState("160229", "Shark", "Tiger", dealer2.get_id(), owner4);
+        Spa spa27 = createFullSpaWithState("160315", "Whale", "Grey", dealer3.get_id(), owner5);
 
-        Spa spa1  = createUnsoldSpa("111111", "Shark", "Hammerhead", dealer1.get_id());
-        Spa spa2  = createUnsoldSpa("222222", "Shark", "Hammerhead", dealer1.get_id());
-        Spa spa3  = createUnsoldSpa("33333", "Shark", "Mako", dealer1.get_id());
-        Spa spa4  = createUnsoldSpa("44444", "Shark", "Sand", dealer1.get_id());
-        Spa spa5  = createUnsoldSpa("55555", "Shark", "Mako", dealer1.get_id());
-        Spa spa6  = createUnsoldSpa("66666", "Shark", "Sand", dealer1.get_id());
-        Spa spa7  = createUnsoldSpa("seven7:", "Whale", "Humpback", dealer2.get_id());
-        Spa spa8  = createUnsoldSpa("88-", "Whale", "Sperm", dealer2.get_id());
-        Spa spa9  = createUnsoldSpa("99999", "Shark", "Mako", dealer1.get_id());
-        Spa spa10 = createUnsoldSpa("10101", "Shark", "Sand", dealer1.get_id());
-        Spa spa11 = createUnsoldSpa("11_11_11", "Whale", "Humpback", dealer2.get_id());
-        Spa spa12 = createUnsoldSpa("121212", "Whale", "Sperm", dealer2.get_id());
-        Spa spa13 = createUnsoldSpa("1313", "Whale", "Humpback", dealer2.get_id());
-        Spa spa14 = createUnsoldSpa("14141414", "Whale", "Sperm", dealer2.get_id());
-        Spa spa15 = createUnsoldSpa("fifteen::", "Shark", "Card", dealer2.get_id());
-        Spa spa16 = createUnsoldSpa("161616", "Whale", "Humpback", dealer2.get_id());
-        Spa spa17 = createUnsoldSpa("177777", "Whale", "Sperm", dealer3.get_id());
-        Spa spa18 = createUnsoldSpa("18181818", "Whale", "Humpback", dealer3.get_id());
-        Spa spa19 = createUnsoldSpa("191919999", "Whale", "Sperm", dealer3.get_id());
-        Spa spa20 = createUnsoldSpa("20twenty:", "Whale", "Humpback", dealer3.get_id());
-        Spa spa21 = createUnsoldSpa("21_", "Whale", "Sperm", dealer3.get_id());
+        Spa spa1  = createUnsoldSpa("160217", "Shark", "Hammerhead", dealer1.get_id());
+        Spa spa2  = createUnsoldSpa("160217", "Shark", "Hammerhead", dealer1.get_id());
+        Spa spa3  = createUnsoldSpa("160217", "Shark", "Mako", dealer1.get_id());
+        Spa spa4  = createUnsoldSpa("151220", "Shark", "Sand", dealer1.get_id());
+        Spa spa5  = createUnsoldSpa("151220", "Shark", "Mako", dealer1.get_id());
+        Spa spa6  = createUnsoldSpa("151220", "Shark", "Sand", dealer1.get_id());
+        Spa spa7  = createUnsoldSpa("151220", "Whale", "Orca", dealer2.get_id());
+        Spa spa8  = createUnsoldSpa("160118", "Whale", "Grey", dealer2.get_id());
+        Spa spa9  = createUnsoldSpa("160118", "Shark", "Mako", dealer1.get_id());
+        Spa spa10 = createUnsoldSpa("160118", "Shark", "Sand", dealer1.get_id());
+        Spa spa11 = createUnsoldSpa("160118", "Whale", "Orca", dealer2.get_id());
+        Spa spa12 = createUnsoldSpa("160125", "Whale", "Grey", dealer2.get_id());
+        Spa spa13 = createUnsoldSpa("160101", "Whale", "Orca", dealer2.get_id());
+        Spa spa14 = createUnsoldSpa("160118", "Whale", "Grey", dealer2.get_id());
+        Spa spa15 = createUnsoldSpa("160111", "Shark", "Card", dealer2.get_id());
+        Spa spa16 = createUnsoldSpa("160111", "Whale", "Orca", dealer2.get_id());
+        Spa spa17 = createUnsoldSpa("160111", "Whale", "Grey", dealer3.get_id());
+        Spa spa18 = createUnsoldSpa("160105", "Whale", "Orca", dealer3.get_id());
+        Spa spa19 = createUnsoldSpa("160105", "Whale", "Grey", dealer3.get_id());
+        Spa spa20 = createUnsoldSpa("160105", "Whale", "Orca", dealer3.get_id());
+        Spa spa21 = createUnsoldSpa("151111", "Whale", "Grey", dealer3.get_id());
 
 
         // Create some measurements
