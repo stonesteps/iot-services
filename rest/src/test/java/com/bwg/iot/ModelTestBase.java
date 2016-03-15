@@ -278,18 +278,19 @@ public class ModelTestBase {
         spa.setCurrentState(spaState);
         spa = this.spaRepository.save(spa);
 
-        Alert alert1 = new Alert();
-        alert1.setName("Replace Filter");
-        alert1.setLongDescription("The filter is old and needs to be replaced");
-        alert1.setSeverityLevel("yellow");
-        alert1.setComponent("filter1");
-        alert1.setShortDescription("Replace Filter");
-        alert1.setCreationDate(LocalDateTime.now().toString());
-        alert1.setSpaId(spa.get_id());
-        alertRepository.save(alert1);
+//        Alert alert1 = new Alert();
+//        alert1.setName("Replace Filter");
+//        alert1.setLongDescription("The filter is old and needs to be replaced");
+//        alert1.setSeverityLevel("yellow");
+//        alert1.setComponent("filter1");
+//        alert1.setShortDescription("Replace Filter");
+//        alert1.setCreationDate(LocalDateTime.now().toString());
+//        alert1.setSpaId(spa.get_id());
+//        alertRepository.save(alert1);
+//
+//        spa.setAlerts(Arrays.asList(alert1));
+//        spa = this.spaRepository.save(spa);
 
-        spa.setAlerts(Arrays.asList(alert1));
-        spa = this.spaRepository.save(spa);
         return spa;
     }
 
@@ -297,7 +298,7 @@ public class ModelTestBase {
         int randomSN = (int)(Math.random()*10000);
 
         Spa spa = new Spa();
-        spa.setSerialNumber(serialNumber);
+        spa.setSerialNumber(serialNumber+randomSN);
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
@@ -352,6 +353,56 @@ public class ModelTestBase {
 
         return spa;
     }
+
+    public static final String LF_INDICATES = "Persistent water flow problem. ";
+    public static final String LF_WAPPENS = "Heater wil shut down while spa continues to function normally. ";
+    public static final String LF_CAUSE = "Possible Causes: Plugged Filter, Low Water. ";
+    public static final String LF_ACTION = "Remove Filter and clean. Add water. Open All Jets. Contact Dealer. ";
+    public static final String OHH_INDICATES = "One of the Sensors had detected water temperature of 118\u00b0F (48\u00b0C). ";
+    public static final String OHH_HAPPENS = "Spa Heater will shut down until temperature cools to 108\u00b0F (42\u00b0C) ";
+    public static final String OHH_CAUSE = "Low speed pump overuse. Continuous Filtering programming error. Faulty pump. ";
+    public static final String OHH_ACTION = "Ensure slice valves are open, Open all jets, Reprogram time cycles. Contact Dealer. ";
+
+    protected Alert createAlert(Spa spa, String name, String level, String shortDesc, String longDesc, int compIndex) {
+        Alert alert1 = new Alert();
+        alert1.setName(name);
+        alert1.setLongDescription(longDesc);
+        alert1.setSeverityLevel(level);
+        alert1.setComponent(spa.getCurrentState().getComponents().get(compIndex).getSerialNumber());
+        alert1.setShortDescription(shortDesc);
+        alert1.setCreationDate(LocalDateTime.now().toString());
+        alert1.setSpaId(spa.get_id());
+        alertRepository.save(alert1);
+        return alert1;
+    }
+
+    protected Spa addLowFlowYellowAlert(Spa spa) {
+        Alert alert1 = createAlert(spa, "Low FLow", "yellow", LF_INDICATES, LF_WAPPENS+LF_CAUSE+LF_ACTION, 0);
+        List<Alert> alerts = new ArrayList<Alert>();
+        alerts.add(alert1);
+        spa.setAlerts(alerts);
+        spa = spaRepository.save(spa);
+        return spa;
+    }
+
+    protected Spa addOverheatRedAlert(Spa spa) {
+        Alert alert1 = createAlert(spa, "OVERHEAT", "red", OHH_INDICATES, OHH_HAPPENS+OHH_CAUSE+OHH_ACTION, 1);
+        List<Alert> alerts = new ArrayList<Alert>();
+        alerts.add(alert1);
+        spa.setAlerts(alerts);
+        spa = spaRepository.save(spa);
+        return spa;
+    }
+
+    protected Spa add2Alerts(Spa spa) {
+        Alert alert1 = createAlert(spa, "Low FLow", "yellow", LF_INDICATES, LF_WAPPENS+LF_CAUSE+LF_ACTION, 0);
+        Alert alert2 = createAlert(spa, "OVERHEAT", "red", OHH_INDICATES, OHH_HAPPENS+OHH_CAUSE+OHH_ACTION, 1);
+        List<Alert> alerts = Arrays.asList(alert1, alert2);
+        spa.setAlerts(alerts);
+        spa = spaRepository.save(spa);
+        return spa;
+    }
+
 
     protected TermsAndConditions createTermsAndAgreement(String version, String text){
         TermsAndConditions tac = new TermsAndConditions();

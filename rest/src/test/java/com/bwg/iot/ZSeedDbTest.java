@@ -111,8 +111,11 @@ public final class ZSeedDbTest extends ModelTestBase {
 
         // create a variety of spas.  sold, unsold, fully populated w components, some with alerts...
         Spa spa22 = createFullSpaWithState("150307", "Shark", "Blue", dealer1.get_id(), owner1);
+        spa22 = this.addOverheatRedAlert(spa22);
         Spa spa24 = createSmallSpaWithState("160104", "Shark", "Tiger", dealer1.get_id(), owner2);
+        this.addLowFlowYellowAlert(spa24);
         Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", dealer1.get_id(), owner3);
+        this.add2Alerts(spa25);
         Spa spa26 = createSmallSpaWithState("160229", "Shark", "Tiger", dealer2.get_id(), owner4);
         Spa spa27 = createFullSpaWithState("160315", "Whale", "Grey", dealer3.get_id(), owner5);
 

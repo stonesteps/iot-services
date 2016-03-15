@@ -167,6 +167,7 @@ public class ApiDocumentation extends ModelTestBase{
 
 		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), LocalDateTime.now().toString());
         Spa spa = createFullSpaWithState("0blah345", "Shark", "Blue", "101", owner);
+        spa = this.addLowFlowYellowAlert(spa);
 
 		String spaLocation = "/spas/"+spa.get_id();
 
