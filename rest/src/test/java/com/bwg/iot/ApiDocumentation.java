@@ -35,6 +35,7 @@ import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -203,6 +204,30 @@ public class ApiDocumentation extends ModelTestBase{
 	@Test
 	public void spasFindByDealerExample() throws Exception {
 		this.spaRepository.deleteAll();
+
+		createUnsoldSpa("01924094", "Shark", "Mako", "101");
+		createUnsoldSpa("01000000", "Shark", "Hammerhead", "101");
+		createUnsoldSpa("013t43tt", "Shark", "Nurse", "101");
+		createUnsoldSpa("0blah345", "Shark", "Land", "101");
+
+		this.mockMvc.perform(get("/spas/search/findByDealerId?dealerId=101"))
+				.andExpect(status().isOk())
+				.andDo(document("spas-findbyDealer-example",
+						responseFields(
+								fieldWithPath("_embedded.spas").description("An array of <<resources-spa, Spa resources>>"),
+								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"),
+								fieldWithPath("page").description("Page information"))));
+	}
+
+	@Test
+	public void spasFindByUsername() throws Exception {
+
+		clearAllData();
+		String now = LocalDateTime.now().toString();
+
+		List<Address> addresses = createAddresses(1);
+		List<String> ownerRole = Arrays.asList("OWNER");
+		User owner1 = createUser("braitt", "Bonnie", "Raitt", null, null, addresses.get(0), ownerRole, now);
 
 		createUnsoldSpa("01924094", "Shark", "Mako", "101");
 		createUnsoldSpa("01000000", "Shark", "Hammerhead", "101");

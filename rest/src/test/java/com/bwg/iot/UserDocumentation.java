@@ -175,7 +175,7 @@ public final class UserDocumentation extends ModelTestBase {
                                 fieldWithPath("roles").description("Roles of this user"),
                                 fieldWithPath("address").description("User's address"),
                                 fieldWithPath("createdDate").description("User creation date"),
-                                fieldWithPath("modifiedDate").description("Date of update"),
+                                fieldWithPath("modifiedDate").description("Date of update").optional().type("String"),
                                 fieldWithPath("_links")
                                         .description("<<resources-user-links,Links>> to other resources"))));
     }
