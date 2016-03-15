@@ -13,7 +13,9 @@ public class SpaState {
     String currentTemp;
     boolean filterCycle1Active;
     boolean filterCycle2Active;
-
+    int errorCode;
+    boolean cleanupCycle;
+    int messageSeverity;
     List<ComponentState> components;
     List<Measurement> measurements;
 
@@ -94,6 +96,30 @@ public class SpaState {
 
     public void setUplinkTimestamp(String uplinkTimestamp) {
         this.uplinkTimestamp = uplinkTimestamp;
+    }
+
+    public int getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public boolean isCleanupCycle() {
+        return cleanupCycle;
+    }
+
+    public void setCleanupCycle(boolean cleanupCycle) {
+        this.cleanupCycle = cleanupCycle;
+    }
+
+    public int getMessageSeverity() {
+        return messageSeverity;
+    }
+
+    public void setMessageSeverity(int messageSeverity) {
+        this.messageSeverity = messageSeverity;
     }
 
     @Override
