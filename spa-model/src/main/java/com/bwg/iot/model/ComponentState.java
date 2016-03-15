@@ -3,6 +3,7 @@ package com.bwg.iot.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -13,7 +14,9 @@ public class ComponentState extends ResourceSupport {
     private String serialNumber;
     private String value;
     private String targetValue;
+    private List<String> availableValues;
     private String name;
+    private String registeredTimestamp;
 
     public String getComponentType() {
         return componentType;
@@ -55,6 +58,12 @@ public class ComponentState extends ResourceSupport {
         this.targetValue = value;
     }
 
+    public List<String> getAvailableValues() { return availableValues; }
+
+    public void setAvailableValues(List<String> availableValues) {
+        this.availableValues = availableValues;
+    }
+
     public String getName() {
         return name;
     }
@@ -62,6 +71,10 @@ public class ComponentState extends ResourceSupport {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getRegisteredTimestamp() { return registeredTimestamp; }
+
+    public void setRegisteredTimestamp(String registeredTimestamp) { this.registeredTimestamp = registeredTimestamp; }
 
     @Override
     public boolean equals(Object o) {
