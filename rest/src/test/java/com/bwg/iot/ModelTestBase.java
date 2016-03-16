@@ -369,7 +369,7 @@ public class ModelTestBase {
 
         String pumpPartNo1 = "1016205*";
         Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Main Jets", pumpPartNo1+serialNumber, spa.get_id());
-        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Caotain's Chair", pumpPartNo1+serialNumber, spa.get_id());
+        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Captain's Chair", pumpPartNo1+serialNumber, spa.get_id());
         Component pump3 = createComponent(Component.ComponentType.PUMP.name(), "2", "Massage Jets", pumpPartNo1+serialNumber, spa.get_id());
 
         Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", "Main Light", serialNumber, spa.get_id());
