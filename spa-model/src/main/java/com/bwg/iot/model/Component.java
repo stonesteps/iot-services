@@ -5,12 +5,25 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.util.List;
+
+import static com.google.common.collect.Lists.newArrayList;
+
 
 @Document
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class Component extends ResourceSupport {
 
     public enum ComponentType { GATEWAY, MOTE, PUMP, LIGHT, BLOWER, MISTER, FILTER, AUX, PANEL, OZONE, MICROSILK, CONTROLLER };
+    public final static List<String> PORT_BASED_COMPONENT_TYPES =
+            newArrayList(ComponentType.AUX.name(),
+                    ComponentType.BLOWER.name(),
+                    ComponentType.LIGHT.name(),
+                    ComponentType.MOTE.name(),
+                    ComponentType.PANEL.name(),
+                    ComponentType.PUMP.name()
+            );
+
 
     @Id
     private String _id;
@@ -162,5 +175,6 @@ public class Component extends ResourceSupport {
                 ", registrationDate='" + registrationDate + '\'' +
                 '}';
     }
+
 
 }

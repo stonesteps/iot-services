@@ -1,10 +1,13 @@
 package com.bwg.iot.model;
 
+import com.bwg.iot.model.Component.ComponentType;
 import org.springframework.data.annotation.Id;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.List;
 import java.util.Objects;
+
+import static com.google.common.collect.Lists.newArrayList;
 
 
 public class ComponentState extends ResourceSupport {
@@ -109,5 +112,9 @@ public class ComponentState extends ResourceSupport {
                 ", value='" + value + '\'' +
                 ", targetValue='" + targetValue + '\'' +
                 '}';
+    }
+
+    public boolean requiresPort() {
+        return (componentType != null && Component.PORT_BASED_COMPONENT_TYPES.contains(componentType));
     }
 }
