@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.util.Date;
+
 
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class TermsAndConditions extends ResourceSupport {
@@ -12,7 +14,7 @@ public class TermsAndConditions extends ResourceSupport {
     private String _id;
     private String text;
     private String version;
-    private String createdTimestamp;
+    private Date createdTimestamp;
     private Boolean current;
 
     public TermsAndConditions(){}
@@ -37,11 +39,11 @@ public class TermsAndConditions extends ResourceSupport {
         this.version = version;
     }
 
-    public String getCreatedTimestamp() {
+    public Date getCreatedTimestamp() {
         return createdTimestamp;
     }
 
-    public void setCreatedTimestamp(String createdTimestamp) {
+    public void setCreatedTimestamp(Date createdTimestamp) {
         this.createdTimestamp = createdTimestamp;
     }
 

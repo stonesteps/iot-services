@@ -1,9 +1,10 @@
 package com.bwg.iot.builders;
 
-import com.bwg.iot.model.Component;
 import com.bwg.iot.model.ComponentState;
 import com.bwg.iot.model.Measurement;
 import com.bwg.iot.model.SpaState;
+
+import java.util.Date;
 
 /**
  * Created by triton on 3/3/16.
@@ -26,7 +27,7 @@ public class SpaStateBuilder {
         spaState.getMeasurements().add(measurement);
         return this;
     }
-    public SpaStateBuilder uplinkTimestamp(String timestamp){
+    public SpaStateBuilder uplinkTimestamp(Date timestamp){
         spaState.setUplinkTimestamp(timestamp);
         return this;
     }

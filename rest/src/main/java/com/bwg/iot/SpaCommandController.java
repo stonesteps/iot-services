@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -144,7 +145,7 @@ public class SpaCommandController {
         command.setOriginatorId(originatorId);
         command.setRequestTypeId(requestCode);
         command.setValues(values);
-        command.setSentTimestamp(LocalDateTime.now().toString());
+        command.setSentTimestamp(new Date());
         spaCommandRepository.save(command);
 
         return command;

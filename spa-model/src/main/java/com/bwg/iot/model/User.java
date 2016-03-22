@@ -1,10 +1,13 @@
 package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -20,7 +23,10 @@ public class User extends ResourceSupport {
     private String firstName;
     private Address address;
     private List<String> roles;
-    private String createdDate;
+
+    private Date createdDate;
+
+    private Date modifiedDate;
     private String password;
 
     public String getUsername() {
@@ -92,23 +98,22 @@ public class User extends ResourceSupport {
         this.roles = roles;
     }
 
-    public String getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(String createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
-    public String getModifiedDate() {
+    public Date getModifiedDate() {
         return modifiedDate;
     }
 
-    public void setModifiedDate(String modifiedDate) {
+    public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 
-    private String modifiedDate;
 
     public String get_id() {
         return _id;

@@ -2,15 +2,13 @@ package com.bwg.iot;
 
 import com.bwg.iot.builders.SpaStateBuilder;
 import com.bwg.iot.model.*;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -107,7 +105,7 @@ public class ModelTestBase {
         return oemRepository.save(oem);
     }
 
-    protected User createUser(String username, String firstName, String lastName, String dealerId, String oemId, Address address, List<String> roles, String createdDate) {
+    protected User createUser(String username, String firstName, String lastName, String dealerId, String oemId, Address address, List<String> roles) {
         User user = new User();
         user.setUsername(username);
         user.setFirstName(firstName);
@@ -116,7 +114,7 @@ public class ModelTestBase {
         user.setOemId(oemId);
         user.setAddress(address);
         user.setRoles(roles);
-        user.setCreatedDate(createdDate);
+        user.setCreatedDate(new Date());
         userRepository.save(user);
         return user;
     }
@@ -188,22 +186,22 @@ public class ModelTestBase {
         spa.setDealerId(dealerId);
         spa.setOwner(owner);
         spa.setOemId("cab335");
-        spa.setManufacturedDate(LocalDate.now().toString());
-        spa.setRegistrationDate(LocalDate.now().toString());
+        spa.setManufacturedDate(new Date());
+        spa.setRegistrationDate(LocalDateTime.now());
         spa.setP2pAPSSID("myWifi");
         spa.setP2pAPPassword("*******");
         spa = this.spaRepository.save(spa);
 
         Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", "IoT Gateway", serialNumber, spa.get_id());
-        gateway.setRegistrationDate(LocalDate.now().toString());
+        gateway.setRegistrationDate(new Date());
         componentRepository.save(gateway);
 
         Component mote1 = createComponent(Component.ComponentType.MOTE.name(), "0", "Pump #1 Measurement", serialNumber, spa.get_id());
-        gateway.setRegistrationDate(LocalDate.now().toString());
+        gateway.setRegistrationDate(new Date());
         componentRepository.save(mote1);
 
         Component mote2 = createComponent(Component.ComponentType.MOTE.name(), "1", "Pump #1 Measurement", serialNumber, spa.get_id());
-        gateway.setRegistrationDate(LocalDate.now().toString());
+        gateway.setRegistrationDate(new Date());
         componentRepository.save(mote2);
 
         String pumpPartNo1 = "1016205*";
@@ -280,7 +278,7 @@ public class ModelTestBase {
 //        alert1.setSeverityLevel("yellow");
 //        alert1.setComponent("filter1");
 //        alert1.setShortDescription("Replace Filter");
-//        alert1.setCreationDate(LocalDateTime.now().toString());
+//        alert1.setCreationDate(new Date().toString());
 //        alert1.setSpaId(spa.get_id());
 //        alertRepository.save(alert1);
 //
@@ -298,18 +296,18 @@ public class ModelTestBase {
         spa.setDealerId(dealerId);
         spa.setOwner(owner);
         spa.setOemId("cab335");
-        spa.setManufacturedDate(LocalDate.now().toString());
-        spa.setRegistrationDate(LocalDate.now().toString());
+        spa.setManufacturedDate(new Date());
+        spa.setRegistrationDate(LocalDateTime.now());
         spa.setP2pAPSSID("myWifi");
         spa.setP2pAPPassword("*******");
         spa = this.spaRepository.save(spa);
 
         Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", "IoT Gateway", serialNumber, spa.get_id());
-        gateway.setRegistrationDate(LocalDate.now().toString());
+        gateway.setRegistrationDate(new Date());
         componentRepository.save(gateway);
 
         Component mote1 = createComponent(Component.ComponentType.MOTE.name(), "0", "Pump #1 Measurement", serialNumber, spa.get_id());
-        gateway.setRegistrationDate(LocalDate.now().toString());
+        gateway.setRegistrationDate(new Date());
         componentRepository.save(mote1);
 
         String pumpPartNo1 = "1016205*";
@@ -356,14 +354,14 @@ public class ModelTestBase {
         spa.setDealerId(dealerId);
         spa.setOwner(owner);
         spa.setOemId("cab335");
-        spa.setManufacturedDate(LocalDate.now().toString());
-        spa.setRegistrationDate(LocalDate.now().toString());
+        spa.setManufacturedDate(new Date());
+        spa.setRegistrationDate(LocalDateTime.now());
         spa.setP2pAPSSID("pirateRadio");
         spa.setP2pAPPassword("*******");
         spa = this.spaRepository.save(spa);
 
         Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", "IoT Gateway", serialNumber, spa.get_id());
-        gateway.setRegistrationDate(LocalDate.now().toString());
+        gateway.setRegistrationDate(new Date());
         componentRepository.save(gateway);
 
 
@@ -382,7 +380,7 @@ public class ModelTestBase {
         ComponentState p3State = createComponentState(pump3, "ON");
         ComponentState light1State = createComponentState(light1, "OFF");
         ComponentState panelState = createComponentState(panel, "Unlocked");
-        ComponentState gatewayState = createComponentState(gateway, "Connected");
+        ComponentState gatewayState = createComponentState(gateway, "OFF");
 
         SpaState spaState = new SpaStateBuilder()
                 .runMode("Ready")
@@ -419,7 +417,7 @@ public class ModelTestBase {
         alert1.setSeverityLevel(level);
         alert1.setComponent(spa.getCurrentState().getComponents().get(compIndex).getSerialNumber());
         alert1.setShortDescription(shortDesc);
-        alert1.setCreationDate(LocalDateTime.now().toString());
+        alert1.setCreationDate(LocalDateTime.now());
         alert1.setSpaId(spa.get_id());
         alertRepository.save(alert1);
         return alert1;
@@ -457,7 +455,7 @@ public class ModelTestBase {
         TermsAndConditions tac = new TermsAndConditions();
         tac.setText(text);
         tac.setVersion(version);
-        tac.setCreatedTimestamp(LocalDateTime.now().toString());
+        tac.setCreatedTimestamp(new Date());
         tac.setCurrent(Boolean.TRUE);
         tac = termsAndConditionsRepository.save(tac);
         return tac;
@@ -468,7 +466,7 @@ public class ModelTestBase {
         agreement.setUserId(userId);
         agreement.setVersion(version);
         agreement.setCurrent(Boolean.TRUE);
-        agreement.setDateAgreed(LocalDateTime.now().toString());
+        agreement.setDateAgreed(new Date());
         agreement = tacUserAgreementRepository.save(agreement);
         return agreement;
     }

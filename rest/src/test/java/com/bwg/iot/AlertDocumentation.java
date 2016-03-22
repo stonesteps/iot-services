@@ -33,6 +33,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -163,7 +164,6 @@ public final class AlertDocumentation {
 	}
 
 	private Alert createAlert(String name, String severity, String shortDesc, String fullDesc, String component, String spaId) {
-        String now = LocalDateTime.now().toString();
 		final Alert alert = new Alert();
 		alert.setName(name);
 		alert.setSeverityLevel(severity);
@@ -171,7 +171,7 @@ public final class AlertDocumentation {
 		alert.setLongDescription(fullDesc);
 		alert.setComponent(component);
 		alert.setSpaId(spaId);
-		alert.setCreationDate(now);
+		alert.setCreationDate(LocalDateTime.now());
 		return alertRepository.save(alert);
 	}
 }

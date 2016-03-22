@@ -33,7 +33,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -97,14 +96,13 @@ public final class UserDocumentation extends ModelTestBase {
 
         Address address = createAddress();
 
-        String now = LocalDateTime.now().toString();
         final Map<String, Object> user = new HashMap<>();
         user.put("firstName", "Mo");
         user.put("lastName", "Eddy");
         user.put("dealerId", "111");
         user.put("oemId", "222");
         user.put("address", address);
-        user.put("createdDate", new Date().toString());
+        user.put("createdDate", new Date());
         user.put("roles", Arrays.asList("USER"));
 
         this.mockMvc
@@ -127,7 +125,7 @@ public final class UserDocumentation extends ModelTestBase {
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("USER"), new Date().toString());
+        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("USER"));
 
         final Map<String, Object> userUpdate = new HashMap<>();
         userUpdate.put("firstName", "Moebius");
@@ -135,7 +133,7 @@ public final class UserDocumentation extends ModelTestBase {
         userUpdate.put("dealerId", "111");
         userUpdate.put("oemId", "222");
         userUpdate.put("address", address);
-        userUpdate.put("modifiedDate", new Date().toString());
+        userUpdate.put("modifiedDate", new Date());
         userUpdate.put("roles", Arrays.asList("USER"));
 
         this.mockMvc
@@ -158,7 +156,7 @@ public final class UserDocumentation extends ModelTestBase {
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("USER"), new Date().toString());
+        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("USER"));
 
         this.mockMvc.perform(get("/users/{0}", user.get_id())).andExpect(status().isOk())
                 .andExpect(jsonPath("firstName", is(user.getFirstName())))
@@ -186,7 +184,7 @@ public final class UserDocumentation extends ModelTestBase {
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        User user = createUser("veddy", "Eddie", "Vedder", "111", "222", address, Arrays.asList("OWNER"), new Date().toString());
+        User user = createUser("veddy", "Eddie", "Vedder", "111", "222", address, Arrays.asList("OWNER"));
 
         this.mockMvc.perform(get("/users/search/findByUsername?username={0}", user.getUsername())).andExpect(status().isOk())
                 .andExpect(jsonPath("firstName", is(user.getFirstName())))

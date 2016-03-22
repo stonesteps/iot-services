@@ -1,6 +1,7 @@
 package com.bwg.iot.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class SpaState {
     List<ComponentState> components;
     List<Measurement> measurements;
 
-    String uplinkTimestamp = null;
+    Date uplinkTimestamp = null;
 
     public SpaState(){
         components = new ArrayList<ComponentState>();
@@ -90,11 +91,11 @@ public class SpaState {
         this.measurements = measurements;
     }
 
-    public String getUplinkTimestamp() {
+    public Date getUplinkTimestamp() {
         return uplinkTimestamp;
     }
 
-    public void setUplinkTimestamp(String uplinkTimestamp) {
+    public void setUplinkTimestamp(Date uplinkTimestamp) {
         this.uplinkTimestamp = uplinkTimestamp;
     }
 

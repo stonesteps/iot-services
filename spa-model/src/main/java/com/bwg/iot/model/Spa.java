@@ -1,12 +1,18 @@
 package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -22,8 +28,12 @@ public class Spa extends ResourceSupport {
     private String dealerId = null;
     private String oemId = null;
     private SpaState currentState = null;
-    private String registrationDate = null;
-    private String manufacturedDate = null;
+
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    private LocalDateTime registrationDate = null;
+
+    private Date manufacturedDate = null;
     private String p2pAPSSID = null;
     private String p2pAPPassword = null;
     private String sold = Boolean.FALSE.toString();
@@ -116,19 +126,19 @@ public class Spa extends ResourceSupport {
         this.currentState = currentState;
     }
 
-    public String getRegistrationDate() {
+    public LocalDateTime getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(String registrationDate) {
+    public void setRegistrationDate(LocalDateTime registrationDate) {
         this.registrationDate = registrationDate;
     }
 
-    public String getManufacturedDate() {
+    public Date getManufacturedDate() {
         return manufacturedDate;
     }
 
-    public void setManufacturedDate(String manufacuredDate) {
+    public void setManufacturedDate(Date manufacuredDate) {
         this.manufacturedDate = manufacuredDate;
     }
 
