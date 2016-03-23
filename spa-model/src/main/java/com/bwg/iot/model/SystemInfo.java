@@ -1,5 +1,7 @@
 package com.bwg.iot.model;
 
+import java.util.Date;
+
 /**
  * Created by holow on 3/22/2016.
  */
@@ -13,7 +15,7 @@ public class SystemInfo {
     private int swSignature;
     private int heaterType;
     private int currentSetup;
-    private long lastUpdateTimestamp;
+    private Date lastUpdateTimestamp;
 
     public int getVersionSSID() {
         return versionSSID;
@@ -79,11 +81,11 @@ public class SystemInfo {
         this.currentSetup = currentSetup;
     }
 
-    public long getLastUpdateTimestamp() {
+    public Date getLastUpdateTimestamp() {
         return lastUpdateTimestamp;
     }
 
-    public void setLastUpdateTimestamp(long lastUpdateTimestamp) {
+    public void setLastUpdateTimestamp(Date lastUpdateTimestamp) {
         this.lastUpdateTimestamp = lastUpdateTimestamp;
     }
 }

@@ -1,5 +1,7 @@
 package com.bwg.iot.model;
 
+import java.util.Date;
+
 /**
  * Created by holow on 3/22/2016.
  */
@@ -11,7 +13,7 @@ public class SetupParams {
     private int highRangeHigh;
     private boolean gfciEnabled;
     private boolean drainModeEnabled;
-    private long lastUpdateTimestamp;
+    private Date lastUpdateTimestamp;
 
     public int getLowRangeLow() {
         return lowRangeLow;
@@ -61,11 +63,11 @@ public class SetupParams {
         this.drainModeEnabled = drainModeEnabled;
     }
 
-    public long getLastUpdateTimestamp() {
+    public Date getLastUpdateTimestamp() {
         return lastUpdateTimestamp;
     }
 
-    public void setLastUpdateTimestamp(long lastUpdateTimestamp) {
+    public void setLastUpdateTimestamp(Date lastUpdateTimestamp) {
         this.lastUpdateTimestamp = lastUpdateTimestamp;
     }
 }
