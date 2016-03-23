@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.util.Date;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -37,7 +38,7 @@ public class Component extends ResourceSupport {
     private String serialNumber;
     private String port;
     private String sku;
-    private String registrationDate;
+    private Date registrationDate;
 
     public String get_id() {
         return _id;
@@ -103,11 +104,11 @@ public class Component extends ResourceSupport {
         this.sku = sku;
     }
 
-    public String getRegistrationDate() {
+    public Date getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(String registrationDate) {
+    public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
     }
 

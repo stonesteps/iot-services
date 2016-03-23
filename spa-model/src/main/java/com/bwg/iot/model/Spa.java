@@ -1,5 +1,6 @@
 package com.bwg.iot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -7,6 +8,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,17 +17,20 @@ import java.util.Objects;
 public class Spa extends ResourceSupport {
 
     @Id
-    private String _id = null;
-    private String serialNumber = null;
-    private String productName = null;
-    private String model = null;
-    private String dealerId = null;
-    private String oemId = null;
-    private SpaState currentState = null;
-    private String registrationDate = null;
-    private String manufacturedDate = null;
-    private String p2pAPSSID = null;
-    private String p2pAPPassword = null;
+    private String _id;
+    private String serialNumber;
+    private String productName;
+    private String model;
+    private String dealerId;
+    private String oemId;
+    private SpaState currentState;
+
+    private Date registrationDate;
+    private Date manufacturedDate;
+    private String p2pAPSSID;
+
+    @JsonIgnore
+    private String p2pAPPassword;
     private String sold = Boolean.FALSE.toString();
 
     @RestResource
@@ -116,19 +121,19 @@ public class Spa extends ResourceSupport {
         this.currentState = currentState;
     }
 
-    public String getRegistrationDate() {
+    public Date getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(String registrationDate) {
+    public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
     }
 
-    public String getManufacturedDate() {
+    public Date getManufacturedDate() {
         return manufacturedDate;
     }
 
-    public void setManufacturedDate(String manufacuredDate) {
+    public void setManufacturedDate(Date manufacuredDate) {
         this.manufacturedDate = manufacuredDate;
     }
 

@@ -35,10 +35,10 @@ public class SpaCommand {
     private String spaId;
     private Integer requestTypeId;
     private String originatorId;
-    private String sentTimestamp;
-    private String processedTimestamp;
+    private Date sentTimestamp;
+    private Date processedTimestamp;
     private ProcessedResult processedResult;
-    private String ackTimestamp;
+    private Date ackTimestamp;
     private String ackResponseCode;
     private HashMap<String, String> values;
 
@@ -68,11 +68,11 @@ public class SpaCommand {
         this.requestTypeId = requestTypeId;
     }
 
-    public String getSentTimestamp() {
+    public Date getSentTimestamp() {
         return sentTimestamp;
     }
 
-    public void setSentTimestamp(String sentTimestamp) {
+    public void setSentTimestamp(Date sentTimestamp) {
         this.sentTimestamp = sentTimestamp;
     }
 
@@ -84,11 +84,11 @@ public class SpaCommand {
         this.originatorId = originatorId;
     }
 
-    public String getProcessedTimestamp() {
+    public Date getProcessedTimestamp() {
         return processedTimestamp;
     }
 
-    public void setProcessedTimestamp(String processedTimestamp) {
+    public void setProcessedTimestamp(Date processedTimestamp) {
         this.processedTimestamp = processedTimestamp;
     }
 
@@ -96,11 +96,11 @@ public class SpaCommand {
 
     public void setProcessedResult(ProcessedResult processedResult) { this.processedResult = processedResult; }
 
-    public String getAckTimestamp() {
+    public Date getAckTimestamp() {
         return ackTimestamp;
     }
 
-    public void setAckTimestamp(String ackTimestamp) {
+    public void setAckTimestamp(Date ackTimestamp) {
         this.ackTimestamp = ackTimestamp;
     }
 

@@ -18,33 +18,19 @@ package com.bwg.iot;
 
 import com.bwg.iot.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mysema.util.ArrayUtils;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.hateoas.MediaTypes;
-import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.hamcrest.Matchers.is;
-import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
-import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = IotServicesApplication.class)
@@ -67,9 +53,6 @@ public final class ZSeedDbTest extends ModelTestBase {
 	public void zSeedData() throws Exception {
 		clearAllData();
 
-        String now = LocalDateTime.now().toString();
-
-
         List<Address> addresses = createAddresses(20);
 
         // create some oems and dealers
@@ -87,22 +70,22 @@ public final class ZSeedDbTest extends ModelTestBase {
         List<String> bwgRole = Arrays.asList("BWG");
         List<String> adminRole = Arrays.asList("OWNER", "ASSOCIATE", "TECHNICIAN", "OEM", "BWG");
 
-        User owner1 = createUser("braitt", "Bonnie", "Raitt", dealer1.get_id(),oem1.get_id(), addresses.get(4), ownerRole, now);
-        User owner2 = createUser("ptownsend", "Pete", "Townsend", dealer1.get_id(),oem1.get_id(), addresses.get(4), ownerRole, now);
-        User owner3 = createUser("pgabriel", "Peter", "Gabriel", dealer1.get_id(),oem1.get_id(), addresses.get(5), ownerRole, now);
-        User owner4 = createUser("lgaga", "Lady", "Gaga", dealer2.get_id(),oem1.get_id(), addresses.get(6), ownerRole, now);
-        User owner5 = createUser("chynde", "Chrissie", "Hynde", dealer3.get_id(),oem2.get_id(), addresses.get(7), ownerRole, now);
+        User owner1 = createUser("braitt", "Bonnie", "Raitt", dealer1.get_id(),oem1.get_id(), addresses.get(4), ownerRole);
+        User owner2 = createUser("ptownsend", "Pete", "Townsend", dealer1.get_id(),oem1.get_id(), addresses.get(4), ownerRole);
+        User owner3 = createUser("pgabriel", "Peter", "Gabriel", dealer1.get_id(),oem1.get_id(), addresses.get(5), ownerRole);
+        User owner4 = createUser("lgaga", "Lady", "Gaga", dealer2.get_id(),oem1.get_id(), addresses.get(6), ownerRole);
+        User owner5 = createUser("chynde", "Chrissie", "Hynde", dealer3.get_id(),oem2.get_id(), addresses.get(7), ownerRole);
 
-        User maker1 = createUser("face", "Ace", "Face", null, oem1.get_id(), addresses.get(8), oemRole, now);
-        User maker2 = createUser("pfenton", "Peter", "Fenton", null, oem1.get_id(), addresses.get(9), oemRole, now);
-        User pink   = createUser("bgeldof", "Bob", "Geldof", null, null, addresses.get(10), bwgRole, now);
-        User oz     = createUser("oosborn", "Ozzie", "Osborn", null, null, addresses.get(11), adminRole, now);
+        User maker1 = createUser("face", "Ace", "Face", null, oem1.get_id(), addresses.get(8), oemRole);
+        User maker2 = createUser("pfenton", "Peter", "Fenton", null, oem1.get_id(), addresses.get(9), oemRole);
+        User pink   = createUser("bgeldof", "Bob", "Geldof", null, null, addresses.get(10), bwgRole);
+        User oz     = createUser("oosborn", "Ozzie", "Osborn", null, null, addresses.get(11), adminRole);
 
-        User sales1 = createUser("lstooge", "Larry", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole, now);
-        User sales2 = createUser("cstooge", "Curly", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole, now);
-        User sales3 = createUser("mstooge", "Mo", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole, now);
-        User tech1  = createUser("wgates", "William", "Gates", dealer1.get_id(),oem1.get_id(), addresses.get(13), techRole, now);
-        User tech2  = createUser("sjobs", "Stefan", "Jobs", dealer1.get_id(),oem1.get_id(), addresses.get(14), techRole, now);
+        User sales1 = createUser("lstooge", "Larry", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole);
+        User sales2 = createUser("cstooge", "Curly", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole);
+        User sales3 = createUser("mstooge", "Mo", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole);
+        User tech1  = createUser("wgates", "William", "Gates", dealer1.get_id(),oem1.get_id(), addresses.get(13), techRole);
+        User tech2  = createUser("sjobs", "Stefan", "Jobs", dealer1.get_id(),oem1.get_id(), addresses.get(14), techRole);
 
         // create term and conditions
         TermsAndConditions tac1 = createTermsAndAgreement("1.0", TAC1_TEXT);

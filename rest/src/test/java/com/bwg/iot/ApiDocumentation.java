@@ -32,7 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.lang.reflect.Field;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -128,7 +127,7 @@ public class ApiDocumentation extends ModelTestBase{
 	public void spasListExample() throws Exception {
 		this.spaRepository.deleteAll();
 
-		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), LocalDateTime.now().toString());
+		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"));
 		createUnsoldSpa("01924094", "Shark", "Mako", "101");
         createUnsoldSpa("01000000", "Shark", "Hammerhead", "101");
 		createFullSpaWithState("0blah345", "Shark", "Land", "101", owner);
@@ -165,7 +164,7 @@ public class ApiDocumentation extends ModelTestBase{
 	@Test
 	public void spaGetExample() throws Exception {
 
-		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), LocalDateTime.now().toString());
+		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"));
         Spa spa = createFullSpaWithState("0blah345", "Shark", "Blue", "101", owner);
         spa = this.addLowFlowYellowAlert(spa);
 
@@ -198,7 +197,6 @@ public class ApiDocumentation extends ModelTestBase{
                             fieldWithPath("manufacturedDate").description("The date the spa was made"),
                             fieldWithPath("registrationDate").description("The date the spa was sold"),
                             fieldWithPath("p2pAPSSID").description("Wifi address"),
-                            fieldWithPath("p2pAPPassword").description("Wifi password"),
 							fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
 	}
 
@@ -224,11 +222,10 @@ public class ApiDocumentation extends ModelTestBase{
 	public void spasFindByUsername() throws Exception {
 
 		clearAllData();
-		String now = LocalDateTime.now().toString();
 
 		List<Address> addresses = createAddresses(1);
 		List<String> ownerRole = Arrays.asList("OWNER");
-		User owner1 = createUser("braitt", "Bonnie", "Raitt", null, null, addresses.get(0), ownerRole, now);
+		User owner1 = createUser("braitt", "Bonnie", "Raitt", null, null, addresses.get(0), ownerRole);
 		Spa spa24 = createSmallSpaWithState("160104", "Shark", "Tiger", "101", owner1);
 
 		this.mockMvc.perform(get("/spas/search/findByUsername?username=braitt"))
@@ -252,7 +249,6 @@ public class ApiDocumentation extends ModelTestBase{
 							fieldWithPath("manufacturedDate").description("The date the spa was made"),
 							fieldWithPath("registrationDate").description("The date the spa was sold"),
 							fieldWithPath("p2pAPSSID").description("Wifi address"),
-							fieldWithPath("p2pAPPassword").description("Wifi password"),
 							fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
 	}
 

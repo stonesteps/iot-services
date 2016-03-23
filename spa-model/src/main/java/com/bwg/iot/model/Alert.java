@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Document
@@ -23,7 +24,7 @@ public class Alert extends ResourceSupport {
   private String longDescription = null;
   private String component;
   private String spaId;
-  private String creationDate;
+  private Date creationDate;
 
   
   public String get_id() {
@@ -65,12 +66,11 @@ public class Alert extends ResourceSupport {
     this.longDescription = longDescription;
   }
 
-
-  public String getCreationDate() {
+  public Date getCreationDate() {
     return creationDate;
   }
 
-  public void setCreationDate(String creationDate) {
+  public void setCreationDate(Date creationDate) {
     this.creationDate = creationDate;
   }
 

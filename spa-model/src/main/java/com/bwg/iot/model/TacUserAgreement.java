@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.util.Date;
+
 
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class TacUserAgreement extends ResourceSupport {
@@ -12,7 +14,7 @@ public class TacUserAgreement extends ResourceSupport {
     private String _id;
     private String userId;
     private String version;
-    private String dateAgreed;
+    private Date dateAgreed;
     private Boolean current;
 
     public String get_id() {
@@ -35,11 +37,11 @@ public class TacUserAgreement extends ResourceSupport {
         this.version = version;
     }
 
-    public String getDateAgreed() {
+    public Date getDateAgreed() {
         return dateAgreed;
     }
 
-    public void setDateAgreed(String dateAgreed) {
+    public void setDateAgreed(Date dateAgreed) {
         this.dateAgreed = dateAgreed;
     }
 

@@ -5,30 +5,17 @@ package com.bwg.iot;
  */
 
 import com.bwg.iot.model.TacUserAgreement;
-import com.bwg.iot.model.TermsAndConditions;
 import com.bwg.iot.model.User;
-import com.mongodb.WriteResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.EntityLinks;
-import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
-
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 @RepositoryRestController
 @RequestMapping("/auth")

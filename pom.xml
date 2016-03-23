@@ -92,7 +92,6 @@
             <artifactId>spring-data-rest-hal-browser</artifactId>
             <scope>runtime</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -110,8 +109,6 @@
                             <configuration>
                                 <outputDirectory>target/generated-sources/apt</outputDirectory>
                                 <processor>org.springframework.data.mongodb.repository.support.MongoAnnotationProcessor</processor>
-                                <!--<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>-->
-                                <!--<processor>com.mysema.query.apt.hibernate.HibernateAnnotationProcessor</processor>-->
                             </configuration>
                         </execution>
                     </executions>

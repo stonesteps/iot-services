@@ -1,12 +1,9 @@
 package com.bwg.iot.model;
 
-import com.bwg.iot.model.Component.ComponentType;
-import org.springframework.data.annotation.Id;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import static com.google.common.collect.Lists.newArrayList;
 

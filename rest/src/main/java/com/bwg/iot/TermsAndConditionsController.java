@@ -18,7 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -84,7 +84,7 @@ public class TermsAndConditionsController {
         TermsAndConditions tac = new TermsAndConditions();
         tac.setText(body.get("text"));
         tac.setVersion(body.get("version"));
-        tac.setCreatedTimestamp(LocalDateTime.now().toString());
+        tac.setCreatedTimestamp(new Date());
         tac.setCurrent(Boolean.TRUE);
         tac = termsAndConditionsRepository.save(tac);
 
@@ -107,7 +107,7 @@ public class TermsAndConditionsController {
         agreement.setUserId(body.get("userId"));
         agreement.setVersion(body.get("version"));
         agreement.setCurrent(Boolean.TRUE);
-        agreement.setDateAgreed(LocalDateTime.now().toString());
+        agreement.setDateAgreed(new Date());
         agreement = tacUserAgreementRepository.save(agreement);
 
         Link link = linkTo(TermsAndConditionsController.class).slash("/search/findMostRecent").withRel("mostRecent");

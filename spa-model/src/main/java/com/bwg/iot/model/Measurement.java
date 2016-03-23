@@ -2,8 +2,8 @@ package com.bwg.iot.model;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Objects;
 
 
 public class Measurement {
@@ -12,8 +12,8 @@ public class Measurement {
     private String _id;
     private String spaId;
     private String originatorId;
-    private String measurementTimestamp;
-    private String processedTimestamp;
+    private Date measurementTimestamp;
+    private Date processedTimestamp;
     private String sourceDeviceId;
     private HashMap<String, String> values;
 
@@ -41,19 +41,19 @@ public class Measurement {
         this.originatorId = originatorId;
     }
 
-    public String getMeasurementTimestamp() {
+    public Date getMeasurementTimestamp() {
         return measurementTimestamp;
     }
 
-    public void setMeasurementTimestamp(String measurementTimestamp) {
+    public void setMeasurementTimestamp(Date measurementTimestamp) {
         this.measurementTimestamp = measurementTimestamp;
     }
 
-    public String getProcessedTimestamp() {
+    public Date getProcessedTimestamp() {
         return processedTimestamp;
     }
 
-    public void setProcessedTimestamp(String processedTimestamp) {
+    public void setProcessedTimestamp(Date processedTimestamp) {
         this.processedTimestamp = processedTimestamp;
     }
 
