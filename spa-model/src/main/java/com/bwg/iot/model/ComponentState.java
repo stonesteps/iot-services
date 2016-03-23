@@ -4,6 +4,7 @@ import com.bwg.iot.model.Component.ComponentType;
 import org.springframework.data.annotation.Id;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,7 +20,7 @@ public class ComponentState extends ResourceSupport {
     private String targetValue;
     private List<String> availableValues;
     private String name;
-    private String registeredTimestamp;
+    private Date registeredTimestamp;
 
     public String getComponentType() {
         return componentType;
@@ -75,9 +76,9 @@ public class ComponentState extends ResourceSupport {
         this.name = name;
     }
 
-    public String getRegisteredTimestamp() { return registeredTimestamp; }
+    public Date getRegisteredTimestamp() { return registeredTimestamp; }
 
-    public void setRegisteredTimestamp(String registeredTimestamp) { this.registeredTimestamp = registeredTimestamp; }
+    public void setRegisteredTimestamp(Date registeredTimestamp) { this.registeredTimestamp = registeredTimestamp; }
 
     @Override
     public boolean equals(Object o) {
