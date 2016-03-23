@@ -33,7 +33,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -96,7 +95,6 @@ public final class OemDocumentation extends ModelTestBase{
 
 		Address address = createAddress();
 
-        String now = LocalDateTime.now().toString();
 		final Map<String, Object> oem = new HashMap<>();
 		oem.put("name", "South Coast Spas");
 		oem.put("address", address);

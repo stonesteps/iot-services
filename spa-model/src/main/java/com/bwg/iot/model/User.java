@@ -1,8 +1,7 @@
 package com.bwg.iot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.hateoas.ResourceSupport;
@@ -23,10 +22,10 @@ public class User extends ResourceSupport {
     private String firstName;
     private Address address;
     private List<String> roles;
-
     private Date createdDate;
-
     private Date modifiedDate;
+
+    @JsonIgnore
     private String password;
 
     public String getUsername() {
@@ -163,8 +162,8 @@ public class User extends ResourceSupport {
                 ", firstName='" + firstName + '\'' +
                 ", address=" + address +
                 ", roles=" + roles +
-                ", createdDate='" + createdDate + '\'' +
-                ", modifiedDate='" + modifiedDate + '\'' +
+                ", createdDate='" + createdDate.toString() + '\'' +
+                ", modifiedDate='" + modifiedDate.toString() + '\'' +
                 '}';
     }
 }

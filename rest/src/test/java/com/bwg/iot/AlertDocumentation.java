@@ -32,7 +32,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -93,7 +94,6 @@ public final class AlertDocumentation {
 	public void alertCreateExample() throws Exception {
 		this.alertRepository.deleteAll();
 
-        String now = LocalDateTime.now().toString();
 		final Map<String, String> alert = new HashMap<>();
 		alert.put("severityLevel", "yellow");
 		alert.put("name", "ReplaceFilter");
@@ -101,7 +101,8 @@ public final class AlertDocumentation {
 		alert.put("longDescription", "Your filter needs to be replaced. Order at www.bwg.com");
 		alert.put("component", "filter1");
 		alert.put("spaId", "abc00000000000000001");
-		alert.put("creationDate", now);
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+		alert.put("creationDate", simpleDateFormat.format(new Date()));
 
 		this.mockMvc
 				.perform(post("/alerts").contentType(MediaTypes.HAL_JSON)
@@ -171,7 +172,7 @@ public final class AlertDocumentation {
 		alert.setLongDescription(fullDesc);
 		alert.setComponent(component);
 		alert.setSpaId(spaId);
-		alert.setCreationDate(LocalDateTime.now());
+		alert.setCreationDate(new Date());
 		return alertRepository.save(alert);
 	}
 }

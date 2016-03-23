@@ -28,14 +28,9 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
-import static org.hamcrest.Matchers.is;
-import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = IotServicesApplication.class)
@@ -57,9 +52,6 @@ public final class ZSeedDbTest extends ModelTestBase {
 	@Test
 	public void zSeedData() throws Exception {
 		clearAllData();
-
-        LocalDateTime now = LocalDateTime.now();
-
 
         List<Address> addresses = createAddresses(20);
 

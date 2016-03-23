@@ -1,16 +1,12 @@
 package com.bwg.iot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.hateoas.ResourceSupport;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,21 +17,20 @@ import java.util.Objects;
 public class Spa extends ResourceSupport {
 
     @Id
-    private String _id = null;
-    private String serialNumber = null;
-    private String productName = null;
-    private String model = null;
-    private String dealerId = null;
-    private String oemId = null;
-    private SpaState currentState = null;
+    private String _id;
+    private String serialNumber;
+    private String productName;
+    private String model;
+    private String dealerId;
+    private String oemId;
+    private SpaState currentState;
 
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime registrationDate = null;
+    private Date registrationDate;
+    private Date manufacturedDate;
+    private String p2pAPSSID;
 
-    private Date manufacturedDate = null;
-    private String p2pAPSSID = null;
-    private String p2pAPPassword = null;
+    @JsonIgnore
+    private String p2pAPPassword;
     private String sold = Boolean.FALSE.toString();
 
     @RestResource
@@ -126,11 +121,11 @@ public class Spa extends ResourceSupport {
         this.currentState = currentState;
     }
 
-    public LocalDateTime getRegistrationDate() {
+    public Date getRegistrationDate() {
         return registrationDate;
     }
 
-    public void setRegistrationDate(LocalDateTime registrationDate) {
+    public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
     }
 

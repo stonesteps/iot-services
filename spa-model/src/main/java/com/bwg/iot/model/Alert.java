@@ -1,16 +1,11 @@
 package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Document
@@ -29,10 +24,7 @@ public class Alert extends ResourceSupport {
   private String longDescription = null;
   private String component;
   private String spaId;
-
-  @JsonSerialize(using = LocalDateTimeSerializer.class)
-  @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-  private LocalDateTime creationDate;
+  private Date creationDate;
 
   
   public String get_id() {
@@ -74,11 +66,11 @@ public class Alert extends ResourceSupport {
     this.longDescription = longDescription;
   }
 
-  public LocalDateTime getCreationDate() {
+  public Date getCreationDate() {
     return creationDate;
   }
 
-  public void setCreationDate(LocalDateTime creationDate) {
+  public void setCreationDate(Date creationDate) {
     this.creationDate = creationDate;
   }
 

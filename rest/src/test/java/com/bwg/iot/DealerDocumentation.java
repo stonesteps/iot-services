@@ -17,7 +17,6 @@
 package com.bwg.iot;
 
 import com.bwg.iot.model.Address;
-import com.bwg.iot.model.Alert;
 import com.bwg.iot.model.Dealer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -34,7 +33,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -97,7 +95,6 @@ public final class DealerDocumentation extends ModelTestBase{
 
 		Address address = createAddress();
 
-        String now = LocalDateTime.now().toString();
 		final Map<String, Object> dealer = new HashMap<>();
 		dealer.put("name", "South Coast Spas");
 		dealer.put("address", address);

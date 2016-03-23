@@ -4,8 +4,6 @@ import com.bwg.iot.builders.SpaStateBuilder;
 import com.bwg.iot.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -187,7 +185,7 @@ public class ModelTestBase {
         spa.setOwner(owner);
         spa.setOemId("cab335");
         spa.setManufacturedDate(new Date());
-        spa.setRegistrationDate(LocalDateTime.now());
+        spa.setRegistrationDate(new Date());
         spa.setP2pAPSSID("myWifi");
         spa.setP2pAPPassword("*******");
         spa = this.spaRepository.save(spa);
@@ -297,7 +295,7 @@ public class ModelTestBase {
         spa.setOwner(owner);
         spa.setOemId("cab335");
         spa.setManufacturedDate(new Date());
-        spa.setRegistrationDate(LocalDateTime.now());
+        spa.setRegistrationDate(new Date());
         spa.setP2pAPSSID("myWifi");
         spa.setP2pAPPassword("*******");
         spa = this.spaRepository.save(spa);
@@ -355,7 +353,7 @@ public class ModelTestBase {
         spa.setOwner(owner);
         spa.setOemId("cab335");
         spa.setManufacturedDate(new Date());
-        spa.setRegistrationDate(LocalDateTime.now());
+        spa.setRegistrationDate(new Date());
         spa.setP2pAPSSID("pirateRadio");
         spa.setP2pAPPassword("*******");
         spa = this.spaRepository.save(spa);
@@ -417,7 +415,7 @@ public class ModelTestBase {
         alert1.setSeverityLevel(level);
         alert1.setComponent(spa.getCurrentState().getComponents().get(compIndex).getSerialNumber());
         alert1.setShortDescription(shortDesc);
-        alert1.setCreationDate(LocalDateTime.now());
+        alert1.setCreationDate(new Date());
         alert1.setSpaId(spa.get_id());
         alertRepository.save(alert1);
         return alert1;
