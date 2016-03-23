@@ -1,5 +1,7 @@
 package com.bwg.iot.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +9,8 @@ import java.util.List;
 /**
  * Created by triton on 2/17/16.
  */
+
+@JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class SpaState {
     String runMode; // rest, ready
     String desiredTemp;

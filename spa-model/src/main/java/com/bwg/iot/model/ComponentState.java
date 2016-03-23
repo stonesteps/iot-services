@@ -1,13 +1,13 @@
 package com.bwg.iot.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Date;
 import java.util.List;
 
-import static com.google.common.collect.Lists.newArrayList;
 
-
+@JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class ComponentState extends ResourceSupport {
 
     private String componentType;

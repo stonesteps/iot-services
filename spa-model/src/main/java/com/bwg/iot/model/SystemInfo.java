@@ -1,10 +1,13 @@
 package com.bwg.iot.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Date;
 
 /**
  * Created by holow on 3/22/2016.
  */
+@JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class SystemInfo {
 
     private int heaterPower;
