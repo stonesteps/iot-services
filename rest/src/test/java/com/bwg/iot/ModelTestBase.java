@@ -104,8 +104,11 @@ public class ModelTestBase {
         return dealerRepository.save(dealer);
     }
 
-    protected Oem createOem(String name, Address address) {
+    protected Oem createOem(String name, Address address, String id) {
         Oem oem = new Oem();
+        if (StringUtils.isNotEmpty(id)) {
+            oem.set_id(id);
+        }
         oem.setName(name);
         oem.setAddress(address);
         return oemRepository.save(oem);
@@ -174,24 +177,25 @@ public class ModelTestBase {
         return cs;
     }
 
-    protected Spa createUnsoldSpa(String serialNumber, String productName, String model, String dealerId) {
+    protected Spa createUnsoldSpa(String serialNumber, String productName, String model, String oemId, String dealerId) {
         Spa spa = new Spa();
         spa.setSerialNumber(serialNumber+(serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
+        spa.setOemId(oemId);
         this.spaRepository.save(spa);
         return spa;
     }
 
-    protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String dealerId, User owner) {
+    protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner) {
         Spa spa = new Spa();
         spa.setSerialNumber(serialNumber+(serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
         spa.setOwner(owner);
-        spa.setOemId("cab335");
+        spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
         spa.setP2pAPSSID("myWifi");
@@ -255,7 +259,7 @@ public class ModelTestBase {
         ComponentState aux3State = createComponentState(aux3, "OFF");
         ComponentState microsilkState = createComponentState(microsilk, "ON");
         ComponentState panelState = createComponentState(panel, "Locked");
-        ComponentState gatewayState = createComponentState(gateway, "Connected");
+        ComponentState gatewayState = createComponentState(gateway, "OFF");
         ComponentState mote1State = createComponentState(mote1, "2.50");
         ComponentState mote2State = createComponentState(mote2, "3.3367");
 
@@ -278,30 +282,17 @@ public class ModelTestBase {
         spa.setCurrentState(spaState);
         spa = this.spaRepository.save(spa);
 
-//        Alert alert1 = new Alert();
-//        alert1.setName("Replace Filter");
-//        alert1.setLongDescription("The filter is old and needs to be replaced");
-//        alert1.setSeverityLevel("yellow");
-//        alert1.setComponent("filter1");
-//        alert1.setShortDescription("Replace Filter");
-//        alert1.setCreationDate(new Date().toString());
-//        alert1.setSpaId(spa.get_id());
-//        alertRepository.save(alert1);
-//
-//        spa.setAlerts(Arrays.asList(alert1));
-//        spa = this.spaRepository.save(spa);
-
         return spa;
     }
 
-    protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String dealerId, User owner) {
+    protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner) {
         Spa spa = new Spa();
         spa.setSerialNumber(serialNumber+(serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
         spa.setOwner(owner);
-        spa.setOemId("cab335");
+        spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
         spa.setP2pAPSSID("myWifi");
@@ -352,14 +343,14 @@ public class ModelTestBase {
         return spa;
     }
 
-    protected Spa createDemoSpa(String serialNumber, String productName, String model, String dealerId, User owner) {
+    protected Spa createDemoSpa(String serialNumber, String productName, String model, String oemId, String dealerId, User owner) {
         Spa spa = new Spa();
         spa.setSerialNumber(serialNumber+(serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
         spa.setOwner(owner);
-        spa.setOemId("cab335");
+        spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
         spa.setP2pAPSSID("pirateRadio");

@@ -128,9 +128,9 @@ public class ApiDocumentation extends ModelTestBase{
 		this.spaRepository.deleteAll();
 
 		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"));
-		createUnsoldSpa("01924094", "Shark", "Mako", "101");
-        createUnsoldSpa("01000000", "Shark", "Hammerhead", "101");
-		createFullSpaWithState("0blah345", "Shark", "Land", "101", owner);
+		createUnsoldSpa("01924094", "Shark", "Mako", "oem000001", "101");
+        createUnsoldSpa("01000000", "Shark", "Hammerhead", "oem000003", "101");
+		createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
 
 		this.mockMvc.perform(get("/spas"))
 			.andExpect(status().isOk())
@@ -165,7 +165,7 @@ public class ApiDocumentation extends ModelTestBase{
 	public void spaGetExample() throws Exception {
 
 		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"));
-        Spa spa = createFullSpaWithState("0blah345", "Shark", "Blue", "101", owner);
+        Spa spa = createFullSpaWithState("0blah345", "Shark", "Blue", "oem0000001", "101", owner);
         spa = this.addLowFlowYellowAlert(spa);
 
 		String spaLocation = "/spas/"+spa.get_id();
@@ -204,14 +204,32 @@ public class ApiDocumentation extends ModelTestBase{
 	public void spasFindByDealerExample() throws Exception {
 		this.spaRepository.deleteAll();
 
-		createUnsoldSpa("01924094", "Shark", "Mako", "101");
-		createUnsoldSpa("01000000", "Shark", "Hammerhead", "101");
-		createUnsoldSpa("013t43tt", "Shark", "Nurse", "101");
-		createUnsoldSpa("0blah345", "Shark", "Land", "101");
+		createUnsoldSpa("01924094", "Shark", "Mako", "oem00001", "101");
+		createUnsoldSpa("01000000", "Shark", "Hammerhead", "oem00001", "101");
+		createUnsoldSpa("013t43tt", "Shark", "Nurse", "oem00001", "101");
+		createUnsoldSpa("0blah345", "Shark", "Land", "oem00001", "101");
 
 		this.mockMvc.perform(get("/spas/search/findByDealerId?dealerId=101"))
 				.andExpect(status().isOk())
 				.andDo(document("spas-findbyDealer-example",
+						responseFields(
+								fieldWithPath("_embedded.spas").description("An array of <<resources-spa, Spa resources>>"),
+								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"),
+								fieldWithPath("page").description("Page information"))));
+	}
+
+	@Test
+	public void spasFindByOemExample() throws Exception {
+		this.spaRepository.deleteAll();
+
+		createUnsoldSpa("01924094", "Shark", "Mako", "oem00001", "101");
+		createUnsoldSpa("01000000", "Shark", "Hammerhead", "oem00001", "101");
+		createUnsoldSpa("013t43tt", "Shark", "Nurse", "oem00001", "101");
+		createUnsoldSpa("0blah345", "Shark", "Land", "oem00001", "101");
+
+		this.mockMvc.perform(get("/spas/search/findByOemId?oemId=oem00001"))
+				.andExpect(status().isOk())
+				.andDo(document("spas-findbyOem-example",
 						responseFields(
 								fieldWithPath("_embedded.spas").description("An array of <<resources-spa, Spa resources>>"),
 								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"),
@@ -226,7 +244,7 @@ public class ApiDocumentation extends ModelTestBase{
 		List<Address> addresses = createAddresses(1);
 		List<String> ownerRole = Arrays.asList("OWNER");
 		User owner1 = createUser("braitt", "Bonnie", "Raitt", null, null, addresses.get(0), ownerRole);
-		Spa spa24 = createSmallSpaWithState("160104", "Shark", "Tiger", "101", owner1);
+		Spa spa24 = createSmallSpaWithState("160104", "Shark", "Tiger", "oem00003", "101", owner1);
 
 		this.mockMvc.perform(get("/spas/search/findByUsername?username=braitt"))
 				.andExpect(status().isOk())

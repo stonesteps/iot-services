@@ -56,8 +56,8 @@ public final class ZSeedDbTest extends ModelTestBase {
         List<Address> addresses = createAddresses(20);
 
         // create some oems and dealers
-        Oem oem1 = createOem("Mod Spas Inc.", addresses.get(0));
-        Oem oem2 = createOem("Rockers Ltd.", addresses.get(1));
+        Oem oem1 = createOem("Mod Spas Inc.", addresses.get(0), "oem001");
+        Oem oem2 = createOem("Rockers Ltd.", addresses.get(1), "oem002");
         Dealer dealer1 = createDealer("Fred's Spas", addresses.get(2), oem1.get_id(), "dealer001");
         Dealer dealer2 = createDealer("Pt. Loma Spa Outlet", addresses.get(3), oem1.get_id(), "dealer002");
         Dealer dealer3 = createDealer("SpaStic", addresses.get(15), oem2.get_id(), "dealer003");
@@ -70,22 +70,22 @@ public final class ZSeedDbTest extends ModelTestBase {
         List<String> bwgRole = Arrays.asList("BWG");
         List<String> adminRole = Arrays.asList("OWNER", "ASSOCIATE", "TECHNICIAN", "OEM", "BWG");
 
-        User owner1 = createUser("braitt", "Bonnie", "Raitt", dealer1.get_id(),oem1.get_id(), addresses.get(4), ownerRole);
-        User owner2 = createUser("ptownsend", "Pete", "Townsend", dealer1.get_id(),oem1.get_id(), addresses.get(4), ownerRole);
-        User owner3 = createUser("pgabriel", "Peter", "Gabriel", dealer1.get_id(),oem1.get_id(), addresses.get(5), ownerRole);
-        User owner4 = createUser("lgaga", "Lady", "Gaga", dealer2.get_id(),oem1.get_id(), addresses.get(6), ownerRole);
-        User owner5 = createUser("chynde", "Chrissie", "Hynde", dealer3.get_id(),oem2.get_id(), addresses.get(7), ownerRole);
+        User owner1 = createUser("braitt", "Bonnie", "Raitt", dealer1.get_id(), oem1.get_id(), addresses.get(4), ownerRole);
+        User owner2 = createUser("ptownsend", "Pete", "Townsend", dealer1.get_id(), oem1.get_id(), addresses.get(4), ownerRole);
+        User owner3 = createUser("pgabriel", "Peter", "Gabriel", dealer1.get_id(), oem1.get_id(), addresses.get(5), ownerRole);
+        User owner4 = createUser("lgaga", "Lady", "Gaga", dealer2.get_id(), oem2.get_id(), addresses.get(6), ownerRole);
+        User owner5 = createUser("chynde", "Chrissie", "Hynde", dealer3.get_id(), oem2.get_id(), addresses.get(7), ownerRole);
 
         User maker1 = createUser("face", "Ace", "Face", null, oem1.get_id(), addresses.get(8), oemRole);
         User maker2 = createUser("pfenton", "Peter", "Fenton", null, oem1.get_id(), addresses.get(9), oemRole);
         User pink   = createUser("bgeldof", "Bob", "Geldof", null, null, addresses.get(10), bwgRole);
         User oz     = createUser("oosborn", "Ozzie", "Osborn", null, null, addresses.get(11), adminRole);
 
-        User sales1 = createUser("lstooge", "Larry", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole);
-        User sales2 = createUser("cstooge", "Curly", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole);
-        User sales3 = createUser("mstooge", "Mo", "Stooge", dealer1.get_id(),oem1.get_id(), addresses.get(12), salesRole);
-        User tech1  = createUser("wgates", "William", "Gates", dealer1.get_id(),oem1.get_id(), addresses.get(13), techRole);
-        User tech2  = createUser("sjobs", "Stefan", "Jobs", dealer1.get_id(),oem1.get_id(), addresses.get(14), techRole);
+        User sales1 = createUser("lstooge", "Larry", "Stooge", dealer1.get_id(), oem1.get_id(), addresses.get(12), salesRole);
+        User sales2 = createUser("cstooge", "Curly", "Stooge", dealer1.get_id(), oem1.get_id(), addresses.get(12), salesRole);
+        User sales3 = createUser("mstooge", "Mo", "Stooge", dealer1.get_id(), oem1.get_id(), addresses.get(12), salesRole);
+        User tech1  = createUser("wgates", "William", "Gates", dealer1.get_id(), oem1.get_id(), addresses.get(13), techRole);
+        User tech2  = createUser("sjobs", "Stefan", "Jobs", dealer1.get_id(), oem1.get_id(), addresses.get(14), techRole);
 
         // create term and conditions
         TermsAndConditions tac1 = createTermsAndAgreement("1.0", TAC1_TEXT);
@@ -93,39 +93,36 @@ public final class ZSeedDbTest extends ModelTestBase {
         TacUserAgreement agreement2 = createAgreement(owner2.get_id(), tac1.getVersion());
 
         // create a variety of spas.  sold, unsold, fully populated w components, some with alerts...
-        Spa spa22 = createFullSpaWithState("150307", "Shark", "Blue", dealer1.get_id(), owner1);
+        Spa spa22 = createFullSpaWithState("150307", "Shark", "Blue", oem1.get_id(), dealer1.get_id(), owner1);
         spa22 = this.addOverheatRedAlert(spa22);
-        Spa spa24 = createSmallSpaWithState("160104", "Shark", "Tiger", dealer1.get_id(), owner2);
+        Spa spa24 = createSmallSpaWithState("160104", "Shark", "Tiger", oem1.get_id(), dealer1.get_id(), owner2);
         this.addLowFlowYellowAlert(spa24);
-        Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", dealer1.get_id(), owner3);
+        Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", oem1.get_id(), dealer1.get_id(), owner3);
         this.add2Alerts(spa25);
-        Spa spa26 = createSmallSpaWithState("160229", "Shark", "Tiger", dealer2.get_id(), owner4);
-        Spa spa27 = createDemoSpa("160315", "Whale", "Beluga", dealer3.get_id(), owner5);
+        Spa spa26 = createSmallSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4);
+        Spa spa27 = createDemoSpa("160315", "Whale", "Beluga", oem2.get_id(), dealer3.get_id(), owner5);
 
-        Spa spa1  = createUnsoldSpa("160217", "Shark", "Hammerhead", dealer1.get_id());
-        Spa spa2  = createUnsoldSpa("160217", "Shark", "Hammerhead", dealer1.get_id());
-        Spa spa3  = createUnsoldSpa("160217", "Shark", "Mako", dealer1.get_id());
-        Spa spa4  = createUnsoldSpa("151220", "Shark", "Sand", dealer1.get_id());
-        Spa spa5  = createUnsoldSpa("151220", "Shark", "Mako", dealer1.get_id());
-        Spa spa6  = createUnsoldSpa("151220", "Shark", "Sand", dealer1.get_id());
-        Spa spa7  = createUnsoldSpa("151220", "Whale", "Orca", dealer2.get_id());
-        Spa spa8  = createUnsoldSpa("160118", "Whale", "Grey", dealer2.get_id());
-        Spa spa9  = createUnsoldSpa("160118", "Shark", "Mako", dealer1.get_id());
-        Spa spa10 = createUnsoldSpa("160118", "Shark", "Sand", dealer1.get_id());
-        Spa spa11 = createUnsoldSpa("160118", "Whale", "Orca", dealer2.get_id());
-        Spa spa12 = createUnsoldSpa("160125", "Whale", "Grey", dealer2.get_id());
-        Spa spa13 = createUnsoldSpa("160101", "Whale", "Orca", dealer2.get_id());
-        Spa spa14 = createUnsoldSpa("160118", "Whale", "Grey", dealer2.get_id());
-        Spa spa15 = createUnsoldSpa("160111", "Shark", "Card", dealer2.get_id());
-        Spa spa16 = createUnsoldSpa("160111", "Whale", "Orca", dealer2.get_id());
-        Spa spa17 = createUnsoldSpa("160111", "Whale", "Grey", dealer3.get_id());
-        Spa spa18 = createUnsoldSpa("160105", "Whale", "Orca", dealer3.get_id());
-        Spa spa19 = createUnsoldSpa("160105", "Whale", "Grey", dealer3.get_id());
-        Spa spa20 = createUnsoldSpa("160105", "Whale", "Orca", dealer3.get_id());
-        Spa spa21 = createUnsoldSpa("151111", "Whale", "Grey", dealer3.get_id());
-
-
-        // Create some measurements
+        Spa spa1  = createUnsoldSpa("160217", "Shark", "Hammerhead", oem1.get_id(), dealer1.get_id());
+        Spa spa2  = createUnsoldSpa("160217", "Shark", "Hammerhead", oem1.get_id(), dealer1.get_id());
+        Spa spa3  = createUnsoldSpa("160217", "Shark", "Mako", oem1.get_id(), dealer1.get_id());
+        Spa spa4  = createUnsoldSpa("151220", "Shark", "Sand", oem1.get_id(), dealer1.get_id());
+        Spa spa5  = createUnsoldSpa("151220", "Shark", "Mako", oem1.get_id(), dealer1.get_id());
+        Spa spa6  = createUnsoldSpa("151220", "Shark", "Sand", oem1.get_id(), dealer1.get_id());
+        Spa spa7  = createUnsoldSpa("151220", "Whale", "Orca", oem1.get_id(), dealer2.get_id());
+        Spa spa8  = createUnsoldSpa("160118", "Whale", "Grey", oem1.get_id(), dealer2.get_id());
+        Spa spa9  = createUnsoldSpa("160118", "Shark", "Mako", oem1.get_id(), dealer1.get_id());
+        Spa spa10 = createUnsoldSpa("160118", "Shark", "Sand", oem1.get_id(), dealer1.get_id());
+        Spa spa11 = createUnsoldSpa("160118", "Whale", "Orca", oem1.get_id(), dealer2.get_id());
+        Spa spa12 = createUnsoldSpa("160125", "Whale", "Grey", oem1.get_id(), dealer2.get_id());
+        Spa spa13 = createUnsoldSpa("160101", "Whale", "Orca", oem1.get_id(), dealer2.get_id());
+        Spa spa14 = createUnsoldSpa("160118", "Whale", "Grey", oem1.get_id(), dealer2.get_id());
+        Spa spa15 = createUnsoldSpa("160111", "Shark", "Card", oem1.get_id(), dealer2.get_id());
+        Spa spa16 = createUnsoldSpa("160111", "Whale", "Orca", oem1.get_id(), dealer2.get_id());
+        Spa spa17 = createUnsoldSpa("160111", "Whale", "Grey", oem2.get_id(), dealer3.get_id());
+        Spa spa18 = createUnsoldSpa("160105", "Whale", "Orca", oem2.get_id(), dealer3.get_id());
+        Spa spa19 = createUnsoldSpa("160105", "Whale", "Grey", oem2.get_id(), dealer3.get_id());
+        Spa spa20 = createUnsoldSpa("160105", "Whale", "Orca", oem2.get_id(), dealer3.get_id());
+        Spa spa21 = createUnsoldSpa("151111", "Whale", "Grey", oem2.get_id(), dealer3.get_id());
 
 
 	}

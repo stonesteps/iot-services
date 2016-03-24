@@ -115,7 +115,7 @@ public final class OemDocumentation extends ModelTestBase{
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-		Oem oem = createOem("Backyard Beach", address);
+		Oem oem = createOem("Backyard Beach", address, null);
 
 		final Map<String, String> oemUpdate = new HashMap<>();
 		oemUpdate.put("name", "Spalicious");
@@ -134,7 +134,7 @@ public final class OemDocumentation extends ModelTestBase{
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        Oem oem = createOem("Backyard Beach", address);
+        Oem oem = createOem("Backyard Beach", address, null);
 
 
         this.mockMvc.perform(get("/oems/{0}", oem.get_id())).andExpect(status().isOk())

@@ -165,6 +165,25 @@ include::{snippets}/spas-findbyDealer-example/curl-request.adoc[]
 
 include::{snippets}/spas-findbyDealer-example/http-response.adoc[]
 
+
+[[resources-spas-findBOemId]]
+=== Find Spas By OEM Id
+
+A `GET` request will list all of the spas related to a given spa manufacturer.
+
+==== Response structure
+
+include::{snippets}/spas-findbyOem-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/spas-findbyOem-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/spas-findbyOem-example/http-response.adoc[]
+
+
 [[resources-spas-findByUsername]]
 === Find Spas By Username
 
