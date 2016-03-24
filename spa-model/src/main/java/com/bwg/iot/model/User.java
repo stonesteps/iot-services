@@ -118,6 +118,8 @@ public class User extends ResourceSupport {
         return _id;
     }
 
+    public void set_id(String _id) { this._id = _id; }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -165,5 +167,15 @@ public class User extends ResourceSupport {
                 ", createdDate='" + createdDate.toString() + '\'' +
                 ", modifiedDate='" + modifiedDate.toString() + '\'' +
                 '}';
+    }
+
+    public User toUserLite() {
+        User lite = new User();
+        lite.set_id(_id);
+        lite.setUsername(username);
+        lite.setDealerId(dealerId);
+        lite.setOemId(oemId);
+        lite.setRoles(roles);
+        return lite;
     }
 }

@@ -2,6 +2,7 @@ package com.bwg.iot;
 
 import com.bwg.iot.builders.SpaStateBuilder;
 import com.bwg.iot.model.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -89,7 +90,14 @@ public class ModelTestBase {
     }
 
     protected Dealer createDealer(String name, Address address, String oemId) {
+        return createDealer(name, address, oemId, null);
+    }
+
+    protected Dealer createDealer(String name, Address address, String oemId, String myId) {
         Dealer dealer = new Dealer();
+        if (StringUtils.isNotEmpty(myId)) {
+            dealer.set_id(myId);
+        }
         dealer.setName(name);
         dealer.setAddress(address);
         dealer.setOemId(oemId);
