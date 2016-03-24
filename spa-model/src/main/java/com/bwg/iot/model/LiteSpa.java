@@ -13,6 +13,7 @@ import java.util.List;
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public interface LiteSpa {
 
+    String get_id();
     String getSerialNumber();
     String getProductName();
     String getModel();
