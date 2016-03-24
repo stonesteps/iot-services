@@ -58,9 +58,9 @@ public final class ZSeedDbTest extends ModelTestBase {
         // create some oems and dealers
         Oem oem1 = createOem("Mod Spas Inc.", addresses.get(0));
         Oem oem2 = createOem("Rockers Ltd.", addresses.get(1));
-        Dealer dealer1 = createDealer("Fred's Spas", addresses.get(2), oem1.get_id());
-        Dealer dealer2 = createDealer("Pt. Loma Spa Outlet", addresses.get(3), oem1.get_id());
-        Dealer dealer3 = createDealer("SpaStic", addresses.get(15), oem2.get_id());
+        Dealer dealer1 = createDealer("Fred's Spas", addresses.get(2), oem1.get_id(), "dealer001");
+        Dealer dealer2 = createDealer("Pt. Loma Spa Outlet", addresses.get(3), oem1.get_id(), "dealer002");
+        Dealer dealer3 = createDealer("SpaStic", addresses.get(15), oem2.get_id(), "dealer003");
 
         // create some users
         List<String> ownerRole = Arrays.asList("OWNER");
