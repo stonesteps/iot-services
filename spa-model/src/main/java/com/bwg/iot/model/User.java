@@ -173,6 +173,8 @@ public class User extends ResourceSupport {
         User lite = new User();
         lite.set_id(_id);
         lite.setUsername(username);
+        lite.setFirstName(firstName);
+        lite.setLastName(lastName);
         lite.setDealerId(dealerId);
         lite.setOemId(oemId);
         lite.setRoles(roles);
