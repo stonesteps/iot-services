@@ -16,9 +16,7 @@
 
 package com.bwg.iot;
 
-import com.bwg.iot.model.Address;
-import com.bwg.iot.model.Component;
-import com.bwg.iot.model.Oem;
+import com.bwg.iot.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
@@ -34,7 +32,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.Matchers.is;
@@ -80,10 +80,9 @@ public final class ComponentDocumentation extends ModelTestBase{
 		this.mockMvc.perform(get("/components")).andExpect(status().isOk())
 				.andDo(document("components-list-example",
 						responseFields(
-								fieldWithPath("_embedded.components")
-										.description("An array of <<resources-component, Component resources>>"),
-						fieldWithPath("_links").description("<<resources-componentslist-links,Links>> to other resources"),
-						fieldWithPath("page").description("Page information"))));
+								fieldWithPath("_embedded.components").description("An array of <<resources-component, Component resources>>"),
+								fieldWithPath("_links").description("<<resources-componentslist-links,Links>> to other resources"),
+								fieldWithPath("page").description("Page information"))));
 	}
 
 	@Test
@@ -151,10 +150,10 @@ public final class ComponentDocumentation extends ModelTestBase{
                                 fieldWithPath("serialNumber").description("Component Serial Number"),
                                 fieldWithPath("port").description("Spa port component is attached."),
                                 fieldWithPath("componentType").description("The type of component"),
-                                fieldWithPath("oemId").description("Id of the spa manufacturer"),
-                                fieldWithPath("dealerId").description("Id of the spa dealer"),
-                                fieldWithPath("spaId").description("Id of the spa"),
-                                fieldWithPath("ownerId").description("Owner of the spa"),
+                                fieldWithPath("oemId").description("Id of the spa manufacturer").optional().type(String.class),
+                                fieldWithPath("dealerId").description("Id of the spa dealer").optional().type(String.class),
+                                fieldWithPath("spaId").description("Id of the spa").optional().type(String.class),
+                                fieldWithPath("ownerId").description("Owner of the spa").optional().type(String.class),
                                 fieldWithPath("_links")
 										.description("<<resources-oem-links,Links>> to other resources"))));
 	}
@@ -163,23 +162,63 @@ public final class ComponentDocumentation extends ModelTestBase{
     public void findBySerialNumberExample() throws Exception {
         this.componentRepository.deleteAll();
 
-        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Jets", "1502119991", "spa0001");
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Jets", "150211", "spa0001");
 
-        this.mockMvc.perform(get("/components/search/findBySerialNumber?serialNumber=1502119991"))
+        this.mockMvc.perform(get("/components/search/findBySerialNumber?serialNumber=" + pump1.getSerialNumber()))
                 .andExpect(status().isOk())
                 .andDo(document("components-findbySerialNumber-example",
                         responseFields(
-                                fieldWithPath("_id").description("Object Id"),
+//                                fieldWithPath("_id").description("Object Id"),
                                 fieldWithPath("name").description("Friendly name of the component"),
                                 fieldWithPath("serialNumber").description("Component Serial Number"),
                                 fieldWithPath("port").description("Spa port component is attached."),
                                 fieldWithPath("componentType").description("The type of component"),
-                                fieldWithPath("oemId").description("Id of the spa manufacturer"),
-                                fieldWithPath("dealerId").description("Id of the spa dealer"),
-                                fieldWithPath("spaId").description("Id of the spa"),
-                                fieldWithPath("ownerId").description("Owner of the spa"),
+                                fieldWithPath("oemId").description("Id of the spa manufacturer").optional().type(String.class),
+                                fieldWithPath("dealerId").description("Id of the spa dealer").optional().type(String.class),
+                                fieldWithPath("spaId").description("Id of the spa").optional().type(String.class),
+                                fieldWithPath("ownerId").description("Owner of the spa").optional().type(String.class),
                                 fieldWithPath("_links")
                                         .description("<<resources-oem-links,Links>> to other resources"))));
     }
 
+
+	@Test
+	public void findBySpaIdExample() throws Exception {
+		clearAllData();
+
+		List<String> ownerRole = Arrays.asList("OWNER");
+		List<Address> addresses = createAddresses(20);
+		Oem oem2 = createOem("Rockers Ltd.", addresses.get(0), "oem002");
+		Dealer dealer2 = createDealer("Pt. Loma Spa Outlet", addresses.get(1), oem2.get_id(), "dealer002");
+		User owner4 = createUser("lgaga", "Lady", "Gaga", dealer2.get_id(), oem2.get_id(), addresses.get(3), ownerRole);
+		Spa spa26 = createSmallSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4);
+
+		this.mockMvc.perform(get("/components/search/findBySpaIdOrderByComponentType?spaId=" + spa26.get_id()))
+				.andExpect(status().isOk())
+				.andDo(document("components-findbySpaId-example",
+						responseFields(
+								fieldWithPath("_embedded.components").description("An array of <<resources-component, Component resources>>"),
+								fieldWithPath("_links").description("<<resources-componentslist-links,Links>> to other resources"),
+								fieldWithPath("page").description("Page information"))));
+	}
+
+	@Test
+	public void findBySpaIdAndComponentTypeExample() throws Exception {
+		clearAllData();
+
+		List<String> ownerRole = Arrays.asList("OWNER");
+		List<Address> addresses = createAddresses(20);
+		Oem oem2 = createOem("Rockers Ltd.", addresses.get(0), "oem002");
+		Dealer dealer2 = createDealer("Pt. Loma Spa Outlet", addresses.get(1), oem2.get_id(), "dealer002");
+		User owner4 = createUser("lgaga", "Lady", "Gaga", dealer2.get_id(), oem2.get_id(), addresses.get(3), ownerRole);
+		Spa spa26 = createSmallSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4);
+
+		this.mockMvc.perform(get("/components/search/findBySpaIdAndComponentTypeOrderByPortAsc?spaId=" + spa26.get_id() + "&componentType=PUMP"))
+				.andExpect(status().isOk())
+				.andDo(document("components-findbySpaIdAndComponentType-example",
+						responseFields(
+								fieldWithPath("_embedded.components").description("An array of <<resources-component, Component resources>>"),
+								fieldWithPath("_links").description("<<resources-componentslist-links,Links>> to other resources"),
+								fieldWithPath("page").description("Page information"))));
+	}
 }
