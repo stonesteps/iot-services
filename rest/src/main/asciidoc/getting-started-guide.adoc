@@ -84,8 +84,8 @@ Note the `spas` link which we'll make use of later.
 
 
 
-[getting-started-creating-a-spa]
-== Creating a tag
+[getting-adding-a-new-user]
+== Creating a new User
 To make a spa easier to find, it can be associated with a dealer or and owner. To be able
 to assign and owner to a spa, you must first create the owner.
 
@@ -112,6 +112,86 @@ include::{snippets}/creating-a-spa/4/curl-request.adoc[]
 This request will produce a response with the tag's details in its body:
 
 include::{snippets}/creating-a-spa/4/http-response.adoc[]
+
+
+
+[Authentication / Authorization]
+== Authentication
+
+== Authorization
+
+[user-terms-and-conditions]
+== Terms And Condition Agreements
+
+Users of the application must first agree to the terms and conditions of use.
+When someone uses the application for the first time, they will be shown the terms and conditions of use,
+and asked to accept the terms before continuing.
+
+Typical Mobile Application Workflow:
+
+Assuming that the user is not already authenticated:
+Step 1: POST to the login API
+
+include::{snippets}/terms-and-conditions/1/curl-request.adoc[]
+
+Note:  This is a dummy login for development environment.
+        Once the identity management server is ready. This URL will change.
+
+        If the return code is 403 (or 401), then login failed. Most likely a bad username or password.
+
+If return is 200 OK, the the user has passed authentication.
+This request will produce a response with the users’s details in its body:
+
+include::{snippets}/terms-and-conditions/1/http-response.adoc[]
+
+Get userId from response payload and use it in step 2
+
+Step 2: use findCurrentUserAgreement API to determine if the user has already agreed to the current version
+    of the terms and conditions of use.
+
+This curl command shows an example of finding a user agreement
+
+include::{snippets}/terms-and-conditions/2/curl-request.adoc[]
+
+If, as in this example, the response code is 200, then yes, the user has already agreed.
+
+include::{snippets}/terms-and-conditions/2/http-response.adoc[]
+
+Let's send them to the page they are really interested in going to their landing page.
+Skip the rest and Go to Step 5
+
+
+If the response if 404,
+include::{snippets}/terms-and-conditions/3/http-response.adoc[]
+
+
+This indicates the user has not yet agreed to the current terms and
+conditions of use.  We'll need to display it to them and ask them to agree.
+Proceed to step 3
+
+Step 3: use the findMostRecent API to fetch the current terms and conditions of use
+
+include::{snippets}/terms-and-conditions/4/curl-request.adoc[]
+
+The response payload includes the most recent Terms and Conditions used by this application.
+Display them to the user and ask them to accept.
+
+include::{snippets}/terms-and-conditions/4/http-response.adoc[]
+
+Step 4:  When user agrees, POST to the /tac/agree API, so we'll know not to ask them in the future.
+
+include::{snippets}/terms-and-conditions/5/curl-request.adoc[]
+
+include::{snippets}/terms-and-conditions/5/http-request.adoc[]
+
+Upon a successful post, 201, let's send them on to their landing page.
+
+Step 5: The landing page for the mobile application will want to find the spa for this user
+
+GET  /spas/search/findByUsername?username=chynde
+
+
+Note: Creating a new version of the terms and conditions of use will mark all of the current user agreements as old.
 
 ////
 
