@@ -115,7 +115,13 @@ public class ModelTestBase {
     }
 
     protected User createUser(String username, String firstName, String lastName, String dealerId, String oemId, Address address, List<String> roles) {
+        return createUser(null, username, firstName, lastName, dealerId, oemId, address, roles);
+    }
+    protected User createUser(String id, String username, String firstName, String lastName, String dealerId, String oemId, Address address, List<String> roles) {
         User user = new User();
+        if (StringUtils.isNotEmpty(id)){
+            user.set_id(id);
+        }
         user.setUsername(username);
         user.setFirstName(firstName);
         user.setLastName(lastName);
@@ -178,6 +184,9 @@ public class ModelTestBase {
     }
 
     protected Spa createUnsoldSpa(String serialNumber, String productName, String model, String oemId, String dealerId) {
+        return createUnsoldSpa(serialNumber, productName, model, oemId, dealerId, null);
+    }
+    protected Spa createUnsoldSpa(String serialNumber, String productName, String model, String oemId, String dealerId, String spaId) {
         Spa spa = new Spa();
         spa.setSerialNumber(serialNumber+(serialSuffix++));
         spa.setProductName(productName);
@@ -189,7 +198,13 @@ public class ModelTestBase {
     }
 
     protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner) {
+        return createFullSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, null);
+    }
+    protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId) {
         Spa spa = new Spa();
+        if (StringUtils.isNotEmpty(spaId)){
+            spa.set_id(spaId);
+        }
         spa.setSerialNumber(serialNumber+(serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
@@ -286,7 +301,13 @@ public class ModelTestBase {
     }
 
     protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner) {
+        return createSmallSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, null);
+    }
+    protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId) {
         Spa spa = new Spa();
+        if (StringUtils.isNotEmpty(spaId)){
+            spa.set_id(spaId);
+        }
         spa.setSerialNumber(serialNumber+(serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
@@ -344,7 +365,13 @@ public class ModelTestBase {
     }
 
     protected Spa createDemoSpa(String serialNumber, String productName, String model, String oemId, String dealerId, User owner) {
+        return createDemoSpa(serialNumber, productName, model, oemId, dealerId, owner, null);
+    }
+    protected Spa createDemoSpa(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId) {
         Spa spa = new Spa();
+        if (StringUtils.isNotEmpty(spaId)){
+            spa.set_id(spaId);
+        }
         spa.setSerialNumber(serialNumber+(serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
