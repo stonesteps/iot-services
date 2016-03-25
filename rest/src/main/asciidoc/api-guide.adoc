@@ -465,7 +465,15 @@ include::{snippets}/user-findByUsername-example/http-response.adoc[]
 [[resources-user-create]]
 === Creating a user
 
-A `POST` request is used to create a user
+A `POST` request is used to create a user.
+There are different types of users:
+- Spa Owners
+- Dealer Sales Associates
+- Dealer Technicians
+- Dealer Administrators
+- OEM Users
+- Balboa Water Group Users
+- System Administrators
 
 ==== Request structure
 
@@ -944,7 +952,6 @@ include::{snippets}/component-create-example/curl-request.adoc[]
 ==== Example response
 
 include::{snippets}/component-create-example/http-response.adoc[]
-
 
 [[resources-component-update]]
 === Update a component

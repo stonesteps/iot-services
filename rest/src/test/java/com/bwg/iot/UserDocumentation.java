@@ -113,8 +113,8 @@ public final class UserDocumentation extends ModelTestBase {
                         requestFields(fieldWithPath("firstName").description("First name of the user"),
                                 fieldWithPath("lastName").description("Last name of the user"),
                                 fieldWithPath("dealerId").description("Dealer id"),
-                                fieldWithPath("oemId").description("Oem id"),
-                                fieldWithPath("address").description("The address of the dealer"),
+                                fieldWithPath("oemId").description("Manufacturer id"),
+                                fieldWithPath("address").description("The user's address"),
                                 fieldWithPath("createdDate").description("Created date"),
                                 fieldWithPath("roles").description("User roles"))));
     }
@@ -144,7 +144,7 @@ public final class UserDocumentation extends ModelTestBase {
                         requestFields(fieldWithPath("firstName").description("First name of the user"),
                                 fieldWithPath("lastName").description("Last name of the user"),
                                 fieldWithPath("dealerId").description("Dealer id"),
-                                fieldWithPath("oemId").description("Oem id"),
+                                fieldWithPath("oemId").description("Manufacturer id"),
                                 fieldWithPath("address").description("Address"),
                                 fieldWithPath("modifiedDate").description("Modified date"),
                                 fieldWithPath("roles").description("User roles"))));
@@ -169,7 +169,7 @@ public final class UserDocumentation extends ModelTestBase {
                                 fieldWithPath("firstName").description("First name of the user"),
                                 fieldWithPath("lastName").description("Last name of the user"),
                                 fieldWithPath("dealerId").description("dealer id"),
-                                fieldWithPath("oemId").description("Oem id"),
+                                fieldWithPath("oemId").description("Manufacturer id"),
                                 fieldWithPath("roles").description("Roles of this user"),
                                 fieldWithPath("address").description("User's address"),
                                 fieldWithPath("createdDate").description("User creation date"),
@@ -197,7 +197,7 @@ public final class UserDocumentation extends ModelTestBase {
                                 fieldWithPath("firstName").description("First name of the user"),
                                 fieldWithPath("lastName").description("Last name of the user"),
                                 fieldWithPath("dealerId").description("Dealer id"),
-                                fieldWithPath("oemId").description("Oem id"),
+                                fieldWithPath("oemId").description("Manufacturer id"),
                                 fieldWithPath("roles").description("Roles of this user"),
                                 fieldWithPath("address").description("User's address"),
                                 fieldWithPath("createdDate").description("User creation date"),
