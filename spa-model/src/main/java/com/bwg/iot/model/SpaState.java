@@ -10,7 +10,7 @@ import java.util.List;
  * Created by triton on 2/17/16.
  */
 
-@JsonInclude(value= JsonInclude.Include.NON_EMPTY)
+@JsonInclude(value= JsonInclude.Include.NON_NULL)
 public class SpaState {
     String runMode; // rest, ready
     String desiredTemp;
