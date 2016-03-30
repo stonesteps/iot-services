@@ -93,11 +93,36 @@ public class SpaCommandController {
         return response;
     }
 
-    @RequestMapping(value = "/{spaId}/setFilterCycleState", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> setFilterCycleState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+    @RequestMapping(value = "/{spaId}/setFilterCycleIntervals", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> setFilterCycleIntervals(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+        if (spaId == null) {
+            return new ResponseEntity<>("Spa Id not provided", HttpStatus.BAD_REQUEST);
+        }
 
-        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.FILTER.getCode());
-        return response;
+        final HashMap<String, String> values = new HashMap<String, String>();
+
+        final String deviceNumber = body.get("deviceNumber");
+        if (deviceNumber == null) {
+            return new ResponseEntity<>("Device Number Required", HttpStatus.BAD_REQUEST);
+        }
+        if (deviceNumber != null && !NumberUtils.isNumber(deviceNumber)) {
+            return new ResponseEntity<>("Device Number Invalid", HttpStatus.BAD_REQUEST);
+        }
+        values.put("PORT", deviceNumber);
+
+        final String intervalNumber = body.get("intervalNumber");
+        if (intervalNumber == null) {
+            return new ResponseEntity<>("Interval Number not provided", HttpStatus.BAD_REQUEST);
+        }
+        if (!NumberUtils.isNumber(intervalNumber)) {
+            return new ResponseEntity<>("Interval Number is not a number", HttpStatus.BAD_REQUEST);
+        }
+        values.put("FILTER_DURATION_15MINUTE_INTERVALS", intervalNumber);
+
+        final String originatorId = body.get("originatorId");
+        SpaCommand command = buildAndSaveCommand(spaId, originatorId, SpaCommand.RequestType.FILTER.getCode(), values);
+
+        return new ResponseEntity<SpaCommand>(command, HttpStatus.ACCEPTED);
     }
 
     private ResponseEntity<?> setButtonCommand(String spaId, HashMap<String, String> body, int requestCode) {

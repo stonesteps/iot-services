@@ -300,19 +300,21 @@ public final class SpaCommandDocumentation {
     }
 
     @Test
-    public void turnFilterCycleOn() throws Exception {
+    public void setFilterCycleInterval() throws Exception {
         this.spaCommandRepository.deleteAll();
 
         final Map<String, String> command = new HashMap<>();
-        command.put("desiredState", "ON");
+        command.put("deviceNumber", "0");
+        command.put("intervalNumber", "2");
         command.put("originatorId", "optional-tag-0001");
 
         this.mockMvc
-                .perform(post("/control/56c7f020c2e65656ab93db17/setFilterCycleState").contentType(MediaTypes.HAL_JSON)
+                .perform(post("/control/56c7f020c2e65656ab93db17/setFilterCycleIntervals").contentType(MediaTypes.HAL_JSON)
                         .content(this.objectMapper.writeValueAsString(command)))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("control-filtercycle-example",
-                        requestFields(fieldWithPath("desiredState").description("Turn filter cycle: ON or OFF"),
+                        requestFields(fieldWithPath("intervalNumber").description("The number of 15 minute long filter cycle interval on selected filter"),
+                                fieldWithPath("deviceNumber").description("Filter number, starting with 0"),
                                 fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
                 .andDo(document("control-filtercycle-response-example",
                         responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
