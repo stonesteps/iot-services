@@ -37,7 +37,7 @@ public class SpaCommandController {
             return new ResponseEntity<>("Desired Temperature not provided", HttpStatus.BAD_REQUEST);
         }
         HashMap<String, String> values = new HashMap<String, String>();
-        values.put("desiredTemp", desiredTemp);
+        values.put("DESIREDTEMP", desiredTemp);
 
         String originatorId = body.get("originatorId");
         SpaCommand command = buildAndSaveCommand(spaId, originatorId, SpaCommand.RequestType.HEATER.getCode(), values);
@@ -149,9 +149,9 @@ public class SpaCommandController {
         }
 
         HashMap<String, String> values = new HashMap<>();
-        values.put("desiredState", desiredState);
+        values.put("DESIREDSTATE", desiredState);
         if (deviceNumber != null) {
-            values.put("port", deviceNumber);
+            values.put("PORT", deviceNumber);
         }
 
         String originatorId = body.get("originatorId");

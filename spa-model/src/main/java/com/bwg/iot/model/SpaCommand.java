@@ -22,14 +22,6 @@ public class SpaCommand {
         }
     }
 
-    public enum ValueKeyName {
-        DESIRED_TEMP("desiredTemp"), DESIRED_STATE("desiredState"), PORT("port");
-
-        private final String keyName;
-        private ValueKeyName(final String keyName) { this.keyName = keyName; }
-        public String getKeyName() { return this.keyName; }
-    }
-
     @Id
     private String _id;
     private String spaId;

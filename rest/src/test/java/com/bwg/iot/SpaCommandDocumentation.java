@@ -78,7 +78,7 @@ public final class SpaCommandDocumentation {
                         .content(this.objectMapper.writeValueAsString(command)))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(document("control-desired-temp-example",
-                        requestFields(fieldWithPath("desiredTemp").description("The desired temperatue in degrees Fahrenheit"),
+                        requestFields(fieldWithPath("desiredTemp").description("The desired temperatue in degrees Fahrenheit (int)"),
                                 fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
                 .andDo(document("control-desired-temp-response-example",
                         responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
