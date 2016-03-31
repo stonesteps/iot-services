@@ -19,24 +19,13 @@ public class Address extends ResourceSupport {
     private String state = null;
     private String country = null;
     private String zip = null;
-    private String phone = null;
-    private String email = null;
 
     public String get_id() {
         return _id;
     }
-
     public void set_id(String id) {
         this._id = id;
     }
-
-    public String getEmail() {
-      return email;
-    }
-    public void setEmail(String email) {
-      this.email = email;
-    }
-
 
     public String getAddress1() {
       return address1;
@@ -45,14 +34,12 @@ public class Address extends ResourceSupport {
       this.address1 = address1;
     }
 
-
     public String getAddress2() {
       return address2;
     }
     public void setAddress2(String address2) {
       this.address2 = address2;
     }
-
 
     public String getCity() {
       return city;
@@ -82,14 +69,6 @@ public class Address extends ResourceSupport {
       this.zip = zip;
     }
 
-    public String getPhone() {
-      return phone;
-    }
-    public void setPhone(String phone) {
-      this.phone = phone;
-    }
-
-
 
     @Override
     public boolean equals(Object o) {
@@ -100,19 +79,17 @@ public class Address extends ResourceSupport {
         return false;
       }
       Address owner = (Address) o;
-      return Objects.equals(email, owner.email) &&
-          Objects.equals(address1, owner.address1) &&
+      return Objects.equals(address1, owner.address1) &&
           Objects.equals(address2, owner.address2) &&
           Objects.equals(city, owner.city) &&
           Objects.equals(state, owner.state) &&
           Objects.equals(country, owner.country) &&
-          Objects.equals(zip, owner.zip) &&
-          Objects.equals(phone, owner.phone);
+          Objects.equals(zip, owner.zip);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(email, address1, address2, city, state, country, zip, phone);
+        return Objects.hash(address1, address2, city, state, country, zip);
     }
 
     @Override
@@ -120,14 +97,12 @@ public class Address extends ResourceSupport {
         StringBuilder sb = new StringBuilder();
         sb.append("class Address {\n");
 
-        sb.append("  email: ").append(email).append("\n");
         sb.append("  address1: ").append(address1).append("\n");
         sb.append("  address2: ").append(address2).append("\n");
         sb.append("  city: ").append(city).append("\n");
         sb.append("  state: ").append(state).append("\n");
         sb.append("  country: ").append(country).append("\n");
         sb.append("  zip: ").append(zip).append("\n");
-        sb.append("  phone: ").append(phone).append("\n");
         sb.append("}\n");
         return sb.toString();
     }
