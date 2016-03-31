@@ -20,6 +20,8 @@ public class User extends ResourceSupport {
     private String oemId;
     private String lastName;
     private String firstName;
+    private String phone;
+    private String email;
     private Address address;
     private List<String> roles;
     private Date createdDate;
@@ -109,6 +111,22 @@ public class User extends ResourceSupport {
         return modifiedDate;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setModifiedDate(Date modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
@@ -133,6 +151,8 @@ public class User extends ResourceSupport {
         if (username != null ? !username.equals(user.username) : user.username != null) return false;
         if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
         if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
+        if (email != null ? !email.equals(user.email) : user.email != null) return false;
+        if (phone != null ? !phone.equals(user.phone) : user.phone != null) return false;
         if (address != null ? !address.equals(user.address) : user.address != null) return false;
         if (roles != null ? !roles.equals(user.roles) : user.roles != null) return false;
         if (createdDate != null ? !createdDate.equals(user.createdDate) : user.createdDate != null) return false;
@@ -149,6 +169,8 @@ public class User extends ResourceSupport {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (roles != null ? roles.hashCode() : 0);
         return result;
     }
@@ -162,6 +184,8 @@ public class User extends ResourceSupport {
                 ", username='" + username + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
                 ", address=" + address +
                 ", roles=" + roles +
                 ", createdDate='" + createdDate.toString() + '\'' +
