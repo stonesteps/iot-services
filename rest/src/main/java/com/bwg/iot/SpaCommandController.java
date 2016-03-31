@@ -47,7 +47,15 @@ public class SpaCommandController {
 
     @RequestMapping(value = "/{spaId}/setJetState", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setJetState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+
         ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.PUMPS.getCode());
+        return response;
+    }
+
+    @RequestMapping(value = "/{spaId}/setCircPumpState", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> setCircPumpState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+
+        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.CIRC_PUMP.getCode());
         return response;
     }
 

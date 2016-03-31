@@ -619,6 +619,25 @@ include::{snippets}/control-pump-example/curl-request.adoc[]
 include::{snippets}/control-pump-example/http-response.adoc[]
 
 
+=== Circ Pump Control
+
+This command is used to set state of circulation pump: OFF, LOW, HIGH.
+
+==== Request structure
+
+include::{snippets}/control-circ-pump-example/request-fields.adoc[]
+
+If the originatorId is not sent in the request, one will be created
+
+==== Example request
+
+include::{snippets}/control-circ-pump-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/control-circ-pump-example/http-response.adoc[]
+
+
 === Spa Lights Control
 
 This command is used to turn the spa lights ON and OFF
