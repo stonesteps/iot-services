@@ -31,6 +31,8 @@ public class RepositoryConfig extends RepositoryRestMvcConfiguration {
             protected void beforeRequest(HttpServletRequest request, String message)
             {
                 logger.info(message);
+                String remoteUser = request.getRemoteUser();
+                logger.info("REMOTE_USER: " + remoteUser);
                 // print all headers: for debug
                 Enumeration headerNames = request.getHeaderNames();
                 while (headerNames.hasMoreElements()) {
