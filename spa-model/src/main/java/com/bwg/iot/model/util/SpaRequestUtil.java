@@ -30,6 +30,7 @@ public final class SpaRequestUtil {
 
     static {
         stateValidatorMap.put(SpaCommand.RequestType.PUMPS.getCode(), PUMP_STATE_VALIDATOR);
+        stateValidatorMap.put(SpaCommand.RequestType.CIRC_PUMP.getCode(), PUMP_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.LIGHTS.getCode(), LIGHT_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.BLOWER.getCode(), BLOWER_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.MISTER.getCode(), ON_OFF_STATE_VALIDATOR);
