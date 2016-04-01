@@ -12,6 +12,7 @@ import org.springframework.web.filter.AbstractRequestLoggingFilter;
 
 import javax.servlet.Filter;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 @Configuration
 public class RepositoryConfig extends RepositoryRestMvcConfiguration {
@@ -27,8 +28,15 @@ public class RepositoryConfig extends RepositoryRestMvcConfiguration {
         private final Logger logger = LoggerFactory.getLogger(RepositoryConfig.class);
 
             @Override
-            protected void beforeRequest(HttpServletRequest request, String message) {
+            protected void beforeRequest(HttpServletRequest request, String message)
+            {
                 logger.info(message);
+                // print all headers: for debug
+                Enumeration headerNames = request.getHeaderNames();
+                while (headerNames.hasMoreElements()) {
+                    String headerName = (String)headerNames.nextElement();
+                    logger.info("header: " + headerName + ":" + request.getHeader(headerName));
+                }
             }
 
             @Override
