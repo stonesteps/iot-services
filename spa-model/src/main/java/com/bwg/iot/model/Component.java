@@ -22,7 +22,8 @@ public class Component extends ResourceSupport {
                     ComponentType.LIGHT.name(),
                     ComponentType.MOTE.name(),
                     ComponentType.PANEL.name(),
-                    ComponentType.PUMP.name()
+                    ComponentType.PUMP.name(),
+                    ComponentType.FILTER.name()
             );
 
 
