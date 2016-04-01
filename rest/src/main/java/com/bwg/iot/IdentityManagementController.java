@@ -31,16 +31,14 @@ public class IdentityManagementController {
     @Autowired
     MongoOperations mongoOps;
 
-    String tokenEndpoint;
+//    String tokenEndpoint;
 
-    @Autowired
-    public IdentityManagementController(@Value("${token.endpoint}") String tokenEndpoint) {
-        this.tokenEndpoint = tokenEndpoint;
-    };
+//    @Autowired
+    public IdentityManagementController() {};
 
     @RequestMapping(method = RequestMethod.GET, value = "/mobileTokenEndpoint")
     public @ResponseBody ResponseEntity<?> getTokenEnpoint() {
-        Link link = new Link(tokenEndpoint);
+        Link link = new Link("https://iotdev05.bi.local/oxauth/seam/resource/restv1/oxauth/token");
         return new ResponseEntity<Link>(link, HttpStatus.OK);
     }
 
