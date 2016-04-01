@@ -55,7 +55,7 @@ public class SpaCommandController {
     @RequestMapping(value = "/{spaId}/setCircPumpState", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setCircPumpState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
 
-        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.CIRC_PUMP.getCode());
+        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.CIRCULATION_PUMP.getCode());
         return response;
     }
 
