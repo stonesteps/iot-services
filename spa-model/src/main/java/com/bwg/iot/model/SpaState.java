@@ -16,8 +16,6 @@ public class SpaState {
     String desiredTemp;
     String targetDesiredTemp;
     String currentTemp;
-    boolean filterCycle1Active;
-    boolean filterCycle2Active;
     int errorCode;
     boolean cleanupCycle;
     int messageSeverity;
@@ -70,22 +68,6 @@ public class SpaState {
     public SpaState(){
         components = new ArrayList<ComponentState>();
         measurements = new ArrayList<Measurement>();
-    }
-
-    public boolean isFilterCycle1Active() {
-        return filterCycle1Active;
-    }
-
-    public void setFilterCycle1Active(boolean filterCycle1Active) {
-        this.filterCycle1Active = filterCycle1Active;
-    }
-
-    public boolean isFilterCycle2Active() {
-        return filterCycle2Active;
-    }
-
-    public void setFilterCycle2Active(boolean filterCycle2Active) {
-        this.filterCycle2Active = filterCycle2Active;
     }
 
     public String getRunMode() {

@@ -63,8 +63,6 @@ public class ModelTestBase {
         address.setState("CA");
         address.setZip("E6L-4J4");
         address.setCountry("US");
-        address.setEmail("gordon@gordon.com");
-        address.setPhone("(506) 471-2382");
         return addressRepository.save(address);
     }
 
@@ -76,8 +74,6 @@ public class ModelTestBase {
         address.setState("CA");
         address.setZip("E6L-4J4");
         address.setCountry("US");
-        address.setEmail("gordon"+i+"@riot.com");
-        address.setPhone("(506) 471-2382");
         return addressRepository.save(address);
     }
 
@@ -129,6 +125,8 @@ public class ModelTestBase {
         user.setOemId(oemId);
         user.setAddress(address);
         user.setRoles(roles);
+        user.setEmail(username+"@riot.com");
+        user.setPhone("(800) 471-2382");
         user.setCreatedDate(new Date());
         userRepository.save(user);
         return user;
