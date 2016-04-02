@@ -13,6 +13,10 @@ import java.util.List;
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class User extends ResourceSupport {
 
+    public enum Role {
+        OWNER, BWG, OEM, DEALER, ASSOCIATE, TECHNICIAN, ADMIN
+    }
+
     @Id
     private String _id;
     private String username;
@@ -29,6 +33,14 @@ public class User extends ResourceSupport {
 
     @JsonIgnore
     private String password;
+
+    public boolean hasRole(String role) {
+        return roles.contains(role);
+    }
+
+    public boolean hasRoles(List roleList) {
+        return roles.containsAll(roleList);
+    }
 
     public String getUsername() {
         return username;
