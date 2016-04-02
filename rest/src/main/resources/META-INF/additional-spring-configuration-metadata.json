@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "token.endpoint",
+      "type": "java.lang.String",
+      "description": "external identity management REST endpoint for validating an auth token"
+    },
+    {
+      "name": "user.token.header",
+      "type": "java.lang.String",
+      "description": "name of the RequestHeader containing username"
+    }
+  ]
+}
