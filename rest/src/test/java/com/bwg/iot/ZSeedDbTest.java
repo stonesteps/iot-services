@@ -63,12 +63,13 @@ public final class ZSeedDbTest extends ModelTestBase {
         Dealer dealer3 = createDealer("SpaStic", addresses.get(15), oem2.get_id(), "dealer003");
 
         // create some users
-        List<String> ownerRole = Arrays.asList("OWNER");
-        List<String> salesRole = Arrays.asList("ASSOCIATE");
-        List<String> techRole = Arrays.asList("TECHNICIAN");
-        List<String> oemRole = Arrays.asList("OEM");
-        List<String> bwgRole = Arrays.asList("BWG");
-        List<String> adminRole = Arrays.asList("OWNER", "ASSOCIATE", "TECHNICIAN", "OEM", "BWG");
+        List<String> ownerRole = Arrays.asList(User.Role.OWNER.name());
+        List<String> salesRole = Arrays.asList(User.Role.DEALER.name(), User.Role.ASSOCIATE.name());
+        List<String> techRole = Arrays.asList(User.Role.DEALER.name(), User.Role.TECHNICIAN.name());
+        List<String> oemRole = Arrays.asList(User.Role.OEM.name());
+        List<String> bwgRole = Arrays.asList(User.Role.BWG.name());
+        List<String> adminRole = Arrays.asList(User.Role.BWG.name(), User.Role.OEM.name(),
+                User.Role.DEALER.name(), User.Role.ADMIN.name());
 
         User owner1 = createUser("user0001", "braitt", "Bonnie", "Raitt", dealer1.get_id(), oem1.get_id(), addresses.get(4), ownerRole);
         User owner2 = createUser("user0002", "ptownsend", "Pete", "Townsend", dealer1.get_id(), oem1.get_id(), addresses.get(4), ownerRole);
