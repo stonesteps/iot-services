@@ -23,7 +23,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 
 @RepositoryRestController
 @RequestMapping("/auth")
@@ -44,9 +48,12 @@ public class AuthenticationController {
     EntityLinks entityLinks;
 
     @Autowired
-    public AuthenticationController(UserRepository repo){
+    public AuthenticationController(UserRepository repo, Environment env){
         userRepository = repo;
+        this.env = env;
     }
+
+    Environment env;
 
     /**
      * Temporary login page for development testing.
@@ -70,18 +77,24 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/whoami", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> getUserByHeaderUsername(Environment env){
-        String username = env.getProperty(PropertyNames.USER_TOKEN_HEADER);
+    public ResponseEntity<?> getUserByHeaderUsername(HttpServletRequest request){
+        String username = request.getHeader(env.getProperty(PropertyNames.USER_TOKEN_HEADER));
         logger.info("/whoami: " + username);
+        if (StringUtils.isEmpty(username)) {
+            return new ResponseEntity<Object> (HttpStatus.FORBIDDEN);
+        }
 
         User user = userRepository.findByUsername(username);
-        user.add(entityLinks.linkToSingleResource(User.class, user.get_id()).withSelfRel());
-        user.add(entityLinks.linkToSingleResource(User.class, user.get_id()).withRel("user"));
-
+        if (user != null) {
+            user.add(entityLinks.linkToSingleResource(User.class, user.get_id()).withSelfRel());
+            user.add(entityLinks.linkToSingleResource(User.class, user.get_id()).withRel("user"));
+        }
         if (user.hasRole(User.Role.OWNER.toString())) {
             Spa spa = spaRepository.findByUsername(user.getUsername());
-            Link link = entityLinks.linkToSingleResource(Spa.class, spa.get_id()).withRel("spa");
-            user.add(link);
+            if (spa != null) {
+                Link link = entityLinks.linkToSingleResource(Spa.class, spa.get_id()).withRel("spa");
+                user.add(link);
+            }
         }
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
