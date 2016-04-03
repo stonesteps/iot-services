@@ -23,7 +23,7 @@ public class IdentityManagementController {
 
     @Autowired
     public IdentityManagementController(Environment env) {
-        this.tokenEndpoint = env.getProperty("token.endpoint");
+        this.tokenEndpoint = env.getProperty(PropertyNames.TOKEN_ENDPOINT);
     };
 
     @RequestMapping(method = RequestMethod.GET, value = "/tokenEndpoint")

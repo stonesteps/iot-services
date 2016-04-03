@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.EntityLinks;
@@ -31,8 +32,6 @@ public class AuthenticationController {
     private final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
     private final UserRepository userRepository;
-
-    private final String headerName = "oidc_claim_user_name";
 
     @Autowired
     SpaRepository spaRepository;
@@ -71,8 +70,10 @@ public class AuthenticationController {
     }
 
     @RequestMapping(value = "/whoami", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<?> getUserByHeaderUsername(@RequestHeader(headerName) String username){
+    public ResponseEntity<?> getUserByHeaderUsername(Environment env){
+        String username = env.getProperty(PropertyNames.USER_TOKEN_HEADER);
         logger.info("/whoami: " + username);
+
         User user = userRepository.findByUsername(username);
         user.add(entityLinks.linkToSingleResource(User.class, user.get_id()).withSelfRel());
         user.add(entityLinks.linkToSingleResource(User.class, user.get_id()).withRel("user"));
