@@ -26,6 +26,34 @@ public class SpaCommandController {
     @Autowired
     SpaRepository spaRepository;
 
+    @RequestMapping(value = "/{spaId}/restartAgent", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> restartAgent(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+
+        ResponseEntity<?> response = setPlainButtonCommand(spaId, body, SpaCommand.RequestType.RESTART_AGENT.getCode());
+        return response;
+    }
+
+    @RequestMapping(value = "/{spaId}/rebootGateway", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> rebootGateway(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+
+        ResponseEntity<?> response = setPlainButtonCommand(spaId, body, SpaCommand.RequestType.REBOOT_GATEWAY.getCode());
+        return response;
+    }
+
+    private ResponseEntity<?> setPlainButtonCommand(String spaId, HashMap<String, String> body, int requestCode) {
+        if (spaId == null) {
+            return new ResponseEntity<>("Spa Id not provided", HttpStatus.BAD_REQUEST);
+        }
+
+        String originatorId = null;
+        if (body != null) {
+            originatorId = body.get("originatorId");
+        }
+        SpaCommand command = buildAndSaveCommand(spaId, originatorId, requestCode, new HashMap<>());
+
+        return new ResponseEntity<SpaCommand>(command, HttpStatus.ACCEPTED);
+    }
+
     @RequestMapping(value = "/{spaId}/setDesiredTemp", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setDesiredTemp(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
         if (spaId == null) {
@@ -168,7 +196,7 @@ public class SpaCommandController {
         return new ResponseEntity<SpaCommand>(command, HttpStatus.ACCEPTED);
     }
 
-    private SpaCommand buildAndSaveCommand(String spaId, String originatorId, int requestCode, HashMap values) {
+    private SpaCommand buildAndSaveCommand(String spaId, String originatorId, int requestCode, HashMap<String, String> values) {
         SpaCommand command = new SpaCommand();
         if (originatorId == null) {
             originatorId = UUID.randomUUID().toString();
