@@ -85,10 +85,12 @@ public class AuthenticationController {
         }
 
         User user = userRepository.findByUsername(username);
-        if (user != null) {
-            user.add(entityLinks.linkToSingleResource(User.class, user.get_id()).withSelfRel());
-            user.add(entityLinks.linkToSingleResource(User.class, user.get_id()).withRel("user"));
+        if (user == null) {
+            return new ResponseEntity<Object> (HttpStatus.FORBIDDEN);
         }
+        user.add(entityLinks.linkToSingleResource(User.class, user.get_id()).withSelfRel());
+        user.add(entityLinks.linkToSingleResource(User.class, user.get_id()).withRel("user"));
+
         if (user.hasRole(User.Role.OWNER.toString())) {
             Spa spa = spaRepository.findByUsername(user.getUsername());
             if (spa != null) {
