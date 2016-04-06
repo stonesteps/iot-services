@@ -75,7 +75,7 @@ public final class ZSeedDbTest extends ModelTestBase {
         User owner2 = createUser("user0002", "ptownsend", "Pete", "Townsend", dealer1.get_id(), oem1.get_id(), addresses.get(4), ownerRole);
         User owner3 = createUser("user0003", "pgabriel", "Peter", "Gabriel", dealer1.get_id(), oem1.get_id(), addresses.get(5), ownerRole);
         User owner4 = createUser("user0004", "lgaga", "Lady", "Gaga", dealer2.get_id(), oem2.get_id(), addresses.get(6), ownerRole);
-        User owner5 = createUser("user0005", "chynde", "Chrissie", "Hynde", dealer3.get_id(), oem2.get_id(), addresses.get(7), ownerRole);
+        User owner5 = createUser("user0005", "chynde", "Chrissie", "Hynde", dealer1.get_id(), oem1.get_id(), addresses.get(7), ownerRole);
 
         User maker1 = createUser("user0006", "face", "Ace", "Face", null, oem1.get_id(), addresses.get(8), oemRole);
         User maker2 = createUser("user0007", "pfenton", "Peter", "Fenton", null, oem1.get_id(), addresses.get(9), oemRole);
@@ -101,7 +101,7 @@ public final class ZSeedDbTest extends ModelTestBase {
         Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", oem1.get_id(), dealer1.get_id(), owner3, "spa000025");
         this.add2Alerts(spa25);
         Spa spa26 = createSmallSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4, "spa000026");
-        Spa spa27 = createDemoSpa("160315", "Whale", "Beluga", oem2.get_id(), dealer3.get_id(), owner5, "spa000027");
+        Spa spa27 = createDemoSpa("160315", "Whale", "Beluga", oem1.get_id(), dealer1.get_id(), owner5, "spa000027");
 
         Spa spa1  = createUnsoldSpa("160217", "Shark", "Hammerhead", oem1.get_id(), dealer1.get_id(), "spa000001");
         Spa spa2  = createUnsoldSpa("160217", "Shark", "Hammerhead", oem1.get_id(), dealer1.get_id(), "spa000002");
