@@ -13,6 +13,8 @@ The API documentation can be found here: http://iotdev03:8800/api-guide.html
 
 ## Installation Instructions
 
+Follow the following steps to download, build, and run the iot-services application locally.
+
 Pre-Requisites:   Java8, MongoDB, Maven
 
     1. Clone Repository $ mkdir myworkspace
@@ -21,11 +23,23 @@ Pre-Requisites:   Java8, MongoDB, Maven
                         $ cd iot-services
     2. Build:           $ mvn clean install
     3. Run:             $ cd rest/target
-                        $ java -jar iot-services-0.0.1-SNAPSHOT.jar IotServicesApplication
+                        $ java -Dspring.profiles.active=dev -jar iot-services-0.0.1-SNAPSHOT.jar IotServicesApplication
 
 
 Access API Docs from running server:  http://localhost:8080/api-guide.html
 Invoke Spa List API:   http://localhost:8080/spas
+
+
+The application has SpringSecurity built in and is activated by default. When enabled, the application expects
+all REST requests to be from authenticated users, and include a "remote_user" header containing the username of the user
+performing the request.
+Security will be disable in the dev environment, and enabled in QA environment.
+
+To run the application with the security filter disabled, set the runtime environment variable
+    spring.profiles.active=dev
+
+The spring security filter is expecting a "remote_user" header in http requests. If the remote_user header is not present,
+the API will return error code 401 - Unauthorized.
 
 
 ## Artifacts
