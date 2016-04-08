@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 @Document
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
@@ -47,6 +48,16 @@ public class Spa extends ResourceSupport {
         this.serialNumber = serialNumber;
         this.productName = productName;
         this.model = model;
+    }
+
+    public boolean isOnline() {
+        boolean online = false;
+        if ((this.currentState != null) &&
+            (!this.currentState.getComponents().isEmpty())) {
+            Stream<ComponentState> gateways = this.currentState.getComponents().stream().filter(c -> c.getComponentType().equalsIgnoreCase(Component.ComponentType.GATEWAY.toString()));
+            online = gateways.anyMatch(comp -> comp.getRegisteredTimestamp() != null);
+        }
+        return online;
     }
 
     public String get_id() {

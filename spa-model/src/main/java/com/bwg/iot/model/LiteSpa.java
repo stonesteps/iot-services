@@ -24,6 +24,8 @@ public interface LiteSpa {
     @Value("#{target.owner?.toUserLite()}")
     User getOwner();
 
+    boolean isOnline();
+
     List<Alert> getAlerts();
 }
 
