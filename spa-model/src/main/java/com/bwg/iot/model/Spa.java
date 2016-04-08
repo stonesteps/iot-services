@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 @Document
@@ -52,10 +53,14 @@ public class Spa extends ResourceSupport {
 
     public boolean isOnline() {
         boolean online = false;
-        if ((this.currentState != null) &&
-            (!this.currentState.getComponents().isEmpty())) {
-            Stream<ComponentState> gateways = this.currentState.getComponents().stream().filter(c -> c.getComponentType().equalsIgnoreCase(Component.ComponentType.GATEWAY.toString()));
-            online = gateways.anyMatch(comp -> comp.getRegisteredTimestamp() != null);
+        if (this.currentState != null) {
+            Date timestamp = this.currentState.getUplinkTimestamp();
+
+            // NOTE: temporarily hardcode to one hour, until backend in place
+            Date oneHourAgo = new Date(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1));
+            if (timestamp != null) {
+                online = timestamp.after(oneHourAgo);
+            }
         }
         return online;
     }
