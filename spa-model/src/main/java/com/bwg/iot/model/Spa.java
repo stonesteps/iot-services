@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 @Document
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
@@ -47,6 +49,20 @@ public class Spa extends ResourceSupport {
         this.serialNumber = serialNumber;
         this.productName = productName;
         this.model = model;
+    }
+
+    public boolean isOnline() {
+        boolean online = false;
+        if (this.currentState != null) {
+            Date timestamp = this.currentState.getUplinkTimestamp();
+
+            // NOTE: temporarily hardcode to one hour, until backend in place
+            Date oneHourAgo = new Date(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1));
+            if (timestamp != null) {
+                online = timestamp.after(oneHourAgo);
+            }
+        }
+        return online;
     }
 
     public String get_id() {
