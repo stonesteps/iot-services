@@ -22,6 +22,10 @@ public class RepositoryConfig extends RepositoryRestMvcConfiguration {
                 Dealer.class, Oem.class, TacUserAgreement.class, TermsAndConditions.class);
     }
 
+    @Bean UserEventHandler userEventHandler() {
+        return new UserEventHandler();
+    }
+
     @Bean
     public Filter loggingFilter(){
         AbstractRequestLoggingFilter f = new AbstractRequestLoggingFilter() {

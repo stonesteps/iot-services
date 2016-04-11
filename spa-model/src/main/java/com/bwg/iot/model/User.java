@@ -189,6 +189,8 @@ public class User extends ResourceSupport {
 
     @Override
     public String toString() {
+        String cdate = (createdDate == null) ? "" : createdDate.toString();
+        String mdate = (modifiedDate == null) ? "" : modifiedDate.toString();
         return "User{" +
                 "id='" + _id + '\'' +
                 ", dealerId='" + dealerId + '\'' +
@@ -200,8 +202,8 @@ public class User extends ResourceSupport {
                 ", phone='" + phone + '\'' +
                 ", address=" + address +
                 ", roles=" + roles +
-                ", createdDate='" + createdDate.toString() + '\'' +
-                ", modifiedDate='" + modifiedDate.toString() + '\'' +
+                ", createdDate='" + cdate + '\'' +
+                ", modifiedDate='" + mdate + '\'' +
                 '}';
     }
 
