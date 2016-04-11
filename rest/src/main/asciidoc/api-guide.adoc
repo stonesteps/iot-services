@@ -781,7 +781,10 @@ include::{snippets}/control-aux-example/http-response.adoc[]
 
 === Filter Cycle Control
 
-This command turns the filter cycle ON and OFF
+This command turns the filter cycle ON and OFF.
+The filter cycle is designed to run in intervals of 15 minutes, and then turn itself off.
+To turn the filter ON and initiate the filter cycle, set the interval parameter to be 1 or greater.
+To turn the filter OFF, set the interval parameter to zero.
 
 ==== Request structure
 
@@ -791,6 +794,7 @@ If the originatorId is not sent in the request, one will be created
 
 ==== Example request
 
+The following example illustrates initiating a filter cycle of 30 minutes.
 include::{snippets}/control-filtercycle-example/curl-request.adoc[]
 
 ==== Example response

@@ -455,7 +455,7 @@ public class ModelTestBase {
         Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", "Main Light", serialNumber, spa.get_id());
         Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
 
-        ComponentState p1State = createComponentState(pump1, "OFF");
+        ComponentState p1State = createComponentState(pump1, "LOW");
         ComponentState p2State = createComponentState(pump2, "OFF");
         ComponentState light1State = createComponentState(light1, "OFF");
         ComponentState gatewayState = createComponentState(gateway, "OFF");
@@ -511,7 +511,7 @@ public class ModelTestBase {
         Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
         Component ozone1 = createComponent(Component.ComponentType.OZONE.name(), "0", "Ozone", serialNumber, spa.get_id());
 
-        ComponentState p1State = createComponentState(pump1, "OFF");
+        ComponentState p1State = createComponentState(pump1, "LOW");
         ComponentState p2State = createComponentState(pump2, "OFF");
         ComponentState light1State = createComponentState(light1, "OFF");
         ComponentState gatewayState = createComponentState(gateway, "OFF");
@@ -563,13 +563,13 @@ public class ModelTestBase {
 
 
         String pumpPartNo1 = "1016205*";
-        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Main Jets", pumpPartNo1+serialNumber, spa.get_id());
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Circulation", pumpPartNo1+serialNumber, spa.get_id());
         Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Captain's Chair", pumpPartNo1+serialNumber, spa.get_id());
         Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", "Light", serialNumber, spa.get_id());
         Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
         Component filter2 = createComponent(Component.ComponentType.FILTER.name(), "1", "Secondary Filter", serialNumber, spa.get_id());
 
-        ComponentState p1State = createComponentState(pump1, "OFF");
+        ComponentState p1State = createComponentState(pump1, "LOW");
         ComponentState p2State = createComponentState(pump2, "OFF");
         ComponentState light1State = createComponentState(light1, "OFF");
         ComponentState gatewayState = createComponentState(gateway, "OFF");
