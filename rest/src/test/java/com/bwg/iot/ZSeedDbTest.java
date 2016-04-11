@@ -51,6 +51,10 @@ public final class ZSeedDbTest extends ModelTestBase {
 
 	@Test
 	public void zSeedData() throws Exception {
+        final String GATEWAY_1_SN = "1503071099";
+        final String GATEWAY_2_SN = "1601041224";
+        final String GATEWAY_3_SN = "1603141151";
+
 		clearAllData();
 
         List<Address> addresses = createAddresses(20);
@@ -94,14 +98,13 @@ public final class ZSeedDbTest extends ModelTestBase {
         TacUserAgreement agreement2 = createAgreement(owner2.get_id(), tac1.getVersion());
 
         // create a variety of spas.  sold, unsold, fully populated w components, some with alerts...
-        Spa spa22 = createFullSpaWithState("150307", "Shark", "Blue", oem1.get_id(), dealer1.get_id(), owner1, "spa000022");
-        spa22 = this.addOverheatRedAlert(spa22);
-        Spa spa24 = createSmallSpaWithState("160104", "Shark", "Tiger", oem1.get_id(), dealer1.get_id(), owner2, "spa000024");
-        this.addLowFlowYellowAlert(spa24);
+        Spa spa22 = createDemoSpa1("150307", oem1.get_id(), dealer1.get_id(), owner1, "spa000022", GATEWAY_1_SN);
+        Spa spa24 = createDemoSpa2("160104", oem1.get_id(), dealer1.get_id(), owner2, "spa000024", GATEWAY_2_SN);
         Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", oem1.get_id(), dealer1.get_id(), owner3, "spa000025");
         this.add2Alerts(spa25);
-        Spa spa26 = createSmallSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4, "spa000026");
-        Spa spa27 = createDemoSpa("160315", "Whale", "Beluga", oem1.get_id(), dealer1.get_id(), owner5, "spa000027");
+        Spa spa26 = createFullSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4, "spa000026");
+        spa26 = this.addOverheatRedAlert(spa26);
+        Spa spa27 = createDemoSpa3("160315", oem1.get_id(), dealer1.get_id(), owner5, "spa000027", GATEWAY_3_SN);
 
         Spa spa1  = createUnsoldSpa("160217", "Shark", "Hammerhead", oem1.get_id(), dealer1.get_id(), "spa000001");
         Spa spa2  = createUnsoldSpa("160217", "Shark", "Hammerhead", oem1.get_id(), dealer1.get_id(), "spa000002");
