@@ -35,6 +35,9 @@ public class Spa extends ResourceSupport {
     private String p2pAPPassword;
     private String sold = Boolean.FALSE.toString();
 
+    @JsonIgnore
+    private String regKey;
+
     @RestResource
     private User owner = null;
 
@@ -167,6 +170,14 @@ public class Spa extends ResourceSupport {
 
     public void setP2pAPPassword(String p2pAPPassword) {
         this.p2pAPPassword = p2pAPPassword;
+    }
+
+    public String getRegKey() {
+        return regKey;
+    }
+
+    public void setRegKey(String regKey) {
+        this.regKey = regKey;
     }
 
     @Override
