@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.ResourceSupport;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,17 +20,44 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/idm")
 public class IdentityManagementController {
 
-    private final String tokenEndpoint;
+    private final Environment environment;
 
     @Autowired
     public IdentityManagementController(Environment env) {
-        this.tokenEndpoint = env.getProperty(PropertyNames.TOKEN_ENDPOINT);
+        this.environment = env;
     };
 
     @RequestMapping(method = RequestMethod.GET, value = "/tokenEndpoint")
     public @ResponseBody ResponseEntity<?> getTokenEnpoint() {
-        Link link = new Link(tokenEndpoint);
-        return new ResponseEntity<Link>(link, HttpStatus.OK);
+        IdmPayload payload = new IdmPayload(environment);
+        return new ResponseEntity<IdmPayload>(payload, HttpStatus.OK);
     }
 
+    public class IdmPayload extends ResourceSupport {
+        private String mobileClientId;
+        private String mobileClientSecret;
+
+        public IdmPayload(Environment env) {
+            mobileClientId = env.getProperty(PropertyNames.MOBILE_CLIENT_ID);
+            mobileClientSecret = env.getProperty(PropertyNames.MOBILE_CLIENT_SECRET);
+            this.add(new Link(env.getProperty(PropertyNames.TOKEN_ENDPOINT)).withRel("tokenEndpoint"));
+            this.add(new Link(env.getProperty(PropertyNames.REFRESH_ENDPOINT)).withRel("refreshEndpoint"));
+        }
+
+        public String getMobileClientId() {
+            return mobileClientId;
+        }
+
+        public void setMobileClientId(String mobileClientId) {
+            this.mobileClientId = mobileClientId;
+        }
+
+        public String getMobileClientSecret() {
+            return mobileClientSecret;
+        }
+
+        public void setMobileClientSecret(String mobileClientSecret) {
+            this.mobileClientSecret = mobileClientSecret;
+        }
+    }
 }

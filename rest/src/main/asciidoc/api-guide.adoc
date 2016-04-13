@@ -520,10 +520,14 @@ include::{snippets}/whoami-example/http-response.adoc[]
 
 If the user is a spa owner, a link to the spa is included in the response payload.
 
-=== URL of Identity Management token endpoint
+=== Mobile Application Authentication
 
-This API returns a link to the authorization REST API endpoint of the identity management system.
-The token endpoint is the API to invoke to initiate mobile app authentication.
+*/idm/tokenEndpoint*
+
+This API returns information related to authenticating a mobile app end user.
+The mobile application will use the information in the response, to construct a login POST
+to the identity management server which will request an access token to be used in subsequent requests
+to the iot-services API.
 
 ==== Example request
 
@@ -532,6 +536,47 @@ include::{snippets}/token-endpoint-example/curl-request.adoc[]
 ==== Example response
 
 include::{snippets}/token-endpoint-example/http-response.adoc[]
+
+==== Response structure
+include::{snippets}/token-endpoint-example/response-fields.adoc[]
+
+[%hardbreaks]
+The token endpoint is the API to invoke to initiate mobile app authentication.
+The refresh endpoint is used to get a new access token if the current token expires.
+
+To Authenticate a mobile app end user: +
+{sp} +
+Perform a POST on the REST endpoint provided in the tokenEndpoint link.
+In the POST, include a Basic Auth http header titled "Authorization". The username and password
+values used in creating the basic auth header are the mobileClientId and mobilClientSecret field values. +
+The body of the POST must be content type x-www-form-urlencoded and contain 4 fields:
+
+* username: the end user's username
+* password: the end user's password
+* grant_type: password
+* scope: openid
+
+The return payload from successful authentication will include an "access_token", to be used as the
+Authentication header in subsequent calls to the iot-services API. This header is an oauth20 header titled
+"Authentication". the value of the header must include the string prefix "Bearer " (capital B with a trailing space) followed
+by the access_token string.
+
+For example:: Bearer d49736af-f00b-46b9-b7b3-13482c756d73
+
+
+The first iot-services REST API to call after successful authentication is */auth/whoami*.  This api will return
+user details and will include a link to the spa owned by the user.
+
+{sp} +
+{sp} +
+{sp} +
+
+To Refresh an expired access token: +
+Perform a POST on the REST endpoint provided in the refreshEndpoint link.
+The body of the POST contains the following fields:
+
+* grant_type: refresh
+
 
 [[resources-oem]]
 == Oem

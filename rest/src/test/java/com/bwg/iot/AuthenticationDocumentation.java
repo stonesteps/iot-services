@@ -109,13 +109,20 @@ public final class AuthenticationDocumentation extends ModelTestBase{
 	}
 
 	@Test
-	public void tokenEnointExample() throws Exception {
+	public void tokenEndpointExample() throws Exception {
 		this.mockMvc
 				.perform(get("/idm/tokenEndpoint"))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(document("token-endpoint-example",
-						responseFields(fieldWithPath("rel").description("Relation of link: self"),
-									fieldWithPath("href").description("Link to the Identity Manager Token Endpoint REST URL"))));
+						responseFields(fieldWithPath("mobileClientId").description("Gluu Client ID, used to create basic "
+								+ "Authentication http header to include when calling the tokenEndpoint to authenticate "
+								+ "a mobile end user. This value is used as the username when creating the basic auth header."),
+							fieldWithPath("mobileClientSecret").description("Gluu Client Secret, used to create basic "
+								+ "Authentication http header to include when calling the tokenEndpoint to authenticate "
+								+ "a mobile end user. This value is used as the password when creating the basic auth header."),
+							fieldWithPath("_links.tokenEndpoint").description("Link to the Identity Manager "
+								+ "Token Endpoint REST URL used to authenticate a mobile app end user"),
+							fieldWithPath("_links.refreshEndpoint").description("Link to the Identity Manager "
+								+ "Token Refresh REST URL used to get a fresh token when a mobile user token expires."))));
 	}
-
 }
