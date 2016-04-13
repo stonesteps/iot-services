@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Profile("prod")
+@Profile({"prod","qa"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
