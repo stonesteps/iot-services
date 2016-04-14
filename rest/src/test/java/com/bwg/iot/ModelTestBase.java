@@ -61,7 +61,7 @@ public class ModelTestBase {
         address.setAddress2("Honey Apple Crest");
         address.setCity("Village Five");
         address.setState("CA");
-        address.setZip("E6L-4J4");
+        address.setZip("94113");
         address.setCountry("US");
         return addressRepository.save(address);
     }
@@ -72,7 +72,7 @@ public class ModelTestBase {
         address.setAddress2("Suite 10"+i);
         address.setCity("San Diego");
         address.setState("CA");
-        address.setZip("E6L-4J4");
+        address.setZip("92101");
         address.setCountry("US");
         return addressRepository.save(address);
     }
