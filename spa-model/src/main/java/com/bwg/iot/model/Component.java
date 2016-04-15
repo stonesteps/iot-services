@@ -23,7 +23,8 @@ public class Component extends ResourceSupport {
                     ComponentType.MOTE.name(),
                     ComponentType.PANEL.name(),
                     ComponentType.PUMP.name(),
-                    ComponentType.FILTER.name()
+                    ComponentType.FILTER.name(),
+                    ComponentType.MISTER.name()
             );
 
 
