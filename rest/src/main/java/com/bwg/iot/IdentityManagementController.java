@@ -45,7 +45,7 @@ public class IdentityManagementController {
             this.add(new Link(env.getProperty(PropertyNames.TOKEN_ENDPOINT)).withRel("tokenEndpoint"));
             this.add(new Link(env.getProperty(PropertyNames.REFRESH_ENDPOINT)).withRel("refreshEndpoint"));
             this.add(linkTo(AuthenticationController.class).slash("/whoami/").withRel("whoami"));
-     }
+        }
 
         public String getMobileClientId() {
             return mobileClientId;
