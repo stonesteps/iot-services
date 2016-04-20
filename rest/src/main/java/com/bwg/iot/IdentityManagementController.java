@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
 
 @RepositoryRestController
 @RequestMapping("/idm")
@@ -42,7 +44,8 @@ public class IdentityManagementController {
             mobileClientSecret = env.getProperty(PropertyNames.MOBILE_CLIENT_SECRET);
             this.add(new Link(env.getProperty(PropertyNames.TOKEN_ENDPOINT)).withRel("tokenEndpoint"));
             this.add(new Link(env.getProperty(PropertyNames.REFRESH_ENDPOINT)).withRel("refreshEndpoint"));
-        }
+            this.add(linkTo(AuthenticationController.class).slash("/whoami/").withRel("whoami"));
+     }
 
         public String getMobileClientId() {
             return mobileClientId;
