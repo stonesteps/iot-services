@@ -13,4 +13,11 @@ import org.springframework.data.rest.core.annotation.RestResource;
 public interface UserRepository extends MongoRepository<User, String> {
     @RestResource
     public User findByUsername(@Param("username") String username);
+
+    @RestResource
+    public Page findByDealerId(@Param("dealerId") String dealerId, Pageable p);
+
+    @RestResource
+    public Page findByOemId(@Param("oemId") String oemId, Pageable p);
+
 }
