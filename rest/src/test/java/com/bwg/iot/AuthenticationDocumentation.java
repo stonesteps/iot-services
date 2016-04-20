@@ -123,6 +123,7 @@ public final class AuthenticationDocumentation extends ModelTestBase{
 							fieldWithPath("_links.tokenEndpoint").description("Link to the Identity Manager "
 								+ "Token Endpoint REST URL used to authenticate a mobile app end user"),
 							fieldWithPath("_links.refreshEndpoint").description("Link to the Identity Manager "
-								+ "Token Refresh REST URL used to get a fresh token when a mobile user token expires."))));
+								+ "Token Refresh REST URL used to get a fresh token when a mobile user token expires."),
+								fieldWithPath("_links.whoami").description("Link to obtain User Details"))));
 	}
 }
