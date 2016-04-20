@@ -408,7 +408,6 @@ The user resource is used to retrieve, update, and delete individual users of th
 include::{snippets}/user-get-example/links.adoc[]
 
 
-[[resources-users-list]]
 === Listing All Users
 
 A `GET` request will list all of the service's users.
@@ -424,6 +423,58 @@ include::{snippets}/users-list-example/curl-request.adoc[]
 ==== Example response
 
 include::{snippets}/users-list-example/http-response.adoc[]
+
+
+
+[[resources-users-findbydealer]]
+=== List Users By Dealer
+
+*/users/search/findByDealerId?dealerId*
+
+This request will list all users associated with a specific dealers.
+This includes Dealer Associates, Technicians, Admins,  and spa owners that purchased their spa from the dealer.
+
+==== Request structure
+
+include::{snippets}/users-findbydealer-example/request-parameters.adoc[]
+
+==== Response structure
+
+include::{snippets}/users-findbydealer-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/users-findbydealer-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/users-findbydealer-example/http-response.adoc[]
+
+
+[[resources-users-findbyoem]]
+=== List Users By OEM
+
+*/users/search/findByOemId?oemId*
+
+This request will list all users associated with a specific spa manufacturer.
+This includes OEM users and admins,  and spa owners that purchased a spa from this
+manufacturer.
+
+==== Request structure
+
+include::{snippets}/users-findbyoem-example/request-parameters.adoc[]
+
+==== Response structure
+
+include::{snippets}/users-findbyoem-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/users-findbyoem-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/users-findbyoem-example/http-response.adoc[]
 
 
 [[resources-user-retrieve]]
@@ -1033,7 +1084,7 @@ include::{snippets}/components-findbySpaIdAndComponentType-example/curl-request.
 include::{snippets}/components-findbySpaIdAndComponentType-example/http-response.adoc[]
 
 
-[[resources-user-findBySerialNumber]]
+[[resources-component-findBySerialNumber]]
 === Find Component By Serial Number
 
 A `GET` request will retrieve the details of a component with the given serial number.
