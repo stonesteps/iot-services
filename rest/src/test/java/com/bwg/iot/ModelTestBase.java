@@ -341,6 +341,7 @@ public class ModelTestBase {
         ComponentState light1State = createComponentState(light1, "OFF");
         ComponentState filter1State = createComponentState(filter1, "OFF");
         ComponentState gatewayState = createComponentState(gateway, "OFF");
+        ComponentState panelState = createComponentState(panel, "OFF");
 
         SpaState spaState = new SpaStateBuilder()
                 .runMode("Rest")
@@ -349,6 +350,8 @@ public class ModelTestBase {
                 .component(mister1State)
                 .component(light1State)
                 .component(filter1State)
+                .component(gatewayState)
+                .component(panelState)
                 .targetDesiredTemp("100")
                 .desiredTemp("100")
                 .currentTemp("72")
