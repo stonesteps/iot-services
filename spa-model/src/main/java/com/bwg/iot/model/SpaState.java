@@ -65,6 +65,8 @@ public class SpaState {
     boolean testMode;
     boolean tempLock;
 
+    int updateIntervalSeconds;
+
     public SpaState(){
         components = new ArrayList<ComponentState>();
         measurements = new ArrayList<Measurement>();
@@ -301,6 +303,10 @@ public class SpaState {
     public boolean isTempLock() { return tempLock; }
 
     public void setTempLock(boolean tempLock) { this.tempLock = tempLock; }
+
+    public int getUpdateIntervalSeconds() { return updateIntervalSeconds; }
+
+    public void setUpdateIntervalSeconds(int updateIntervalSeconds) { this.updateIntervalSeconds = updateIntervalSeconds; }
 
     @Override
     public String toString() {
