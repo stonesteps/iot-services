@@ -327,10 +327,6 @@ public class ModelTestBase {
         gateway.setRegistrationDate(new Date());
         componentRepository.save(gateway);
 
-        Component mote1 = createComponent(Component.ComponentType.MOTE.name(), "0", "Pump #1 Measurement", serialNumber, spa.get_id());
-        gateway.setRegistrationDate(new Date());
-        componentRepository.save(mote1);
-
         String pumpPartNo1 = "1016205*";
         Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Jets", pumpPartNo1+serialNumber, spa.get_id());
         Component blower1 = createComponent(Component.ComponentType.BLOWER.name(), "0", "Bubbles", serialNumber, spa.get_id());
@@ -339,9 +335,9 @@ public class ModelTestBase {
         Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
         Component panel = createComponent(Component.ComponentType.CONTROLLER.name(), "0", "Controller Panel", "56549-"+serialNumber, spa.get_id());
 
-        ComponentState p1State = createComponentState(pump1, "HIGH");
+        ComponentState p1State = createComponentState(pump1, "OFF");
         ComponentState blower1State = createComponentState(blower1, "OFF");
-        ComponentState mister1State = createComponentState(mister1, "ON");
+        ComponentState mister1State = createComponentState(mister1, "OFF");
         ComponentState light1State = createComponentState(light1, "OFF");
         ComponentState filter1State = createComponentState(filter1, "OFF");
         ComponentState gatewayState = createComponentState(gateway, "OFF");
@@ -355,7 +351,7 @@ public class ModelTestBase {
                 .component(filter1State)
                 .targetDesiredTemp("100")
                 .desiredTemp("100")
-                .currentTemp("97")
+                .currentTemp("72")
                 .build();
 
         spa.setCurrentState(spaState);

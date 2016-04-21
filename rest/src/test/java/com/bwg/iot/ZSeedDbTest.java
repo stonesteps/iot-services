@@ -128,27 +128,27 @@ public final class ZSeedDbTest extends ModelTestBase {
         Spa spa28 = createSmallSpaWithState("160412", "Shark", "Card", oem2.get_id(), dealer3.get_id(), owner7, "spa000028");
         Spa spa29 = createSmallSpaWithState("160412", "Shark", "Land", oem2.get_id(), dealer3.get_id(), owner8, "spa000029");
 
-        Spa spa1  = createUnsoldSpa("160217", "Shark", "Hammerhead", oem1.get_id(), dealer1.get_id(), "spa000001");
-        Spa spa2  = createUnsoldSpa("160217", "Shark", "Hammerhead", oem1.get_id(), dealer1.get_id(), "spa000002");
-        Spa spa3  = createUnsoldSpa("160217", "Shark", "Mako", oem1.get_id(), dealer1.get_id(), "spa000003");
-        Spa spa4  = createUnsoldSpa("151220", "Shark", "Sand", oem1.get_id(), dealer1.get_id(), "spa000004");
-        Spa spa5  = createUnsoldSpa("151220", "Shark", "Mako", oem1.get_id(), dealer1.get_id(), "spa000005");
-        Spa spa6  = createUnsoldSpa("151220", "Shark", "Sand", oem1.get_id(), dealer1.get_id(), "spa000006");
-        Spa spa7  = createUnsoldSpa("151220", "Whale", "Orca", oem1.get_id(), dealer2.get_id(), "spa000007");
-        Spa spa8  = createUnsoldSpa("160118", "Whale", "Grey", oem1.get_id(), dealer2.get_id(), "spa000008");
-        Spa spa9  = createUnsoldSpa("160118", "Shark", "Mako", oem1.get_id(), dealer1.get_id(), "spa000009");
-        Spa spa10 = createUnsoldSpa("160118", "Shark", "Sand", oem1.get_id(), dealer1.get_id(), "spa000010");
-        Spa spa11 = createUnsoldSpa("160118", "Whale", "Orca", oem1.get_id(), dealer2.get_id(), "spa000011");
-        Spa spa12 = createUnsoldSpa("160125", "Whale", "Grey", oem1.get_id(), dealer2.get_id(), "spa000012");
-        Spa spa13 = createUnsoldSpa("160101", "Whale", "Orca", oem1.get_id(), dealer2.get_id(), "spa000013");
-        Spa spa14 = createUnsoldSpa("160118", "Whale", "Grey", oem1.get_id(), dealer2.get_id(), "spa000014");
-        Spa spa15 = createUnsoldSpa("160111", "Shark", "Card", oem1.get_id(), dealer2.get_id(), "spa000015");
-        Spa spa16 = createUnsoldSpa("160111", "Whale", "Orca", oem1.get_id(), dealer2.get_id(), "spa000016");
-        Spa spa17 = createUnsoldSpa("160111", "Whale", "Grey", oem2.get_id(), dealer3.get_id(), "spa000017");
-        Spa spa18 = createUnsoldSpa("160105", "Whale", "Orca", oem2.get_id(), dealer3.get_id(), "spa000018");
-        Spa spa19 = createUnsoldSpa("160105", "Whale", "Grey", oem2.get_id(), dealer3.get_id(), "spa000019");
-        Spa spa20 = createUnsoldSpa("160105", "Whale", "Orca", oem2.get_id(), dealer3.get_id(), "spa000020");
-        Spa spa21 = createUnsoldSpa("151111", "Whale", "Grey", oem2.get_id(), dealer3.get_id(), "spa000021");
+        Spa spa1  = createSmallSpaWithState("160217", "Shark", "Hammerhead", oem1.get_id(), dealer1.get_id(), null, "spa000001");
+        Spa spa2  = createSmallSpaWithState("160217", "Shark", "Hammerhead", oem1.get_id(), dealer1.get_id(), null, "spa000002");
+        Spa spa3  = createSmallSpaWithState("160217", "Shark", "Mako", oem1.get_id(), dealer1.get_id(), null, "spa000003");
+        Spa spa4  = createSmallSpaWithState("151220", "Shark", "Sand", oem1.get_id(), dealer1.get_id(), null, "spa000004");
+        Spa spa5  = createSmallSpaWithState("151220", "Shark", "Mako", oem1.get_id(), dealer1.get_id(), null, "spa000005");
+        Spa spa6  = createSmallSpaWithState("151220", "Shark", "Sand", oem1.get_id(), dealer1.get_id(), null, "spa000006");
+        Spa spa7  = createSmallSpaWithState("151220", "Whale", "Orca", oem1.get_id(), dealer2.get_id(), null, "spa000007");
+        Spa spa8  = createSmallSpaWithState("160118", "Whale", "Grey", oem1.get_id(), dealer2.get_id(), null, "spa000008");
+        Spa spa9  = createSmallSpaWithState("160118", "Shark", "Mako", oem1.get_id(), dealer1.get_id(), null, "spa000009");
+        Spa spa10 = createSmallSpaWithState("160118", "Shark", "Sand", oem1.get_id(), dealer1.get_id(), null, "spa000010");
+        Spa spa11 = createSmallSpaWithState("160118", "Whale", "Orca", oem1.get_id(), dealer2.get_id(), null, "spa000011");
+        Spa spa12 = createSmallSpaWithState("160125", "Whale", "Grey", oem1.get_id(), dealer2.get_id(), null, "spa000012");
+        Spa spa13 = createSmallSpaWithState("160101", "Whale", "Orca", oem1.get_id(), dealer2.get_id(), null, "spa000013");
+        Spa spa14 = createSmallSpaWithState("160118", "Whale", "Grey", oem1.get_id(), dealer2.get_id(), null, "spa000014");
+        Spa spa15 = createSmallSpaWithState("160111", "Shark", "Card", oem1.get_id(), dealer2.get_id(), null, "spa000015");
+        Spa spa16 = createSmallSpaWithState("160111", "Whale", "Orca", oem1.get_id(), dealer2.get_id(), null, "spa000016");
+        Spa spa17 = createSmallSpaWithState("160111", "Whale", "Grey", oem2.get_id(), dealer3.get_id(), null, "spa000017");
+        Spa spa18 = createSmallSpaWithState("160105", "Whale", "Orca", oem2.get_id(), dealer3.get_id(), null, "spa000018");
+        Spa spa19 = createSmallSpaWithState("160105", "Whale", "Grey", oem2.get_id(), dealer3.get_id(), null, "spa000019");
+        Spa spa20 = createSmallSpaWithState("160105", "Whale", "Orca", oem2.get_id(), dealer3.get_id(), null, "spa000020");
+        Spa spa21 = createSmallSpaWithState("151111", "Whale", "Grey", oem2.get_id(), dealer3.get_id(), null, "spa000021");
 
 	}
 
