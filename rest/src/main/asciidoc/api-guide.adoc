@@ -127,9 +127,20 @@ include::{snippets}/dashboard-dealer-example/links.adoc[]
 
 
 [[resources-dashboard-dealer]]
-=== Get Dealership Dashboard Info
+=== Get Statistics for Dashboard
 
-A `GET` request will retrieve the dashboard statistics for a spa dealership
+A `GET` request will retrieve the dashboard statistics used to populate a web application landing page.
+The return data is based on the provided role parameter.
+
+* Dealer role returns counts for all spas related to a single dealer.
+* Associate role returns statistics for all spas sold by a particular dealer sales associate. (and unsold spas)
+* Technician role returns statistics for all spas assigned to the particular technician.
+* OEM role returns statistics for all spas manufactured by this OEM.
+* BWG role retruns statistics related to all spas in the system.
+
+==== Request Parameters
+
+include::{snippets}/dashboard-dealer-example/request-parameters.adoc[]
 
 ==== Response structure
 
@@ -137,83 +148,13 @@ include::{snippets}/dashboard-dealer-example/response-fields.adoc[]
 
 ==== Example request
 
+This example requests information for all of a dealers spas.
+
 include::{snippets}/dashboard-dealer-example/curl-request.adoc[]
 
 ==== Example response
 
 include::{snippets}/dashboard-dealer-example/http-response.adoc[]
-
-
-[[resources-dashboard-oem]]
-=== Get Oem Dashboard Info
-
-A `GET` request will retrieve the dashboard statistics for a spa Manufacturer
-
-==== Response structure
-
-include::{snippets}/dashboard-oem-example/response-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/dashboard-oem-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/dashboard-oem-example/http-response.adoc[]
-
-
-[[resources-dashboard-associate]]
-=== Get Dealer Associate Dashboard Info
-
-A `GET` request will retrieve the dashboard statistics for a spa sales associate
-
-==== Response structure
-
-include::{snippets}/dashboard-associate-example/response-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/dashboard-associate-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/dashboard-associate-example/http-response.adoc[]
-
-
-[[resources-dashboard-technician]]
-=== Get Technician Dashboard Info
-
-A `GET` request will retrieve the dashboard statistics for a spa technician
-
-==== Response structure
-
-include::{snippets}/dashboard-technician-example/response-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/dashboard-technician-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/dashboard-technician-example/http-response.adoc[]
-
-
-[[resources-dashboard-bwg]]
-=== Get Balboa Dashboard Info
-
-A `GET` request will retrieve the dashboard statistics for the entire system
-
-==== Response structure
-
-include::{snippets}/dashboard-bwg-example/response-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/dashboard-bwg-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/dashboard-bwg-example/http-response.adoc[]
 
 
 
