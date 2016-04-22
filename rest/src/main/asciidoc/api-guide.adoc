@@ -114,6 +114,109 @@ include::{snippets}/index-example/links.adoc[]
 
 
 
+[[resources-dashboard]]
+== Landing Page Dashboard
+
+The Dashboards display various statistics related to the user.
+
+
+[[resources-dashboard-links]]
+=== Links
+
+include::{snippets}/dashboard-dealer-example/links.adoc[]
+
+
+[[resources-dashboard-dealer]]
+=== Get Dealership Dashboard Info
+
+A `GET` request will retrieve the dashboard statistics for a spa dealership
+
+==== Response structure
+
+include::{snippets}/dashboard-dealer-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/dashboard-dealer-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/dashboard-dealer-example/http-response.adoc[]
+
+
+[[resources-dashboard-oem]]
+=== Get Oem Dashboard Info
+
+A `GET` request will retrieve the dashboard statistics for a spa Manufacturer
+
+==== Response structure
+
+include::{snippets}/dashboard-oem-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/dashboard-oem-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/dashboard-oem-example/http-response.adoc[]
+
+
+[[resources-dashboard-associate]]
+=== Get Dealer Associate Dashboard Info
+
+A `GET` request will retrieve the dashboard statistics for a spa sales associate
+
+==== Response structure
+
+include::{snippets}/dashboard-associate-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/dashboard-associate-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/dashboard-associate-example/http-response.adoc[]
+
+
+[[resources-dashboard-technician]]
+=== Get Technician Dashboard Info
+
+A `GET` request will retrieve the dashboard statistics for a spa technician
+
+==== Response structure
+
+include::{snippets}/dashboard-technician-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/dashboard-technician-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/dashboard-technician-example/http-response.adoc[]
+
+
+[[resources-dashboard-bwg]]
+=== Get Balboa Dashboard Info
+
+A `GET` request will retrieve the dashboard statistics for the entire system
+
+==== Response structure
+
+include::{snippets}/dashboard-bwg-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/dashboard-bwg-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/dashboard-bwg-example/http-response.adoc[]
+
+
+
 [[resources-spa]]
 == Spa
 
