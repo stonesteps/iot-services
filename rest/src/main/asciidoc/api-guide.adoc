@@ -119,13 +119,6 @@ include::{snippets}/index-example/links.adoc[]
 
 The Dashboards display various statistics related to the user.
 
-
-[[resources-dashboard-links]]
-=== Links
-
-include::{snippets}/dashboard-dealer-example/links.adoc[]
-
-
 [[resources-dashboard-dealer]]
 === Get Statistics for Dashboard
 
@@ -145,6 +138,13 @@ include::{snippets}/dashboard-dealer-example/request-parameters.adoc[]
 ==== Response structure
 
 include::{snippets}/dashboard-dealer-example/response-fields.adoc[]
+
+==== Links
+
+The links below provide access to the lists of alerts, spas, messages, and spa owners represented in the statistics.
+
+include::{snippets}/dashboard-dealer-example/links.adoc[]
+
 
 ==== Example request
 
