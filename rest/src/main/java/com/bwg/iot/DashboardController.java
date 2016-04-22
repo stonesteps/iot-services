@@ -39,6 +39,34 @@ public class DashboardController {
         alertRepository = repo;
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "")
+    public @ResponseBody ResponseEntity<?> getDealerDashboardInfo(@Param("role") String role, @Param("dealerId") String dealerId) {
+        // test stub
+        DashboardInfo dashboardInfo = getDummyInfo();
+
+        dashboardInfo.add(entityLinks.linkFor(com.bwg.iot.model.Alert.class)
+                .slash("/search/findByDealerId?dealerId=" + dealerId)
+                .withRel("alertList"));
+
+        dashboardInfo.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
+                .slash("/search/findByDealerId?dealerId=" + dealerId)
+                .withRel("spaList"));
+
+        dashboardInfo.add(entityLinks.linkFor(com.bwg.iot.model.User.class)
+                .slash("/search/findByDealerId?dealerId=" + dealerId)
+                .withRel("ownerList"));
+
+        //TODO: replace when message entity implemented
+        dashboardInfo.add(new Link("http:/localhost:8080/messages/search/findByDealerId?dealerId=" + dealerId)
+                .withRel("messageList"));
+
+        dashboardInfo.add(linkTo(DashboardController.class)
+                .slash("/dealer?dealerId=" + dealerId)
+                .withSelfRel());
+
+        return new ResponseEntity<DashboardInfo>(dashboardInfo, HttpStatus.OK);
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/dealer")
     public @ResponseBody ResponseEntity<?> getDealerDashboardInfo(@Param("dealerId") String dealerId) {
         // test stub
