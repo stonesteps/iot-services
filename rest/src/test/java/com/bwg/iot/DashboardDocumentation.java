@@ -80,9 +80,17 @@ public final class DashboardDocumentation extends ModelTestBase {
     @Test
     public void dealerDashboardExample() throws Exception {
 
-        this.mockMvc.perform(get("/dashboard/dealer?dealerId=dealer001")).andExpect(status().isOk())
+        this.mockMvc.perform(get("/dashboard")
+                    .param("role","dealer").param("id","dealer001"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("alertCounts.totalAlertCount", is(42)))
+                .andDo(document("dashboard-dealer-example",
+                        requestParameters(parameterWithName("role")
+                                .description("The perspective of the user making the requests. "
+                                        + "Acceptable role values: BWG, OEM, ASSOCIATE, TECHNICIAN, DEALER"),
+                            parameterWithName("id")
+                                .description("unique identifier. Could be either an oemId, dealerId, or userId depending on the role: for TECHNICIAN or ASSOCIATE use the userId. "
+                                        + "For dealer admin use dealerId. For OEM use oemId. BWG role does not require an id."))))
                 .andDo(document("dashboard-dealer-example",
                         links(
                                 linkWithRel("alertList").description("Link to the list of <<resources-alert, Alerts>>"),
@@ -103,7 +111,8 @@ public final class DashboardDocumentation extends ModelTestBase {
     @Test
     public void oemDashboardExample() throws Exception {
 
-        this.mockMvc.perform(get("/dashboard/oem?oemId=oem001")).andExpect(status().isOk())
+        this.mockMvc.perform(get("/dashboard")
+                .param("role","oem").param("id","oem001"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("alertCounts.totalAlertCount", is(42)))
                 .andDo(document("dashboard-oem-example",
@@ -126,7 +135,8 @@ public final class DashboardDocumentation extends ModelTestBase {
     @Test
     public void associateDashboardExample() throws Exception {
 
-        this.mockMvc.perform(get("/dashboard/associate?associateId=associate001")).andExpect(status().isOk())
+        this.mockMvc.perform(get("/dashboard")
+                .param("role","associate").param("id","user011"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("alertCounts.totalAlertCount", is(42)))
                 .andDo(document("dashboard-associate-example",
@@ -149,7 +159,8 @@ public final class DashboardDocumentation extends ModelTestBase {
     @Test
     public void technicianDashboardExample() throws Exception {
 
-        this.mockMvc.perform(get("/dashboard/technician?technicianId=technician001")).andExpect(status().isOk())
+        this.mockMvc.perform(get("/dashboard")
+                .param("role","technician").param("id","user019"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("alertCounts.totalAlertCount", is(42)))
                 .andDo(document("dashboard-technician-example",
@@ -172,7 +183,7 @@ public final class DashboardDocumentation extends ModelTestBase {
     @Test
     public void bwgDashboardExample() throws Exception {
 
-        this.mockMvc.perform(get("/dashboard/bwg")).andExpect(status().isOk())
+        this.mockMvc.perform(get("/dashboard").param("role","bwg"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("alertCounts.totalAlertCount", is(42)))
                 .andDo(document("dashboard-bwg-example",
