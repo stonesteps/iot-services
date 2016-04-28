@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
@@ -41,6 +42,7 @@ public class Component extends ResourceSupport {
     private String port;
     private String sku;
     private Date registrationDate;
+    private HashMap<String, String> metaValues;
 
     public String get_id() {
         return _id;
@@ -136,6 +138,14 @@ public class Component extends ResourceSupport {
 
     public void setOemId(String oemId) {
         this.oemId = oemId;
+    }
+
+    public HashMap<String, String> getMetaValues() {
+        return metaValues;
+    }
+
+    public void setMetaValues(HashMap<String, String> values) {
+        this.metaValues = values;
     }
 
     @Override
