@@ -980,6 +980,25 @@ include::{snippets}/control-gatewayreboot-example/curl-request.adoc[]
 include::{snippets}/control-gatewayreboot-example/http-response.adoc[]
 
 
+=== Gateway Agent Runtime Settings
+
+This command sets some fo the agent's runtime settings
+
+==== Request structure
+
+include::{snippets}/control-agentsettings-example/request-fields.adoc[]
+
+If the originatorId is not sent in the request, one will be created
+
+==== Example request
+
+include::{snippets}/control-agentsettings-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/control-agentsettings-example/http-response.adoc[]
+
+
 [[resources-tac]]
 == Terms And Agreements
 

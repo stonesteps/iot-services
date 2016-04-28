@@ -5,6 +5,7 @@ package com.bwg.iot;
  */
 
 import com.bwg.iot.model.SpaCommand;
+import com.bwg.iot.model.SpaCommand.RequestType;
 import com.bwg.iot.model.util.SpaRequestUtil;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,6 +128,18 @@ public class SpaCommandController {
 
         ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.AUX.getCode());
         return response;
+    }
+
+    @RequestMapping(value = "/{spaId}/setAgentSettings", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> setAgentSettings(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+        if (spaId == null) {
+            return new ResponseEntity<>("Spa Id not provided", HttpStatus.BAD_REQUEST);
+        }
+
+        final String originatorId = body.get("originatorId");
+        SpaCommand command = buildAndSaveCommand(spaId, originatorId, RequestType.UPDATE_AGENT_SETTINGS.getCode(), body);
+
+        return new ResponseEntity<SpaCommand>(command, HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/{spaId}/setFilterCycleIntervals", method = RequestMethod.POST, produces = "application/json")
