@@ -328,6 +328,38 @@ public final class SpaCommandDocumentation {
     }
 
     @Test
+    public void setAgentSettings() throws Exception {
+        this.spaCommandRepository.deleteAll();
+
+        final Map<String, String> command = new HashMap<>();
+        command.put("INTERVAL_SECONDS", "120");
+        command.put("DURATION_MINUTES", "60");
+        command.put("RS485_CONTROLLER_TYPE", "NGSC");
+        command.put("originatorId", "optional-tag-0001");
+
+        this.mockMvc
+                .perform(post("/control/56c7f020c2e65656ab93db17/setAgentSettings").contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(command)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("control-agentsettings-example",
+                        requestFields(fieldWithPath("INTERVAL_SECONDS").description("optional, only required if duration is specified, max frequency that agent will submit spa state messages"),
+                                fieldWithPath("DURATION_MINUTES").description("optional, only required if interval is specified, length of time to support INTERVAL_SECONDS, or set to -1 to make permanent"),
+                                fieldWithPath("RS485_CONTROLLER_TYPE").description("optional, set to NGSC or JACUZZI for the controller type that Agent is connected to."),
+                                fieldWithPath("originatorId").description("Optional tag for tracking request").optional())))
+                .andDo(document("control-agentsettings-response-example",
+                        responseFields(fieldWithPath("_id").description("Unique Id of the request"),
+                                fieldWithPath("spaId").description("Unique Id for the spa"),
+                                fieldWithPath("requestTypeId").description("The type of request"),
+                                fieldWithPath("originatorId").description("A unique id for this request"),
+                                fieldWithPath("sentTimestamp").description("The time the command was sent"),
+                                fieldWithPath("processedTimestamp").description("The time the command was processed").optional().type("String"),
+                                fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
+                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
+                                fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"),
+                                fieldWithPath("values").description("The target state of the device"))));
+    }
+
+    @Test
     public void setFilterCycleInterval() throws Exception {
         this.spaCommandRepository.deleteAll();
 
