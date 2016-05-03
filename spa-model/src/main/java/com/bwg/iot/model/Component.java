@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Maps.newHashMap;
 
 
 @Document
@@ -42,7 +43,7 @@ public class Component extends ResourceSupport {
     private String port;
     private String sku;
     private Date registrationDate;
-    private HashMap<String, String> metaValues;
+    private HashMap<String, String> metaValues = newHashMap();
 
     public String get_id() {
         return _id;
