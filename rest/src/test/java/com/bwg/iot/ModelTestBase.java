@@ -33,6 +33,9 @@ public class ModelTestBase {
     protected ComponentRepository componentRepository;
 
     @Autowired
+    protected MaterialRepository materialRepository;
+
+    @Autowired
     protected AlertRepository alertRepository;
 
     @Autowired
@@ -49,6 +52,7 @@ public class ModelTestBase {
         this.oemRepository.deleteAll();
         this.spaRepository.deleteAll();
         this.componentRepository.deleteAll();
+        this.materialRepository.deleteAll();
         this.userRepository.deleteAll();
         this.alertRepository.deleteAll();
         this.tacUserAgreementRepository.deleteAll();
@@ -131,6 +135,77 @@ public class ModelTestBase {
         userRepository.save(user);
         return user;
     }
+
+    public final static String PUMP1_DESCRIPTION = "SPA PUMP 3HP 230V 2SPD 53IN CORD";
+    public final static String PUMP1_SKU = "DJAYHB-0151G";
+    public final static String PUMP1_ALT_SKU = "50008200";
+    public final static int ONE_YEAR_WARRANTY_DAYS = 366;
+    public final static int THREE_YEAR_WARRANTY_DAYS = 1096;
+
+    public final static String PUMP2_DESCRIPTION = "DJ AO 1.5HP 2S 43FT A2MB LV BU";
+    public final static String PUMP2_SKU = "DJAYFA-01A3";
+    public final static String PUMP2_ALT_SKU = "101293";
+
+    public final static String PUMP3_DESCRIPTION = "UM EME 12.8A 1S 230V 50Hz 120\" AMP";
+    public final static String PUMP3_SKU = "1023120-NHP";
+
+    public final static String PUMP4_DESCRIPTION = "UM EME 10.3/1.8A 2S 230V 50Hz 120\" AMP";
+    public final static String PUMP4_SKU = "1023110-NHP";
+    public final static String PUMP4_ALT_SKU = "X320535";
+
+    public final static String PUMP5_DESCRIPTION = "Niagara spa pump 2HP 2S amp 230v(1)";
+    public final static String PUMP5_SKU = "1023322";
+
+    public final static String CONTROLLER1_DESCRIPTION = "PANEL BALBOA TP600C NO O/L";
+    public final static String CONTROLLER1_SKU = "50305-01";
+
+    public final static String CONTROLLER2_DESCRIPTION = "PANEL BULFRG BFTP600";
+    public final static String CONTROLLER2_SKU = "50285-02";
+
+    public final static String CONTROLLER3_DESCRIPTION = "PANEL BULFRG BFTP900";
+    public final static String CONTROLLER3_SKU = "50284-07";
+
+    public final static String CONTROLLER4_DESCRIPTION = "PANEL BULFRG BFTP600U";
+    public final static String CONTROLLER4_SKU = "50285-05";
+
+
+    protected void setupTestMaterials() {
+        List<Address> addresses = createAddresses(2);
+        Oem oem1 = createOem("Blue Wave Spas, LTD", addresses.get(0), "oem101" );
+        Oem oem2 = createOem("Jazzi Pool & Spa Products, LTD", addresses.get(1), "oem102");
+        setupTestMaterials(oem1, oem2);
+    }
+
+    protected void setupTestMaterials(Oem oem1, Oem oem2){
+        List<String> bothOems = Arrays.asList(oem1.get_id(), oem2.get_id());
+        List<String> justOne = Arrays.asList(oem1.get_id());
+        List<String> justTwo = Arrays.asList(oem2.get_id());
+
+        Material material1 = createMaterial(Component.ComponentType.PUMP.name(), PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems);
+        Material material2 = createMaterial(Component.ComponentType.PUMP.name(), PUMP2_DESCRIPTION, PUMP2_SKU, PUMP2_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems);
+        Material material3 = createMaterial(Component.ComponentType.PUMP.name(), PUMP3_DESCRIPTION, PUMP3_SKU, null, ONE_YEAR_WARRANTY_DAYS, bothOems);
+        Material material4 = createMaterial(Component.ComponentType.PUMP.name(), PUMP4_DESCRIPTION, PUMP4_SKU, PUMP4_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
+        Material material5 = createMaterial(Component.ComponentType.PUMP.name(), PUMP5_DESCRIPTION, PUMP5_SKU, null, 0, justTwo);
+
+        Material material6 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER1_DESCRIPTION, CONTROLLER1_SKU, null, THREE_YEAR_WARRANTY_DAYS, bothOems);
+        Material material7 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER2_DESCRIPTION, CONTROLLER2_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
+        Material material8 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER3_DESCRIPTION, CONTROLLER3_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
+        Material material9 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER4_DESCRIPTION, CONTROLLER4_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
+    }
+
+    protected Material createMaterial(String type, String description, String sku, String alternateSku, int warrantyDays, List<String> oemIds){
+        Material material = new Material();
+        material.setComponentType(type);
+        material.setDescription(description);
+        material.setSku(sku);
+        material.setAlternateSku(alternateSku);
+        material.setWarrantyDays(warrantyDays);
+        material.setUploadDate(new Date());
+        material.setOemId(oemIds);
+        materialRepository.save(material);
+        return material;
+    }
+
 
     protected Component createComponent(String type, String port, String name, String serialNumber, String spaId) {
         return createFixedComponent(type, port, name, serialNumber+(serialSuffix++), spaId);

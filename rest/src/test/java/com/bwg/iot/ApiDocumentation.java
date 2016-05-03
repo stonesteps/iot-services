@@ -117,6 +117,7 @@ public class ApiDocumentation extends ModelTestBase{
 							linkWithRel("oems").description("The <<resources-oems,Oem resource>>"),
 							linkWithRel("users").description("The <<resources-users,User resource>>"),
 							linkWithRel("components").description("The <<resources-components,Component resource>>"),
+							linkWithRel("materials").description("The <<resources-materials,Material resource>>"),
 							linkWithRel("profile").description("The ALPS profile for the service")),
 					responseFields(
 							fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"))));

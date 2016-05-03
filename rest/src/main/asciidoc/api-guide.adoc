@@ -1220,3 +1220,113 @@ include::{snippets}/component-update-example/http-response.adoc[]
 
 
 
+[[resources-material]]
+== Spa Materials
+
+The material entity represents type of spa parts available for use 
+in designing or building a spa.
+
+Balboa makes several variations of all types of components used to build a spa.
+Each OEM is under contract to use a specific set of components. 
+
+
+
+[[resources-material-links]]
+=== Links
+
+include::{snippets}/material-get-example/links.adoc[]
+
+
+[[resources-material-list]]
+=== Listing All Materials
+
+A `GET` request will list all of the materials for all of the spas in the system.
+This API is intended for use only by users with BWG role. 
+
+==== Response structure
+
+include::{snippets}/materials-list-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/materials-list-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/materials-list-example/http-response.adoc[]
+
+
+[[resources-material-findByOemId]]
+=== List Materials associated with a single OEM
+
+A `GET` request will retrieve the a list of materials associated with a single manufacturer.
+
+==== Response structure
+
+include::{snippets}/materials-findbyOemId-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/materials-findbyOemIdNumber-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/materials-findbyOemId-example/http-response.adoc[]
+
+
+[[resources-material-findbyOemIdAndComponentType]]
+=== List Materials of a single Component Type available to an OEM
+
+A `GET` request will retrieve the a list materials of a certain type associated with a single OEM.
+
+Component types include:  GATEWAY, MOTE, PUMP, LIGHT, BLOWER, MISTER, FILTER, AUX, PANEL, OZONE, MICROSILK, CONTROLLER
+
+==== Response structure
+
+include::{snippets}/materials-findbyOemIdAndComponentType-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/materials-findbyOemIdAndComponentType-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/materials-findbyOemIdAndComponentType-example/http-response.adoc[]
+
+
+[[resources-material-findBySku]]
+=== Find Material By Serial Number
+
+A `GET` request will retrieve the details of a material with the given SKU.
+
+==== Response structure
+
+include::{snippets}/materials-findbySku-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/materials-findbySku-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/materials-findbySku-example/http-response.adoc[]
+
+
+[[resources-material-retrieve]]
+=== Retrieve a Material by its Id
+
+A `GET` request will retrieve the details of a specific material item.
+
+==== Response structure
+
+include::{snippets}/material-get-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/material-get-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/material-get-example/http-response.adoc[]
+
+

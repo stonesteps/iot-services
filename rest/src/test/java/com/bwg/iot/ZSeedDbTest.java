@@ -116,6 +116,10 @@ public final class ZSeedDbTest extends ModelTestBase {
         TacUserAgreement agreement1 = createAgreement(owner1.get_id(), tac1.getVersion());
         TacUserAgreement agreement2 = createAgreement(owner2.get_id(), tac1.getVersion());
 
+        // create Spa Materials for OEMs
+        setupTestMaterials(oem1, oem2);
+
+
         // create a variety of spas.  sold, unsold, fully populated w components, some with alerts...
         Spa spa22 = createDemoSpa1("150307", oem1.get_id(), dealer1.get_id(), owner1, "spa000022", GATEWAY_1_SN);
         Spa spa24 = createDemoSpa2("160104", oem1.get_id(), dealer1.get_id(), owner2, "spa000024", GATEWAY_2_SN);
