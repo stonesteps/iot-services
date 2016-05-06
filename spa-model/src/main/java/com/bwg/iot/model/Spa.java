@@ -24,9 +24,13 @@ public class Spa extends ResourceSupport {
     private String productName;
     private String model;
     private String dealerId;
+    private String associateId;
+    private String technicianId;
     private String oemId;
+
     private SpaState currentState;
 
+    private Date salesDate;
     private Date registrationDate;
     private Date manufacturedDate;
     private String p2pAPSSID;
@@ -178,6 +182,30 @@ public class Spa extends ResourceSupport {
 
     public void setRegKey(String regKey) {
         this.regKey = regKey;
+    }
+
+    public String getAssociateId() {
+        return associateId;
+    }
+
+    public void setAssociateId(String associateId) {
+        this.associateId = associateId;
+    }
+
+    public String getTechnicianId() {
+        return technicianId;
+    }
+
+    public void setTechnicianId(String technicianId) {
+        this.technicianId = technicianId;
+    }
+
+    public Date getSalesDate() {
+        return salesDate;
+    }
+
+    public void setSalesDate(Date salesDate) {
+        this.salesDate = salesDate;
     }
 
     @Override
