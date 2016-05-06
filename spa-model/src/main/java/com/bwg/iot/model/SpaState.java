@@ -22,7 +22,7 @@ public class SpaState {
     int errorCode;
     boolean cleanupCycle;
     Date uplinkTimestamp = null;
-    HeaterMode heaterMode;
+    String heaterMode;
     int hour;
     int minute;
     boolean celsius;
@@ -195,9 +195,9 @@ public class SpaState {
 
     public void setSystemInfo(SystemInfo systemInfo) { this.systemInfo = systemInfo; }
 
-    public HeaterMode getHeaterMode() { return heaterMode; }
+    public String getHeaterMode() { return heaterMode; }
 
-    public void setHeaterMode(HeaterMode heaterMode) { this.heaterMode = heaterMode; }
+    public void setHeaterMode(String heaterMode) { this.heaterMode = heaterMode; }
 
     public int getHour() { return hour; }
 
