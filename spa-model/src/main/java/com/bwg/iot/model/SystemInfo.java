@@ -2,23 +2,58 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.Collection;
 import java.util.Date;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 /**
- * Created by holow on 3/22/2016.
+ * Pojo for representing system info of spa pack controller
  */
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class SystemInfo {
 
-    private int heaterPower;
-    private int mfrSSID;
-    private int modelSSID;
+    private Integer heaterPower;
+    private Integer mfrSSID;
+    private Integer modelSSID;
     private int versionSSID;
     private int minorVersion;
-    private int swSignature;
-    private int heaterType;
-    private int currentSetup;
+    private Integer swSignature;
+    private Integer heaterType;
+    private Integer currentSetup;
     private Date lastUpdateTimestamp;
+    private Collection<DipSwitch> dipSwitches = newArrayList();
+    private Integer packMinorVersion;
+    private Integer packMajorVersion;
+    private Long serialNumber;
+
+    public Integer getPackMajorVersion() {
+        return packMajorVersion;
+    }
+
+    public void setPackMajorVersion(Integer packMajorVersion) {
+        this.packMajorVersion = packMajorVersion;
+    }
+
+    public Long getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(Long serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public Integer getPackMinorVersion() {
+        return packMinorVersion;
+    }
+
+    public void setPackMinorVersion(Integer packMinorVersion) {
+        this.packMinorVersion = packMinorVersion;
+    }
+
+    public Collection<DipSwitch> getDipSwitches() {
+        return dipSwitches;
+    }
 
     public int getVersionSSID() {
         return versionSSID;
@@ -28,27 +63,27 @@ public class SystemInfo {
         this.versionSSID = versionSSID;
     }
 
-    public int getHeaterPower() {
+    public Integer getHeaterPower() {
         return heaterPower;
     }
 
-    public void setHeaterPower(int heaterPower) {
+    public void setHeaterPower(Integer heaterPower) {
         this.heaterPower = heaterPower;
     }
 
-    public int getMfrSSID() {
+    public Integer getMfrSSID() {
         return mfrSSID;
     }
 
-    public void setMfrSSID(int mfrSSID) {
+    public void setMfrSSID(Integer mfrSSID) {
         this.mfrSSID = mfrSSID;
     }
 
-    public int getModelSSID() {
+    public Integer getModelSSID() {
         return modelSSID;
     }
 
-    public void setModelSSID(int modelSSID) {
+    public void setModelSSID(Integer modelSSID) {
         this.modelSSID = modelSSID;
     }
 
@@ -60,27 +95,27 @@ public class SystemInfo {
         this.minorVersion = minorVersion;
     }
 
-    public int getSwSignature() {
+    public Integer getSwSignature() {
         return swSignature;
     }
 
-    public void setSwSignature(int swSignature) {
+    public void setSwSignature(Integer swSignature) {
         this.swSignature = swSignature;
     }
 
-    public int getHeaterType() {
+    public Integer getHeaterType() {
         return heaterType;
     }
 
-    public void setHeaterType(int heaterType) {
+    public void setHeaterType(Integer heaterType) {
         this.heaterType = heaterType;
     }
 
-    public int getCurrentSetup() {
+    public Integer getCurrentSetup() {
         return currentSetup;
     }
 
-    public void setCurrentSetup(int currentSetup) {
+    public void setCurrentSetup(Integer currentSetup) {
         this.currentSetup = currentSetup;
     }
 
