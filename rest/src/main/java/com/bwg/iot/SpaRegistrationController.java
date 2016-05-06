@@ -52,6 +52,12 @@ public class SpaRegistrationController {
     MongoOperations mongoOps;
 
     @Autowired
+    SpaRepository spaRepository;
+
+    @Autowired
+    AddressRepository addressRepository;
+
+    @Autowired
     EntityLinks entityLinks;
 
     @Autowired
@@ -90,8 +96,7 @@ public class SpaRegistrationController {
         }
 
         // validate regKey
-        Spa mySpa = mongoOps.findOne(
-                new Query(Criteria.where("spaId").is(spaId)), Spa.class);
+        Spa mySpa = mongoOps.findById(spaId, Spa.class);
         if (mySpa == null || mySpa.getRegKey() == null || !mySpa.getRegKey().equals(regKey)) {
             return new ResponseEntity<String>("Invalid spaId or regKey does not match", HttpStatus.BAD_REQUEST);
         }
@@ -104,14 +109,22 @@ public class SpaRegistrationController {
             token.setAccess_token(accessToken);
         } else if(user != null) {
             // Unathenticated User passed in create a new spa system user
-            User savedUser = userRepository.save(user);
+            Address address = addressRepository.save(user.getAddress());
+            user.setAddress(address);
+            user = userRepository.save(user);
             // TODO: Create a new user account in GLUU IDM
             // Get and access token to return to the new user
             token = authenticateUser(user);
         } else {
             // Neither auth token or new user passed in, bad request
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<String>("Missing either new user object or existing user access token.", HttpStatus.BAD_REQUEST);
         }
+
+        // assign spa to user
+        mySpa.setOwner(user);
+        spaRepository.save(mySpa);
+        user.setSpaId(spaId);
+        userRepository.save(user);
 
         SpaRegistrationResponse response = new SpaRegistrationResponse(spaId, token);
         return new ResponseEntity<SpaRegistrationResponse>(response, HttpStatus.CREATED);
@@ -128,6 +141,7 @@ public class SpaRegistrationController {
         restTemplate.setMessageConverters(Arrays.asList(formHttpMessageConverter, stringHttpMessageConverter));
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        // TODO: once Gluu user is properly created, use new user's creds
         params.add("username", "oosborn");
         params.add("password", "oosborn");
         params.add("scope", "openid user_name");
