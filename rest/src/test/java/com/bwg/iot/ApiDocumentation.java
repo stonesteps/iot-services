@@ -311,25 +311,21 @@ public class ApiDocumentation extends ModelTestBase{
                                 fieldWithPath("dealerId").description("The dealer assigned to the spa").type(JsonFieldType.STRING).optional())));
 	}
 
+	@Test
+	public void faultLogListExample() throws Exception {
+		this.spaRepository.deleteAll();
+		this.faultLogRepository.deleteAll();
+		this.faultLogDescriptionRepository.deleteAll();
 
-    private Spa createSpa(HashMap<String,Object> attributes) throws Exception {
+		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"));
+		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
+		createSpaFaultLogAndDescription(spa.get_id());
 
-        Spa spa = new Spa();
-        attributes.forEach((k,v) -> {
-            Class c = v.getClass();
-            System.out.println(c.toGenericString());
-            try {
-                Field f = c.getField(k);
-                f.set(spa, v);
-                System.out.println("Setting field:"+k+" to "+v);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        spaRepository.save(spa);
-        return spa;
-    }
-
-
-
+		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/faultLogs"))
+				.andExpect(status().isOk())
+				.andDo(document("faultlog-list-example",
+						responseFields(
+								fieldWithPath("_embedded.faultLogs").description("An array of <<resources-spa, Spa resources>>"),
+								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"))));
+	}
 }
