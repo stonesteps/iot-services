@@ -1,9 +1,12 @@
 package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @Document
@@ -11,11 +14,19 @@ import java.util.Map;
 public class SpaRegistrationResponse extends ResourceSupport {
 
     private String spaId;
-    private Map<String, Object> token;
+    private GluuToken token;
 
-    public SpaRegistrationResponse(String spaId, Map<String, Object> token){
+    public SpaRegistrationResponse(String spaId, GluuToken token){
         this.spaId = spaId;
         this.token = token;
+    }
+
+    public SpaRegistrationResponse(String spaId, String tokenString) throws IOException {
+        this.spaId = spaId;
+        GluuToken myToken = new GluuToken();
+        ObjectMapper mapper = new ObjectMapper();
+        myToken = mapper.readValue(tokenString, GluuToken.class);
+        this.token = myToken;
     }
 
     public String getSpaId() {
@@ -26,11 +37,11 @@ public class SpaRegistrationResponse extends ResourceSupport {
         this.spaId = spaId;
     }
 
-    public Map<String, Object> getToken() {
+    public GluuToken getToken() {
         return token;
     }
 
-    public void setToken(Map<String, Object> token) {
+    public void setToken(GluuToken token) {
         this.token = token;
     }
 

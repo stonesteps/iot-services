@@ -12,6 +12,7 @@ public class SpaRegistrationRequest extends ResourceSupport {
     private String regKey;
     private String serialNumber;
     private User user;
+    private String access_token;
 
 
     public String getSpaId() {
@@ -44,6 +45,14 @@ public class SpaRegistrationRequest extends ResourceSupport {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getAccess_token() {
+        return access_token;
+    }
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
     }
 
     @Override

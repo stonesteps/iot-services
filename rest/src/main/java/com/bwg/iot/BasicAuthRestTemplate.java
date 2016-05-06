@@ -4,9 +4,11 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.http.HttpRequest;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.print.attribute.standard.Media;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Collections;

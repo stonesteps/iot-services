@@ -3,37 +3,50 @@ package com.bwg.iot;
 /**
  * Created by triton on 5/5/16.
  */
-import com.bwg.iot.model.SpaRegistrationRequest;
-import com.bwg.iot.model.SpaRegistrationResponse;
-import com.bwg.iot.model.User;
+import com.bwg.iot.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.querydsl.binding.MultiValueBinding;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.EntityLinks;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.FormHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 @RepositoryRestController
 @RequestMapping("/")
 public class SpaRegistrationController {
     private final static Logger log = LoggerFactory.getLogger(SpaRegistrationController.class);
 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
-    private String scimUser;
-    private String scimPassword;
-    private String scimUrl;
+    private String clientId;
+    private String clientSecret;
+    private String tokenUrl;
 
     @Autowired
     MongoOperations mongoOps;
@@ -53,33 +66,75 @@ public class SpaRegistrationController {
     }
 
     public void afterPropertiesSet() {
-        scimUser = environment.getProperty(PropertyNames.SCIM_USER);
-        scimPassword = environment.getProperty(PropertyNames.SCIM_PWD);
-        scimUrl = environment.getProperty(PropertyNames.SCIM_URL);
+        // TODO: why doesn't this work?
+        clientId = environment.getProperty(PropertyNames.MOBILE_CLIENT_ID);
+        clientSecret = environment.getProperty(PropertyNames.MOBILE_CLIENT_SECRET);
+        tokenUrl = environment.getProperty(PropertyNames.TOKEN_ENDPOINT);
+    }
+
+    public SpaRegistrationController() {
+        super();
     }
 
     @RequestMapping(value = "/registerSpaToUser", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> registerSpaToUser(@RequestBody SpaRegistrationRequest request){
+    public ResponseEntity<?> registerSpaToUser(@RequestBody SpaRegistrationRequest request) throws IOException {
 
         // validate user inputs (do we have reg_key, spaId?)
         String spaId = request.getSpaId();
         String regKey = request.getRegKey();
+        String accessToken = request.getAccess_token();
+        User user = request.getUser();
 
-        Map<String, Object> token = authenticateUser(request.getUser());
+        if (regKey == null || spaId == null) {
+            return new ResponseEntity<String>("Missing required parameter(s).",HttpStatus.BAD_REQUEST);
+        }
+
+        // validate regKey
+        Spa mySpa = mongoOps.findOne(
+                new Query(Criteria.where("spaId").is(spaId)), Spa.class);
+        if (mySpa == null || mySpa.getRegKey() == null || !mySpa.getRegKey().equals(regKey)) {
+            return new ResponseEntity<String>("Invalid spaId or regKey does not match", HttpStatus.BAD_REQUEST);
+        }
+
+        // if existing user, validate auth token
+        // if new user, create new user
+        GluuToken token = new GluuToken();
+        if (accessToken != null){
+            // TODO: validate token, get userId
+            token.setAccess_token(accessToken);
+        } else if(user != null) {
+            // Unathenticated User passed in create a new spa system user
+            User savedUser = userRepository.save(user);
+            // TODO: Create a new user account in GLUU IDM
+            // Get and access token to return to the new user
+            token = authenticateUser(user);
+        } else {
+            // Neither auth token or new user passed in, bad request
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+
         SpaRegistrationResponse response = new SpaRegistrationResponse(spaId, token);
         return new ResponseEntity<SpaRegistrationResponse>(response, HttpStatus.CREATED);
     }
 
-    private Map<String, Object> authenticateUser(User user){
-        // stub:
-        Map<String, Object> token = new HashMap<String, Object>();
-        token.put("access_token", "57ca1b11-b236-47a6-b719-c88f8595dc6a");
-        token.put("token_type", "bearer");
-        token.put("expires_in", Integer.valueOf(3599));
-        token.put("refresh_token", "c567551f-54fe-4fab-bfaf-ccabe4aa8087");
-        token.put("scope", "user_name openid");
-        token.put("id_token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6IjdlMjFjYWNhLTg3YzMtNGMyYS1hZTFjLWY2Y2U2ZWE4ZmU2YiJ9.eyJpc3MiOiJodHRwczovL2lvdGRldjA1LmJpLmxvY2FsIiwiYXVkIjoiQCEwRUVDLkY2NjEuRkQ4Qy5GMzk5ITAwMDEhM0Y2Ri5CNDAzITAwMDghQzE5Ni5BNEM4IiwiZXhwIjoxNDYyNDc3MjcxLCJpYXQiOjE0NjI0NzM2NzEsIm94VmFsaWRhdGlvblVSSSI6Imh0dHBzOi8vaW90ZGV2MDUuYmkubG9jYWwvb3hhdXRoL29waWZyYW1lIiwib3hPcGVuSURDb25uZWN0VmVyc2lvbiI6Im9wZW5pZGNvbm5lY3QtMS4wIiwidXNlcl9uYW1lIjoiaW90LXNlcnZpY2VzIiwiaW51bSI6IkAhMEVFQy5GNjYxLkZEOEMuRjM5OSEwMDAxITNGNkYuQjQwMyEwMDAwITJGQjkuQTc2MSIsInN1YiI6ImlvdC1zZXJ2aWNlcyJ9.ekD1CxVnGDNhwdqMI6zLMQ9JM7U8WmrG3R2DxmEvdYoJ8mLBQneQ-VTLpSuaRjqCqyYBLrUJYm6D4hIb7UvyTGTRKlZa-aFuA7ox4UntMu9SFe__j8o27oLuY_ixYuBAPgrKHiayHyhFDkg_rOMwHfUIAfe47ifSQM2EV9OFU7LdrWAIR418jVhDMYnlD6JZHW-kRHRuSFIMWvGtfs2a_10-00Pg3xt7z8hreocsINHg-HgoU-fqG71MqqraTCgmu95ru-zOzhxbEAsQ1vfzlnOz7HMUq8nShesMNRHJLmJqyMwKMh69PZopRGC0PqPgjbMbXwzWKo9y-3Bj_XmskQ");
+    private GluuToken authenticateUser(User user) throws IOException {
+        clientId = environment.getProperty(PropertyNames.MOBILE_CLIENT_ID);
+        clientSecret = environment.getProperty(PropertyNames.MOBILE_CLIENT_SECRET);
+        tokenUrl = environment.getProperty(PropertyNames.TOKEN_ENDPOINT);
 
-        return token;
+        RestTemplate restTemplate = new BasicAuthRestTemplate(clientId, clientSecret);
+        HttpMessageConverter formHttpMessageConverter = new FormHttpMessageConverter();
+        HttpMessageConverter stringHttpMessageConverter = new StringHttpMessageConverter();
+        restTemplate.setMessageConverters(Arrays.asList(formHttpMessageConverter, stringHttpMessageConverter));
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+        params.add("username", "oosborn");
+        params.add("password", "oosborn");
+        params.add("scope", "openid user_name");
+        params.add("grant_type", "password");
+
+        String tokenString = restTemplate.postForObject(tokenUrl, params, String.class);
+        GluuToken myToken = objectMapper.readValue(tokenString, GluuToken.class);
+        return myToken;
     }
 }
