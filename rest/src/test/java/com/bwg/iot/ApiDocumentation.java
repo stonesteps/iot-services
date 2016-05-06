@@ -118,7 +118,6 @@ public class ApiDocumentation extends ModelTestBase{
 							linkWithRel("users").description("The <<resources-users,User resource>>"),
 							linkWithRel("components").description("The <<resources-components,Component resource>>"),
 							linkWithRel("materials").description("The <<resources-materials,Material resource>>"),
-							linkWithRel("faultLogs").description("The <<resources-fault-logs, FaultLog resource>>"),
 							linkWithRel("profile").description("The ALPS profile for the service")),
 					responseFields(
 							fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"))));
@@ -184,7 +183,8 @@ public class ApiDocumentation extends ModelTestBase{
 					links(
 							linkWithRel("self").description("This <<resources-spa,spa>>"),
                             linkWithRel("spa").description("This <<resources-spa,spa>>"),
-							linkWithRel("owner").description("This <<resources-user,user>>")),
+							linkWithRel("owner").description("This <<resources-user,user>>"),
+							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>")),
 					responseFields(
 							fieldWithPath("_id").description("Object Id"),
                             fieldWithPath("serialNumber").description("The serial of the spa"),
@@ -255,7 +255,8 @@ public class ApiDocumentation extends ModelTestBase{
 					links(
 							linkWithRel("self").description("This <<resources-spa,spa>>"),
 							linkWithRel("spa").description("This <<resources-spa,spa>>"),
-							linkWithRel("owner").description("This <<resources-user,user>>")),
+							linkWithRel("owner").description("This <<resources-user,user>>"),
+							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>")),
 					responseFields(
 							fieldWithPath("_id").description("Object Id"),
 							fieldWithPath("serialNumber").description("The serial of the spa"),

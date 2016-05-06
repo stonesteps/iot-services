@@ -1,7 +1,6 @@
 package com.bwg.iot;
 
 import com.bwg.iot.model.FaultLog;
-import com.bwg.iot.model.FaultLogDescription;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,21 +23,12 @@ class ApplicationConfig {
     private FaultLogDescriptionRepository faultLogDescriptionRepository;
 
     @Bean
-    public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
+    public ResourceProcessor<Resource<FaultLog>> faultLogProcessor() {
+        return new FaultLogResourceProcessor(faultLogDescriptionRepository);
     }
 
     @Bean
-    public ResourceProcessor<Resource<FaultLog>> faultLogProcessor() {
-        return new ResourceProcessor<Resource<FaultLog>>() {
-            @Override
-            public Resource<FaultLog> process(final Resource<FaultLog> resource) {
-                final FaultLog faultLog = resource.getContent();
-                final FaultLogDescription description = faultLogDescriptionRepository.findFirstByCodeAndControllerType(
-                        faultLog.getCode(), faultLog.getControllerType());
-                faultLog.setFaultLogDescription(description);
-                return resource;
-            }
-        };
+    public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
 }
