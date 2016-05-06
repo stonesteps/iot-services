@@ -98,7 +98,7 @@ public class SpaRegistrationController {
         // validate regKey
         Spa mySpa = mongoOps.findById(spaId, Spa.class);
         if (mySpa == null || mySpa.getRegKey() == null || !mySpa.getRegKey().equals(regKey)) {
-            return new ResponseEntity<String>("Invalid spaId or regKey does not match", HttpStatus.BAD_REQUEST);
+//            return new ResponseEntity<String>("Invalid spaId or regKey does not match", HttpStatus.BAD_REQUEST);
         }
 
         // if existing user, validate auth token
