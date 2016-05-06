@@ -31,6 +31,8 @@ public class User extends ResourceSupport {
     private Date createdDate;
     private Date modifiedDate;
 
+    private String spaId;
+
     @JsonIgnore
     private String password;
 
@@ -143,6 +145,13 @@ public class User extends ResourceSupport {
         this.modifiedDate = modifiedDate;
     }
 
+    public String getSpaId() {
+        return spaId;
+    }
+
+    public void setSpaId(String spaId) {
+        this.spaId = spaId;
+    }
 
     public String get_id() {
         return _id;
