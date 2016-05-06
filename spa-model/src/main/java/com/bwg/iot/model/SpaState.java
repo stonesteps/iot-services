@@ -22,7 +22,7 @@ public class SpaState {
     int errorCode;
     boolean cleanupCycle;
     Date uplinkTimestamp = null;
-    HeaterMode heaterMode;
+    String heaterMode;
     int hour;
     int minute;
     boolean celsius;
@@ -30,7 +30,7 @@ public class SpaState {
     boolean timeNotSet;
     boolean settingsLock;
     boolean spaOverheatDisabled;
-    BluetoothStatus bluetoothStatus;
+    String bluetoothStatus;
     int updateIntervalSeconds;
     List<ComponentState> components;
     List<Measurement> measurements;
@@ -195,9 +195,9 @@ public class SpaState {
 
     public void setSystemInfo(SystemInfo systemInfo) { this.systemInfo = systemInfo; }
 
-    public HeaterMode getHeaterMode() { return heaterMode; }
+    public String getHeaterMode() { return heaterMode; }
 
-    public void setHeaterMode(HeaterMode heaterMode) { this.heaterMode = heaterMode; }
+    public void setHeaterMode(String heaterMode) { this.heaterMode = heaterMode; }
 
     public int getHour() { return hour; }
 
@@ -319,9 +319,9 @@ public class SpaState {
 
     public void setSoakMode(Boolean soakMode) { this.soakMode = soakMode; }
 
-    public BluetoothStatus getBluetoothStatus() { return bluetoothStatus; }
+    public String getBluetoothStatus() { return bluetoothStatus; }
 
-    public void setBluetoothStatus(BluetoothStatus bluetoothStatus) { this.bluetoothStatus = bluetoothStatus; }
+    public void setBluetoothStatus(String bluetoothStatus) { this.bluetoothStatus = bluetoothStatus; }
 
     public Boolean isOverrangeEnabled() { return overrangeEnabled; }
 
