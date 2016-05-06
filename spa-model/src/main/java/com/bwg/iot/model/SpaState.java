@@ -18,6 +18,7 @@ public class SpaState {
     String desiredTemp;
     String targetDesiredTemp;
     String currentTemp;
+    String controllerType;
     int errorCode;
     boolean cleanupCycle;
     Date uplinkTimestamp = null;
@@ -96,6 +97,14 @@ public class SpaState {
     public SpaState(){
         components = new ArrayList<ComponentState>();
         measurements = new ArrayList<Measurement>();
+    }
+
+    public String getControllerType() {
+        return controllerType;
+    }
+
+    public void setControllerType(String controllerType) {
+        this.controllerType = controllerType;
     }
 
     public String getRunMode() {
