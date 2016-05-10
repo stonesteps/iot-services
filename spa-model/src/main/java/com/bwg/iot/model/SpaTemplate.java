@@ -25,8 +25,10 @@ public class SpaTemplate extends ResourceSupport {
     private String productName;
     private String model;
     private String sku;
+    private Integer warrantyDays;
     private List<Material> materialList;
     private Map<String, ?> attachments;
+
     private String notes;
     private Date creationDate;
 
@@ -68,6 +70,14 @@ public class SpaTemplate extends ResourceSupport {
 
     public void setSku(String sku) {
         this.sku = sku;
+    }
+
+    public Integer getWarrantyDays() {
+        return warrantyDays;
+    }
+
+    public void setWarrantyDays(Integer warrantyDays) {
+        this.warrantyDays = warrantyDays;
     }
 
     public List<Material> getMaterialList() {
