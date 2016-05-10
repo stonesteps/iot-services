@@ -10,19 +10,11 @@ import java.util.Date;
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class SellSpaRequest extends ResourceSupport {
 
-    private String spaId;
     private String ownerId;
     private String associateId;
     private String technicianId;
+    private String transactionCode;
     private Date salesDate;
-
-    public String getSpaId() {
-        return spaId;
-    }
-
-    public void setSpaId(String spaId) {
-        this.spaId = spaId;
-    }
 
     public String getOwnerId() {
         return ownerId;
@@ -48,6 +40,14 @@ public class SellSpaRequest extends ResourceSupport {
         this.technicianId = technicianId;
     }
 
+    public String getTransactionCode() {
+        return transactionCode;
+    }
+
+    public void setTransactionCode(String transactionCode) {
+        this.transactionCode = transactionCode;
+    }
+
     public Date getSalesDate() {
         return salesDate;
     }
@@ -64,7 +64,6 @@ public class SellSpaRequest extends ResourceSupport {
 
         SellSpaRequest that = (SellSpaRequest) o;
 
-        if (spaId != null ? !spaId.equals(that.spaId) : that.spaId != null) return false;
         if (!ownerId.equals(that.ownerId)) return false;
         if (associateId != null ? !associateId.equals(that.associateId) : that.associateId != null) return false;
         return salesDate != null ? salesDate.equals(that.salesDate) : that.salesDate == null;
@@ -74,7 +73,6 @@ public class SellSpaRequest extends ResourceSupport {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (spaId != null ? spaId.hashCode() : 0);
         result = 31 * result + ownerId.hashCode();
         result = 31 * result + (associateId != null ? associateId.hashCode() : 0);
         result = 31 * result + (salesDate != null ? salesDate.hashCode() : 0);
