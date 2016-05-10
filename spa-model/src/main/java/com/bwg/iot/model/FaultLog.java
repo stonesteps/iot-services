@@ -9,7 +9,7 @@ import org.springframework.hateoas.ResourceSupport;
 import java.util.Date;
 
 @Document
-@JsonInclude(value= JsonInclude.Include.NON_EMPTY)
+@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 public class FaultLog extends ResourceSupport {
 
     @Id
@@ -26,6 +26,7 @@ public class FaultLog extends ResourceSupport {
     private int targetTemp;
     private int sensorATemp;
     private int sensorBTemp;
+    private boolean celcius;
 
     @Transient
     private FaultLogDescription faultLogDescription;
@@ -124,6 +125,14 @@ public class FaultLog extends ResourceSupport {
 
     public void setSensorBTemp(int sensorBTemp) {
         this.sensorBTemp = sensorBTemp;
+    }
+
+    public boolean isCelcius() {
+        return celcius;
+    }
+
+    public void setCelcius(boolean celcius) {
+        this.celcius = celcius;
     }
 
     public FaultLogDescription getFaultLogDescription() {
