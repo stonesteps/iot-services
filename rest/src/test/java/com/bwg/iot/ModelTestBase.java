@@ -302,7 +302,7 @@ public class ModelTestBase {
         material.setWarrantyDays(warrantyDays);
         material.setUploadDate(new Date());
         material.setOemId(oemIds);
-        materialRepository.save(material);
+        material = materialRepository.save(material);
         return material;
     }
 

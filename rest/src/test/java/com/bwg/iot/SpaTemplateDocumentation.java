@@ -126,6 +126,7 @@ public final class SpaTemplateDocumentation extends ModelTestBase {
         spaTemplateMap.put("sku", "2052350-125516161");
         spaTemplateMap.put("oemId", "oem001");
         spaTemplateMap.put("notes", "Test Spa");
+        spaTemplateMap.put("warrantyDays", Integer.valueOf(1096));
         spaTemplateMap.put("materialList", spaTemplate1List);
         spaTemplateMap.put("creationDate", new Date());
 
@@ -140,6 +141,7 @@ public final class SpaTemplateDocumentation extends ModelTestBase {
                                 fieldWithPath("sku").description("The SKU number associated to this Spa"),
                                 fieldWithPath("oemId").description("Manufacturer ids"),
                                 fieldWithPath("notes").description("Field to store extra text about the spa template").optional().type("String"),
+                                fieldWithPath("warrantyDays").description("Warranty length of the spa in days from sales date").optional().type(Integer.class),
                                 fieldWithPath("materialList").description("List of Materials used to build the spa").type("List<Material>"),
                                 fieldWithPath("attachments").description("References to supporting documents").optional().type("List<String>"),
                                 fieldWithPath("creationDate").description("Created date").type("Date"))));
