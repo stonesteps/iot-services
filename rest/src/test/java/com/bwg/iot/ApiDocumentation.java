@@ -119,7 +119,7 @@ public class ApiDocumentation extends ModelTestBase{
 							linkWithRel("components").description("The <<resources-components,Component resource>>"),
 							linkWithRel("materials").description("The <<resources-materials, Material resource>>"),
 							linkWithRel("spaTemplates").description("The <<resources-spaTemplates, SpaTemplate resource>>"),
-							linkWithRel("faultLogs").description("The <<resources-fault-logs, FaultLog resource>>"),
+							linkWithRel("materials").description("The <<resources-materials,Material resource>>"),
 							linkWithRel("profile").description("The ALPS profile for the service")),
 					responseFields(
 							fieldWithPath("_links").description("<<resources-index-links,Links>> to other resources"))));
@@ -185,7 +185,8 @@ public class ApiDocumentation extends ModelTestBase{
 					links(
 							linkWithRel("self").description("This <<resources-spa,spa>>"),
                             linkWithRel("spa").description("This <<resources-spa,spa>>"),
-							linkWithRel("owner").description("This <<resources-user,user>>")),
+							linkWithRel("owner").description("This <<resources-user,user>>"),
+							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>")),
 					responseFields(
 							fieldWithPath("_id").description("Object Id"),
                             fieldWithPath("serialNumber").description("The serial of the spa"),
@@ -256,7 +257,8 @@ public class ApiDocumentation extends ModelTestBase{
 					links(
 							linkWithRel("self").description("This <<resources-spa,spa>>"),
 							linkWithRel("spa").description("This <<resources-spa,spa>>"),
-							linkWithRel("owner").description("This <<resources-user,user>>")),
+							linkWithRel("owner").description("This <<resources-user,user>>"),
+							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>")),
 					responseFields(
 							fieldWithPath("_id").description("Object Id"),
 							fieldWithPath("serialNumber").description("The serial of the spa"),
@@ -311,25 +313,40 @@ public class ApiDocumentation extends ModelTestBase{
                                 fieldWithPath("dealerId").description("The dealer assigned to the spa").type(JsonFieldType.STRING).optional())));
 	}
 
+	@Test
+	public void faultLogListExample() throws Exception {
+		this.spaRepository.deleteAll();
+		this.faultLogRepository.deleteAll();
+		this.faultLogDescriptionRepository.deleteAll();
 
-    private Spa createSpa(HashMap<String,Object> attributes) throws Exception {
+		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"));
+		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
+		createSpaFaultLogAndDescription(spa.get_id());
 
-        Spa spa = new Spa();
-        attributes.forEach((k,v) -> {
-            Class c = v.getClass();
-            System.out.println(c.toGenericString());
-            try {
-                Field f = c.getField(k);
-                f.set(spa, v);
-                System.out.println("Setting field:"+k+" to "+v);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-        spaRepository.save(spa);
-        return spa;
-    }
+		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/faultLogs"))
+				.andExpect(status().isOk())
+				.andDo(document("faultlog-list-example",
+						responseFields(
+								fieldWithPath("_embedded.faultLogs").description("An array of <<resources-spa, Spa resources>>"),
+								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"))));
+	}
 
+	private Spa createSpa(HashMap<String,Object> attributes) throws Exception {
+		Spa spa = new Spa();
+		attributes.forEach((k,v) -> {
+			Class c = v.getClass();
+			System.out.println(c.toGenericString());
+			try {
+				Field f = c.getField(k);
+				f.set(spa, v);
+				System.out.println("Setting field:"+k+" to "+v);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		spaRepository.save(spa);
+		return spa;
+	}
 
 
 }

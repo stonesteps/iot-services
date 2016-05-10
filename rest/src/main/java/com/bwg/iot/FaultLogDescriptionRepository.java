@@ -9,5 +9,4 @@ public interface FaultLogDescriptionRepository extends MongoRepository<FaultLogD
 
     FaultLogDescription findFirstByCodeAndControllerType(int code, String controllerType);
 
-    FaultLogDescription findFirstByCode(int code);
 }

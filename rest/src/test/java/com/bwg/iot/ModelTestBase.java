@@ -45,11 +45,17 @@ public class ModelTestBase {
     protected TacUserAgreementRepository tacUserAgreementRepository;
 
     @Autowired
+    protected FaultLogRepository faultLogRepository;
+
+    @Autowired
+    protected FaultLogDescriptionRepository faultLogDescriptionRepository;
+
+    @Autowired
     protected SpaTemplateRepository spaTemplateRepository;
 
     protected static int serialSuffix = 1001;
 
-    protected void clearAllData(){
+    protected void clearAllData() {
         this.addressRepository.deleteAll();
         this.dealerRepository.deleteAll();
         this.oemRepository.deleteAll();
@@ -76,8 +82,8 @@ public class ModelTestBase {
 
     protected Address createAddress(int i) {
         Address address = new Address();
-        address.setAddress1("30"+i+" "+i+"35th Ave" );
-        address.setAddress2("Suite 10"+i);
+        address.setAddress1("30" + i + " " + i + "35th Ave");
+        address.setAddress2("Suite 10" + i);
         address.setCity("San Diego");
         address.setState("CA");
         address.setZip("92101");
@@ -87,7 +93,7 @@ public class ModelTestBase {
 
     protected List<Address> createAddresses(int count) {
         List<Address> addresses = new ArrayList<>(count);
-        for(int i = 0; i < count; i++){
+        for (int i = 0; i < count; i++) {
             addresses.add(createAddress(i));
         }
         return addresses;
@@ -121,9 +127,10 @@ public class ModelTestBase {
     protected User createUser(String username, String firstName, String lastName, String dealerId, String oemId, Address address, List<String> roles) {
         return createUser(null, username, firstName, lastName, dealerId, oemId, address, roles);
     }
+
     protected User createUser(String id, String username, String firstName, String lastName, String dealerId, String oemId, Address address, List<String> roles) {
         User user = new User();
-        if (StringUtils.isNotEmpty(id)){
+        if (StringUtils.isNotEmpty(id)) {
             user.set_id(id);
         }
         user.setUsername(username);
@@ -133,7 +140,7 @@ public class ModelTestBase {
         user.setOemId(oemId);
         user.setAddress(address);
         user.setRoles(roles);
-        user.setEmail(username+"@riot.com");
+        user.setEmail(username + "@riot.com");
         user.setPhone("(800) 471-2382");
         user.setCreatedDate(new Date());
         userRepository.save(user);
@@ -184,11 +191,12 @@ public class ModelTestBase {
 
     protected void setupTestMaterials() {
         List<Address> addresses = createAddresses(2);
-        Oem oem1 = createOem("Blue Wave Spas, LTD", addresses.get(0), "oem101" );
+        Oem oem1 = createOem("Blue Wave Spas, LTD", addresses.get(0), "oem101");
         Oem oem2 = createOem("Jazzi Pool & Spa Products, LTD", addresses.get(1), "oem102");
         setupTestMaterials(oem1, oem2);
     }
 
+    protected void setupTestMaterials(Oem oem1, Oem oem2) {
     protected List<Material> setupTestMaterials(Oem oem1, Oem oem2){
         List<String> bothOems = Arrays.asList(oem1.get_id(), oem2.get_id());
         List<String> justOne = Arrays.asList(oem1.get_id());
@@ -224,7 +232,7 @@ public class ModelTestBase {
 
 
     protected Component createComponent(String type, String port, String name, String serialNumber, String spaId) {
-        return createFixedComponent(type, port, name, serialNumber+(serialSuffix++), spaId);
+        return createFixedComponent(type, port, name, serialNumber + (serialSuffix++), spaId);
     }
 
     protected Component createFixedComponent(String type, String port, String name, String serialNumber, String spaId) {
@@ -256,15 +264,15 @@ public class ModelTestBase {
                 || Component.ComponentType.OZONE.toString().equalsIgnoreCase(type)) {
             availableStates = Arrays.asList("OFF", "ON");
         } else if (Component.ComponentType.PUMP.toString().equalsIgnoreCase(type)) {
-            if ("0".equalsIgnoreCase(component.getPort())){
+            if ("0".equalsIgnoreCase(component.getPort())) {
                 availableStates = Arrays.asList("OFF", "LOW", "HIGH");
             } else {
                 availableStates = Arrays.asList("OFF", "HIGH");
             }
         } else if (Component.ComponentType.LIGHT.toString().equalsIgnoreCase(type)) {
-            if ("0".equalsIgnoreCase(component.getPort())){
+            if ("0".equalsIgnoreCase(component.getPort())) {
                 availableStates = Arrays.asList("OFF", "LOW", "MED", "HIGH");
-            } else if ("1".equalsIgnoreCase(component.getPort())){
+            } else if ("1".equalsIgnoreCase(component.getPort())) {
                 availableStates = Arrays.asList("OFF", "LOW", "HIGH");
             } else {
                 availableStates = Arrays.asList("OFF", "HIGH");
@@ -279,9 +287,10 @@ public class ModelTestBase {
     protected Spa createUnsoldSpa(String serialNumber, String productName, String model, String oemId, String dealerId) {
         return createUnsoldSpa(serialNumber, productName, model, oemId, dealerId, null);
     }
+
     protected Spa createUnsoldSpa(String serialNumber, String productName, String model, String oemId, String dealerId, String spaId) {
         Spa spa = new Spa();
-        spa.setSerialNumber(serialNumber+(serialSuffix++));
+        spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
@@ -293,12 +302,13 @@ public class ModelTestBase {
     protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner) {
         return createFullSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, null);
     }
+
     protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId) {
         Spa spa = new Spa();
-        if (StringUtils.isNotEmpty(spaId)){
+        if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
         }
-        spa.setSerialNumber(serialNumber+(serialSuffix++));
+        spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
@@ -324,12 +334,12 @@ public class ModelTestBase {
 
         String pumpPartNo1 = "1016205*";
         String pumpPartNo2 = "1042118*";
-        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Circulation", pumpPartNo1+serialNumber, spa.get_id());
-        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Massage Jets", pumpPartNo1+serialNumber, spa.get_id());
-        Component pump3 = createComponent(Component.ComponentType.PUMP.name(), "2", "Captain's Chair", pumpPartNo1+serialNumber, spa.get_id());
-        Component pump4 = createComponent(Component.ComponentType.PUMP.name(), "3", "Foot Massage", pumpPartNo2+serialNumber, spa.get_id());
-        Component pump5 = createComponent(Component.ComponentType.PUMP.name(), "4", "Side Jets", pumpPartNo2+serialNumber, spa.get_id());
-        Component pump6 = createComponent(Component.ComponentType.PUMP.name(), "5", "2nd Chair", pumpPartNo2+serialNumber, spa.get_id());
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Circulation", pumpPartNo1 + serialNumber, spa.get_id());
+        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Massage Jets", pumpPartNo1 + serialNumber, spa.get_id());
+        Component pump3 = createComponent(Component.ComponentType.PUMP.name(), "2", "Captain's Chair", pumpPartNo1 + serialNumber, spa.get_id());
+        Component pump4 = createComponent(Component.ComponentType.PUMP.name(), "3", "Foot Massage", pumpPartNo2 + serialNumber, spa.get_id());
+        Component pump5 = createComponent(Component.ComponentType.PUMP.name(), "4", "Side Jets", pumpPartNo2 + serialNumber, spa.get_id());
+        Component pump6 = createComponent(Component.ComponentType.PUMP.name(), "5", "2nd Chair", pumpPartNo2 + serialNumber, spa.get_id());
         Component blower1 = createComponent(Component.ComponentType.BLOWER.name(), "0", "Bubbles", serialNumber, spa.get_id());
         Component blower2 = createComponent(Component.ComponentType.BLOWER.name(), "1", "Captains Bubbles", serialNumber, spa.get_id());
         Component mister1 = createComponent(Component.ComponentType.MISTER.name(), "0", "Mister", serialNumber, spa.get_id());
@@ -345,7 +355,7 @@ public class ModelTestBase {
         Component aux2 = createComponent(Component.ComponentType.AUX.name(), "1", "Waterfall", serialNumber, spa.get_id());
         Component aux3 = createComponent(Component.ComponentType.AUX.name(), "2", "Aux. #3", serialNumber, spa.get_id());
         Component microsilk = createComponent(Component.ComponentType.MICROSILK.name(), "0", "Microsilk", serialNumber, spa.get_id());
-        Component panel = createComponent(Component.ComponentType.CONTROLLER.name(), "0", "Controller Panel", "56549-"+serialNumber, spa.get_id());
+        Component panel = createComponent(Component.ComponentType.CONTROLLER.name(), "0", "Controller Panel", "56549-" + serialNumber, spa.get_id());
 
         ComponentState p1State = createComponentState(pump1, "LOW");
         ComponentState p2State = createComponentState(pump2, "MED");
@@ -397,12 +407,13 @@ public class ModelTestBase {
     protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner) {
         return createSmallSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, null);
     }
+
     protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId) {
         Spa spa = new Spa();
-        if (StringUtils.isNotEmpty(spaId)){
+        if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
         }
-        spa.setSerialNumber(serialNumber+(serialSuffix++));
+        spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
@@ -419,12 +430,12 @@ public class ModelTestBase {
         componentRepository.save(gateway);
 
         String pumpPartNo1 = "1016205*";
-        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Jets", pumpPartNo1+serialNumber, spa.get_id());
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Jets", pumpPartNo1 + serialNumber, spa.get_id());
         Component blower1 = createComponent(Component.ComponentType.BLOWER.name(), "0", "Bubbles", serialNumber, spa.get_id());
         Component mister1 = createComponent(Component.ComponentType.MISTER.name(), "0", "Mister", serialNumber, spa.get_id());
         Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", "Main Light", serialNumber, spa.get_id());
         Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
-        Component panel = createComponent(Component.ComponentType.CONTROLLER.name(), "0", "Controller Panel", "56549-"+serialNumber, spa.get_id());
+        Component panel = createComponent(Component.ComponentType.CONTROLLER.name(), "0", "Controller Panel", "56549-" + serialNumber, spa.get_id());
 
         ComponentState p1State = createComponentState(pump1, "OFF");
         ComponentState blower1State = createComponentState(blower1, "OFF");
@@ -457,12 +468,13 @@ public class ModelTestBase {
     protected Spa createDemoSpa(String serialNumber, String productName, String model, String oemId, String dealerId, User owner) {
         return createDemoSpa(serialNumber, productName, model, oemId, dealerId, owner, null);
     }
+
     protected Spa createDemoSpa(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId) {
         Spa spa = new Spa();
-        if (StringUtils.isNotEmpty(spaId)){
+        if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
         }
-        spa.setSerialNumber(serialNumber+(serialSuffix++));
+        spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
@@ -480,14 +492,14 @@ public class ModelTestBase {
 
 
         String pumpPartNo1 = "1016205*";
-        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Main Jets", pumpPartNo1+serialNumber, spa.get_id());
-        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Captain's Chair", pumpPartNo1+serialNumber, spa.get_id());
-        Component pump3 = createComponent(Component.ComponentType.PUMP.name(), "2", "Massage Jets", pumpPartNo1+serialNumber, spa.get_id());
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Main Jets", pumpPartNo1 + serialNumber, spa.get_id());
+        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Captain's Chair", pumpPartNo1 + serialNumber, spa.get_id());
+        Component pump3 = createComponent(Component.ComponentType.PUMP.name(), "2", "Massage Jets", pumpPartNo1 + serialNumber, spa.get_id());
 
         Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", "Main Light", serialNumber, spa.get_id());
 //        Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
 //        Component filter2 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
-        Component panel = createComponent(Component.ComponentType.PANEL.name(), "0", "Controller Panel", "56549-"+serialNumber, spa.get_id());
+        Component panel = createComponent(Component.ComponentType.PANEL.name(), "0", "Controller Panel", "56549-" + serialNumber, spa.get_id());
 
         ComponentState p1State = createComponentState(pump1, "ON");
         ComponentState p2State = createComponentState(pump2, "ON");
@@ -519,10 +531,10 @@ public class ModelTestBase {
         final String productName = "Shark";
         final String model = "Blue";
         Spa spa = new Spa();
-        if (StringUtils.isNotEmpty(spaId)){
+        if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
         }
-        spa.setSerialNumber(serialNumber+(serialSuffix++));
+        spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
@@ -540,8 +552,8 @@ public class ModelTestBase {
 
 
         String pumpPartNo1 = "1016205*";
-        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Circulation", pumpPartNo1+serialNumber, spa.get_id());
-        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Captain's Chair", pumpPartNo1+serialNumber, spa.get_id());
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Circulation", pumpPartNo1 + serialNumber, spa.get_id());
+        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Captain's Chair", pumpPartNo1 + serialNumber, spa.get_id());
         Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", "Main Light", serialNumber, spa.get_id());
         Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
 
@@ -574,10 +586,10 @@ public class ModelTestBase {
         final String model = "Tiger";
 
         Spa spa = new Spa();
-        if (StringUtils.isNotEmpty(spaId)){
+        if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
         }
-        spa.setSerialNumber(serialNumber+(serialSuffix++));
+        spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
@@ -595,8 +607,8 @@ public class ModelTestBase {
 
 
         String pumpPartNo1 = "1016411*";
-        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Massage Jets", pumpPartNo1+serialNumber, spa.get_id());
-        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Captain's Chair", pumpPartNo1+serialNumber, spa.get_id());
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Massage Jets", pumpPartNo1 + serialNumber, spa.get_id());
+        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Captain's Chair", pumpPartNo1 + serialNumber, spa.get_id());
         Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", "Main Light", serialNumber, spa.get_id());
         Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
         Component ozone1 = createComponent(Component.ComponentType.OZONE.name(), "0", "Ozone", serialNumber, spa.get_id());
@@ -632,10 +644,10 @@ public class ModelTestBase {
         final String model = "Beluga";
 
         Spa spa = new Spa();
-        if (StringUtils.isNotEmpty(spaId)){
+        if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
         }
-        spa.setSerialNumber(serialNumber+(serialSuffix++));
+        spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
@@ -653,8 +665,8 @@ public class ModelTestBase {
 
 
         String pumpPartNo1 = "1016205*";
-        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Circulation", pumpPartNo1+serialNumber, spa.get_id());
-        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Captain's Chair", pumpPartNo1+serialNumber, spa.get_id());
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Circulation", pumpPartNo1 + serialNumber, spa.get_id());
+        Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Captain's Chair", pumpPartNo1 + serialNumber, spa.get_id());
         Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", "Light", serialNumber, spa.get_id());
         Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
         Component filter2 = createComponent(Component.ComponentType.FILTER.name(), "1", "Secondary Filter", serialNumber, spa.get_id());
@@ -708,7 +720,7 @@ public class ModelTestBase {
     }
 
     protected Spa addLowFlowYellowAlert(Spa spa) {
-        Alert alert1 = createAlert(spa, "Low FLow", "yellow", LF_INDICATES, LF_WAPPENS+LF_CAUSE+LF_ACTION, 0);
+        Alert alert1 = createAlert(spa, "Low FLow", "yellow", LF_INDICATES, LF_WAPPENS + LF_CAUSE + LF_ACTION, 0);
         List<Alert> alerts = new ArrayList<Alert>();
         alerts.add(alert1);
         spa.setAlerts(alerts);
@@ -717,7 +729,7 @@ public class ModelTestBase {
     }
 
     protected Spa addOverheatRedAlert(Spa spa) {
-        Alert alert1 = createAlert(spa, "OVERHEAT", "red", OHH_INDICATES, OHH_HAPPENS+OHH_CAUSE+OHH_ACTION, 1);
+        Alert alert1 = createAlert(spa, "OVERHEAT", "red", OHH_INDICATES, OHH_HAPPENS + OHH_CAUSE + OHH_ACTION, 1);
         List<Alert> alerts = new ArrayList<Alert>();
         alerts.add(alert1);
         spa.setAlerts(alerts);
@@ -726,8 +738,8 @@ public class ModelTestBase {
     }
 
     protected Spa add2Alerts(Spa spa) {
-        Alert alert1 = createAlert(spa, "Low FLow", "yellow", LF_INDICATES, LF_WAPPENS+LF_CAUSE+LF_ACTION, 0);
-        Alert alert2 = createAlert(spa, "OVERHEAT", "red", OHH_INDICATES, OHH_HAPPENS+OHH_CAUSE+OHH_ACTION, 1);
+        Alert alert1 = createAlert(spa, "Low FLow", "yellow", LF_INDICATES, LF_WAPPENS + LF_CAUSE + LF_ACTION, 0);
+        Alert alert2 = createAlert(spa, "OVERHEAT", "red", OHH_INDICATES, OHH_HAPPENS + OHH_CAUSE + OHH_ACTION, 1);
         List<Alert> alerts = Arrays.asList(alert1, alert2);
         spa.setAlerts(alerts);
         spa = spaRepository.save(spa);
@@ -735,7 +747,7 @@ public class ModelTestBase {
     }
 
 
-    protected TermsAndConditions createTermsAndAgreement(String version, String text){
+    protected TermsAndConditions createTermsAndAgreement(String version, String text) {
         TermsAndConditions tac = new TermsAndConditions();
         tac.setText(text);
         tac.setVersion(version);
@@ -745,7 +757,7 @@ public class ModelTestBase {
         return tac;
     }
 
-    protected TacUserAgreement createAgreement(String userId, String version){
+    protected TacUserAgreement createAgreement(String userId, String version) {
         TacUserAgreement agreement = new TacUserAgreement();
         agreement.setUserId(userId);
         agreement.setVersion(version);
@@ -755,6 +767,28 @@ public class ModelTestBase {
         return agreement;
     }
 
+    protected void createSpaFaultLogAndDescription(String spaId) {
+        final FaultLog log = new FaultLog();
+        log.setSpaId(spaId);
+        log.setControllerType("NGSC");
+        log.setCode(1);
+        log.setDealerId("ABC");
+        log.setOemId("DEF");
+        log.setOwnerId("GHI");
+        log.setTimestamp(new Date());
+        log.setSensorATemp(10);
+        log.setSensorBTemp(11);
+        log.setTargetTemp(12);
+        log.setSeverity(FaultLogSeverity.ERROR);
+        faultLogRepository.save(log);
+
+        final FaultLogDescription description = new FaultLogDescription();
+        description.setCode(1);
+        description.setSeverity(FaultLogSeverity.ERROR);
+        description.setDescription("Code description");
+        description.setControllerType("NGSC");
+        faultLogDescriptionRepository.save(description);
+    }
     protected SpaTemplate createSpaTemplate(String productName, String model, String sku, String oemId, List<Material> materialList) {
         SpaTemplate spaTemplate = new SpaTemplate();
         spaTemplate.setProductName(productName);

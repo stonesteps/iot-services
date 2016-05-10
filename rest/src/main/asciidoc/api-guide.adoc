@@ -378,6 +378,23 @@ include::{snippets}/alert-update-example/http-response.adoc[]
 The dealer resource is used to retrieve, update, and delete individual dealers
 
 
+[[resource-faultLog]]
+=== Get Fault Logs
+
+A `GET` request to will list all fault logs of selected spa.
+
+==== Response structure
+
+include::{snippets}/faultlog-list-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/aultlog-list-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/faultlog-list-example/http-response.adoc[]
+
 
 [[resources-dealer-links]]
 === Links

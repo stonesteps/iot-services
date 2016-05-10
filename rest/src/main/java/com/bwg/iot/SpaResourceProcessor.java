@@ -2,9 +2,11 @@ package com.bwg.iot;
 
 import com.bwg.iot.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.*;
+import org.springframework.hateoas.EntityLinks;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.ResourceProcessor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,8 @@ public class SpaResourceProcessor implements ResourceProcessor<Resource<Spa>> {
             owner.add(entityLinks.linkToSingleResource(User.class, owner.get_id()).withSelfRel());
             owner.add(entityLinks.linkToSingleResource(Address.class, owner.getAddress().get_id()).withRel("address"));
             resource.add(entityLinks.linkToSingleResource(User.class, owner.get_id()).withRel("owner"));
+            //resource.add(entityLinks.linkToCollectionResource(FaultLog.class));
+            resource.add(new Link(resource.getId().getHref() + "/faultLogs", "faultLogs"));
         }
 
         List<Alert> alerts = spa.getAlerts();
