@@ -117,7 +117,7 @@ public final class ZSeedDbTest extends ModelTestBase {
         TacUserAgreement agreement2 = createAgreement(owner2.get_id(), tac1.getVersion());
 
         // create set of materials
-        List<Material> materialList = setupTestMaterials(oem1, oem2);
+        List<Material> materialList = setupSeveralTestMaterials(oem1, oem2);
         List<Material> spaTemplate1List = Arrays.asList(materialList.get(2), materialList.get(8));
         List<Material> spaTemplate2List = Arrays.asList(materialList.get(3), materialList.get(7));
 
