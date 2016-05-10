@@ -1288,7 +1288,7 @@ include::{snippets}/materials-findbyOemId-example/response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/materials-findbyOemIdNumber-example/curl-request.adoc[]
+include::{snippets}/materials-findbyOemId-example/curl-request.adoc[]
 
 ==== Example response
 
@@ -1355,5 +1355,98 @@ include::{snippets}/material-get-example/curl-request.adoc[]
 ==== Example response
 
 include::{snippets}/material-get-example/http-response.adoc[]
+
+
+[[resources-spaTemplate]]
+== Spa Template
+
+A SpaTemplate describes the makeup of a specific model of spa.
+
+A SpaTemplate is created by a Spa Designer at an OEM.
+OEM users that build spas, use the SpaTemplate to know which components are to be used in creating the spa.
+
+
+[[resources-templatelist-links]]
+=== Links
+
+include::{snippets}/template-get-example/links.adoc[]
+
+
+[[resources-template-list]]
+=== List All Spa Templates
+
+*/spaTemplates*
+
+A `GET` request will list all of the spa templates for all of the OEMs in the system.
+This API is intended for use only by users with BWG role.
+
+==== Response structure
+
+include::{snippets}/template-list-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/template-list-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/template-list-example/http-response.adoc[]
+
+
+[[resources-templates-findByOemId]]
+=== List Spa Templates associated with a single OEM
+
+*/spaTemplates/search/findByOemId*
+
+A `GET` request will retrieve the a list of spa templates associated with a single manufacturer.
+
+==== Response structure
+
+include::{snippets}/templates-findbyOem-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/templates-findbyOem-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/templates-findbyOem-example/http-response.adoc[]
+
+
+[[resources-template-retrieve]]
+=== Retrieve a Spa Template by its Id
+
+*/spaTemplates/{_id}*
+
+A `GET` request will retrieve the details of a spa template.
+
+==== Response structure
+
+include::{snippets}/template-get-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/template-get-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/template-get-example/http-response.adoc[]
+
+[[resources-template-create]]
+=== Creating a Spa Template
+
+A `POST` request is used to create a spa template
+
+==== Request structure
+
+include::{snippets}/template-create-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/template-create-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/template-create-example/http-response.adoc[]
 
 

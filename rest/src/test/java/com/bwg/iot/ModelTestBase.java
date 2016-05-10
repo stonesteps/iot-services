@@ -50,6 +50,9 @@ public class ModelTestBase {
     @Autowired
     protected FaultLogDescriptionRepository faultLogDescriptionRepository;
 
+    @Autowired
+    protected SpaTemplateRepository spaTemplateRepository;
+
     protected static int serialSuffix = 1001;
 
     protected void clearAllData() {
@@ -63,6 +66,7 @@ public class ModelTestBase {
         this.alertRepository.deleteAll();
         this.tacUserAgreementRepository.deleteAll();
         this.termsAndConditionsRepository.deleteAll();
+        this.spaTemplateRepository.deleteAll();
     }
 
     protected Address createAddress() {
@@ -143,35 +147,44 @@ public class ModelTestBase {
         return user;
     }
 
+    public final static String PUMP1_BRAND_NAME = "Ultimax (UM)";
     public final static String PUMP1_DESCRIPTION = "SPA PUMP 3HP 230V 2SPD 53IN CORD";
     public final static String PUMP1_SKU = "DJAYHB-0151G";
     public final static String PUMP1_ALT_SKU = "50008200";
     public final static int ONE_YEAR_WARRANTY_DAYS = 366;
     public final static int THREE_YEAR_WARRANTY_DAYS = 1096;
 
+    public final static String PUMP2_BRAND_NAME = "Dura Jet (DJ)";
     public final static String PUMP2_DESCRIPTION = "DJ AO 1.5HP 2S 43FT A2MB LV BU";
     public final static String PUMP2_SKU = "DJAYFA-01A3";
     public final static String PUMP2_ALT_SKU = "101293";
 
+    public final static String PUMP3_BRAND_NAME = "(Undetermined)";
     public final static String PUMP3_DESCRIPTION = "UM EME 12.8A 1S 230V 50Hz 120\" AMP";
     public final static String PUMP3_SKU = "1023120-NHP";
 
+    public final static String PUMP4_BRAND_NAME = "(Undetermined)";
     public final static String PUMP4_DESCRIPTION = "UM EME 10.3/1.8A 2S 230V 50Hz 120\" AMP";
     public final static String PUMP4_SKU = "1023110-NHP";
     public final static String PUMP4_ALT_SKU = "X320535";
 
+    public final static String PUMP5_BRAND_NAME = "Niagra";
     public final static String PUMP5_DESCRIPTION = "Niagara spa pump 2HP 2S amp 230v(1)";
     public final static String PUMP5_SKU = "1023322";
 
+    public final static String CONTROLLER1_BRAND_NAME = "TP Series";
     public final static String CONTROLLER1_DESCRIPTION = "PANEL BALBOA TP600C NO O/L";
     public final static String CONTROLLER1_SKU = "50305-01";
 
+    public final static String CONTROLLER2_BRAND_NAME = "Bull Frog 600";
     public final static String CONTROLLER2_DESCRIPTION = "PANEL BULFRG BFTP600";
     public final static String CONTROLLER2_SKU = "50285-02";
 
+    public final static String CONTROLLER3_BRAND_NAME = "Bull Frog 900";
     public final static String CONTROLLER3_DESCRIPTION = "PANEL BULFRG BFTP900";
     public final static String CONTROLLER3_SKU = "50284-07";
 
+    public final static String CONTROLLER4_BRAND_NAME = "Spa Touch";
     public final static String CONTROLLER4_DESCRIPTION = "PANEL BULFRG BFTP600U";
     public final static String CONTROLLER4_SKU = "50285-05";
 
@@ -183,26 +196,29 @@ public class ModelTestBase {
         setupTestMaterials(oem1, oem2);
     }
 
-    protected void setupTestMaterials(Oem oem1, Oem oem2) {
+    protected List<Material> setupTestMaterials(Oem oem1, Oem oem2){
         List<String> bothOems = Arrays.asList(oem1.get_id(), oem2.get_id());
         List<String> justOne = Arrays.asList(oem1.get_id());
         List<String> justTwo = Arrays.asList(oem2.get_id());
 
-        Material material1 = createMaterial(Component.ComponentType.PUMP.name(), PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems);
-        Material material2 = createMaterial(Component.ComponentType.PUMP.name(), PUMP2_DESCRIPTION, PUMP2_SKU, PUMP2_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems);
-        Material material3 = createMaterial(Component.ComponentType.PUMP.name(), PUMP3_DESCRIPTION, PUMP3_SKU, null, ONE_YEAR_WARRANTY_DAYS, bothOems);
-        Material material4 = createMaterial(Component.ComponentType.PUMP.name(), PUMP4_DESCRIPTION, PUMP4_SKU, PUMP4_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
-        Material material5 = createMaterial(Component.ComponentType.PUMP.name(), PUMP5_DESCRIPTION, PUMP5_SKU, null, 0, justTwo);
+        Material material1 = createMaterial(Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems);
+        Material material2 = createMaterial(Component.ComponentType.PUMP.name(), PUMP2_BRAND_NAME, PUMP2_DESCRIPTION, PUMP2_SKU, PUMP2_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems);
+        Material material3 = createMaterial(Component.ComponentType.PUMP.name(), PUMP3_BRAND_NAME, PUMP3_DESCRIPTION, PUMP3_SKU, null, ONE_YEAR_WARRANTY_DAYS, bothOems);
+        Material material4 = createMaterial(Component.ComponentType.PUMP.name(), PUMP4_BRAND_NAME, PUMP4_DESCRIPTION, PUMP4_SKU, PUMP4_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
+        Material material5 = createMaterial(Component.ComponentType.PUMP.name(), PUMP5_BRAND_NAME, PUMP5_DESCRIPTION, PUMP5_SKU, null, 0, justTwo);
 
-        Material material6 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER1_DESCRIPTION, CONTROLLER1_SKU, null, THREE_YEAR_WARRANTY_DAYS, bothOems);
-        Material material7 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER2_DESCRIPTION, CONTROLLER2_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
-        Material material8 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER3_DESCRIPTION, CONTROLLER3_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
-        Material material9 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER4_DESCRIPTION, CONTROLLER4_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
+        Material material6 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER1_BRAND_NAME, CONTROLLER1_DESCRIPTION, CONTROLLER1_SKU, null, THREE_YEAR_WARRANTY_DAYS, bothOems);
+        Material material7 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER2_BRAND_NAME, CONTROLLER2_DESCRIPTION, CONTROLLER2_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
+        Material material8 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER3_BRAND_NAME, CONTROLLER3_DESCRIPTION, CONTROLLER3_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
+        Material material9 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER4_BRAND_NAME, CONTROLLER4_DESCRIPTION, CONTROLLER4_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
+        List<Material> materialList = Arrays.asList(material1, material2, material3, material4, material5, material6, material7, material8, material9);
+        return materialList;
     }
 
-    protected Material createMaterial(String type, String description, String sku, String alternateSku, int warrantyDays, List<String> oemIds) {
+    protected Material createMaterial(String type, String brandName, String description, String sku, String alternateSku, int warrantyDays, List<String> oemIds){
         Material material = new Material();
         material.setComponentType(type);
+        material.setBrandName(brandName);
         material.setDescription(description);
         material.setSku(sku);
         material.setAlternateSku(alternateSku);
@@ -771,5 +787,43 @@ public class ModelTestBase {
         description.setDescription("Code description");
         description.setControllerType("NGSC");
         faultLogDescriptionRepository.save(description);
+    }
+    protected SpaTemplate createSpaTemplate(String productName, String model, String sku, String oemId, List<Material> materialList) {
+        SpaTemplate spaTemplate = new SpaTemplate();
+        spaTemplate.setProductName(productName);
+        spaTemplate.setModel(model);
+        spaTemplate.setSku(sku);
+        spaTemplate.setOemId(oemId);
+        spaTemplate.setNotes("This is a test note.");
+
+        materialList.stream().forEach(m -> {
+            m.setOemId(null);
+            m.setUploadDate(null);
+        });
+
+        spaTemplate.setMaterialList(materialList);
+        spaTemplate.setCreationDate(new Date());
+        spaTemplateRepository.save(spaTemplate);
+        return spaTemplate;
+    }
+
+    protected List<SpaTemplate> createSpaTemplates() {
+        // create two oems
+        List<Address> addresses = createAddresses(2);
+        Oem oem1 = createOem("Blue Wave Spas, LTD", addresses.get(0), "oem001" );
+        Oem oem2 = createOem("Jazzi Pool & Spa Products, LTD", addresses.get(1), "oem002");
+
+        // create set of materials
+        List<Material> materialList = setupTestMaterials(oem1, oem2);
+        List<Material> spaTemplate1List = Arrays.asList(materialList.get(2), materialList.get(8));
+        List<Material> spaTemplate2List = Arrays.asList(materialList.get(3), materialList.get(7));
+
+        // create spaTemplates
+        SpaTemplate st1 = createSpaTemplate("Maxx Collection", "581", "109834-1525-581", "oem001", spaTemplate1List);
+        SpaTemplate st2 = createSpaTemplate("Maxx Collection", "811", "109834-1525-811", "oem001", spaTemplate2List);
+        SpaTemplate st3 = createSpaTemplate("Hot Spring Spas", "Los Coyote", "109834-1525-811", "oem002", spaTemplate2List);
+
+        List<SpaTemplate> spaTemplateList = Arrays.asList(st1, st2, st3);
+        return spaTemplateList;
     }
 }

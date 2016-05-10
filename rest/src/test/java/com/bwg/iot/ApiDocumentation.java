@@ -117,6 +117,8 @@ public class ApiDocumentation extends ModelTestBase{
 							linkWithRel("oems").description("The <<resources-oems,Oem resource>>"),
 							linkWithRel("users").description("The <<resources-users,User resource>>"),
 							linkWithRel("components").description("The <<resources-components,Component resource>>"),
+							linkWithRel("materials").description("The <<resources-materials, Material resource>>"),
+							linkWithRel("spaTemplates").description("The <<resources-spaTemplates, SpaTemplate resource>>"),
 							linkWithRel("materials").description("The <<resources-materials,Material resource>>"),
 							linkWithRel("profile").description("The ALPS profile for the service")),
 					responseFields(
@@ -328,4 +330,23 @@ public class ApiDocumentation extends ModelTestBase{
 								fieldWithPath("_embedded.faultLogs").description("An array of <<resources-spa, Spa resources>>"),
 								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"))));
 	}
+
+	private Spa createSpa(HashMap<String,Object> attributes) throws Exception {
+		Spa spa = new Spa();
+		attributes.forEach((k,v) -> {
+			Class c = v.getClass();
+			System.out.println(c.toGenericString());
+			try {
+				Field f = c.getField(k);
+				f.set(spa, v);
+				System.out.println("Setting field:"+k+" to "+v);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+		spaRepository.save(spa);
+		return spa;
+	}
+
+
 }
