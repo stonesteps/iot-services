@@ -304,6 +304,32 @@ include::{snippets}/spa-update-example/curl-request.adoc[]
 include::{snippets}/spa-update-example/http-response.adoc[]
 
 
+[[resources-spas-sell]]
+=== Sell a Spa
+
+*/spas/{spaId}/sellSpa*
+
+
+A `POST` request is used to sell a spa
+
+==== Request structure
+
+include::{snippets}/spas-sell-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/spas-sell-example/curl-request.adoc[]
+
+==== Response structure
+
+include::{snippets}/spas-sell-example/response-fields.adoc[]
+
+==== Example response
+
+include::{snippets}/spas-sell-example/http-response.adoc[]
+
+
+
 
 [[resources-alert]]
 == Alert
@@ -389,7 +415,7 @@ include::{snippets}/faultlog-list-example/response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/aultlog-list-example/curl-request.adoc[]
+include::{snippets}/faultlog-list-example/curl-request.adoc[]
 
 ==== Example response
 
@@ -1138,7 +1164,7 @@ include::{snippets}/components-findbySpaId-example/response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/components-findbySpaIdNumber-example/curl-request.adoc[]
+include::{snippets}/components-findbySpaId-example/curl-request.adoc[]
 
 ==== Example response
 

@@ -32,10 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.RequestDispatcher;
 
@@ -330,6 +327,56 @@ public class ApiDocumentation extends ModelTestBase{
 								fieldWithPath("_embedded.faultLogs").description("An array of <<resources-spa, Spa resources>>"),
 								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"))));
 	}
+
+	@Test
+	public void sellSpaExample() throws Exception {
+		clearAllData();
+
+		List<Address> addresses = createAddresses(3);
+		List<String> ownerRole = Arrays.asList("OWNER");
+		User owner1 = createUser("npeart", "Neal", "Peart", null, null, addresses.get(0), ownerRole);
+		User associate = createUser("nwilson", "Nancy", "Wilson", "101", "oem001", addresses.get(1), Arrays.asList(User.Role.ASSOCIATE.toString()));
+		User tech = createUser("awilson", "Ann", "Wilson", "101", "oem001", addresses.get(2), Arrays.asList(User.Role.TECHNICIAN.toString()));
+		Spa myNewSpa = createSmallSpaWithState("160104", "Shark", "Tiger", "oem001", "101", null);
+
+		SellSpaRequest request = new SellSpaRequest();
+		request.setOwnerId(owner1.get_id());
+		request.setAssociateId(associate.get_id());
+		request.setTechnicianId(tech.get_id());
+		request.setTransactionCode("2750295290-3");
+
+		this.mockMvc.perform(post("/spas/" + myNewSpa.get_id() + "/sellSpa")
+				.contentType(MediaTypes.HAL_JSON)
+				.content(this.objectMapper.writeValueAsString(request)))
+				.andExpect(status().isOk())
+				.andDo(document("spas-sell-example",
+						requestFields(
+								fieldWithPath("ownerId").description("The ID of the new owner of the spa"),
+								fieldWithPath("associateId").description("The ID of the sales associate who sold the spa"),
+								fieldWithPath("technicianId").description("Optional ID of the technician who will service the spa").optional(),
+								fieldWithPath("transactionCode").description("Optional dealer sales transaction code").optional(),
+								fieldWithPath("salesDate").description("Optional date and time the spa was sold. (if not provided, the current system time is used)").optional().type(Date.class))))
+				.andDo(document("spas-sell-example",
+						responseFields(
+								fieldWithPath("owner").description("The new owner of the spa, <<User resources>>").type(User.class),
+								fieldWithPath("associate").description("The associate who sold spa, <<User resources>>").type(User.class),
+								fieldWithPath("technician").description("The technician assigned to service the spa, <<User resources>>").type(User.class).optional(),
+								fieldWithPath("salesDate").description("The date the spa was sold").type(Date.class),
+								fieldWithPath("transactionCode").description("An optional dealer transaction code for the sale.").type(String.class).optional(),
+								fieldWithPath("sold").description("Flag for sorting").type(Boolean.class),
+								fieldWithPath("_id").description("Id of this spa"),
+								fieldWithPath("productName").description("Spa product line"),
+								fieldWithPath("model").description("Model name of the spa"),
+								fieldWithPath("serialNumber").description("Serial Number of this spa"),
+								fieldWithPath("dealerId").description("ID of the dealer that sold the spa"),
+								fieldWithPath("oemId").description("ID of the spa manufacturer"),
+								fieldWithPath("currentState").ignored(),
+						 		fieldWithPath("p2pAPSSID").ignored(),
+								fieldWithPath("registrationDate").ignored(),
+								fieldWithPath("manufacturedDate").ignored(),
+								fieldWithPath("online").ignored())));
+	}
+
 
 	private Spa createSpa(HashMap<String,Object> attributes) throws Exception {
 		Spa spa = new Spa();
