@@ -196,7 +196,6 @@ public class ModelTestBase {
         setupTestMaterials(oem1, oem2);
     }
 
-    protected void setupTestMaterials(Oem oem1, Oem oem2) {
     protected List<Material> setupTestMaterials(Oem oem1, Oem oem2){
         List<String> bothOems = Arrays.asList(oem1.get_id(), oem2.get_id());
         List<String> justOne = Arrays.asList(oem1.get_id());
