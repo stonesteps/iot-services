@@ -90,7 +90,7 @@ public final class MaterialDocumentation extends ModelTestBase{
 		this.materialRepository.deleteAll();
 
         List<String> justOne = Arrays.asList("oem101");
-        Material pump1 = createMaterial(Component.ComponentType.PUMP.name(), PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
+        Material pump1 = createMaterial(Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
 
         this.mockMvc.perform(get("/materials/{0}", pump1.get_id())).andExpect(status().isOk())
 				.andExpect(jsonPath("sku", is(pump1.getSku())))
@@ -98,7 +98,8 @@ public final class MaterialDocumentation extends ModelTestBase{
 						links(linkWithRel("self").description("This <<resources-material, material>>"),
 								linkWithRel("material").description("This <<resources-material, material>>")),
                         responseFields(
-//                                fieldWithPath("_id").description("Object Id"),
+                                fieldWithPath("_id").description("Object Id"),
+								fieldWithPath("brandName").description("Name associated with this part"),
                                 fieldWithPath("description").description("A description of this part"),
                                 fieldWithPath("sku").description("The BWG part number of this item."),
                                 fieldWithPath("alternateSku").description("A alternate part number that may be used by the OEM."),
@@ -115,13 +116,14 @@ public final class MaterialDocumentation extends ModelTestBase{
         this.materialRepository.deleteAll();
 
         List<String> justOne = Arrays.asList("oem101");
-        Material material1 = createMaterial(Component.ComponentType.PUMP.name(), PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
+        Material material1 = createMaterial(Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
 
         this.mockMvc.perform(get("/materials/search/findBySku?sku=" + material1.getSku()))
                 .andExpect(status().isOk())
                 .andDo(document("materials-findbySku-example",
                         responseFields(
-//                                fieldWithPath("_id").description("Object Id"),
+                                fieldWithPath("_id").description("Object Id"),
+								fieldWithPath("brandName").description("Name associated with this part"),
 								fieldWithPath("description").description("A description of this part"),
 								fieldWithPath("sku").description("The BWG part number of this item."),
 								fieldWithPath("alternateSku").description("A alternate part number that may be used by the OEM."),

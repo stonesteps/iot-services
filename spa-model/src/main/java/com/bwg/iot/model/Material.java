@@ -17,6 +17,7 @@ public class Material extends ResourceSupport {
     private String _id;
     private List<String> oemId;
     private String componentType;
+    private String brandName;
     private String description;
     private String sku;
     private String alternateSku;
@@ -45,6 +46,14 @@ public class Material extends ResourceSupport {
 
     public void setComponentType(String componentType) {
         this.componentType = componentType;
+    }
+
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
     }
 
     public String getDescription() {
@@ -98,6 +107,7 @@ public class Material extends ResourceSupport {
         if (warrantyDays != material.warrantyDays) return false;
         if (!_id.equals(material._id)) return false;
         if (!oemId.equals(material.oemId)) return false;
+        if (!brandName.equals(material.brandName)) return false;
         if (!componentType.equals(material.componentType)) return false;
         if (!description.equals(material.description)) return false;
         if (!sku.equals(material.sku)) return false;
@@ -111,6 +121,7 @@ public class Material extends ResourceSupport {
         result = 31 * result + _id.hashCode();
         result = 31 * result + oemId.hashCode();
         result = 31 * result + componentType.hashCode();
+        result = 31 * result + brandName.hashCode();
         result = 31 * result + description.hashCode();
         result = 31 * result + sku.hashCode();
         result = 31 * result + (alternateSku != null ? alternateSku.hashCode() : 0);
@@ -123,6 +134,7 @@ public class Material extends ResourceSupport {
         return "Material{" +
                 "_id='" + _id + '\'' +
                 ", oemId=" + oemId +
+                ", brandName" + brandName +
                 ", componentType='" + componentType + '\'' +
                 ", description='" + description + '\'' +
                 ", sku='" + sku + '\'' +
