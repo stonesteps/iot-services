@@ -18,7 +18,6 @@ package com.bwg.iot;
 
 import com.bwg.iot.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kenai.jaffl.annotations.In;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
