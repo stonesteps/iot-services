@@ -158,6 +158,7 @@ public final class SpaTemplateDocumentation extends ModelTestBase {
                         links(linkWithRel("self").description("This <<resources-spaTemplate, SpaTemplate>>"),
                                 linkWithRel("spaTemplate").description("This <<resources-spaTemplate,SpaTemplate>>")),
                         responseFields(
+                                fieldWithPath("_id").description("Unique identifier for this spa template"),
                                 fieldWithPath("productName").description("Spa Product Line"),
                                 fieldWithPath("model").description("Model Name of the spa"),
                                 fieldWithPath("sku").description("The SKU number associated to this Spa"),

@@ -4,7 +4,6 @@ import com.bwg.iot.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
@@ -20,7 +19,7 @@ public class RepositoryConfig extends RepositoryRestMvcConfiguration {
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(Spa.class, Alert.class, User.class, SpaCommand.class,
                 Dealer.class, Oem.class, TacUserAgreement.class, TermsAndConditions.class,
-                Material.class);
+                Material.class, SpaTemplate.class);
     }
 
     @Bean UserEventHandler userEventHandler() {

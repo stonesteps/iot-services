@@ -265,43 +265,42 @@ include::{snippets}/spa-get-example/curl-request.adoc[]
 
 include::{snippets}/spa-get-example/http-response.adoc[]
 
-[[resources-spas-create]]
-=== Creating a spa
+[[resources-spas-build]]
+=== Build a Spa
 
-A `POST` request is used to create a spa
-
-==== Request structure
-
-include::{snippets}/spas-create-example/request-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/spas-create-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/spas-create-example/http-response.adoc[]
+*/spas/buildSpa*
 
 
-
-[[resources-spa-update]]
-=== Update a spa
-
-A `PATCH` request is used to update a spa
+A `POST` request is used to create a new spa
 
 ==== Request structure
 
-include::{snippets}/spa-update-example/request-fields.adoc[]
+include::{snippets}/spas-build-example/request-fields.adoc[]
 
-To leave an attribute of a spa unchanged, any of the above may be omitted from the request.
+ required fields:
+
+ Spa:
+ - templateId
+ - serialNumber
+
+ Components:
+ - serialNumber
+ - componentType
+ - name
+
 
 ==== Example request
 
-include::{snippets}/spa-update-example/curl-request.adoc[]
+include::{snippets}/spas-build-example/curl-request.adoc[]
+
+==== Response structure
+
+include::{snippets}/spas-build-example/response-fields.adoc[]
 
 ==== Example response
 
-include::{snippets}/spa-update-example/http-response.adoc[]
+include::{snippets}/spas-build-example/http-response.adoc[]
+
 
 
 [[resources-spas-sell]]
