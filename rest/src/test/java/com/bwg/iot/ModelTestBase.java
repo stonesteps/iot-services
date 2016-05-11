@@ -380,6 +380,10 @@ public class ModelTestBase {
     }
 
     protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId) {
+        return createFullSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, null, null);
+    }
+
+    protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, User associate) {
         Spa spa = new Spa();
         if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
@@ -389,6 +393,9 @@ public class ModelTestBase {
         spa.setModel(model);
         spa.setDealerId(dealerId);
         spa.setOwner(owner);
+        if (associate != null) {
+            spa.setAssociate(associate.toMinimal());
+        }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
@@ -485,6 +492,10 @@ public class ModelTestBase {
     }
 
     protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId) {
+        return createSmallSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, null, null);
+    }
+
+    protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, User associate) {
         Spa spa = new Spa();
         if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
@@ -494,6 +505,9 @@ public class ModelTestBase {
         spa.setModel(model);
         spa.setDealerId(dealerId);
         spa.setOwner(owner);
+        if (associate != null) {
+            spa.setAssociate(associate.toMinimal());
+        }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
@@ -603,7 +617,7 @@ public class ModelTestBase {
         return spa;
     }
 
-    protected Spa createDemoSpa1(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN) {
+    protected Spa createDemoSpa1(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate) {
         final String productName = "Shark";
         final String model = "Blue";
         Spa spa = new Spa();
@@ -615,6 +629,9 @@ public class ModelTestBase {
         spa.setModel(model);
         spa.setDealerId(dealerId);
         spa.setOwner(owner);
+        if (associate != null) {
+            spa.setAssociate(associate.toMinimal());
+        }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
@@ -657,7 +674,7 @@ public class ModelTestBase {
         return spa;
     }
 
-    protected Spa createDemoSpa2(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN) {
+    protected Spa createDemoSpa2(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate) {
         final String productName = "Shark";
         final String model = "Tiger";
 
@@ -670,6 +687,9 @@ public class ModelTestBase {
         spa.setModel(model);
         spa.setDealerId(dealerId);
         spa.setOwner(owner);
+        if (associate != null) {
+            spa.setAssociate(associate.toMinimal());
+        }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
@@ -715,7 +735,7 @@ public class ModelTestBase {
         return spa;
     }
 
-    protected Spa createDemoSpa3(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN) {
+    protected Spa createDemoSpa3(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate) {
         final String productName = "Whale";
         final String model = "Beluga";
 
@@ -728,6 +748,9 @@ public class ModelTestBase {
         spa.setModel(model);
         spa.setDealerId(dealerId);
         spa.setOwner(owner);
+        if (associate != null) {
+            spa.setAssociate(associate.toMinimal());
+        }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
