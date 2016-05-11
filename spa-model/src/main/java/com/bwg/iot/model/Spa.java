@@ -27,6 +27,7 @@ public class Spa extends ResourceSupport {
     private User associate;
     private User technician;
     private String oemId;
+    private String templateId;
 
     private SpaState currentState;
 
@@ -183,6 +184,14 @@ public class Spa extends ResourceSupport {
 
     public void setRegKey(String regKey) {
         this.regKey = regKey;
+    }
+
+    public String getTemplateId() {
+        return templateId;
+    }
+
+    public void setTemplateId(String templateId) {
+        this.templateId = templateId;
     }
 
     public User getAssociate() {

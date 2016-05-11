@@ -378,6 +378,65 @@ public class ApiDocumentation extends ModelTestBase{
 	}
 
 
+	@Test
+	public void buildSpaExample() throws Exception {
+		clearAllData();
+
+
+		List<Material> materialList = setupTestMaterials();
+		List<Material> spaTemplate1List = Arrays.asList(materialList.get(2), materialList.get(8));
+		SpaTemplate st1 = createSpaTemplate("Maxx Collection", "581", "109834-1525-581", "oem001", spaTemplate1List);
+
+		List<Address> addresses = createAddresses(3);
+		User bwg = createUser("jpage", "Jimmy", "Page", null, "oem001", addresses.get(0), Arrays.asList(User.Role.OEM.toString()));
+
+		Spa spa = new Spa();
+		spa.setTemplateId(st1.get_id());
+		spa.setSerialNumber("1001001001");
+
+		List<Component> components = new ArrayList<>();
+		Component c1 = new Component();
+		c1.setName("Jets");
+		c1.setSerialNumber("p001");
+		c1.setSku("sku001001");
+		c1.setComponentType(Component.ComponentType.PUMP.name());
+		c1.setPort("0");
+		components.add(c1);
+
+		Component c2 = new Component();
+		c1.setName("Controller");
+		c1.setSerialNumber("c001");
+		c1.setSku("525151");
+		c1.setComponentType(Component.ComponentType.CONTROLLER.name());
+		c1.setPort("0");
+		components.add(c2);
+
+		BuildSpaRequest request = new BuildSpaRequest();
+		request.setSpa(spa);
+		request.setComponents(components);
+
+		this.mockMvc.perform(post("/spas/buildSpa")
+				.header("remote_user", "jpage")
+				.contentType(MediaTypes.HAL_JSON)
+				.content(this.objectMapper.writeValueAsString(request)))
+				.andExpect(status().is2xxSuccessful())
+				.andDo(document("spas-build-example",
+						requestFields(
+								fieldWithPath("spa").description("A spa shell containing templateId and SerialNumber. May also include optional manufacturedDate."),
+								fieldWithPath("components").description("A list of components used to build the spa"))))
+				.andDo(document("spas-build-example",
+						responseFields(
+								fieldWithPath("_id").description("Unique Identifier for the newly created spa"),
+								fieldWithPath("productName").description("The productName of the Spa (obtained by the SpaTemplate)").type(User.class),
+								fieldWithPath("model").description("Model name of the Spa").type(User.class).optional(),
+								fieldWithPath("serialNumber").description("Serial Number of this spa"),
+								fieldWithPath("oemId").description("The ID of the manufacturer that built this spa").type(Date.class),
+								fieldWithPath("templateId").description("A reference to the template used to build this spa").type(String.class).optional(),
+								fieldWithPath("manufacturedDate").description("The date the spa was created").type(Date.class),
+								fieldWithPath("sold").ignored(),
+								fieldWithPath("online").ignored())));
+	}
+
 	private Spa createSpa(HashMap<String,Object> attributes) throws Exception {
 		Spa spa = new Spa();
 		attributes.forEach((k,v) -> {

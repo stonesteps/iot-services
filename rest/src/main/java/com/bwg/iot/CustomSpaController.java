@@ -5,21 +5,13 @@ package com.bwg.iot;
  */
 
 import com.bwg.iot.model.*;
-import com.bwg.iot.model.SpaCommand.RequestType;
-import com.bwg.iot.model.util.SpaRequestUtil;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.UUID;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import java.util.List;
 
 @RestController
 @RequestMapping("/spas")
@@ -27,6 +19,15 @@ public class CustomSpaController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    SpaTemplateRepository spaTemplateRepository;
+
+    @Autowired
+    ComponentRepository componentRepository;
+
+    @Autowired
+    MaterialRepository materialRepository;
 
     @Autowired
     SpaRepository spaRepository;
@@ -70,6 +71,7 @@ public class CustomSpaController {
         }
         userRepository.save(owner);
 
+        // update spa fields affected by sale
         spa.setOwner(owner);
         spa.setAssociate(associate);
         if (technician != null) {
@@ -89,4 +91,42 @@ public class CustomSpaController {
         return response;
     }
 
+    @RequestMapping(value = "/buildSpa", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> buildSpa(@RequestHeader(name="remote_user")String remote_user, @RequestBody BuildSpaRequest request) {
+        Spa myNewSpa = request.getSpa();
+        List<Component> components = request.getComponents();
+
+        // required params: templateId, serialNumber,
+        if (myNewSpa.getManufacturedDate() == null) {
+            myNewSpa.setManufacturedDate(new Date());
+        }
+
+        // validate user, get oemid
+        User remoteUser = userRepository.findByUsername(remote_user);
+        if (!remoteUser.hasRole(User.Role.OEM.toString())) {
+            return new ResponseEntity<String>("User does not have OEM role", HttpStatus.FORBIDDEN);
+        }
+        myNewSpa.setOemId(remoteUser.getOemId());
+
+        // validate spaTemplate, get productName, model, sku
+        SpaTemplate spaTemplate = spaTemplateRepository.findOne(myNewSpa.getTemplateId());
+        myNewSpa.setProductName(spaTemplate.getProductName());
+        myNewSpa.setModel(spaTemplate.getModel());
+
+        myNewSpa = spaRepository.insert(myNewSpa);
+
+        // process component list
+        for( Component component : components) {
+            component.setSpaId(myNewSpa.get_id());
+            component.setOemId(myNewSpa.getOemId());
+
+            // TODO: validate SKU
+            // validate component
+
+            componentRepository.insert(component);
+        }
+
+        ResponseEntity<?> response = new ResponseEntity<Spa>(myNewSpa, HttpStatus.CREATED);
+        return response;
+    }
 }

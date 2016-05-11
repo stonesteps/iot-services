@@ -189,11 +189,11 @@ public class ModelTestBase {
     public final static String CONTROLLER4_SKU = "50285-05";
 
 
-    protected void setupTestMaterials() {
+    protected List<Material>  setupTestMaterials() {
         List<Address> addresses = createAddresses(2);
         Oem oem1 = createOem("Blue Wave Spas, LTD", addresses.get(0), "oem101");
         Oem oem2 = createOem("Jazzi Pool & Spa Products, LTD", addresses.get(1), "oem102");
-        setupTestMaterials(oem1, oem2);
+        return setupTestMaterials(oem1, oem2);
     }
 
     protected List<Material> setupTestMaterials(Oem oem1, Oem oem2){
