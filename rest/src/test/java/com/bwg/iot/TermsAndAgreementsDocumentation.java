@@ -124,7 +124,7 @@ public final class TermsAndAgreementsDocumentation extends ModelTestBase{
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        User user = createUser("mmurphy", "Murphy", "Matt", "25111", "222", address, Arrays.asList("USER"));
+        User user = createUser("mmurphy", "Murphy", "Matt", "25111", "222", address, Arrays.asList("USER"), null);
 
         final Map<String, String> agree = new HashMap<>();
 		agree.put("userId", user.get_id());
@@ -153,7 +153,7 @@ public final class TermsAndAgreementsDocumentation extends ModelTestBase{
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        User user = createUser("mmurphy", "Murphy", "Matt", "25111", "222", address, Arrays.asList("USER"));
+        User user = createUser("mmurphy", "Murphy", "Matt", "25111", "222", address, Arrays.asList("USER"), null);
 
         final Map<String, String> agree = new HashMap<>();
 		agree.put("userId",user.get_id());

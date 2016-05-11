@@ -146,6 +146,7 @@ public final class UserDocumentation extends ModelTestBase {
         user.put("address", address);
         user.put("createdDate", new Date());
         user.put("roles", Arrays.asList("OWNER"));
+        user.put("notes", "Notes");
 
         this.mockMvc
                 .perform(post("/users").contentType(MediaTypes.HAL_JSON)
@@ -161,7 +162,8 @@ public final class UserDocumentation extends ModelTestBase {
                                 fieldWithPath("phone").description("The user's phone number"),
                                 fieldWithPath("address").description("The user's address"),
                                 fieldWithPath("createdDate").description("Created date").type("Date"),
-                                fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"))));
+                                fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),
+                                fieldWithPath("notes").description("The notes about the user"))));
     }
 
     @Test
@@ -170,7 +172,7 @@ public final class UserDocumentation extends ModelTestBase {
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("OWNER"));
+        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("OWNER"), null);
 
         final Map<String, Object> userUpdate = new HashMap<>();
         userUpdate.put("username", user.getUsername());
@@ -184,6 +186,7 @@ public final class UserDocumentation extends ModelTestBase {
         userUpdate.put("email", "glee@rush.net");
         userUpdate.put("phone", "(800)222-3456");
         userUpdate.put("roles", Arrays.asList("OWNER"));
+        userUpdate.put("notes", "edited notes for Mo");
 
         this.mockMvc
                 .perform(patch("/users/{0}", user.get_id()).contentType(MediaTypes.HAL_JSON)
@@ -200,7 +203,8 @@ public final class UserDocumentation extends ModelTestBase {
                                 fieldWithPath("address").description("Address"),
                                 fieldWithPath("createdDate").description("Created date").type("Date"),
                                 fieldWithPath("modifiedDate").description("Last modified date").type("Date"),
-                                fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"))));
+                                fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),
+                                fieldWithPath("notes").description("User's notes"))));
     }
 
     @Test
@@ -209,7 +213,7 @@ public final class UserDocumentation extends ModelTestBase {
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("USER"));
+        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("USER"), null);
 
         this.mockMvc.perform(get("/users/{0}", user.get_id())).andExpect(status().isOk())
                 .andExpect(jsonPath("firstName", is(user.getFirstName())))
@@ -230,7 +234,8 @@ public final class UserDocumentation extends ModelTestBase {
                                 fieldWithPath("createdDate").description("User creation date").type("Date"),
                                 fieldWithPath("modifiedDate").description("Date of last update").optional().type("Date"),
                                 fieldWithPath("_links")
-                                        .description("<<resources-user-links,Links>> to other resources"))));
+                                        .description("<<resources-user-links,Links>> to other resources"),
+                                fieldWithPath("notes").description("User's notes"))));
     }
 
     @Test
@@ -239,7 +244,7 @@ public final class UserDocumentation extends ModelTestBase {
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        User user = createUser("veddy", "Eddie", "Vedder", "111", "222", address, Arrays.asList("OWNER"));
+        User user = createUser("veddy", "Eddie", "Vedder", "111", "222", address, Arrays.asList("OWNER"), null);
 
         this.mockMvc.perform(get("/users/search/findByUsername?username={0}", user.getUsername())).andExpect(status().isOk())
                 .andExpect(jsonPath("firstName", is(user.getFirstName())))
@@ -260,7 +265,8 @@ public final class UserDocumentation extends ModelTestBase {
                                 fieldWithPath("createdDate").description("User creation date").type("Date"),
                                 fieldWithPath("modifiedDate").description("Date of last update").optional().type("Date"),
                                 fieldWithPath("_links")
-                                        .description("<<resources-user-links,Links>> to other resources"))));
+                                        .description("<<resources-user-links,Links>> to other resources"),
+                                fieldWithPath("notes").description("User's notes"))));
     }
 
     private void createVariousUsers(){
@@ -285,37 +291,37 @@ public final class UserDocumentation extends ModelTestBase {
         List<String> oemAdminRole = Arrays.asList(User.Role.OEM.name(), User.Role.ADMIN.name());
         List<String> bwgAdminRole = Arrays.asList(User.Role.BWG.name(), User.Role.ADMIN.name());
 
-        User owner1 = createUser("user0001", "braitt", "Bonnie", "Raitt", dealer1.get_id(), oem1.get_id(), addresses.get(4), ownerRole);
-        User owner2 = createUser("user0002", "ptownsend", "Pete", "Townsend", dealer1.get_id(), oem1.get_id(), addresses.get(4), ownerRole);
-        User owner3 = createUser("user0003", "pgabriel", "Peter", "Gabriel", dealer1.get_id(), oem1.get_id(), addresses.get(5), ownerRole);
-        User owner4 = createUser("user0004", "lgaga", "Lady", "Gaga", dealer2.get_id(), oem2.get_id(), addresses.get(6), ownerRole);
-        User owner5 = createUser("user0005", "chynde", "Chrissie", "Hynde", dealer1.get_id(), oem1.get_id(), addresses.get(7), ownerRole);
-        User owner6 = createUser("user0025", "jcroce", "Jim", "Croce", dealer2.get_id(), oem1.get_id(), addresses.get(26), ownerRole);
-        User owner7 = createUser("user0026", "mmathers", "Micheal", "Mathers", dealer3.get_id(), oem2.get_id(), addresses.get(27), ownerRole);
-        User owner8 = createUser("user0027", "sdogg", "Calvin", "Broadus", dealer3.get_id(), oem2.get_id(), addresses.get(28), ownerRole);
+        User owner1 = createUser("user0001", "braitt", "Bonnie", "Raitt", dealer1.get_id(), oem1.get_id(), addresses.get(4), ownerRole, null);
+        User owner2 = createUser("user0002", "ptownsend", "Pete", "Townsend", dealer1.get_id(), oem1.get_id(), addresses.get(4), ownerRole, null);
+        User owner3 = createUser("user0003", "pgabriel", "Peter", "Gabriel", dealer1.get_id(), oem1.get_id(), addresses.get(5), ownerRole, null);
+        User owner4 = createUser("user0004", "lgaga", "Lady", "Gaga", dealer2.get_id(), oem2.get_id(), addresses.get(6), ownerRole, null);
+        User owner5 = createUser("user0005", "chynde", "Chrissie", "Hynde", dealer1.get_id(), oem1.get_id(), addresses.get(7), ownerRole, null);
+        User owner6 = createUser("user0025", "jcroce", "Jim", "Croce", dealer2.get_id(), oem1.get_id(), addresses.get(26), ownerRole, null);
+        User owner7 = createUser("user0026", "mmathers", "Micheal", "Mathers", dealer3.get_id(), oem2.get_id(), addresses.get(27), ownerRole, null);
+        User owner8 = createUser("user0027", "sdogg", "Calvin", "Broadus", dealer3.get_id(), oem2.get_id(), addresses.get(28), ownerRole, null);
 
-        User maker1 = createUser("user0006", "jpage", "Jimmy", "Page", null, oem1.get_id(), addresses.get(8), oemRole);
-        User maker2 = createUser("user0007", "pfenton", "Peter", "Fenton", null, oem2.get_id(), addresses.get(9), oemRole);
-        User pink   = createUser("user0008", "bgeldof", "Bob", "Geldof", null, null, addresses.get(10), bwgRole);
-        User oz     = createUser("user0009", "oosborn", "Ozzie", "Osborn", null, null, addresses.get(11), adminRole);
+        User maker1 = createUser("user0006", "jpage", "Jimmy", "Page", null, oem1.get_id(), addresses.get(8), oemRole, null);
+        User maker2 = createUser("user0007", "pfenton", "Peter", "Fenton", null, oem2.get_id(), addresses.get(9), oemRole, null);
+        User pink   = createUser("user0008", "bgeldof", "Bob", "Geldof", null, null, addresses.get(10), bwgRole, null);
+        User oz     = createUser("user0009", "oosborn", "Ozzie", "Osborn", null, null, addresses.get(11), adminRole, null);
 
-        User sales1 = createUser("user0010", "nfinn", "Neil", "Finn", dealer1.get_id(), oem1.get_id(), addresses.get(12), salesRole);
-        User sales2 = createUser("user0011", "bpreston", "Billy", "Preston", dealer1.get_id(), oem1.get_id(), addresses.get(12), salesRole);
-        User sales3 = createUser("user0012", "cclemons", "Clarence", "Clemons", dealer2.get_id(), oem1.get_id(), addresses.get(12), salesRole);
-        User tech1  = createUser("user0013", "wgates", "William", "Gates", dealer1.get_id(), oem1.get_id(), addresses.get(13), techRole);
-        User tech2  = createUser("user0014", "sjobs", "Stefan", "Jobs", dealer1.get_id(), oem1.get_id(), addresses.get(14), techRole);
+        User sales1 = createUser("user0010", "nfinn", "Neil", "Finn", dealer1.get_id(), oem1.get_id(), addresses.get(12), salesRole, null);
+        User sales2 = createUser("user0011", "bpreston", "Billy", "Preston", dealer1.get_id(), oem1.get_id(), addresses.get(12), salesRole, null);
+        User sales3 = createUser("user0012", "cclemons", "Clarence", "Clemons", dealer2.get_id(), oem1.get_id(), addresses.get(12), salesRole, null);
+        User tech1  = createUser("user0013", "wgates", "William", "Gates", dealer1.get_id(), oem1.get_id(), addresses.get(13), techRole, null);
+        User tech2  = createUser("user0014", "sjobs", "Stefan", "Jobs", dealer1.get_id(), oem1.get_id(), addresses.get(14), techRole, null);
 
-        User dealer1Admin   = createUser("user0015", "tpetty", "Tom", "Petty", dealer1.get_id(), null, addresses.get(16), dealerAdminRole);
-        User dealer2Admin   = createUser("user0016", "jbrown", "James", "Brown", dealer2.get_id(), null, addresses.get(17), dealerAdminRole);
-        User dealer3Admin   = createUser("user0017", "ptosh", "Peter", "Tosh", dealer3.get_id(), null, addresses.get(18), dealerAdminRole);
-        User oem1Admin   = createUser("user0018", "smorse", "Steve", "Morse", null, oem1.get_id(), addresses.get(19), oemAdminRole);
-        User oem2Admin   = createUser("user0019", "jmitchell", "Joni", "Mitchell", null, oem2.get_id(), addresses.get(20), oemAdminRole);
-        User bwgAdmin   = createUser("user0020", "blondie", "Debbi", "Harry", null, null, addresses.get(21), bwgAdminRole);
+        User dealer1Admin   = createUser("user0015", "tpetty", "Tom", "Petty", dealer1.get_id(), null, addresses.get(16), dealerAdminRole, null);
+        User dealer2Admin   = createUser("user0016", "jbrown", "James", "Brown", dealer2.get_id(), null, addresses.get(17), dealerAdminRole, null);
+        User dealer3Admin   = createUser("user0017", "ptosh", "Peter", "Tosh", dealer3.get_id(), null, addresses.get(18), dealerAdminRole, null);
+        User oem1Admin   = createUser("user0018", "smorse", "Steve", "Morse", null, oem1.get_id(), addresses.get(19), oemAdminRole, null);
+        User oem2Admin   = createUser("user0019", "jmitchell", "Joni", "Mitchell", null, oem2.get_id(), addresses.get(20), oemAdminRole, null);
+        User bwgAdmin   = createUser("user0020", "blondie", "Debbi", "Harry", null, null, addresses.get(21), bwgAdminRole, null);
 
-        User salesD2 = createUser("user0021", "psimon", "Paul", "Simon", dealer2.get_id(), oem1.get_id(), addresses.get(22), salesRole);
-        User salesD3 = createUser("user0021", "mwaters", "Muddy", "Waters", dealer3.get_id(), oem2.get_id(), addresses.get(23), salesRole);
-        User techD2  = createUser("user0023", "csagan", "Carl", "Sagan", dealer2.get_id(), oem1.get_id(), addresses.get(24), techRole);
-        User techD3  = createUser("user0024", "shawking", "Stephen", "Hawking", dealer3.get_id(), oem2.get_id(), addresses.get(25), techRole);
+        User salesD2 = createUser("user0021", "psimon", "Paul", "Simon", dealer2.get_id(), oem1.get_id(), addresses.get(22), salesRole, null);
+        User salesD3 = createUser("user0021", "mwaters", "Muddy", "Waters", dealer3.get_id(), oem2.get_id(), addresses.get(23), salesRole, null);
+        User techD2  = createUser("user0023", "csagan", "Carl", "Sagan", dealer2.get_id(), oem1.get_id(), addresses.get(24), techRole, null);
+        User techD3  = createUser("user0024", "shawking", "Stephen", "Hawking", dealer3.get_id(), oem2.get_id(), addresses.get(25), techRole, null);
         return;
     }
 }
