@@ -48,6 +48,15 @@ public class UserEventHandler {
         spaTemplate.setCreationDate(new Date());
     }
 
+    @HandleBeforeSave
+    public void handleSpaTemplateSave(SpaTemplate spaTemplate) {
+        log.debug("Before Create: " + spaTemplate.getModel());
+
+        // Strip out any HATEOAS links in incoming object
+        spaTemplate.getMaterialList().stream().forEach( material -> { material.removeLinks(); });
+        spaTemplate.removeLinks();
+    }
+
     @HandleAfterCreate
     public void handleAfterCreate(User user) {
         log.debug("After Create: " + user.getUsername());

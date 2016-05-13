@@ -163,6 +163,8 @@ public final class SpaTemplateDocumentation extends ModelTestBase {
                                 fieldWithPath("model").description("Model Name of the spa"),
                                 fieldWithPath("sku").description("The SKU number associated to this Spa"),
                                 fieldWithPath("oemId").description("Manufacturer ids"),
+                                fieldWithPath("warrantyDays").description("The number of days the spa is under warranty").optional().type(Integer.class),
+                                fieldWithPath("locked").description("Denotes whether the spa template is editable. If locked = true spaTemplate may not be changed.").type(Boolean.class),
                                 fieldWithPath("notes").description("Field to store extra text about the spa template").optional().type("String"),
                                 fieldWithPath("materialList").description("List of Materials used to build the spa").type("List<Material>"),
                                 fieldWithPath("attachments").description("References to supporting documents").optional().type("List<String>"),

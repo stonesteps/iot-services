@@ -901,6 +901,7 @@ public class ModelTestBase {
         spaTemplate.setSku(sku);
         spaTemplate.setOemId(oemId);
         spaTemplate.setNotes("This is a test note.");
+        spaTemplate.setWarrantyDays(3650);
 
         materialList.stream().forEach(m -> {
             m.setOemId(null);
