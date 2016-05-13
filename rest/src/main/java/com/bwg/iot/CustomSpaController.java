@@ -122,6 +122,7 @@ public class CustomSpaController {
         for( Component component : components) {
             component.setSpaId(myNewSpa.get_id());
             component.setOemId(myNewSpa.getOemId());
+            component.removeLinks();
 
             // TODO: validate SKU
             // validate component

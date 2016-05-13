@@ -23,7 +23,7 @@ public class UserEventHandler {
 
     @HandleBeforeCreate
     public void handleUserCreate(User user) {
-        log.debug("Before Create: " + user.getUsername());
+        log.debug("Before Create User: " + user.getUsername());
 
         // persist Address in its own collection
         Address address = user.getAddress();
@@ -38,7 +38,7 @@ public class UserEventHandler {
 
     @HandleBeforeCreate
     public void handleSpaTemplateCreate(SpaTemplate spaTemplate) {
-        log.debug("Before Create: " + spaTemplate.getModel());
+        log.debug("Before Create SpaTemplate: " + spaTemplate.getModel());
 
         // Strip out any HATEOAS links in incoming object
         spaTemplate.getMaterialList().stream().forEach( material -> { material.removeLinks(); });
@@ -48,8 +48,12 @@ public class UserEventHandler {
         spaTemplate.setCreationDate(new Date());
     }
 
-    @HandleAfterCreate
-    public void handleAfterCreate(User user) {
-        log.debug("After Create: " + user.getUsername());
+    @HandleBeforeSave
+    public void handleSpaTemplateSave(SpaTemplate spaTemplate) {
+        log.debug("Before Save SpaTemplate: " + spaTemplate.getModel());
+
+        // Strip out any HATEOAS links in incoming object
+        spaTemplate.getMaterialList().stream().forEach( material -> { material.removeLinks(); });
+        spaTemplate.removeLinks();
     }
 }

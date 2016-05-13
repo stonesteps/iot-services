@@ -26,11 +26,16 @@ public class SpaTemplate extends ResourceSupport {
     private String model;
     private String sku;
     private Integer warrantyDays;
+    private Boolean locked;
     private List<Material> materialList;
     private Map<String, ?> attachments;
 
     private String notes;
     private Date creationDate;
+
+    public SpaTemplate() {
+        this.locked = Boolean.FALSE;
+    }
 
     public String get_id() {
         return _id;
@@ -110,6 +115,14 @@ public class SpaTemplate extends ResourceSupport {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(Boolean locked) {
+        this.locked = locked;
     }
 
     @Override
