@@ -60,9 +60,12 @@ public class CustomSpaController {
         }
         associate = associate.toMinimal();
 
-        User technician = userRepository.findOne(technicianId);
-        if (technician != null && !technician.hasRole(User.Role.TECHNICIAN.toString())) {
-            return new ResponseEntity<String>("Invalid technician ID, user does not have TECHNICIAN role.",HttpStatus.BAD_REQUEST);
+        User technician = null;
+        if (technicianId != null) {
+            technician = userRepository.findOne(technicianId);
+            if (technician != null && !technician.hasRole(User.Role.TECHNICIAN.toString())) {
+                return new ResponseEntity<String>("Invalid technician ID, user does not have TECHNICIAN role.", HttpStatus.BAD_REQUEST);
+            }
         }
 
         owner.setSpaId(spa.get_id());
