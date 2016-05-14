@@ -398,7 +398,11 @@ public class ModelTestBase {
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
-        spa.setOwner(owner);
+        if (owner != null) {
+            owner.setSpaId(spaId);
+            userRepository.save(owner);
+            spa.setOwner(owner);
+        }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
         }
@@ -510,7 +514,11 @@ public class ModelTestBase {
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
-        spa.setOwner(owner);
+        if (owner != null) {
+            owner.setSpaId(spaId);
+            userRepository.save(owner);
+            spa.setOwner(owner);
+        }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
         }
@@ -574,7 +582,11 @@ public class ModelTestBase {
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
-        spa.setOwner(owner);
+        if (owner != null) {
+            owner.setSpaId(spaId);
+            userRepository.save(owner);
+            spa.setOwner(owner);
+        }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
@@ -634,7 +646,11 @@ public class ModelTestBase {
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
-        spa.setOwner(owner);
+        if (owner != null) {
+            owner.setSpaId(spaId);
+            userRepository.save(owner);
+            spa.setOwner(owner);
+        }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
         }
@@ -692,7 +708,11 @@ public class ModelTestBase {
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
-        spa.setOwner(owner);
+        if (owner != null) {
+            owner.setSpaId(spaId);
+            userRepository.save(owner);
+            spa.setOwner(owner);
+        }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
         }
@@ -753,7 +773,11 @@ public class ModelTestBase {
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
-        spa.setOwner(owner);
+        if (owner != null) {
+            owner.setSpaId(spaId);
+            userRepository.save(owner);
+            spa.setOwner(owner);
+        }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
         }

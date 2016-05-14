@@ -5,6 +5,7 @@ package com.bwg.iot;
  */
 
 import com.bwg.iot.model.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,9 @@ public class CustomSpaController {
         User owner = userRepository.findOne(ownerId);
         if (owner == null) {
             return new ResponseEntity<String>("Invalid Owner ID, owner not found",HttpStatus.BAD_REQUEST);
+        }
+        if (StringUtils.isNotEmpty(owner.getSpaId())) {
+            return new ResponseEntity<String>("This person already owns a spa. We currently only allow 1 spa per user account.", HttpStatus.BAD_REQUEST);
         }
 
         User associate = userRepository.findOne(associateId);
