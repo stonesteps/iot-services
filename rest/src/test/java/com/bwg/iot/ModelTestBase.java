@@ -389,6 +389,10 @@ public class ModelTestBase {
     }
 
     protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, User associate) {
+        return createFullSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, spaId, associate, null);
+    }
+
+    protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, User associate, User technician) {
         Spa spa = new Spa();
         if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
@@ -401,9 +405,14 @@ public class ModelTestBase {
             owner.setSpaId(spaId);
             userRepository.save(owner);
             spa.setOwner(owner);
+            spa.setSalesDate(new Date());
+            spa.setTransactionCode(String.valueOf((int)(Math.random()*10000)));
         }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
+        }
+        if (technician != null) {
+            spa.setTechnician(technician.toMinimal());
         }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
@@ -517,6 +526,8 @@ public class ModelTestBase {
             owner.setSpaId(spaId);
             userRepository.save(owner);
             spa.setOwner(owner);
+            spa.setSalesDate(new Date());
+            spa.setTransactionCode("a" + String.valueOf((int)(Math.random()*10000)));
         }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
@@ -585,6 +596,8 @@ public class ModelTestBase {
             owner.setSpaId(spaId);
             userRepository.save(owner);
             spa.setOwner(owner);
+            spa.setSalesDate(new Date());
+            spa.setTransactionCode(String.valueOf((int)(Math.random()*20000)));
         }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
@@ -649,6 +662,8 @@ public class ModelTestBase {
             owner.setSpaId(spaId);
             userRepository.save(owner);
             spa.setOwner(owner);
+            spa.setSalesDate(new Date());
+            spa.setTransactionCode(String.valueOf((int)(Math.random()*10000)));
         }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
@@ -711,6 +726,8 @@ public class ModelTestBase {
             owner.setSpaId(spaId);
             userRepository.save(owner);
             spa.setOwner(owner);
+            spa.setSalesDate(new Date());
+            spa.setTransactionCode(String.valueOf((int)(Math.random()*10000)));
         }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
@@ -776,6 +793,8 @@ public class ModelTestBase {
             owner.setSpaId(spaId);
             userRepository.save(owner);
             spa.setOwner(owner);
+            spa.setSalesDate(new Date());
+            spa.setTransactionCode(String.valueOf((int)(Math.random()*10000)));
         }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());

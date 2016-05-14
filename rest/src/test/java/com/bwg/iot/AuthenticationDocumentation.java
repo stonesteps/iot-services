@@ -96,6 +96,7 @@ public final class AuthenticationDocumentation extends ModelTestBase{
 								fieldWithPath("username").description("Unique string for the user"),
 								fieldWithPath("firstName").description("First name of the user"),
 								fieldWithPath("lastName").description("Last name of the user"),
+								fieldWithPath("fullName").description("First and Last name"),
 								fieldWithPath("dealerId").description("Dealer id"),
 								fieldWithPath("oemId").description("Manufacturer id"),
 								fieldWithPath("spaId").description("If the user owns a spa, the Id of the spa").optional().type("String"),

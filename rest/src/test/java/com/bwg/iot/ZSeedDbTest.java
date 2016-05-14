@@ -61,7 +61,7 @@ public final class ZSeedDbTest extends ModelTestBase {
 
         // create some oems and dealers
         Oem oem1 = createOem("Jacuzzi Europe Spa - Italy.", addresses.get(0), "oem001");
-        Oem oem2 = createOem("Rockers Ltd.", addresses.get(1), "oem002");
+        Oem oem2 = createOem("Maax Spas Industries Corp.", addresses.get(1), "oem002");
         Dealer dealer1 = createDealer("Jacuzzi Europe Spa - Italy", addresses.get(2), oem1.get_id(), "oem001");
         Dealer dealer2 = createDealer("Pt. Loma Spa Outlet", addresses.get(3), oem1.get_id(), "dealer002");
         Dealer dealer3 = createDealer("SpaStic", addresses.get(15), oem2.get_id(), "dealer003");
