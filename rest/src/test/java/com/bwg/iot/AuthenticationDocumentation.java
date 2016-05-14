@@ -98,6 +98,7 @@ public final class AuthenticationDocumentation extends ModelTestBase{
 								fieldWithPath("lastName").description("Last name of the user"),
 								fieldWithPath("dealerId").description("Dealer id"),
 								fieldWithPath("oemId").description("Manufacturer id"),
+								fieldWithPath("spaId").description("If the user owns a spa, the Id of the spa").optional().type("String"),
 								fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),
 								fieldWithPath("email").description("The user's email address"),
 								fieldWithPath("phone").description("The user's phone number"),
