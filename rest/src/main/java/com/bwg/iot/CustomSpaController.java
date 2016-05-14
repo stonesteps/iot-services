@@ -34,7 +34,7 @@ public class CustomSpaController {
     SpaRepository spaRepository;
 
     @RequestMapping(value = "/{spaId}/sellSpa", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> restartAgent(@PathVariable String spaId, @RequestBody SellSpaRequest request) {
+    public ResponseEntity<?> sellSpa(@PathVariable String spaId, @RequestBody SellSpaRequest request) {
         String ownerId = request.getOwnerId();
         String associateId = request.getAssociateId();
         String technicianId = request.getTechnicianId();
