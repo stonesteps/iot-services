@@ -24,6 +24,10 @@ public class Material extends ResourceSupport {
     private int warrantyDays;
     private Date uploadDate;
 
+    // embedded in saved SpaTemplate documents.
+    // Not to be stored in Material collection
+    private String displayName;
+
     public String get_id() {
         return _id;
     }
@@ -94,6 +98,14 @@ public class Material extends ResourceSupport {
 
     public void setUploadDate(Date uploadDate) {
         this.uploadDate = uploadDate;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     @Override

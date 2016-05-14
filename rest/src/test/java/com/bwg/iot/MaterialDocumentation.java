@@ -90,7 +90,7 @@ public final class MaterialDocumentation extends ModelTestBase{
 		this.materialRepository.deleteAll();
 
         List<String> justOne = Arrays.asList("oem101");
-        Material pump1 = createMaterial(Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
+        Material pump1 = createMaterial(null, Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
 
         this.mockMvc.perform(get("/materials/{0}", pump1.get_id())).andExpect(status().isOk())
 				.andExpect(jsonPath("sku", is(pump1.getSku())))
@@ -107,6 +107,8 @@ public final class MaterialDocumentation extends ModelTestBase{
                                 fieldWithPath("warrantyDays").description("The type of component.").optional().type(Integer.class),
                                 fieldWithPath("uploadDate").description("The date this information was uploaded into the system."),
                                 fieldWithPath("oemId").description("The OEMS that use this part number").optional().type(List.class),
+								fieldWithPath("displayName").description("Display Name. This field is transient. It is not saved in the Materials db table."
+										+ "However the field is saved embedded saved spaTemplates.").optional().type("String"),
                                 fieldWithPath("_links")
                                         .description("<<resources-oem-links,Links>> to other resources"))));
 	}
@@ -116,7 +118,7 @@ public final class MaterialDocumentation extends ModelTestBase{
         this.materialRepository.deleteAll();
 
         List<String> justOne = Arrays.asList("oem101");
-        Material material1 = createMaterial(Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
+        Material material1 = createMaterial(null, Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
 
         this.mockMvc.perform(get("/materials/search/findBySku?sku=" + material1.getSku()))
                 .andExpect(status().isOk())
@@ -131,6 +133,8 @@ public final class MaterialDocumentation extends ModelTestBase{
                                 fieldWithPath("warrantyDays").description("The type of component.").optional().type(Integer.class),
                                 fieldWithPath("uploadDate").description("The date this information was uploaded into the system."),
 								fieldWithPath("oemId").description("The OEMS that use this part number").optional().type(List.class),
+								fieldWithPath("displayName").description("Display Name. This field is transient. It is not saved in the Materials db table."
+										+ "However the field is saved embedded saved spaTemplates.").optional().type("String"),
                                 fieldWithPath("_links")
                                         .description("<<resources-oem-links,Links>> to other resources"))));
     }

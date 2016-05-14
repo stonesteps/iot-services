@@ -129,6 +129,7 @@ public final class SpaTemplateDocumentation extends ModelTestBase {
         spaTemplateMap.put("warrantyDays", Integer.valueOf(1096));
         spaTemplateMap.put("materialList", spaTemplate1List);
         spaTemplateMap.put("creationDate", new Date());
+        spaTemplateMap.put("locked", Boolean.FALSE);
 
 
         this.mockMvc
@@ -140,8 +141,9 @@ public final class SpaTemplateDocumentation extends ModelTestBase {
                                 fieldWithPath("model").description("Model Name of the spa"),
                                 fieldWithPath("sku").description("The SKU number associated to this Spa"),
                                 fieldWithPath("oemId").description("Manufacturer ids"),
-                                fieldWithPath("notes").description("Field to store extra text about the spa template").optional().type("String"),
                                 fieldWithPath("warrantyDays").description("Warranty length of the spa in days from sales date").optional().type(Integer.class),
+                                fieldWithPath("locked").description("Denotes whether the spa template is editable. If locked = true spaTemplate may not be changed.").optional().type(Boolean.class),
+                                fieldWithPath("notes").description("Field to store extra text about the spa template").optional().type("String"),
                                 fieldWithPath("materialList").description("List of Materials used to build the spa").type("List<Material>"),
                                 fieldWithPath("attachments").description("References to supporting documents").optional().type("List<String>"),
                                 fieldWithPath("creationDate").description("Created date").type("Date"))));
