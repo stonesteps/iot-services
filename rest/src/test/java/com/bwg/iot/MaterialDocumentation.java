@@ -107,7 +107,7 @@ public final class MaterialDocumentation extends ModelTestBase{
                                 fieldWithPath("warrantyDays").description("The type of component.").optional().type(Integer.class),
                                 fieldWithPath("uploadDate").description("The date this information was uploaded into the system."),
                                 fieldWithPath("oemId").description("The OEMS that use this part number").optional().type(List.class),
-								fieldWithPath("displayName").description("Display Name. This field is transient. It is not saved in the Materials db table."
+								fieldWithPath("displayName").description("Display Name. It is not saved in the Materials db table."
 										+ "However the field is saved embedded saved spaTemplates.").optional().type("String"),
                                 fieldWithPath("_links")
                                         .description("<<resources-oem-links,Links>> to other resources"))));
