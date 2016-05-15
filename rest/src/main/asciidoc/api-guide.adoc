@@ -4,7 +4,7 @@ Triton Services;
 :icons: font
 :source-highlighter: highlightjs
 :toc: left
-:toclevels: 4
+:toclevels: 2
 :sectlinks:
 
 [[overview]]

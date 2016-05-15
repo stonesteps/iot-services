@@ -178,21 +178,21 @@ public class ModelTestBase {
     public final static String PUMP5_DESCRIPTION = "Niagara spa pump 2HP 2S amp 230v(1)";
     public final static String PUMP5_SKU = "1023322";
 
-    public final static String CONTROLLER1_BRAND_NAME = "TP Series";
-    public final static String CONTROLLER1_DESCRIPTION = "PANEL BALBOA TP600C NO O/L";
-    public final static String CONTROLLER1_SKU = "50305-01";
+    public final static String CONTROLLER1_BRAND_NAME = "Millennium CE Systems (MILL CE)";
+    public final static String CONTROLLER1_DESCRIPTION = "BOARD JACWHL J200 CE MIL COM";
+    public final static String CONTROLLER1_SKU = "52284-01";
 
-    public final static String CONTROLLER2_BRAND_NAME = "Bull Frog 600";
-    public final static String CONTROLLER2_DESCRIPTION = "PANEL BULFRG BFTP600";
-    public final static String CONTROLLER2_SKU = "50285-02";
+    public final static String CONTROLLER2_BRAND_NAME = "GS50x Series";
+    public final static String CONTROLLER2_DESCRIPTION = "SYSTEM MAAX MXG504SZ";
+    public final static String CONTROLLER2_SKU = "56170";
 
-    public final static String CONTROLLER3_BRAND_NAME = "Bull Frog 900";
-    public final static String CONTROLLER3_DESCRIPTION = "PANEL BULFRG BFTP900";
+    public final static String CONTROLLER3_BRAND_NAME = "VS50x Series";
+    public final static String CONTROLLER3_DESCRIPTION = "SYSTEM MAAX MXVS501Z VS501Z";
     public final static String CONTROLLER3_SKU = "50284-07";
 
-    public final static String CONTROLLER4_BRAND_NAME = "Spa Touch";
-    public final static String CONTROLLER4_DESCRIPTION = "PANEL BULFRG BFTP600U";
-    public final static String CONTROLLER4_SKU = "50285-05";
+    public final static String CONTROLLER4_BRAND_NAME = "BP1500 US";
+    public final static String CONTROLLER4_DESCRIPTION = "BOARD MAAX MXBP501X BP501";
+    public final static String CONTROLLER4_SKU = "56550-02";
 
 
     protected List<Material>  setupTestMaterials() {
@@ -207,16 +207,16 @@ public class ModelTestBase {
         List<String> justOne = Arrays.asList(oem1.get_id());
         List<String> justTwo = Arrays.asList(oem2.get_id());
 
-        Material material1 = createMaterial(Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems);
-        Material material2 = createMaterial(Component.ComponentType.PUMP.name(), PUMP2_BRAND_NAME, PUMP2_DESCRIPTION, PUMP2_SKU, PUMP2_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems);
-        Material material3 = createMaterial(Component.ComponentType.PUMP.name(), PUMP3_BRAND_NAME, PUMP3_DESCRIPTION, PUMP3_SKU, null, ONE_YEAR_WARRANTY_DAYS, bothOems);
-        Material material4 = createMaterial(Component.ComponentType.PUMP.name(), PUMP4_BRAND_NAME, PUMP4_DESCRIPTION, PUMP4_SKU, PUMP4_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
-        Material material5 = createMaterial(Component.ComponentType.PUMP.name(), PUMP5_BRAND_NAME, PUMP5_DESCRIPTION, PUMP5_SKU, null, 0, justTwo);
+        Material material1 = createMaterial("Captain's Chair", Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems);
+        Material material2 = createMaterial("Main Jets and Circulation", Component.ComponentType.PUMP.name(), PUMP2_BRAND_NAME, PUMP2_DESCRIPTION, PUMP2_SKU, PUMP2_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems);
+        Material material3 = createMaterial("Back Massage Jets", Component.ComponentType.PUMP.name(), PUMP3_BRAND_NAME, PUMP3_DESCRIPTION, PUMP3_SKU, null, ONE_YEAR_WARRANTY_DAYS, bothOems);
+        Material material4 = createMaterial("Foot Massage", Component.ComponentType.PUMP.name(), PUMP4_BRAND_NAME, PUMP4_DESCRIPTION, PUMP4_SKU, PUMP4_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
+        Material material5 = createMaterial("Main Jets", Component.ComponentType.PUMP.name(), PUMP5_BRAND_NAME, PUMP5_DESCRIPTION, PUMP5_SKU, null, 0, justTwo);
 
-        Material material6 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER1_BRAND_NAME, CONTROLLER1_DESCRIPTION, CONTROLLER1_SKU, null, THREE_YEAR_WARRANTY_DAYS, bothOems);
-        Material material7 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER2_BRAND_NAME, CONTROLLER2_DESCRIPTION, CONTROLLER2_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
-        Material material8 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER3_BRAND_NAME, CONTROLLER3_DESCRIPTION, CONTROLLER3_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
-        Material material9 = createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER4_BRAND_NAME, CONTROLLER4_DESCRIPTION, CONTROLLER4_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
+        Material material6 = createMaterial("Controller",Component.ComponentType.CONTROLLER.name(), CONTROLLER1_BRAND_NAME, CONTROLLER1_DESCRIPTION, CONTROLLER1_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
+        Material material7 = createMaterial("Controller",Component.ComponentType.CONTROLLER.name(), CONTROLLER2_BRAND_NAME, CONTROLLER2_DESCRIPTION, CONTROLLER2_SKU, null, THREE_YEAR_WARRANTY_DAYS, justTwo);
+        Material material8 = createMaterial("Spa Touch", Component.ComponentType.CONTROLLER.name(), CONTROLLER3_BRAND_NAME, CONTROLLER3_DESCRIPTION, CONTROLLER3_SKU, null, THREE_YEAR_WARRANTY_DAYS, justTwo);
+        Material material9 = createMaterial("Controller", Component.ComponentType.CONTROLLER.name(), CONTROLLER4_BRAND_NAME, CONTROLLER4_DESCRIPTION, CONTROLLER4_SKU, null, THREE_YEAR_WARRANTY_DAYS, justTwo);
 
         List<Material> materialList = Arrays.asList(material1, material2, material3, material4, material5, material6, material7, material8, material9);
         return materialList;
@@ -228,77 +228,81 @@ public class ModelTestBase {
         List<String> justTwo = Arrays.asList(oem2.get_id());
         List<Material> materialList = new ArrayList<Material> ();
         
-        materialList.add(createMaterial(Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems));
-        materialList.add(createMaterial(Component.ComponentType.PUMP.name(), PUMP2_BRAND_NAME, PUMP2_DESCRIPTION, PUMP2_SKU, PUMP2_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems));
-        materialList.add(createMaterial(Component.ComponentType.PUMP.name(), PUMP3_BRAND_NAME, PUMP3_DESCRIPTION, PUMP3_SKU, null, ONE_YEAR_WARRANTY_DAYS, bothOems));
-        materialList.add(createMaterial(Component.ComponentType.PUMP.name(), PUMP4_BRAND_NAME, PUMP4_DESCRIPTION, PUMP4_SKU, PUMP4_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.PUMP.name(), PUMP5_BRAND_NAME, PUMP5_DESCRIPTION, PUMP5_SKU, null, 0, justTwo));
+        materialList.add(createMaterial("Captain's Chair", Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Main Jets", Component.ComponentType.PUMP.name(), PUMP2_BRAND_NAME, PUMP2_DESCRIPTION, PUMP2_SKU, PUMP2_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Main Jets", Component.ComponentType.PUMP.name(), PUMP3_BRAND_NAME, PUMP3_DESCRIPTION, PUMP3_SKU, null, ONE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Foot Massage", Component.ComponentType.PUMP.name(), PUMP4_BRAND_NAME, PUMP4_DESCRIPTION, PUMP4_SKU, PUMP4_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Back Massage Jets", Component.ComponentType.PUMP.name(), PUMP5_BRAND_NAME, PUMP5_DESCRIPTION, PUMP5_SKU, null, 0, justTwo));
 
-        materialList.add(createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER1_BRAND_NAME, CONTROLLER1_DESCRIPTION, CONTROLLER1_SKU, null, THREE_YEAR_WARRANTY_DAYS, bothOems));
-        materialList.add(createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER2_BRAND_NAME, CONTROLLER2_DESCRIPTION, CONTROLLER2_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER3_BRAND_NAME, CONTROLLER3_DESCRIPTION, CONTROLLER3_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.CONTROLLER.name(), CONTROLLER4_BRAND_NAME, CONTROLLER4_DESCRIPTION, CONTROLLER4_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Controller", Component.ComponentType.CONTROLLER.name(), CONTROLLER1_BRAND_NAME, CONTROLLER1_DESCRIPTION, CONTROLLER1_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Controller", Component.ComponentType.CONTROLLER.name(), CONTROLLER2_BRAND_NAME, CONTROLLER2_DESCRIPTION, CONTROLLER2_SKU, null, THREE_YEAR_WARRANTY_DAYS, justTwo));
+        materialList.add(createMaterial("Controller", Component.ComponentType.CONTROLLER.name(), CONTROLLER3_BRAND_NAME, CONTROLLER3_DESCRIPTION, CONTROLLER3_SKU, null, THREE_YEAR_WARRANTY_DAYS, justTwo));
+        materialList.add(createMaterial("Controller", Component.ComponentType.CONTROLLER.name(), CONTROLLER4_BRAND_NAME, CONTROLLER4_DESCRIPTION, CONTROLLER4_SKU, null, THREE_YEAR_WARRANTY_DAYS, justTwo));
+        materialList.add(createMaterial("Controller", Component.ComponentType.CONTROLLER.name(), "Jacuzzi® 1000™ Control System", "BOARD JACWHL J1000 CE MIL COM", "25119", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
 
-        materialList.add(createMaterial(Component.ComponentType.GATEWAY.name(), "Triton Gateway: Beta 01", "rPi , Agent 1.0.0", "17092-83280-1a", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.GATEWAY.name(), "Triton Gateway: Beta 03", "ts7970 , Agent 1.0.0", "17092-83280-1b", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.GATEWAY.name(), "Triton Gateway: Beta 02", "renasas beta , Agent 1.0.0", "17092-83280-1z3", null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Gateway", Component.ComponentType.GATEWAY.name(), "Triton Gateway: Beta 01", "rPi , Agent 1.0.0", "17092-83280-1a", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Gateway", Component.ComponentType.GATEWAY.name(), "Triton Gateway: Beta 03", "ts7970 , Agent 1.0.0", "17092-83280-1b", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Gateway", Component.ComponentType.GATEWAY.name(), "Triton Gateway: Beta 02", "renasas beta , Agent 1.0.0", "17092-83280-1z3", null, THREE_YEAR_WARRANTY_DAYS, justOne));
 
-        materialList.add(createMaterial(Component.ComponentType.MOTE.name(), "Triton Pump Current: Beta 02", "tbd", "1-000020-1", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.MOTE.name(), "Triton Pump Current: Beta 01", "acme inc.", "88-441a4", null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Pump Current Sensor",Component.ComponentType.MOTE.name(), "Triton Current Mote: Beta 02", "tbd", "1-000020-1", null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Sensor", Component.ComponentType.MOTE.name(), "Triton Current Mote: Beta 01", "acme inc.", "88-441a4", null, THREE_YEAR_WARRANTY_DAYS, justOne));
 
-        materialList.add(createMaterial(Component.ComponentType.LIGHT.name(), "Standard White Light", "150W, 110V White", "1435661-01", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.LIGHT.name(), "Standard Red Light", "150W, 110V Red", "1435661-01", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.LIGHT.name(), "Standard Blue Light", "150W, 110V Blue", "214222", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.LIGHT.name(), "Bright White Light", "250W, 110V White", "14214-01", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.LIGHT.name(), "Disco Ball", "390W, 110V Multi-color", "213144", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.LIGHT.name(), "MoodEFX™ LED Lights (23138)", "22 per pack", "231138", null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Lights", Component.ComponentType.LIGHT.name(), "Standard White Light", "150W, 110V White", "1435661-01", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Lights", Component.ComponentType.LIGHT.name(), "Standard Red Light", "150W, 110V Red", "1435661-01", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Lights", Component.ComponentType.LIGHT.name(), "Standard Blue Light", "150W, 110V Blue", "214222", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Lights", Component.ComponentType.LIGHT.name(), "Bright White Light", "250W, 110V White", "14214-01", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Lights", Component.ComponentType.LIGHT.name(), "Disco Ball", "390W, 110V Multi-color", "213144", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Lights", Component.ComponentType.LIGHT.name(), "MoodEFX™ LED Lights (23138)", "22 per pack", "231138", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        
+        materialList.add(createMaterial("Ozone", Component.ComponentType.OZONE.name(), "O3zone Cartridge", "Ozone Generator, CD Cartridge", "54451", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Ozone", Component.ComponentType.OZONE.name(), "O3zone", "UV O3 Ozone (59024)", "59024", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Ozone", Component.ComponentType.OZONE.name(), "O3zone Chip", "Ozone Adapter AMP to J&J, To J&J PSA-103-07", "21702", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Ozone", Component.ComponentType.OZONE.name(), "O3zone Chip", "Ozone Adapter AMP to J&J, To J&J SS2 PSA-103-02", "21703", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Ozone", Component.ComponentType.OZONE.name(), "O3zone Chip", "Ozone Adapter AMP to J&J, To J&J SS2 PSA-102-FM", "21704", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Ozone", Component.ComponentType.OZONE.name(), "O3zone Chip", "Ozone Adapter AMP to J&J, To J&J SS2 PSA-103-L", "21705", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Ozone", Component.ComponentType.OZONE.name(), "O3zone Chip", "Ozone Adapter AMP to J&J, To J&J SS2 PSA-103P-3", "21706", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
 
-        materialList.add(createMaterial(Component.ComponentType.OZONE.name(), "O3zone Cartridge", "Ozone Generator, CD Cartridge", "54451", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.OZONE.name(), "O3zone", "UV O3 Ozone (59024)", "59024", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.OZONE.name(), "O3zone Chip", "Ozone Adapter AMP to J&J, To J&J PSA-103-07", "21702", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.OZONE.name(), "O3zone Chip", "Ozone Adapter AMP to J&J, To J&J SS2 PSA-103-02", "21703", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.OZONE.name(), "O3zone Chip", "Ozone Adapter AMP to J&J, To J&J SS2 PSA-102-FM", "21704", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.OZONE.name(), "O3zone Chip", "Ozone Adapter AMP to J&J, To J&J SS2 PSA-103-L", "21705", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.OZONE.name(), "O3zone Chip", "Ozone Adapter AMP to J&J, To J&J SS2 PSA-103P-3", "21706", null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Filter", Component.ComponentType.FILTER.name(), "Standard Filter", "Clean Zone System", "808-qq9", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Filter", Component.ComponentType.FILTER.name(), "Deluxe", "Clean Zone II UV System", "808-x21", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
 
-        materialList.add(createMaterial(Component.ComponentType.FILTER.name(), "Standard Filter", "Clean Zone System", "808-qq9", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.FILTER.name(), "Deluxe", "Clean Zone II UV System", "808-x21", null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Microsilk", Component.ComponentType.MICROSILK.name(), "MicroSilk® Spa 50Hz Tankless System", "50438-XX  with Overlay 13141 (Jets/Aux/MicroSilk/Light)", "58952-V", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Bubbles", Component.ComponentType.MICROSILK.name(), "MicroSilk® Spa 50Hz V3 2 Tank System", "", "58953-V3", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Microsilk", Component.ComponentType.MICROSILK.name(), "MicroSilk® Spa 60Hz V3 2 Tank System", "", "58962-V3", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Microsilk", Component.ComponentType.MICROSILK.name(), "MicroSilk® Spa 115V V3 2 Tank System", "Panel TP800 50318-XX with Overlay 12719", "58965-V3", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
 
-        materialList.add(createMaterial(Component.ComponentType.MICROSILK.name(), "MicroSilk® Spa 50Hz Tankless System", "50438-XX  with Overlay 13141 (Jets/Aux/MicroSilk/Light)", "58952-V", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.MICROSILK.name(), "MicroSilk® Spa 50Hz V3 2 Tank System", "", "58953-V3", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.MICROSILK.name(), "MicroSilk® Spa 60Hz V3 2 Tank System", "", "58962-V3", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.MICROSILK.name(), "MicroSilk® Spa 115V V3 2 Tank System", "Panel TP800 50318-XX with Overlay 12719", "58965-V3", null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Blower", Component.ComponentType.BLOWER.name(), "spa compact quiet-flo blower", "V/Hz: 115V/60Hz Amps: 6.3m, Horsepower: 1,Cord: NEMA plug", "8141-0020", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Blower", Component.ComponentType.BLOWER.name(), "spa compact quiet-flo blower with heater", "V/Hz: 115V/60Hz Amps: 11.9m, 600W,Cord: NEMA plug", "8141-6020", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
 
-        materialList.add(createMaterial(Component.ComponentType.BLOWER.name(), "spa compact quiet-flo blower", "V/Hz: 115V/60Hz Amps: 6.3m, Horsepower: 1,Cord: NEMA plug", "8141-0020", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.BLOWER.name(), "spa compact quiet-flo blower with heater", "V/Hz: 115V/60Hz Amps: 11.9m, 600W,Cord: NEMA plug", "8141-6020", null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Mister", Component.ComponentType.MISTER.name(), "Mister 2000", "Mister KJFL33", "51151", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Mister", Component.ComponentType.MISTER.name(), "Deluxe Mister", "Mister, 6 ", "51152", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
 
-        materialList.add(createMaterial(Component.ComponentType.MISTER.name(), "JBL Stereo", "JBL - Control One 4in. Indoor/Outdoor Speakers", "808-441a4", null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Stereo", Component.ComponentType.AUX.name(), "BLUEWAVE™ Spa Stereo System", "Play Music from you iphone", "808-441a4", null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Stereo", Component.ComponentType.AUX.name(), "Bose Wireless Stereo", "SoundTouch® 10 wireless music system.", "808-441a5", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Umbrella, Speakers",Component.ComponentType.AUX.name(), "Umbrella Stereo", "Seranata Patio Umbrella w/ Stereo System", "808-441a6", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Waterfall", Component.ComponentType.AUX.name(), "Waterfall", "Aurora Cascade Water Feature", "001820001", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Auxillary", Component.ComponentType.AUX.name(), "Dynamic Jet Sequencer", "Dynamic Jet Sequencer", "22144144", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
 
-        materialList.add(createMaterial(Component.ComponentType.AUX.name(), "JBL Stereo", "JBL - Control One 4in. Indoor/Outdoor Speakers", "808-441a4", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.AUX.name(), "Bose Wireless Stereo", "SoundTouch® 10 wireless music system.", "808-441a5", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.AUX.name(), "Umbrella Stereo", "Seranata Patio Umbrella w/ Stereo System", "808-441a6", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.AUX.name(), "Waterfall", "Aurora Cascade Water Feature", "001820001", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.AUX.name(), "Dynamic Jet Sequencer", "Dynamic Jet Sequencer", "22144144", null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Panel", Component.ComponentType.PANEL.name(), "ML7 Series", "PANEL JACEUR ML700 NO JETS 2 (1)", "53727", null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Display Panel", Component.ComponentType.PANEL.name(), "ML9 Series", "PANEL JACEUR ML900 NO JETS 2 (1)", "53729", null, THREE_YEAR_WARRANTY_DAYS, justOne));
 
-        materialList.add(createMaterial(Component.ComponentType.PANEL.name(), "ML Series, ML900", "ML900, 12 Button, 11.64 x 3.14 in", "52026", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.PANEL.name(), "ML Series, ML700", "ML700, 8 Button, 9.82 x 3.14 in", "52622", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.PANEL.name(), "ML Series, ML550", "ML900, 4 Button, 7.53 x 2.32", "52131", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.PANEL.name(), "ML Series, ML260", "ML900, 12 Button, 13.22 x 4.2", "52111", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.PANEL.name(), "TP Series, TP600", "TP600, 6 Button, 7.22 x 4.2", "59150", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.PANEL.name(), "TP Series, TP800", "TP600, 8 Button, 7.22 x 4.2", "59180", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.PANEL.name(), "TP Series, TP900", "TP600, 9 Button, 11.22 x 4.2", "59100", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.PANEL.name(), "VL Series, VL701", "701, 7 Button, 10.3 x 4.6", "54652", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.PANEL.name(), "VL Series, VL702", "702, 7 Button, 10.3 x 4.6", "54654", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.PANEL.name(), "VL Series, VL404", "4 Button, 5.3 x 4.6", "54633", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.PANEL.name(), "VL Series, VL404T", "4 Button, 6.3 x 4.6", "54655", null, THREE_YEAR_WARRANTY_DAYS, justOne));
 
-        materialList.add(createMaterial(Component.ComponentType.MISTER.name(), "Mister Mister", "2k J", "15511", null, THREE_YEAR_WARRANTY_DAYS, justOne));
-        materialList.add(createMaterial(Component.ComponentType.MISTER.name(), "Mister Mister", "2k J", "15511", null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Panel", Component.ComponentType.PANEL.name(), "ML Series, ML900", "ML900, 12 Button, 11.64 x 3.14 in", "52026", null, THREE_YEAR_WARRANTY_DAYS, justTwo));
+        materialList.add(createMaterial("Panel", Component.ComponentType.PANEL.name(), "ML Series, ML700", "ML700, 8 Button, 9.82 x 3.14 in", "52622", null, THREE_YEAR_WARRANTY_DAYS, justTwo));
+        materialList.add(createMaterial("Panel", Component.ComponentType.PANEL.name(), "ML Series, ML550", "ML900, 4 Button, 7.53 x 2.32", "52131", null, THREE_YEAR_WARRANTY_DAYS, justTwo));
+        materialList.add(createMaterial("Panel", Component.ComponentType.PANEL.name(), "ML Series, ML260", "ML900, 12 Button, 13.22 x 4.2", "52111", null, THREE_YEAR_WARRANTY_DAYS, justTwo));
+        materialList.add(createMaterial("Panel", Component.ComponentType.PANEL.name(), "TP Series, TP600", "TP600, 6 Button, 7.22 x 4.2", "59150", null, THREE_YEAR_WARRANTY_DAYS, justTwo));
+        materialList.add(createMaterial("Panel", Component.ComponentType.PANEL.name(), "TP Series, TP800", "TP600, 8 Button, 7.22 x 4.2", "59180", null, THREE_YEAR_WARRANTY_DAYS, justTwo));
+        materialList.add(createMaterial("Panel", Component.ComponentType.PANEL.name(), "TP Series, TP900", "TP600, 9 Button, 11.22 x 4.2", "59100", null, THREE_YEAR_WARRANTY_DAYS, justTwo));
+        materialList.add(createMaterial("Panel", Component.ComponentType.PANEL.name(), "VL Series, VL701", "701, 7 Button, 10.3 x 4.6", "54652", null, THREE_YEAR_WARRANTY_DAYS, justTwo));
+        materialList.add(createMaterial("Panel", Component.ComponentType.PANEL.name(), "VL Series, VL702", "702, 7 Button, 10.3 x 4.6", "54654", null, THREE_YEAR_WARRANTY_DAYS, justTwo));
+        materialList.add(createMaterial("Panel", Component.ComponentType.PANEL.name(), "VL Series, VL404", "4 Button, 5.3 x 4.6", "54633", null, THREE_YEAR_WARRANTY_DAYS, justTwo));
+        materialList.add(createMaterial("Panel", Component.ComponentType.PANEL.name(), "VL Series, VL404T", "4 Button, 6.3 x 4.6", "54655", null, THREE_YEAR_WARRANTY_DAYS, justTwo));
+
 
         return materialList;
     }
 
-    protected Material createMaterial(String type, String brandName, String description, String sku, String alternateSku, int warrantyDays, List<String> oemIds){
+    protected Material createMaterial(String displayName, String type, String brandName, String description, String sku, String alternateSku, int warrantyDays, List<String> oemIds){
         Material material = new Material();
         material.setComponentType(type);
         material.setBrandName(brandName);
@@ -309,6 +313,7 @@ public class ModelTestBase {
         material.setUploadDate(new Date());
         material.setOemId(oemIds);
         material = materialRepository.save(material);
+        material.setDisplayName(displayName);
         return material;
     }
 
@@ -386,6 +391,14 @@ public class ModelTestBase {
     }
 
     protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId) {
+        return createFullSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, null, null);
+    }
+
+    protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, User associate) {
+        return createFullSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, spaId, associate, null);
+    }
+
+    protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, User associate, User technician) {
         Spa spa = new Spa();
         if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
@@ -394,7 +407,19 @@ public class ModelTestBase {
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
-        spa.setOwner(owner);
+        if (owner != null) {
+            owner.setSpaId(spaId);
+            userRepository.save(owner);
+            spa.setOwner(owner);
+            spa.setSalesDate(new Date());
+            spa.setTransactionCode(String.valueOf((int)(Math.random()*10000)));
+        }
+        if (associate != null) {
+            spa.setAssociate(associate.toMinimal());
+        }
+        if (technician != null) {
+            spa.setTechnician(technician.toMinimal());
+        }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
@@ -491,6 +516,10 @@ public class ModelTestBase {
     }
 
     protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId) {
+        return createSmallSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, null, null);
+    }
+
+    protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, User associate) {
         Spa spa = new Spa();
         if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
@@ -499,7 +528,16 @@ public class ModelTestBase {
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
-        spa.setOwner(owner);
+        if (owner != null) {
+            owner.setSpaId(spaId);
+            userRepository.save(owner);
+            spa.setOwner(owner);
+            spa.setSalesDate(new Date());
+            spa.setTransactionCode("a" + String.valueOf((int)(Math.random()*10000)));
+        }
+        if (associate != null) {
+            spa.setAssociate(associate.toMinimal());
+        }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
@@ -560,7 +598,13 @@ public class ModelTestBase {
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
-        spa.setOwner(owner);
+        if (owner != null) {
+            owner.setSpaId(spaId);
+            userRepository.save(owner);
+            spa.setOwner(owner);
+            spa.setSalesDate(new Date());
+            spa.setTransactionCode(String.valueOf((int)(Math.random()*20000)));
+        }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
@@ -609,7 +653,7 @@ public class ModelTestBase {
         return spa;
     }
 
-    protected Spa createDemoSpa1(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN) {
+    protected Spa createDemoSpa1(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate) {
         final String productName = "Shark";
         final String model = "Blue";
         Spa spa = new Spa();
@@ -620,7 +664,16 @@ public class ModelTestBase {
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
-        spa.setOwner(owner);
+        if (owner != null) {
+            owner.setSpaId(spaId);
+            userRepository.save(owner);
+            spa.setOwner(owner);
+            spa.setSalesDate(new Date());
+            spa.setTransactionCode(String.valueOf((int)(Math.random()*10000)));
+        }
+        if (associate != null) {
+            spa.setAssociate(associate.toMinimal());
+        }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
@@ -663,7 +716,7 @@ public class ModelTestBase {
         return spa;
     }
 
-    protected Spa createDemoSpa2(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN) {
+    protected Spa createDemoSpa2(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate) {
         final String productName = "Shark";
         final String model = "Tiger";
 
@@ -675,7 +728,16 @@ public class ModelTestBase {
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
-        spa.setOwner(owner);
+        if (owner != null) {
+            owner.setSpaId(spaId);
+            userRepository.save(owner);
+            spa.setOwner(owner);
+            spa.setSalesDate(new Date());
+            spa.setTransactionCode(String.valueOf((int)(Math.random()*10000)));
+        }
+        if (associate != null) {
+            spa.setAssociate(associate.toMinimal());
+        }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
@@ -721,7 +783,7 @@ public class ModelTestBase {
         return spa;
     }
 
-    protected Spa createDemoSpa3(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN) {
+    protected Spa createDemoSpa3(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate) {
         final String productName = "Whale";
         final String model = "Beluga";
 
@@ -733,7 +795,16 @@ public class ModelTestBase {
         spa.setProductName(productName);
         spa.setModel(model);
         spa.setDealerId(dealerId);
-        spa.setOwner(owner);
+        if (owner != null) {
+            owner.setSpaId(spaId);
+            userRepository.save(owner);
+            spa.setOwner(owner);
+            spa.setSalesDate(new Date());
+            spa.setTransactionCode(String.valueOf((int)(Math.random()*10000)));
+        }
+        if (associate != null) {
+            spa.setAssociate(associate.toMinimal());
+        }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
         spa.setRegistrationDate(new Date());
@@ -878,6 +949,7 @@ public class ModelTestBase {
         spaTemplate.setSku(sku);
         spaTemplate.setOemId(oemId);
         spaTemplate.setNotes("This is a test note.");
+        spaTemplate.setWarrantyDays(3650);
 
         materialList.stream().forEach(m -> {
             m.setOemId(null);

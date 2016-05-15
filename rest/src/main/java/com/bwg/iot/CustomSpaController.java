@@ -5,6 +5,7 @@ package com.bwg.iot;
  */
 
 import com.bwg.iot.model.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class CustomSpaController {
     SpaRepository spaRepository;
 
     @RequestMapping(value = "/{spaId}/sellSpa", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> restartAgent(@PathVariable String spaId, @RequestBody SellSpaRequest request) {
+    public ResponseEntity<?> sellSpa(@PathVariable String spaId, @RequestBody SellSpaRequest request) {
         String ownerId = request.getOwnerId();
         String associateId = request.getAssociateId();
         String technicianId = request.getTechnicianId();
@@ -50,6 +51,9 @@ public class CustomSpaController {
         if (owner == null) {
             return new ResponseEntity<String>("Invalid Owner ID, owner not found",HttpStatus.BAD_REQUEST);
         }
+        if (StringUtils.isNotEmpty(owner.getSpaId())) {
+            return new ResponseEntity<String>("This person already owns a spa. We currently only allow 1 spa per user account.", HttpStatus.BAD_REQUEST);
+        }
 
         User associate = userRepository.findOne(associateId);
         if (associate == null) {
@@ -60,9 +64,12 @@ public class CustomSpaController {
         }
         associate = associate.toMinimal();
 
-        User technician = userRepository.findOne(technicianId);
-        if (technician != null && !technician.hasRole(User.Role.TECHNICIAN.toString())) {
-            return new ResponseEntity<String>("Invalid technician ID, user does not have TECHNICIAN role.",HttpStatus.BAD_REQUEST);
+        User technician = null;
+        if (technicianId != null) {
+            technician = userRepository.findOne(technicianId);
+            if (technician != null && !technician.hasRole(User.Role.TECHNICIAN.toString())) {
+                return new ResponseEntity<String>("Invalid technician ID, user does not have TECHNICIAN role.", HttpStatus.BAD_REQUEST);
+            }
         }
 
         owner.setSpaId(spa.get_id());
@@ -119,6 +126,7 @@ public class CustomSpaController {
         for( Component component : components) {
             component.setSpaId(myNewSpa.get_id());
             component.setOemId(myNewSpa.getOemId());
+            component.removeLinks();
 
             // TODO: validate SKU
             // validate component

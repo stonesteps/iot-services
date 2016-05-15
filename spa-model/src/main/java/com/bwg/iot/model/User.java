@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -13,7 +15,7 @@ import java.util.List;
 import static org.springframework.hateoas.jaxrs.JaxRsLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
-
+@Document
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class User extends ResourceSupport {
 
@@ -38,8 +40,15 @@ public class User extends ResourceSupport {
 
     private String spaId;
 
+    @Transient
+    private String fullName;
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
+
     @JsonIgnore
     private String password;
+
 
     public boolean hasRole(String role) {
         return roles.contains(role);

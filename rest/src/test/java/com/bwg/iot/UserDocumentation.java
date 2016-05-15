@@ -213,7 +213,7 @@ public final class UserDocumentation extends ModelTestBase {
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("USER"), null);
+        User user = createUser("afranklin", "Aretha", "Franklin", "111", "222", address, Arrays.asList("USER"), null);
 
         this.mockMvc.perform(get("/users/{0}", user.get_id())).andExpect(status().isOk())
                 .andExpect(jsonPath("firstName", is(user.getFirstName())))
@@ -225,6 +225,7 @@ public final class UserDocumentation extends ModelTestBase {
                                 fieldWithPath("username").description("Unique string for the user"),
                                 fieldWithPath("firstName").description("First name of the user"),
                                 fieldWithPath("lastName").description("Last name of the user"),
+                                fieldWithPath("fullName").description("First and Last name"),
                                 fieldWithPath("dealerId").description("dealer id"),
                                 fieldWithPath("oemId").description("Manufacturer id"),
                                 fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),
@@ -256,6 +257,7 @@ public final class UserDocumentation extends ModelTestBase {
                                 fieldWithPath("username").description("Unique string for the user"),
                                 fieldWithPath("firstName").description("First name of the user"),
                                 fieldWithPath("lastName").description("Last name of the user"),
+                                fieldWithPath("fullName").description("First and Last name"),
                                 fieldWithPath("dealerId").description("Dealer id"),
                                 fieldWithPath("oemId").description("Manufacturer id"),
                                 fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),

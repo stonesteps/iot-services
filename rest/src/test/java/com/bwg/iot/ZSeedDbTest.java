@@ -57,12 +57,12 @@ public final class ZSeedDbTest extends ModelTestBase {
 
 		clearAllData();
 
-        List<Address> addresses = createAddresses(30);
+        List<Address> addresses = createAddresses(40);
 
         // create some oems and dealers
-        Oem oem1 = createOem("Mod Spas Inc.", addresses.get(0), "oem001");
-        Oem oem2 = createOem("Rockers Ltd.", addresses.get(1), "oem002");
-        Dealer dealer1 = createDealer("Fred's Spas", addresses.get(2), oem1.get_id(), "dealer001");
+        Oem oem1 = createOem("Jacuzzi Europe Spa - Italy.", addresses.get(0), "oem001");
+        Oem oem2 = createOem("Maax Spas Industries Corp.", addresses.get(1), "oem002");
+        Dealer dealer1 = createDealer("Jacuzzi Europe Spa - Italy", addresses.get(2), oem1.get_id(), "oem001");
         Dealer dealer2 = createDealer("Pt. Loma Spa Outlet", addresses.get(3), oem1.get_id(), "dealer002");
         Dealer dealer3 = createDealer("SpaStic", addresses.get(15), oem2.get_id(), "dealer003");
 
@@ -71,23 +71,24 @@ public final class ZSeedDbTest extends ModelTestBase {
         List<String> salesRole = Arrays.asList(User.Role.DEALER.name(), User.Role.ASSOCIATE.name());
         List<String> techRole = Arrays.asList(User.Role.DEALER.name(), User.Role.TECHNICIAN.name());
         List<String> oemRole = Arrays.asList(User.Role.OEM.name());
+        List<String> oemDealerRole = Arrays.asList(User.Role.OEM.name(), User.Role.ASSOCIATE.name());
         List<String> bwgRole = Arrays.asList(User.Role.BWG.name());
         List<String> adminRole = Arrays.asList(User.Role.BWG.name(), User.Role.OEM.name(),
                 User.Role.DEALER.name(), User.Role.ADMIN.name());
         List<String> dealerAdminRole = Arrays.asList(User.Role.DEALER.name(), User.Role.ADMIN.name());
-        List<String> oemAdminRole = Arrays.asList(User.Role.OEM.name(), User.Role.ADMIN.name());
+        List<String> oemAdminRole = Arrays.asList(User.Role.OEM.name(), User.Role.ADMIN.name(), User.Role.ASSOCIATE.name());
         List<String> bwgAdminRole = Arrays.asList(User.Role.BWG.name(), User.Role.ADMIN.name());
 
-        User owner1 = createUser("user0001", "braitt", "Bonnie", "Raitt", dealer1.get_id(), oem1.get_id(), addresses.get(4), ownerRole, "Bonnie is the owner of a single spa");
+        User owner1 = createUser("user0001", "braitt", "Bonnie", "Raitt", dealer1.get_id(), oem1.get_id(), addresses.get(4), ownerRole, "Bonnie is the owner of this spa");
         User owner2 = createUser("user0002", "ptownsend", "Pete", "Townsend", dealer1.get_id(), oem1.get_id(), addresses.get(4), ownerRole, null);
         User owner3 = createUser("user0003", "pgabriel", "Peter", "Gabriel", dealer1.get_id(), oem1.get_id(), addresses.get(5), ownerRole, null);
         User owner4 = createUser("user0004", "lgaga", "Lady", "Gaga", dealer2.get_id(), oem2.get_id(), addresses.get(6), ownerRole, null);
         User owner5 = createUser("user0005", "chynde", "Chrissie", "Hynde", dealer1.get_id(), oem1.get_id(), addresses.get(7), ownerRole, null);
         User owner6 = createUser("user0025", "jcroce", "Jim", "Croce", dealer2.get_id(), oem1.get_id(), addresses.get(26), ownerRole, null);
-        User owner7 = createUser("user0026", "mmathers", "Micheal", "Mathers", dealer3.get_id(), oem2.get_id(), addresses.get(27), ownerRole, null);
+        User owner7 = createUser("user0026", "mmathers", "Marshall", "Mathers", dealer3.get_id(), oem2.get_id(), addresses.get(27), ownerRole, null);
         User owner8 = createUser("user0027", "sdogg", "Calvin", "Broadus", dealer3.get_id(), oem2.get_id(), addresses.get(28), ownerRole, null);
 
-        User maker1 = createUser("user0006", "jpage", "Jimmy", "Page", null, oem1.get_id(), addresses.get(8), oemRole, null);
+        User maker1 = createUser("user0006", "jpage", "Jimmy", "Page", dealer1.get_id(), oem1.get_id(), addresses.get(8), oemDealerRole, null);
         User maker2 = createUser("user0007", "pfenton", "Peter", "Fenton", null, oem2.get_id(), addresses.get(9), oemRole, null);
         User pink   = createUser("user0008", "bgeldof", "Bob", "Geldof", null, null, addresses.get(10), bwgRole, null);
         User oz     = createUser("user0009", "oosborn", "Ozzie", "Osborn", null, null, addresses.get(11), adminRole, null);
@@ -95,6 +96,7 @@ public final class ZSeedDbTest extends ModelTestBase {
         User sales1 = createUser("user0010", "nfinn", "Neil", "Finn", dealer1.get_id(), oem1.get_id(), addresses.get(12), salesRole, null);
         User sales2 = createUser("user0011", "bpreston", "Billy", "Preston", dealer1.get_id(), oem1.get_id(), addresses.get(12), salesRole, null);
         User sales3 = createUser("user0012", "cclemons", "Clarence", "Clemons", dealer2.get_id(), oem1.get_id(), addresses.get(12), salesRole, null);
+        User sales4 = createUser("user0025", "rwaters", "Roger", "Waters", dealer3.get_id(), oem2.get_id(), addresses.get(28), salesRole, null);
         User tech1  = createUser("user0013", "wgates", "William", "Gates", dealer1.get_id(), oem1.get_id(), addresses.get(13), techRole, null);
         User tech2  = createUser("user0014", "sjobs", "Stefan", "Jobs", dealer1.get_id(), oem1.get_id(), addresses.get(14), techRole, null);
 
@@ -122,21 +124,22 @@ public final class ZSeedDbTest extends ModelTestBase {
         List<Material> spaTemplate2List = Arrays.asList(materialList.get(3), materialList.get(7));
 
         // create spaTemplates
-        SpaTemplate st1 = createSpaTemplate("Maxx Collection", "581", "109834-1525-581", "oem001", spaTemplate1List);
-        SpaTemplate st2 = createSpaTemplate("Maxx Collection", "811", "109834-1525-811", "oem001", spaTemplate2List);
+        SpaTemplate st1 = createSpaTemplate("J-500 Luxury Collection", "J-585", "109834-1525-585", "oem001", spaTemplate1List);
+        SpaTemplate st2 = createSpaTemplate("J-400 Designer Collection", "J-495", "109834-1425-495", "oem001", spaTemplate2List);
         SpaTemplate st3 = createSpaTemplate("Hot Spring Spas", "Los Coyote", "109834-1525-811", "oem002", spaTemplate2List);
 
         // create a variety of spas.  sold, unsold, fully populated w components, some with alerts...
-        Spa spa22 = createDemoSpa1("150307", oem1.get_id(), dealer1.get_id(), owner1, "spa000022", GATEWAY_1_SN);
-        Spa spa24 = createDemoSpa2("160104", oem1.get_id(), dealer1.get_id(), owner2, "spa000024", GATEWAY_2_SN);
-        Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", oem1.get_id(), dealer1.get_id(), owner3, "spa000025");
+        Spa spa22 = createDemoSpa1("150307", oem1.get_id(), dealer1.get_id(), owner1, "spa000022", GATEWAY_1_SN, maker1);
+        Spa spa24 = createDemoSpa2("160104", oem1.get_id(), dealer1.get_id(), owner2, "spa000024", GATEWAY_2_SN, sales1);
+        Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", oem1.get_id(), dealer1.get_id(), owner3, "spa000025", sales2);
         this.add2Alerts(spa25);
-        Spa spa26 = createFullSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4, "spa000026");
+        Spa spa26 = createFullSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4, "spa000026", sales3);
         spa26 = this.addOverheatRedAlert(spa26);
-        Spa spa27 = createDemoSpa3("160315", oem1.get_id(), dealer1.get_id(), owner5, "spa000027", GATEWAY_3_SN);
-        Spa spa23 = createSmallSpaWithState("160412", "Fish", "Minnow", oem1.get_id(), dealer2.get_id(), owner6, "spa000023");
-        Spa spa28 = createSmallSpaWithState("160412", "Shark", "Card", oem2.get_id(), dealer3.get_id(), owner7, "spa000028");
-        Spa spa29 = createSmallSpaWithState("160412", "Shark", "Land", oem2.get_id(), dealer3.get_id(), owner8, "spa000029");
+        Spa spa27 = createDemoSpa3("160315", oem1.get_id(), dealer1.get_id(), owner5, "spa000027", GATEWAY_3_SN, sales1);
+
+        Spa spa23 = createSmallSpaWithState("160412", "Fish", "Minnow", oem1.get_id(), dealer2.get_id(), owner6, "spa000023", maker1);
+        Spa spa28 = createSmallSpaWithState("160412", "Shark", "Card", oem2.get_id(), dealer3.get_id(), owner7, "spa000028", sales4);
+        Spa spa29 = createSmallSpaWithState("160412", "Shark", "Land", oem2.get_id(), dealer3.get_id(), owner8, "spa000029", sales4);
 
         Spa spa1  = createSmallSpaWithState("160217", "Shark", "Hammerhead", oem1.get_id(), dealer1.get_id(), null, "spa000001");
         Spa spa2  = createSmallSpaWithState("160217", "Shark", "Hammerhead", oem1.get_id(), dealer1.get_id(), null, "spa000002");

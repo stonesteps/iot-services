@@ -164,8 +164,10 @@ public class ApiDocumentation extends ModelTestBase{
 	@Test
 	public void spaGetExample() throws Exception {
 
-		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
-        Spa spa = createFullSpaWithState("0blah345", "Shark", "Blue", "oem0000001", "101", owner);
+		User owner = createUser("eblues", "Elwood", "Blues", "dealer2509", "oem001", createAddress(), Arrays.asList("OWNER"), null);
+		User sales1 = createUser("user0010", "nfinn", "Neil", "Finn", "dealer2509", "oem001", createAddress(), Arrays.asList(User.Role.ASSOCIATE.name()), null);
+		User tech1  = createUser("user0013", "wgates", "William", "Gates", "dealer2509", "oem001", createAddress(), Arrays.asList(User.Role.TECHNICIAN.name()), null);
+        Spa spa = createFullSpaWithState("0blah345", "Shark", "Blue", "oem0000001", "101", owner, null, sales1, tech1);
         spa = this.addLowFlowYellowAlert(spa);
 
 		String spaLocation = "/spas/"+spa.get_id();
@@ -189,7 +191,11 @@ public class ApiDocumentation extends ModelTestBase{
                             fieldWithPath("serialNumber").description("The serial of the spa"),
                             fieldWithPath("productName").description("The product name of the spa"),
                             fieldWithPath("model").description("The spa model"),
-                            fieldWithPath("owner").description("The owner of the spa"),
+                            fieldWithPath("owner").description("The owner of the spa").optional().type(User.class),
+							fieldWithPath("associate").description("Person who sold the spa").optional().type(User.class),
+							fieldWithPath("technician").description("The person assigned to service the spa").optional().type(User.class),
+							fieldWithPath("transactionCode").description("Optional ticket number of the sale").optional().type("String"),
+							fieldWithPath("salesDate").description("Date this spa was sold").optional().type(Date.class),
 							fieldWithPath("sold").description("Flag denoting if spa has been sold"),
 							fieldWithPath("online").description("Boolean, is spa communicating with cloud"),
                             fieldWithPath("alerts").description("Current Issues with the spa"),
@@ -262,6 +268,10 @@ public class ApiDocumentation extends ModelTestBase{
 							fieldWithPath("productName").description("The product name of the spa"),
 							fieldWithPath("model").description("The spa model"),
 							fieldWithPath("owner").description("The owner of the spa"),
+							fieldWithPath("associate").description("Person who sold the spa").optional().type(User.class),
+							fieldWithPath("technician").description("The person assigned to service the spa").optional().type(User.class),
+							fieldWithPath("transactionCode").description("Optional ticket number of the sale").optional().type("String"),
+							fieldWithPath("salesDate").description("Date this spa was sold").optional().type(Date.class),
 							fieldWithPath("sold").description("Flag denoting if spa has been sold"),
 							fieldWithPath("online").description("Boolean, is spa communicating with cloud"),
 							fieldWithPath("alerts").description("Current Issues with the spa").optional().type(Alert.class),

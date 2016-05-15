@@ -76,6 +76,11 @@
             <artifactId>bwg-iot-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>gluu.scim.client</groupId>
+            <artifactId>SCIM-Client</artifactId>
+            <version>2.4.2.Final</version>
+        </dependency>
     </dependencies>
 
     <build>
