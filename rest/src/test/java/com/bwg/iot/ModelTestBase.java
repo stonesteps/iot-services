@@ -189,14 +189,14 @@ public class ModelTestBase {
     public final static String CONTROLLER4_SKU = "56550-02";
 
 
-    protected List<Material>  setupTestMaterials() {
+    protected List<Material> setupTestMaterials() {
         List<Address> addresses = createAddresses(2);
         Oem oem1 = createOem("Blue Wave Spas, LTD", addresses.get(0), "oem101");
         Oem oem2 = createOem("Jazzi Pool & Spa Products, LTD", addresses.get(1), "oem102");
         return setupTestMaterials(oem1, oem2);
     }
 
-    protected List<Material> setupTestMaterials(Oem oem1, Oem oem2){
+    protected List<Material> setupTestMaterials(Oem oem1, Oem oem2) {
         List<String> bothOems = Arrays.asList(oem1.get_id(), oem2.get_id());
         List<String> justOne = Arrays.asList(oem1.get_id());
         List<String> justTwo = Arrays.asList(oem2.get_id());
@@ -207,8 +207,8 @@ public class ModelTestBase {
         Material material4 = createMaterial("Foot Massage", Component.ComponentType.PUMP.name(), PUMP4_BRAND_NAME, PUMP4_DESCRIPTION, PUMP4_SKU, PUMP4_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
         Material material5 = createMaterial("Main Jets", Component.ComponentType.PUMP.name(), PUMP5_BRAND_NAME, PUMP5_DESCRIPTION, PUMP5_SKU, null, 0, justTwo);
 
-        Material material6 = createMaterial("Controller",Component.ComponentType.CONTROLLER.name(), CONTROLLER1_BRAND_NAME, CONTROLLER1_DESCRIPTION, CONTROLLER1_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
-        Material material7 = createMaterial("Controller",Component.ComponentType.CONTROLLER.name(), CONTROLLER2_BRAND_NAME, CONTROLLER2_DESCRIPTION, CONTROLLER2_SKU, null, THREE_YEAR_WARRANTY_DAYS, justTwo);
+        Material material6 = createMaterial("Controller", Component.ComponentType.CONTROLLER.name(), CONTROLLER1_BRAND_NAME, CONTROLLER1_DESCRIPTION, CONTROLLER1_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
+        Material material7 = createMaterial("Controller", Component.ComponentType.CONTROLLER.name(), CONTROLLER2_BRAND_NAME, CONTROLLER2_DESCRIPTION, CONTROLLER2_SKU, null, THREE_YEAR_WARRANTY_DAYS, justTwo);
         Material material8 = createMaterial("Spa Touch", Component.ComponentType.CONTROLLER.name(), CONTROLLER3_BRAND_NAME, CONTROLLER3_DESCRIPTION, CONTROLLER3_SKU, null, THREE_YEAR_WARRANTY_DAYS, justTwo);
         Material material9 = createMaterial("Controller", Component.ComponentType.CONTROLLER.name(), CONTROLLER4_BRAND_NAME, CONTROLLER4_DESCRIPTION, CONTROLLER4_SKU, null, THREE_YEAR_WARRANTY_DAYS, justTwo);
 
@@ -216,12 +216,12 @@ public class ModelTestBase {
         return materialList;
     }
 
-    protected List<Material> setupSeveralTestMaterials(Oem oem1, Oem oem2){
+    protected List<Material> setupSeveralTestMaterials(Oem oem1, Oem oem2) {
         List<String> bothOems = Arrays.asList(oem1.get_id(), oem2.get_id());
         List<String> justOne = Arrays.asList(oem1.get_id());
         List<String> justTwo = Arrays.asList(oem2.get_id());
-        List<Material> materialList = new ArrayList<Material> ();
-        
+        List<Material> materialList = new ArrayList<Material>();
+
         materialList.add(createMaterial("Captain's Chair", Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems));
         materialList.add(createMaterial("Main Jets", Component.ComponentType.PUMP.name(), PUMP2_BRAND_NAME, PUMP2_DESCRIPTION, PUMP2_SKU, PUMP2_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems));
         materialList.add(createMaterial("Main Jets", Component.ComponentType.PUMP.name(), PUMP3_BRAND_NAME, PUMP3_DESCRIPTION, PUMP3_SKU, null, ONE_YEAR_WARRANTY_DAYS, bothOems));
@@ -238,7 +238,7 @@ public class ModelTestBase {
         materialList.add(createMaterial("Gateway", Component.ComponentType.GATEWAY.name(), "Triton Gateway: Beta 03", "ts7970 , Agent 1.0.0", "17092-83280-1b", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
         materialList.add(createMaterial("Gateway", Component.ComponentType.GATEWAY.name(), "Triton Gateway: Beta 02", "renasas beta , Agent 1.0.0", "17092-83280-1z3", null, THREE_YEAR_WARRANTY_DAYS, justOne));
 
-        materialList.add(createMaterial("Pump Current Sensor",Component.ComponentType.MOTE.name(), "Triton Current Mote: Beta 02", "tbd", "1-000020-1", null, THREE_YEAR_WARRANTY_DAYS, justOne));
+        materialList.add(createMaterial("Pump Current Sensor", Component.ComponentType.MOTE.name(), "Triton Current Mote: Beta 02", "tbd", "1-000020-1", null, THREE_YEAR_WARRANTY_DAYS, justOne));
         materialList.add(createMaterial("Sensor", Component.ComponentType.MOTE.name(), "Triton Current Mote: Beta 01", "acme inc.", "88-441a4", null, THREE_YEAR_WARRANTY_DAYS, justOne));
 
         materialList.add(createMaterial("Lights", Component.ComponentType.LIGHT.name(), "Standard White Light", "150W, 110V White", "1435661-01", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
@@ -247,7 +247,7 @@ public class ModelTestBase {
         materialList.add(createMaterial("Lights", Component.ComponentType.LIGHT.name(), "Bright White Light", "250W, 110V White", "14214-01", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
         materialList.add(createMaterial("Lights", Component.ComponentType.LIGHT.name(), "Disco Ball", "390W, 110V Multi-color", "213144", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
         materialList.add(createMaterial("Lights", Component.ComponentType.LIGHT.name(), "MoodEFX™ LED Lights (23138)", "22 per pack", "231138", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
-        
+
         materialList.add(createMaterial("Ozone", Component.ComponentType.OZONE.name(), "O3zone Cartridge", "Ozone Generator, CD Cartridge", "54451", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
         materialList.add(createMaterial("Ozone", Component.ComponentType.OZONE.name(), "O3zone", "UV O3 Ozone (59024)", "59024", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
         materialList.add(createMaterial("Ozone", Component.ComponentType.OZONE.name(), "O3zone Chip", "Ozone Adapter AMP to J&J, To J&J PSA-103-07", "21702", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
@@ -272,7 +272,7 @@ public class ModelTestBase {
 
         materialList.add(createMaterial("Stereo", Component.ComponentType.AUX.name(), "BLUEWAVE™ Spa Stereo System", "Play Music from you iphone", "808-441a4", null, THREE_YEAR_WARRANTY_DAYS, justOne));
         materialList.add(createMaterial("Stereo", Component.ComponentType.AUX.name(), "Bose Wireless Stereo", "SoundTouch® 10 wireless music system.", "808-441a5", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
-        materialList.add(createMaterial("Umbrella, Speakers",Component.ComponentType.AUX.name(), "Umbrella Stereo", "Seranata Patio Umbrella w/ Stereo System", "808-441a6", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
+        materialList.add(createMaterial("Umbrella, Speakers", Component.ComponentType.AUX.name(), "Umbrella Stereo", "Seranata Patio Umbrella w/ Stereo System", "808-441a6", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
         materialList.add(createMaterial("Waterfall", Component.ComponentType.AUX.name(), "Waterfall", "Aurora Cascade Water Feature", "001820001", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
         materialList.add(createMaterial("Auxillary", Component.ComponentType.AUX.name(), "Dynamic Jet Sequencer", "Dynamic Jet Sequencer", "22144144", null, THREE_YEAR_WARRANTY_DAYS, bothOems));
 
@@ -296,7 +296,7 @@ public class ModelTestBase {
         return materialList;
     }
 
-    protected Material createMaterial(String displayName, String type, String brandName, String description, String sku, String alternateSku, int warrantyDays, List<String> oemIds){
+    protected Material createMaterial(String displayName, String type, String brandName, String description, String sku, String alternateSku, int warrantyDays, List<String> oemIds) {
         Material material = new Material();
         material.setComponentType(type);
         material.setBrandName(brandName);
@@ -406,7 +406,7 @@ public class ModelTestBase {
             userRepository.save(owner);
             spa.setOwner(owner);
             spa.setSalesDate(new Date());
-            spa.setTransactionCode(String.valueOf((int)(Math.random()*10000)));
+            spa.setTransactionCode(String.valueOf((int) (Math.random() * 10000)));
         }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
@@ -419,6 +419,7 @@ public class ModelTestBase {
         spa.setRegistrationDate(new Date());
         spa.setP2pAPSSID("myWifi");
         spa.setP2pAPPassword("*******");
+        spa.setLocation(new double[]{17.092667, 51.096488});
         spa = this.spaRepository.save(spa);
 
         Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", "IoT Gateway", serialNumber, spa.get_id());
@@ -527,7 +528,7 @@ public class ModelTestBase {
             userRepository.save(owner);
             spa.setOwner(owner);
             spa.setSalesDate(new Date());
-            spa.setTransactionCode("a" + String.valueOf((int)(Math.random()*10000)));
+            spa.setTransactionCode("a" + String.valueOf((int) (Math.random() * 10000)));
         }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
@@ -597,7 +598,7 @@ public class ModelTestBase {
             userRepository.save(owner);
             spa.setOwner(owner);
             spa.setSalesDate(new Date());
-            spa.setTransactionCode(String.valueOf((int)(Math.random()*20000)));
+            spa.setTransactionCode(String.valueOf((int) (Math.random() * 20000)));
         }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
@@ -663,7 +664,7 @@ public class ModelTestBase {
             userRepository.save(owner);
             spa.setOwner(owner);
             spa.setSalesDate(new Date());
-            spa.setTransactionCode(String.valueOf((int)(Math.random()*10000)));
+            spa.setTransactionCode(String.valueOf((int) (Math.random() * 10000)));
         }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
@@ -727,7 +728,7 @@ public class ModelTestBase {
             userRepository.save(owner);
             spa.setOwner(owner);
             spa.setSalesDate(new Date());
-            spa.setTransactionCode(String.valueOf((int)(Math.random()*10000)));
+            spa.setTransactionCode(String.valueOf((int) (Math.random() * 10000)));
         }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
@@ -794,7 +795,7 @@ public class ModelTestBase {
             userRepository.save(owner);
             spa.setOwner(owner);
             spa.setSalesDate(new Date());
-            spa.setTransactionCode(String.valueOf((int)(Math.random()*10000)));
+            spa.setTransactionCode(String.valueOf((int) (Math.random() * 10000)));
         }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
@@ -936,6 +937,7 @@ public class ModelTestBase {
         description.setControllerType("NGSC");
         faultLogDescriptionRepository.save(description);
     }
+
     protected SpaTemplate createSpaTemplate(String productName, String model, String sku, String oemId, List<Material> materialList) {
         SpaTemplate spaTemplate = new SpaTemplate();
         spaTemplate.setProductName(productName);
@@ -959,7 +961,7 @@ public class ModelTestBase {
     protected List<SpaTemplate> createSpaTemplates() {
         // create two oems
         List<Address> addresses = createAddresses(2);
-        Oem oem1 = createOem("Blue Wave Spas, LTD", addresses.get(0), "oem001" );
+        Oem oem1 = createOem("Blue Wave Spas, LTD", addresses.get(0), "oem001");
         Oem oem2 = createOem("Jazzi Pool & Spa Products, LTD", addresses.get(1), "oem002");
 
         // create set of materials
