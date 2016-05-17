@@ -125,7 +125,7 @@ public class CustomSpaController {
         String gatewaySerialNumber = null;
         Component existingGateway = null;
         List<Component> gateways = components.stream()
-                .filter(c -> c.getComponentType().equalsIgnoreCase(Component.ComponentType.GATEWAY.name()))
+                .filter(c -> Component.ComponentType.GATEWAY.name().equalsIgnoreCase(c.getComponentType()))
                 .collect(Collectors.toList());
         if (!gateways.isEmpty()) {
             gatewaySerialNumber = gateways.get(0).getSerialNumber();

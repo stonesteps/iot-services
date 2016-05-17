@@ -154,6 +154,7 @@ public final class ComponentDocumentation extends ModelTestBase{
                                 fieldWithPath("dealerId").description("Id of the spa dealer").optional().type(String.class),
                                 fieldWithPath("spaId").description("Id of the spa").optional().type(String.class),
                                 fieldWithPath("ownerId").description("Owner of the spa").optional().type(String.class),
+								fieldWithPath("factoryInit").description("Boolean flag identifying components created during factory test").type(Boolean.class),
                                 fieldWithPath("_links")
 										.description("<<resources-oem-links,Links>> to other resources"))));
 	}
@@ -177,6 +178,7 @@ public final class ComponentDocumentation extends ModelTestBase{
                                 fieldWithPath("dealerId").description("Id of the spa dealer").optional().type(String.class),
                                 fieldWithPath("spaId").description("Id of the spa").optional().type(String.class),
                                 fieldWithPath("ownerId").description("Owner of the spa").optional().type(String.class),
+								fieldWithPath("factoryInit").description("Boolean flag identifying components created during factory test").type(Boolean.class),
                                 fieldWithPath("_links")
                                         .description("<<resources-oem-links,Links>> to other resources"))));
     }
