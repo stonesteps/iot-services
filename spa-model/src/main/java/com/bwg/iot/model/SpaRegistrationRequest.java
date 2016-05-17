@@ -13,7 +13,8 @@ public class SpaRegistrationRequest extends ResourceSupport {
     private String serialNumber;
     private User user;
     private String access_token;
-
+    private Double lon;
+    private Double lat;
 
     public String getSpaId() {
         return spaId;
@@ -53,6 +54,22 @@ public class SpaRegistrationRequest extends ResourceSupport {
 
     public void setAccess_token(String access_token) {
         this.access_token = access_token;
+    }
+
+    public Double getLon() {
+        return lon;
+    }
+
+    public void setLon(Double lon) {
+        this.lon = lon;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
     }
 
     @Override

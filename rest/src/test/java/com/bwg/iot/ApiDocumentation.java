@@ -205,6 +205,7 @@ public class ApiDocumentation extends ModelTestBase{
                             fieldWithPath("manufacturedDate").description("The date the spa was made"),
                             fieldWithPath("registrationDate").description("The date the spa was sold"),
                             fieldWithPath("p2pAPSSID").description("Wifi address"),
+							fieldWithPath("location").description("Array of doubles representing location of spa [longitude, latitude], can be null"),
 							fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
 	}
 

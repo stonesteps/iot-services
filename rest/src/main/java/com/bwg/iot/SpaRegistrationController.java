@@ -120,6 +120,11 @@ public class SpaRegistrationController {
             return new ResponseEntity<String>("Missing either new user object or existing user access token.", HttpStatus.BAD_REQUEST);
         }
 
+        // set lat/lon if not null
+        if (request.getLon() != null && request.getLat() != null) {
+            mySpa.setLocation(new double[] {request.getLon().doubleValue(), request.getLat().doubleValue()});
+        }
+
         // assign spa to user
         mySpa.setOwner(user);
         spaRepository.save(mySpa);

@@ -3,6 +3,8 @@ package com.bwg.iot.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.hateoas.ResourceSupport;
@@ -36,6 +38,9 @@ public class Spa extends ResourceSupport {
     private Date registrationDate;
     private Date manufacturedDate;
     private String p2pAPSSID;
+
+    @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
+    private double[] location;
 
     @JsonIgnore
     private String p2pAPPassword;
@@ -224,6 +229,14 @@ public class Spa extends ResourceSupport {
 
     public void setSalesDate(Date salesDate) {
         this.salesDate = salesDate;
+    }
+
+    public double[] getLocation() {
+        return location;
+    }
+
+    public void setLocation(double[] location) {
+        this.location = location;
     }
 
     @Override
