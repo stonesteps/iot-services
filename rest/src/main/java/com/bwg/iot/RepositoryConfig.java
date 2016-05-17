@@ -1,11 +1,13 @@
 package com.bwg.iot;
 
 import com.bwg.iot.model.*;
+import com.bwg.iot.validator.BeforeCreateUserValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
 import org.springframework.data.rest.webmvc.config.RepositoryRestMvcConfiguration;
 import org.springframework.web.filter.AbstractRequestLoggingFilter;
 
@@ -20,6 +22,11 @@ public class RepositoryConfig extends RepositoryRestMvcConfiguration {
         config.exposeIdsFor(Spa.class, Alert.class, User.class, SpaCommand.class,
                 Dealer.class, Oem.class, TacUserAgreement.class, TermsAndConditions.class,
                 Material.class, SpaTemplate.class);
+    }
+
+    @Override
+    protected void configureValidatingRepositoryEventListener(ValidatingRepositoryEventListener validatingListener) {
+        validatingListener.addValidator("beforeCreate", new BeforeCreateUserValidator());
     }
 
     @Bean UserEventHandler userEventHandler() {
