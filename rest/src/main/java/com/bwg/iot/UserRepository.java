@@ -38,7 +38,6 @@ public interface UserRepository extends MongoRepository<User, String>, QueryDslP
         bindings.bind(String.class).first((StringPath path, String value) -> path.containsIgnoreCase(value));
         bindings.bind(user.oemId).first((StringPath path, String value) -> path.equalsIgnoreCase(value));
         bindings.bind(user.dealerId).first((StringPath path, String value) -> path.equalsIgnoreCase(value));
-        bindings.bind(String.class).first((StringPath path, String value) -> path.containsIgnoreCase(value));
         bindings.bind(user.roles).first((path, value) -> {
             Iterator<String> it = value.iterator();
             BooleanExpression exp = path.contains(it.next());
