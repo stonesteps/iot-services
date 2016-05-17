@@ -5,6 +5,7 @@ package com.bwg.iot;
  */
 
 import com.bwg.iot.model.*;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/spas")
@@ -113,6 +115,42 @@ public class CustomSpaController {
         if (!remoteUser.hasRole(User.Role.OEM.toString())) {
             return new ResponseEntity<String>("User does not have OEM role", HttpStatus.FORBIDDEN);
         }
+
+        // TODO: validate minimal set of components
+
+        // Remove any existing spas using this gateway.
+        // One may have been created when the Gateway was tested on the factory floor
+        // (make sure they are unsold),  also delete any existing components
+        Component gatewayComponent = null;
+        String gatewaySerialNumber = null;
+        Component existingGateway = null;
+        List<Component> gateways = components.stream()
+                .filter(c -> c.getComponentType().equalsIgnoreCase(Component.ComponentType.GATEWAY.name()))
+                .collect(Collectors.toList());
+        if (!gateways.isEmpty()) {
+            gatewaySerialNumber = gateways.get(0).getSerialNumber();
+        }
+        if (gatewaySerialNumber != null) {
+            existingGateway = componentRepository.findBySerialNumber(gatewaySerialNumber);
+        }
+        if (existingGateway != null) {
+            String existingSpaId = existingGateway.getSpaId();
+            if (existingSpaId != null) {
+                List<Component> existingComponents = componentRepository.findBySpaId(existingSpaId);
+                List<Component> testComponents = existingComponents.stream()
+                        .filter(c -> c.isFactoryInit())
+                        .collect(Collectors.toList());
+                if (CollectionUtils.isNotEmpty(testComponents)) {
+                    componentRepository.delete(testComponents);
+                }
+                Spa existingSpa = spaRepository.findOne(existingSpaId);
+                if (existingSpa != null) {
+                    spaRepository.delete(existingSpa);
+                }
+            }
+        }
+
+        // build up new spa
         myNewSpa.setOemId(remoteUser.getOemId());
 
         // validate spaTemplate, get productName, model, sku
@@ -126,7 +164,9 @@ public class CustomSpaController {
         for( Component component : components) {
             component.setSpaId(myNewSpa.get_id());
             component.setOemId(myNewSpa.getOemId());
+            component.setFactoryInit(false);
             component.removeLinks();
+            component.set_id(null);
 
             // TODO: validate SKU
             // validate component

@@ -43,6 +43,7 @@ public class Component extends ResourceSupport {
     private String port;
     private String sku;
     private Date registrationDate;
+    private Boolean factoryInit = new Boolean(true);
     private HashMap<String, String> metaValues = newHashMap();
 
     public String get_id() {
@@ -147,6 +148,14 @@ public class Component extends ResourceSupport {
 
     public void setMetaValues(HashMap<String, String> values) {
         this.metaValues = values;
+    }
+
+    public Boolean isFactoryInit() {
+        return factoryInit;
+    }
+
+    public void setFactoryInit(Boolean factoryInit) {
+        this.factoryInit = factoryInit;
     }
 
     @Override
