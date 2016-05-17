@@ -124,11 +124,12 @@ public class ModelTestBase {
         return oemRepository.save(oem);
     }
 
-    protected User createUser(String username, String firstName, String lastName, String dealerId, String oemId, Address address, List<String> roles) {
-        return createUser(null, username, firstName, lastName, dealerId, oemId, address, roles);
+    
+    protected User createUser(String username, String firstName, String lastName, String dealerId, String oemId, Address address, List<String> roles, String notes) {
+        return createUser(null, username, firstName, lastName, dealerId, oemId, address, roles, notes);
     }
 
-    protected User createUser(String id, String username, String firstName, String lastName, String dealerId, String oemId, Address address, List<String> roles) {
+    protected User createUser(String id, String username, String firstName, String lastName, String dealerId, String oemId, Address address, List<String> roles, String notes) {
         User user = new User();
         if (StringUtils.isNotEmpty(id)) {
             user.set_id(id);
@@ -143,6 +144,11 @@ public class ModelTestBase {
         user.setEmail(username + "@riot.com");
         user.setPhone("(800) 471-2382");
         user.setCreatedDate(new Date());
+        if (StringUtils.isBlank(notes)) {
+        	user.setNotes("Generic note for " + firstName);
+        } else {
+        	user.setNotes(notes);
+        }
         userRepository.save(user);
         return user;
     }

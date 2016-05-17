@@ -36,6 +36,7 @@ public class User extends ResourceSupport {
     private List<String> roles;
     private Date createdDate;
     private Date modifiedDate;
+    private String notes;
 
     private String spaId;
 
@@ -158,6 +159,13 @@ public class User extends ResourceSupport {
         this.modifiedDate = modifiedDate;
     }
 
+    public String getNotes() {
+      return notes;
+    }
+
+    public void setNotes(String notes) {
+      this.notes = notes;
+    }
     public String getSpaId() {
         return spaId;
     }
@@ -190,6 +198,7 @@ public class User extends ResourceSupport {
         if (address != null ? !address.equals(user.address) : user.address != null) return false;
         if (roles != null ? !roles.equals(user.roles) : user.roles != null) return false;
         if (createdDate != null ? !createdDate.equals(user.createdDate) : user.createdDate != null) return false;
+        if (notes != null ? !notes.equals(user.notes) : user.notes != null) return false;
         return modifiedDate != null ? modifiedDate.equals(user.modifiedDate) : user.modifiedDate == null;
 
     }
@@ -206,6 +215,7 @@ public class User extends ResourceSupport {
         result = 31 * result + (email != null ? email.hashCode() : 0);
         result = 31 * result + (phone != null ? phone.hashCode() : 0);
         result = 31 * result + (roles != null ? roles.hashCode() : 0);
+        result = 31 * result + (notes != null ? notes.hashCode() : 0);
         return result;
     }
 
@@ -226,6 +236,7 @@ public class User extends ResourceSupport {
                 ", roles=" + roles +
                 ", createdDate='" + cdate + '\'' +
                 ", modifiedDate='" + mdate + '\'' +
+                ", notes='" + notes + '\'' +
                 '}';
     }
 

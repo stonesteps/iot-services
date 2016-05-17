@@ -127,7 +127,7 @@ public class ApiDocumentation extends ModelTestBase{
 	public void spasListExample() throws Exception {
 		this.spaRepository.deleteAll();
 
-		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"));
+		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
 		createUnsoldSpa("01924094", "Shark", "Mako", "oem000001", "101");
         createUnsoldSpa("01000000", "Shark", "Hammerhead", "oem000003", "101");
 		createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
@@ -164,9 +164,9 @@ public class ApiDocumentation extends ModelTestBase{
 	@Test
 	public void spaGetExample() throws Exception {
 
-		User owner = createUser("eblues", "Elwood", "Blues", "dealer2509", "oem001", createAddress(), Arrays.asList("OWNER"));
-		User sales1 = createUser("user0010", "nfinn", "Neil", "Finn", "dealer2509", "oem001", createAddress(), Arrays.asList(User.Role.ASSOCIATE.name()));
-		User tech1  = createUser("user0013", "wgates", "William", "Gates", "dealer2509", "oem001", createAddress(), Arrays.asList(User.Role.TECHNICIAN.name()));
+		User owner = createUser("eblues", "Elwood", "Blues", "dealer2509", "oem001", createAddress(), Arrays.asList("OWNER"), null);
+		User sales1 = createUser("user0010", "nfinn", "Neil", "Finn", "dealer2509", "oem001", createAddress(), Arrays.asList(User.Role.ASSOCIATE.name()), null);
+		User tech1  = createUser("user0013", "wgates", "William", "Gates", "dealer2509", "oem001", createAddress(), Arrays.asList(User.Role.TECHNICIAN.name()), null);
         Spa spa = createFullSpaWithState("0blah345", "Shark", "Blue", "oem0000001", "101", owner, null, sales1, tech1);
         spa = this.addLowFlowYellowAlert(spa);
 
@@ -251,7 +251,7 @@ public class ApiDocumentation extends ModelTestBase{
 
 		List<Address> addresses = createAddresses(1);
 		List<String> ownerRole = Arrays.asList("OWNER");
-		User owner1 = createUser("braitt", "Bonnie", "Raitt", null, null, addresses.get(0), ownerRole);
+		User owner1 = createUser("braitt", "Bonnie", "Raitt", null, null, addresses.get(0), ownerRole, null);
 		Spa spa24 = createSmallSpaWithState("160104", "Shark", "Tiger", "oem00003", "101", owner1);
 
 		this.mockMvc.perform(get("/spas/search/findByUsername?username=braitt"))
@@ -326,7 +326,7 @@ public class ApiDocumentation extends ModelTestBase{
 		this.faultLogRepository.deleteAll();
 		this.faultLogDescriptionRepository.deleteAll();
 
-		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"));
+		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
 		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
 		createSpaFaultLogAndDescription(spa.get_id());
 
@@ -344,9 +344,9 @@ public class ApiDocumentation extends ModelTestBase{
 
 		List<Address> addresses = createAddresses(3);
 		List<String> ownerRole = Arrays.asList("OWNER");
-		User owner1 = createUser("npeart", "Neal", "Peart", null, null, addresses.get(0), ownerRole);
-		User associate = createUser("nwilson", "Nancy", "Wilson", "101", "oem001", addresses.get(1), Arrays.asList(User.Role.ASSOCIATE.toString()));
-		User tech = createUser("awilson", "Ann", "Wilson", "101", "oem001", addresses.get(2), Arrays.asList(User.Role.TECHNICIAN.toString()));
+		User owner1 = createUser("npeart", "Neal", "Peart", null, null, addresses.get(0), ownerRole, null);
+		User associate = createUser("nwilson", "Nancy", "Wilson", "101", "oem001", addresses.get(1), Arrays.asList(User.Role.ASSOCIATE.toString()), null);
+		User tech = createUser("awilson", "Ann", "Wilson", "101", "oem001", addresses.get(2), Arrays.asList(User.Role.TECHNICIAN.toString()), null);
 		Spa myNewSpa = createSmallSpaWithState("160104", "Shark", "Tiger", "oem001", "101", null);
 
 		SellSpaRequest request = new SellSpaRequest();
@@ -398,7 +398,7 @@ public class ApiDocumentation extends ModelTestBase{
 		SpaTemplate st1 = createSpaTemplate("Maxx Collection", "581", "109834-1525-581", "oem001", spaTemplate1List);
 
 		List<Address> addresses = createAddresses(3);
-		User bwg = createUser("jpage", "Jimmy", "Page", null, "oem001", addresses.get(0), Arrays.asList(User.Role.OEM.toString()));
+		User bwg = createUser("jpage", "Jimmy", "Page", null, "oem001", addresses.get(0), Arrays.asList(User.Role.OEM.toString()), null);
 
 		Spa spa = new Spa();
 		spa.setTemplateId(st1.get_id());

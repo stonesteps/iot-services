@@ -93,8 +93,8 @@ public class GettingStartedDocumentation extends ModelTestBase {
     public void termsAndConditions() throws JsonProcessingException, Exception {
         clearAllData();
         List<Address> addresses = createAddresses(2);
-        User owner1 = createUser("user0001", "braitt", "Bonnie", "Raitt", "dealer0001", "oem04", addresses.get(0), Arrays.asList("OWNER"));
-        User owner2 = createUser("user0002", "stones", "Keith", "Richards", "dealer0001", "oem04", addresses.get(1), Arrays.asList("OWNER"));
+        User owner1 = createUser("user0001", "braitt", "Bonnie", "Raitt", "dealer0001", "oem04", addresses.get(0), Arrays.asList("OWNER"), null);
+        User owner2 = createUser("user0002", "stones", "Keith", "Richards", "dealer0001", "oem04", addresses.get(1), Arrays.asList("OWNER"), null);
 
         TermsAndConditions tac1 = createTermsAndAgreement("1.0", "The world is mine");
         TacUserAgreement agreement1 = createAgreement(owner1.get_id(), tac1.getVersion());

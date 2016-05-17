@@ -190,7 +190,7 @@ public final class ComponentDocumentation extends ModelTestBase{
 		List<Address> addresses = createAddresses(20);
 		Oem oem2 = createOem("Rockers Ltd.", addresses.get(0), "oem002");
 		Dealer dealer2 = createDealer("Pt. Loma Spa Outlet", addresses.get(1), oem2.get_id(), "dealer002");
-		User owner4 = createUser("lgaga", "Lady", "Gaga", dealer2.get_id(), oem2.get_id(), addresses.get(3), ownerRole);
+		User owner4 = createUser("lgaga", "Lady", "Gaga", dealer2.get_id(), oem2.get_id(), addresses.get(3), ownerRole, null);
 		Spa spa26 = createSmallSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4);
 
 		this.mockMvc.perform(get("/components/search/findBySpaIdOrderByComponentType?spaId=" + spa26.get_id()))
@@ -210,7 +210,7 @@ public final class ComponentDocumentation extends ModelTestBase{
 		List<Address> addresses = createAddresses(20);
 		Oem oem2 = createOem("Rockers Ltd.", addresses.get(0), "oem002");
 		Dealer dealer2 = createDealer("Pt. Loma Spa Outlet", addresses.get(1), oem2.get_id(), "dealer002");
-		User owner4 = createUser("lgaga", "Lady", "Gaga", dealer2.get_id(), oem2.get_id(), addresses.get(3), ownerRole);
+		User owner4 = createUser("lgaga", "Lady", "Gaga", dealer2.get_id(), oem2.get_id(), addresses.get(3), ownerRole, null);
 		Spa spa26 = createSmallSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4);
 
 		this.mockMvc.perform(get("/components/search/findBySpaIdAndComponentTypeOrderByPortAsc?spaId=" + spa26.get_id() + "&componentType=PUMP"))

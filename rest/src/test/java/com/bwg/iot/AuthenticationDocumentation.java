@@ -84,7 +84,7 @@ public final class AuthenticationDocumentation extends ModelTestBase{
 		this.userRepository.deleteAll();
 
 		List<Address> addresses = createAddresses(2);
-		User owner5 = createUser("user0005", "chynde", "Chrissie", "Hynde", "dealer0002", "oem02", addresses.get(0), Arrays.asList("OWNER"));
+		User owner5 = createUser("user0005", "chynde", "Chrissie", "Hynde", "dealer0002", "oem02", addresses.get(0), Arrays.asList("OWNER"), null);
 		Spa spa27 = createDemoSpa("160315", "Whale", "Beluga","oem02", "dealer0002", owner5, "spa000027");
 
 		this.mockMvc.perform(get("/auth/whoami")
@@ -107,7 +107,8 @@ public final class AuthenticationDocumentation extends ModelTestBase{
 								fieldWithPath("createdDate").description("User creation date").type("Date"),
 								fieldWithPath("modifiedDate").description("Date of last update").optional().type("Date"),
 								fieldWithPath("_links")
-										.description("<<resources-user-links,Links>> to other resources"))));
+										.description("<<resources-user-links,Links>> to other resources"),
+								fieldWithPath("notes").description("User's notes"))));
 	}
 
 	@Test
