@@ -1475,3 +1475,37 @@ include::{snippets}/template-create-example/curl-request.adoc[]
 include::{snippets}/template-create-example/http-response.adoc[]
 
 
+
+[[resources-attachment-create]]
+=== Adding an attachment
+
+A `POST` multipart form with params 'name' and 'attachmentFile'.
+
+==== Example request
+
+include::{snippets}/attachment-upload-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/attachment-upload-example/http-response.adoc[]
+
+
+[[resources-attachment-get]]
+=== Obtaining an attachment file
+
+A `GET` will return a binary data that was sent in POST request.
+
+==== Example request
+
+include::{snippets}/attachment-get-example/curl-request.adoc[]
+
+
+[[resources-attachment-delete]]
+=== Deleting an attachment
+
+A `DELETE` removes given attachment.
+
+==== Example request
+
+include::{snippets}/attachment-delete-example/curl-request.adoc[]
+

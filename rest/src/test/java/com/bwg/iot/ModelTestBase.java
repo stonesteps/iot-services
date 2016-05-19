@@ -4,6 +4,8 @@ import com.bwg.iot.builders.SpaStateBuilder;
 import com.bwg.iot.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,6 +55,12 @@ public class ModelTestBase {
     @Autowired
     protected SpaTemplateRepository spaTemplateRepository;
 
+    @Autowired
+    protected AttachmentRepository attachmentRepository;
+
+    @Autowired
+    private GridFsTemplate gridFsTemplate;
+
     protected static int serialSuffix = 1001;
 
     protected void clearAllData() {
@@ -67,6 +75,8 @@ public class ModelTestBase {
         this.tacUserAgreementRepository.deleteAll();
         this.termsAndConditionsRepository.deleteAll();
         this.spaTemplateRepository.deleteAll();
+        this.attachmentRepository.deleteAll();
+        this.gridFsTemplate.delete(new Query());
     }
 
     protected Address createAddress() {
@@ -124,7 +134,7 @@ public class ModelTestBase {
         return oemRepository.save(oem);
     }
 
-    
+
     protected User createUser(String username, String firstName, String lastName, String dealerId, String oemId, Address address, List<String> roles, String notes) {
         return createUser(null, username, firstName, lastName, dealerId, oemId, address, roles, notes);
     }
