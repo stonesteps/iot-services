@@ -111,33 +111,37 @@ public class Material extends ResourceSupport {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Material)) return false;
         if (!super.equals(o)) return false;
 
         Material material = (Material) o;
 
         if (warrantyDays != material.warrantyDays) return false;
-        if (!_id.equals(material._id)) return false;
-        if (!oemId.equals(material.oemId)) return false;
-        if (!brandName.equals(material.brandName)) return false;
+        if (oemId != null ? !oemId.equals(material.oemId) : material.oemId != null) return false;
         if (!componentType.equals(material.componentType)) return false;
-        if (!description.equals(material.description)) return false;
+        if (brandName != null ? !brandName.equals(material.brandName) : material.brandName != null) return false;
+        if (description != null ? !description.equals(material.description) : material.description != null)
+            return false;
         if (!sku.equals(material.sku)) return false;
-        return alternateSku != null ? alternateSku.equals(material.alternateSku) : material.alternateSku == null;
+        if (alternateSku != null ? !alternateSku.equals(material.alternateSku) : material.alternateSku != null)
+            return false;
+        if (uploadDate != null ? !uploadDate.equals(material.uploadDate) : material.uploadDate != null) return false;
+        return displayName != null ? displayName.equals(material.displayName) : material.displayName == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + _id.hashCode();
-        result = 31 * result + oemId.hashCode();
+        result = 31 * result + (oemId != null ? oemId.hashCode() : 0);
         result = 31 * result + componentType.hashCode();
-        result = 31 * result + brandName.hashCode();
-        result = 31 * result + description.hashCode();
+        result = 31 * result + (brandName != null ? brandName.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + sku.hashCode();
         result = 31 * result + (alternateSku != null ? alternateSku.hashCode() : 0);
         result = 31 * result + warrantyDays;
+        result = 31 * result + (uploadDate != null ? uploadDate.hashCode() : 0);
+        result = 31 * result + (displayName != null ? displayName.hashCode() : 0);
         return result;
     }
 
