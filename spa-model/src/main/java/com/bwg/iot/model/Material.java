@@ -15,7 +15,7 @@ public class Material extends ResourceSupport {
 
     @Id
     private String _id;
-    private List<String> oemId;
+    private String oemId;
     private String componentType;
     private String brandName;
     private String description;
@@ -36,11 +36,11 @@ public class Material extends ResourceSupport {
         this._id = _id;
     }
 
-    public List<String> getOemId() {
+    public String getOemId() {
         return oemId;
     }
 
-    public void setOemId(List<String> oemId) {
+    public void setOemId(String oemId) {
         this.oemId = oemId;
     }
 

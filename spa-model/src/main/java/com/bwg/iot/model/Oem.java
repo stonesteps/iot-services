@@ -13,6 +13,7 @@ public class Oem extends ResourceSupport {
     @Id
     private String _id;
     private String name;
+    private int customerNumber;
     private Address address;
 
     public String get_id() {
@@ -39,33 +40,44 @@ public class Oem extends ResourceSupport {
         this.address = address;
     }
 
+    public int getCustomerNumber() {
+        return customerNumber;
+    }
+
+    public void setCustomerNumber(int customerNumber) {
+        this.customerNumber = customerNumber;
+    }
+
     @Override
     public boolean equals(Object o) {
-      if (this == o) {
-        return true;
-      }
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      Oem dealer = (Oem) o;
-      return Objects.equals(_id, dealer._id) &&
-          Objects.equals(name, dealer.name);
+        if (this == o) return true;
+        if (!(o instanceof Oem)) return false;
+        if (!super.equals(o)) return false;
+
+        Oem oem = (Oem) o;
+
+        if (customerNumber != oem.customerNumber) return false;
+        if (!name.equals(oem.name)) return false;
+        return address != null ? address.equals(oem.address) : oem.address == null;
+
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_id, name);
+        int result = super.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + customerNumber;
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        return result;
     }
 
     @Override
-    public String toString()  {
-        StringBuilder sb = new StringBuilder();
-        sb.append("class Dealer {\n");
-
-        sb.append("  id: ").append(_id).append("\n");
-        sb.append("  name: ").append(name).append("\n");
-        sb.append("  address: ").append(address.toString()).append("\n");
-        sb.append("}\n");
-        return sb.toString();
+    public String toString() {
+        return "Oem{" +
+                "_id='" + _id + '\'' +
+                ", name='" + name + '\'' +
+                ", customerNumber=" + customerNumber +
+                ", address=" + address +
+                '}';
     }
 }

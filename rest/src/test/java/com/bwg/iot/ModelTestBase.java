@@ -127,12 +127,13 @@ public class ModelTestBase {
         return dealerRepository.save(dealer);
     }
 
-    protected Oem createOem(String name, Address address, String id) {
+    protected Oem createOem(String name, Integer customerNumber, Address address, String id) {
         Oem oem = new Oem();
         if (StringUtils.isNotEmpty(id)) {
             oem.set_id(id);
         }
         oem.setName(name);
+        oem.setCustomerNumber(customerNumber);
         oem.setAddress(address);
         return oemRepository.save(oem);
     }
@@ -865,8 +866,8 @@ public class ModelTestBase {
     protected List<SpaTemplate> createSpaTemplates() {
         // create two oems
         List<Address> addresses = createAddresses(2);
-        Oem oem1 = createOem("Blue Wave Spas, LTD", addresses.get(0), "oem001");
-        Oem oem2 = createOem("Jazzi Pool & Spa Products, LTD", addresses.get(1), "oem002");
+        Oem oem1 = createOem("Jazzi Pool & Spa Products, LTD", 103498, addresses.get(1), "oem001");
+        Oem oem2 = createOem("Blue Wave Spas, LTD", 1003042, addresses.get(0), "oem002");
 
         // create set of materials
         Material t1Panel = createSpaTemplateMaterial("Panel", "6600-769");

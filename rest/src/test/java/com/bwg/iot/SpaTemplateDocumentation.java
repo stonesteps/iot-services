@@ -113,8 +113,8 @@ public final class SpaTemplateDocumentation extends ModelTestBase {
         this.clearAllData();
 
         List<Address> addresses = createAddresses(2);
-        Oem oem1 = createOem("Blue Wave Spas, LTD", addresses.get(0), "oem001" );
-        Oem oem2 = createOem("Jazzi Pool & Spa Products, LTD", addresses.get(1), "oem002");
+        Oem oem1 = createOem("Blue Wave Spas, LTD", 102024, addresses.get(0), "oem001" );
+        Oem oem2 = createOem("Jazzi Pool & Spa Products, LTD", 20404, addresses.get(1), "oem002");
 
         // create set of materials
         Material t1Panel = createSpaTemplateMaterial("Panel", "6600-769");
