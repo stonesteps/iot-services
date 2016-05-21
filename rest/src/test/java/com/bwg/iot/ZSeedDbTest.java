@@ -28,7 +28,12 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 
 
@@ -56,6 +61,17 @@ public final class ZSeedDbTest extends ModelTestBase {
         final String GATEWAY_3_SN = "1603141151";
 
 		clearAllData();
+
+        String db = environment.getProperty("spring.data.mongodb.database");
+        if (db == null) {
+            db = "test";
+        }
+
+        String filePath = ZSeedDbTest.class.getClassLoader().getResource("faultLogDescription.csv").getPath();
+        MongoUtils.ImportCollectionCsv(db, "faultLogDescription", filePath);
+
+        filePath = ZSeedDbTest.class.getClassLoader().getResource("material.json").getPath();
+        MongoUtils.ImportCollectionJson(db, "material", filePath);
 
         List<Address> addresses = createAddresses(40);
 
@@ -119,9 +135,17 @@ public final class ZSeedDbTest extends ModelTestBase {
         TacUserAgreement agreement2 = createAgreement(owner2.get_id(), tac1.getVersion());
 
         // create set of materials
-        List<Material> materialList = setupSeveralTestMaterials(oem1, oem2);
-        List<Material> spaTemplate1List = Arrays.asList(materialList.get(2), materialList.get(8));
-        List<Material> spaTemplate2List = Arrays.asList(materialList.get(3), materialList.get(7));
+        Material t1Panel = createSpaTemplateMaterial("Panel", "6600-769");
+        Material t1Controller = createSpaTemplateMaterial("Controller", "6600-761");
+        Material t1Pump = createSpaTemplateMaterial("Captain's Chair", "DJAYGB-9173D");
+        Material t1Gateway = createSpaTemplateMaterial("Gateway", "17092-83280-1b");
+        List<Material> spaTemplate1List = Arrays.asList(t1Panel, t1Controller, t1Pump, t1Gateway);
+
+        Material t2Panel = createSpaTemplateMaterial("Panel", "53886-02");
+        Material t2Controller = createSpaTemplateMaterial("Controller", "56075-03");
+        Material t2Pump = createSpaTemplateMaterial("Main Jets", "1023012");
+        Material t2Gateway = createSpaTemplateMaterial("Gateway", "17092-83280-1a");
+        List<Material> spaTemplate2List = Arrays.asList(t2Panel, t2Controller, t2Pump, t2Gateway);
 
         // create spaTemplates
         SpaTemplate st1 = createSpaTemplate("J-500 Luxury Collection", "J-585", "109834-1525-585", "oem001", spaTemplate1List);
