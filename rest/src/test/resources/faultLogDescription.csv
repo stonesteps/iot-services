@@ -1,0 +1,90 @@
+controllerType,code,description,severity
+NGSC,1,Code description,ERROR
+NGSC,0,BLANK_MSG,NONE
+NGSC,19,PRIMING_MODE_MSG,NONE
+NGSC,24,DRAIN_MODE_MSG,NONE
+NGSC,25,DEMO_MODE_MSG,NONE
+NGSC,37,STANDBY_MODE_MSG,NONE
+NGSC,18,The cooler is ineffective,INFO
+NGSC,38,Run Jets 1 to get temperature,INFO
+NGSC,39,Test software installed,INFO
+NGSC,40,Set the time,INFO
+NGSC,41,INITIALIZING_MSG,INFO
+NGSC,46,BATH_MODE_MSG,INFO
+NGSC,2,Test the GFCI,REMINDER
+NGSC,3,Change the filter,REMINDER
+NGSC,4,Clean the filter,REMINDER
+NGSC,5,Treat the wood,REMINDER
+NGSC,6,Clean the cover,REMINDER
+NGSC,7,Change the mineral cartridge,REMINDER
+NGSC,8,Change the water,REMINDER
+NGSC,9,Check the sanitizer,REMINDER
+NGSC,10,Check the pH,REMINDER
+NGSC,43,Change UV,REMINDER
+NGSC,47,CHECK_OZONE_MSG,REMINDER
+NGSC,48,SERVICE_CHECK_MSG,REMINDER
+NGSC,1,Possible freezing condition,WARNING
+NGSC,11,The sanitizer is low,WARNING
+NGSC,12,The sanitizer is high,WARNING
+NGSC,13,The pH is low,WARNING
+NGSC,14,The pH is high,WARNING
+NGSC,15,Sensors are out of sync,ERROR
+NGSC,16,The water flow is low,ERROR
+NGSC,17,The water flow has failed,ERROR
+NGSC,20,The clock has failed,ERROR
+NGSC,21,The settings have been reset,ERROR
+NGSC,22,Program memory failure,ERROR
+NGSC,23,Configuration error,ERROR
+NGSC,36,The GFCI test failed,ERROR
+NGSC,42,NO_VALVES_MSG,ERROR
+NGSC,44,J29,ERROR
+NGSC,26,Sensors are out of sync,FATAL
+NGSC,27,The heater is dry,FATAL
+NGSC,28,The heater may be dry,FATAL
+NGSC,29,The water is too hot,FATAL
+NGSC,30,The heater is too hot,FATAL
+NGSC,31,Sensor A fault,FATAL
+NGSC,32,Sensor B fault,FATAL
+NGSC,33,Safety fault,FATAL
+NGSC,34,A pump may be stuck on,FATAL
+NGSC,35,Hot fault,FATAL
+NGSC,45,The water level is too low,FATAL
+NGSC,254,Communications error,FATAL
+JACUZZI,0,No error or reminder to report,NONE
+JACUZZI,1,Change Filter 1 (Outer/ProClarity),REMINDER
+JACUZZI,2,Drain Water,REMINDER
+JACUZZI,3,Change CLEARRAY,REMINDER
+JACUZZI,4,RTC Failure,WARNING
+JACUZZI,5,The system settings have been reset to their default values,ERROR
+JACUZZI,6,Checksum Failure,WARNING
+JACUZZI,7,Configuration Error,WARNING
+JACUZZI,8,A relay may be stuck closed,ERROR
+JACUZZI,9,The GFCI was tripped as a result of detecting a stuck relay,ERROR
+JACUZZI,10,Set Time,WARNING
+JACUZZI,11,Flow Switch Stuck Open,ERROR
+JACUZZI,12,Flow Switch Stuck Closed,ERROR
+JACUZZI,13,Water Sensor Shorted,ERROR
+JACUZZI,14,Water Sensor Open,ERROR
+JACUZZI,15,HiLimit Sensor Shorted,ERROR
+JACUZZI,16,HiLimit Sensor Open,ERROR
+JACUZZI,17,Ambient Sensor Shorted,ERROR
+JACUZZI,18,Ambient Sensor Open,ERROR
+JACUZZI,19,The ambient temperature is above 185 F,ERROR
+JACUZZI,20,The ambient temperature is above 194 F,ERROR
+JACUZZI,21,Change Filter 2 (Inner/ProClarity Depth),REMINDER
+JACUZZI,22,The system is in the Watchdog state,ERROR
+JACUZZI,23,The system is in the Watchdog Protect state,ERROR
+JACUZZI,24,Flow switch closed at startup,ERROR
+JACUZZI,25,Freeze protect in Flow state,ERROR
+JACUZZI,26,Water much cooler than set temperature,WARNING
+JACUZZI,27,Water is cold enough to potentially freeze,ERROR
+JACUZZI,28,Water is hot,ERROR
+JACUZZI,29,Water is hot,ERROR
+JACUZZI,30,Photo Sensor Short,ERROR
+JACUZZI,31,Photo Sensor Open,ERROR
+JACUZZI,32,Stereo unit is not communicating with pack,ERROR
+JACUZZI,33,WiFi module is not communicating with pack,ERROR
+JACUZZI,34,The GFCI did not trip,ERROR
+JACUZZI,253,Registration Lockout,WARNING
+JACUZZI,254,Comm Error,WARNING
+JACUZZI,255,All existing errors and reminders are suppressed,WARNING
