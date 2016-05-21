@@ -67,12 +67,6 @@ public final class ZSeedDbTest extends ModelTestBase {
             db = "test";
         }
 
-        String filePath = ZSeedDbTest.class.getClassLoader().getResource("faultLogDescription.csv").getPath();
-        MongoUtils.ImportCollectionCsv(db, "faultLogDescription", filePath);
-
-        filePath = ZSeedDbTest.class.getClassLoader().getResource("material.json").getPath();
-        MongoUtils.ImportCollectionJson(db, "material", filePath);
-
         List<Address> addresses = createAddresses(40);
 
         // create some oems and dealers
@@ -142,7 +136,7 @@ public final class ZSeedDbTest extends ModelTestBase {
         List<Material> spaTemplate1List = Arrays.asList(t1Panel, t1Controller, t1Pump, t1Gateway);
 
         Material t2Panel = createSpaTemplateMaterial("Panel", "53886-02");
-        Material t2Controller = createSpaTemplateMaterial("Controller", "56075-03");
+        Material t2Controller = createSpaTemplateMaterial("Controller", "56241");
         Material t2Pump = createSpaTemplateMaterial("Main Jets", "1023012");
         Material t2Gateway = createSpaTemplateMaterial("Gateway", "17092-83280-1a");
         List<Material> spaTemplate2List = Arrays.asList(t2Panel, t2Controller, t2Pump, t2Gateway);
