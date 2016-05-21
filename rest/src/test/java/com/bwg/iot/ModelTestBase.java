@@ -73,14 +73,12 @@ public class ModelTestBase {
         this.oemRepository.deleteAll();
         this.spaRepository.deleteAll();
         this.componentRepository.deleteAll();
-        this.materialRepository.deleteAll();
         this.userRepository.deleteAll();
         this.alertRepository.deleteAll();
         this.tacUserAgreementRepository.deleteAll();
         this.termsAndConditionsRepository.deleteAll();
         this.spaTemplateRepository.deleteAll();
         this.attachmentRepository.deleteAll();
-        this.faultLogDescriptionRepository.deleteAll();
         this.gridFsTemplate.delete(new Query());
     }
 
@@ -210,33 +208,6 @@ public class ModelTestBase {
     public final static String CONTROLLER4_SKU = "56550-02";
 
 
-    protected List<Material> setupTestMaterials() {
-        List<Address> addresses = createAddresses(2);
-        Oem oem1 = createOem("Blue Wave Spas, LTD", addresses.get(0), "oem101");
-        Oem oem2 = createOem("Jazzi Pool & Spa Products, LTD", addresses.get(1), "oem102");
-        return setupTestMaterials(oem1, oem2);
-    }
-
-    protected List<Material> setupTestMaterials(Oem oem1, Oem oem2) {
-        List<String> bothOems = Arrays.asList(oem1.get_id(), oem2.get_id());
-        List<String> justOne = Arrays.asList(oem1.get_id());
-        List<String> justTwo = Arrays.asList(oem2.get_id());
-
-        Material material1 = createMaterial("Captain's Chair", Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems);
-        Material material2 = createMaterial("Main Jets and Circulation", Component.ComponentType.PUMP.name(), PUMP2_BRAND_NAME, PUMP2_DESCRIPTION, PUMP2_SKU, PUMP2_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, bothOems);
-        Material material3 = createMaterial("Back Massage Jets", Component.ComponentType.PUMP.name(), PUMP3_BRAND_NAME, PUMP3_DESCRIPTION, PUMP3_SKU, null, ONE_YEAR_WARRANTY_DAYS, bothOems);
-        Material material4 = createMaterial("Foot Massage", Component.ComponentType.PUMP.name(), PUMP4_BRAND_NAME, PUMP4_DESCRIPTION, PUMP4_SKU, PUMP4_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
-        Material material5 = createMaterial("Main Jets", Component.ComponentType.PUMP.name(), PUMP5_BRAND_NAME, PUMP5_DESCRIPTION, PUMP5_SKU, null, 0, justTwo);
-
-        Material material6 = createMaterial("Controller", Component.ComponentType.CONTROLLER.name(), CONTROLLER1_BRAND_NAME, CONTROLLER1_DESCRIPTION, CONTROLLER1_SKU, null, THREE_YEAR_WARRANTY_DAYS, justOne);
-        Material material7 = createMaterial("Controller", Component.ComponentType.CONTROLLER.name(), CONTROLLER2_BRAND_NAME, CONTROLLER2_DESCRIPTION, CONTROLLER2_SKU, null, THREE_YEAR_WARRANTY_DAYS, justTwo);
-        Material material8 = createMaterial("Spa Touch", Component.ComponentType.CONTROLLER.name(), CONTROLLER3_BRAND_NAME, CONTROLLER3_DESCRIPTION, CONTROLLER3_SKU, null, THREE_YEAR_WARRANTY_DAYS, justTwo);
-        Material material9 = createMaterial("Controller", Component.ComponentType.CONTROLLER.name(), CONTROLLER4_BRAND_NAME, CONTROLLER4_DESCRIPTION, CONTROLLER4_SKU, null, THREE_YEAR_WARRANTY_DAYS, justTwo);
-
-        List<Material> materialList = Arrays.asList(material1, material2, material3, material4, material5, material6, material7, material8, material9);
-        return materialList;
-    }
-
     protected Material createSpaTemplateMaterial(String displayName, String sku){
         Material mat = materialRepository.findBySku(sku);
         if (mat != null) {
@@ -244,22 +215,6 @@ public class ModelTestBase {
         }
         return mat;
     }
-
-    protected Material createMaterial(String displayName, String type, String brandName, String description, String sku, String alternateSku, int warrantyDays, List<String> oemIds) {
-        Material material = new Material();
-        material.setComponentType(type);
-        material.setBrandName(brandName);
-        material.setDescription(description);
-        material.setSku(sku);
-        material.setAlternateSku(alternateSku);
-        material.setWarrantyDays(warrantyDays);
-        material.setUploadDate(new Date());
-        material.setOemId(oemIds);
-        material = materialRepository.save(material);
-        material.setDisplayName(displayName);
-        return material;
-    }
-
 
     protected Component createComponent(String type, String port, String name, String serialNumber, String spaId) {
         return createFixedComponent(type, port, name, serialNumber + (serialSuffix++), spaId);
@@ -914,13 +869,21 @@ public class ModelTestBase {
         Oem oem2 = createOem("Jazzi Pool & Spa Products, LTD", addresses.get(1), "oem002");
 
         // create set of materials
-        List<Material> materialList = setupTestMaterials(oem1, oem2);
-        List<Material> spaTemplate1List = Arrays.asList(materialList.get(2), materialList.get(8));
-        List<Material> spaTemplate2List = Arrays.asList(materialList.get(3), materialList.get(7));
+        Material t1Panel = createSpaTemplateMaterial("Panel", "6600-769");
+        Material t1Controller = createSpaTemplateMaterial("Controller", "6600-761");
+        Material t1Pump = createSpaTemplateMaterial("Captain's Chair", "DJAYGB-9173D");
+        Material t1Gateway = createSpaTemplateMaterial("Gateway", "17092-83280-1b");
+        List<Material> spaTemplate1List = Arrays.asList(t1Panel, t1Controller, t1Pump, t1Gateway);
+
+        Material t2Panel = createSpaTemplateMaterial("Panel", "53886-02");
+        Material t2Controller = createSpaTemplateMaterial("Controller", "56241");
+        Material t2Pump = createSpaTemplateMaterial("Main Jets", "1023012");
+        Material t2Gateway = createSpaTemplateMaterial("Gateway", "17092-83280-1a");
+        List<Material> spaTemplate2List = Arrays.asList(t2Panel, t2Controller, t2Pump, t2Gateway);
 
         // create spaTemplates
-        SpaTemplate st1 = createSpaTemplate("Maxx Collection", "581", "109834-1525-581", "oem001", spaTemplate1List);
-        SpaTemplate st2 = createSpaTemplate("Maxx Collection", "811", "109834-1525-811", "oem001", spaTemplate2List);
+        SpaTemplate st1 = createSpaTemplate("J-500 Luxury Collection", "J-585", "109834-1525-585", "oem001", spaTemplate1List);
+        SpaTemplate st2 = createSpaTemplate("J-400 Designer Collection", "J-495", "109834-1425-495", "oem001", spaTemplate2List);
         SpaTemplate st3 = createSpaTemplate("Hot Spring Spas", "Los Coyote", "109834-1525-811", "oem002", spaTemplate2List);
 
         List<SpaTemplate> spaTemplateList = Arrays.asList(st1, st2, st3);

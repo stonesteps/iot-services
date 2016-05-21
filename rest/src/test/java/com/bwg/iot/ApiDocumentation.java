@@ -394,10 +394,15 @@ public class ApiDocumentation extends ModelTestBase{
 	public void buildSpaExample() throws Exception {
 		clearAllData();
 
+		// create set of materials
+		Material t1Panel = createSpaTemplateMaterial("Panel", "6600-769");
+		Material t1Controller = createSpaTemplateMaterial("Controller", "6600-761");
+		Material t1Pump = createSpaTemplateMaterial("Captain's Chair", "DJAYGB-9173D");
+		Material t1Gateway = createSpaTemplateMaterial("Gateway", "17092-83280-1b");
+		List<Material> spaTemplate1List = Arrays.asList(t1Panel, t1Controller, t1Pump, t1Gateway);
 
-		List<Material> materialList = setupTestMaterials();
-		List<Material> spaTemplate1List = Arrays.asList(materialList.get(2), materialList.get(8));
-		SpaTemplate st1 = createSpaTemplate("Maxx Collection", "581", "109834-1525-581", "oem001", spaTemplate1List);
+		// create spaTemplates
+		SpaTemplate st1 = createSpaTemplate("J-500 Luxury Collection", "J-585", "109834-1525-585", "oem001", spaTemplate1List);
 
 		List<Address> addresses = createAddresses(3);
 		User bwg = createUser("jpage", "Jimmy", "Page", null, "oem001", addresses.get(0), Arrays.asList(User.Role.OEM.toString()), null);

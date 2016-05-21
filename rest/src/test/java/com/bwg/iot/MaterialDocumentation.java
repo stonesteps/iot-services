@@ -73,9 +73,6 @@ public final class MaterialDocumentation extends ModelTestBase{
 
 	@Test
 	public void materialListExample() throws Exception {
-        clearAllData();
-        setupTestMaterials();
-
 		this.mockMvc.perform(get("/materials")).andExpect(status().isOk())
 				.andDo(document("materials-list-example",
 						responseFields(
@@ -87,13 +84,10 @@ public final class MaterialDocumentation extends ModelTestBase{
 
 	@Test
 	public void materialGetExample() throws Exception {
-		this.materialRepository.deleteAll();
+		Material t1Panel = createSpaTemplateMaterial("Panel", "6600-769");
 
-        List<String> justOne = Arrays.asList("oem101");
-        Material pump1 = createMaterial(null, Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
-
-        this.mockMvc.perform(get("/materials/{0}", pump1.get_id())).andExpect(status().isOk())
-				.andExpect(jsonPath("sku", is(pump1.getSku())))
+        this.mockMvc.perform(get("/materials/{0}", t1Panel.get_id())).andExpect(status().isOk())
+				.andExpect(jsonPath("sku", is(t1Panel.getSku())))
 				.andDo(document("material-get-example",
 						links(linkWithRel("self").description("This <<resources-material, material>>"),
 								linkWithRel("material").description("This <<resources-material, material>>")),
@@ -115,12 +109,9 @@ public final class MaterialDocumentation extends ModelTestBase{
 
     @Test
     public void findBySkuExample() throws Exception {
-        this.materialRepository.deleteAll();
+		String testSku = "6600-769";
 
-        List<String> justOne = Arrays.asList("oem101");
-        Material material1 = createMaterial(null, Component.ComponentType.PUMP.name(), PUMP1_BRAND_NAME, PUMP1_DESCRIPTION, PUMP1_SKU, PUMP1_ALT_SKU, ONE_YEAR_WARRANTY_DAYS, justOne);
-
-        this.mockMvc.perform(get("/materials/search/findBySku?sku=" + material1.getSku()))
+        this.mockMvc.perform(get("/materials/search/findBySku?sku=" + testSku))
                 .andExpect(status().isOk())
                 .andDo(document("materials-findbySku-example",
                         responseFields(
@@ -142,10 +133,7 @@ public final class MaterialDocumentation extends ModelTestBase{
 
 	@Test
 	public void findByOemIdExample() throws Exception {
-		clearAllData();
-        setupTestMaterials();
-
-		this.mockMvc.perform(get("/materials/search/findByOemId?oemId=" + "oem101"))
+		this.mockMvc.perform(get("/materials/search/findByOemId?oemId=" + "oem001"))
 				.andExpect(status().isOk())
 				.andDo(document("materials-findbyOemId-example",
 						responseFields(
@@ -156,10 +144,7 @@ public final class MaterialDocumentation extends ModelTestBase{
 
 	@Test
 	public void findByOemIdAndComponentTypeExample() throws Exception {
-		clearAllData();
-        setupTestMaterials();
-
-		this.mockMvc.perform(get("/materials/search/findByOemIdAndComponentType?oemId=" + "oem101" + "&componentType=PUMP"))
+		this.mockMvc.perform(get("/materials/search/findByOemIdAndComponentType?oemId=" + "oem001" + "&componentType=PUMP"))
 				.andExpect(status().isOk())
 				.andDo(document("materials-findbyOemIdAndComponentType-example",
 						responseFields(

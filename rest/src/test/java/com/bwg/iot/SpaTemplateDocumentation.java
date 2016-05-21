@@ -117,8 +117,11 @@ public final class SpaTemplateDocumentation extends ModelTestBase {
         Oem oem2 = createOem("Jazzi Pool & Spa Products, LTD", addresses.get(1), "oem002");
 
         // create set of materials
-        List<Material> materialList = setupTestMaterials(oem1, oem2);
-        List<Material> spaTemplate1List = Arrays.asList(materialList.get(2), materialList.get(8));
+        Material t1Panel = createSpaTemplateMaterial("Panel", "6600-769");
+        Material t1Controller = createSpaTemplateMaterial("Controller", "6600-761");
+        Material t1Pump = createSpaTemplateMaterial("Captain's Chair", "DJAYGB-9173D");
+        Material t1Gateway = createSpaTemplateMaterial("Gateway", "17092-83280-1b");
+        List<Material> spaTemplate1List = Arrays.asList(t1Panel, t1Controller, t1Pump, t1Gateway);
 
         final Map<String, Object> spaTemplateMap = new HashMap<>();
         spaTemplateMap.put("productName", "Fishy Spas");
