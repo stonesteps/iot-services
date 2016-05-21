@@ -97,6 +97,7 @@ public final class OemDocumentation extends ModelTestBase{
 
 		final Map<String, Object> oem = new HashMap<>();
 		oem.put("name", "South Coast Spas");
+		oem.put("customerNumber", 15215);
 		oem.put("address", address);
 
 		this.mockMvc
@@ -106,6 +107,7 @@ public final class OemDocumentation extends ModelTestBase{
 				.andDo(document("oem-create-example",
 						requestFields(fieldWithPath("name").description("Name of the oem"),
 //								fieldWithPath("id").description("Unique identifier for the oem"),
+								fieldWithPath("customerNumber").description("Balboa identifier for the oem"),
 								fieldWithPath("address").description("The address of the oem"))));
 	}
 
@@ -115,7 +117,7 @@ public final class OemDocumentation extends ModelTestBase{
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-		Oem oem = createOem("Backyard Beach", address, null);
+		Oem oem = createOem("Backyard Beach", 201450, address, null);
 
 		final Map<String, String> oemUpdate = new HashMap<>();
 		oemUpdate.put("name", "Spalicious");
@@ -134,7 +136,7 @@ public final class OemDocumentation extends ModelTestBase{
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        Oem oem = createOem("Backyard Beach", address, null);
+        Oem oem = createOem("Backyard Beach", 201450, address, null);
 
 
         this.mockMvc.perform(get("/oems/{0}", oem.get_id())).andExpect(status().isOk())
@@ -146,7 +148,8 @@ public final class OemDocumentation extends ModelTestBase{
 						responseFields(
 								fieldWithPath("_id").description("Object Id"),
 								fieldWithPath("name").description("The name of the oem"),
-								fieldWithPath("address").description("Contact info for the oem (yellow, red)"),
+								fieldWithPath("customerNumber").description("Balboa identifier for the OEM"),
+								fieldWithPath("address").description("Contact info for the oem"),
                                 fieldWithPath("_links")
 										.description("<<resources-oem-links,Links>> to other resources"))));
 	}
