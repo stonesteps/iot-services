@@ -187,7 +187,8 @@ public class ApiDocumentation extends ModelTestBase{
                             linkWithRel("spa").description("This <<resources-spa,spa>>"),
 							linkWithRel("owner").description("This <<resources-user,user>>"),
 							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>"),
-							linkWithRel("wifiStats").description("This <<resources-wifiStat,wifiStat>>")),
+							linkWithRel("wifiStats").description("This <<resources-wifiStat,wifiStat>>"),
+							linkWithRel("events").description("This <<resources-event,event>>")),
 					responseFields(
 							fieldWithPath("_id").description("Object Id"),
                             fieldWithPath("serialNumber").description("The serial of the spa"),
@@ -265,7 +266,8 @@ public class ApiDocumentation extends ModelTestBase{
 							linkWithRel("spa").description("This <<resources-spa,spa>>"),
 							linkWithRel("owner").description("This <<resources-user,user>>"),
 							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>"),
-							linkWithRel("wifiStats").description("This <<resources-wifiStat,wifiStat>>")),
+							linkWithRel("wifiStats").description("This <<resources-wifiStat,wifiStat>>"),
+							linkWithRel("events").description("This <<resources-event,event>>")),
 					responseFields(
 							fieldWithPath("_id").description("Object Id"),
 							fieldWithPath("serialNumber").description("The serial of the spa"),
@@ -356,6 +358,23 @@ public class ApiDocumentation extends ModelTestBase{
 				.andDo(document("wifistat-list-example",
 						responseFields(
 								fieldWithPath("_embedded.wifiStats").description("An array of <<resources-spa, Spa resources>>"),
+								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"))));
+	}
+
+	@Test
+	public void eventListExample() throws Exception {
+		this.spaRepository.deleteAll();
+		this.eventRepository.deleteAll();
+
+		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
+		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
+		createSpaEvent(spa.get_id());
+
+		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/events"))
+				.andExpect(status().isOk())
+				.andDo(document("event-list-example",
+						responseFields(
+								fieldWithPath("_embedded.events").description("An array of <<resources-spa, Spa resources>>"),
 								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"))));
 	}
 

@@ -8,10 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by triton on 2/22/16.
@@ -55,6 +52,9 @@ public class ModelTestBase {
 
     @Autowired
     protected WifiStatRepository wifiStatRepository;
+
+    @Autowired
+    protected EventRepository eventRepository;
 
     @Autowired
     protected SpaTemplateRepository spaTemplateRepository;
@@ -858,6 +858,19 @@ public class ModelTestBase {
         wifiStatRepository.save(stat);
     }
 
+    protected void createSpaEvent(String spaId) {
+        final Event event = new Event();
+        event.setSpaId(spaId);
+        Map<String, String> metadata = new HashMap<>();
+        metadata.put("sample", "value");
+        event.setOidData(metadata);
+        event.setEventType(EventType.ALERT);
+        event.setMetadata(metadata);
+        event.setEventOccuredTimestamp(new Date());
+        event.setEventReceivedTimestamp(new Date());
+        event.setDescription("test");
+        eventRepository.save(event);
+    }
 
     protected SpaTemplate createSpaTemplate(String productName, String model, String sku, String oemId, List<Material> materialList) {
         SpaTemplate spaTemplate = new SpaTemplate();

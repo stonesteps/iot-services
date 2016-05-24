@@ -359,6 +359,60 @@ include::{snippets}/spas-create-recipe-example/http-response.adoc[]
 
 
 
+[[resource-faultLog]]
+=== Get Fault Logs
+
+A `GET` request to will list all fault logs of selected spa.
+
+==== Response structure
+
+include::{snippets}/faultlog-list-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/faultlog-list-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/faultlog-list-example/http-response.adoc[]
+
+
+[[resource-wifiStat]]
+=== Get Wifi Stats
+
+A `GET` request to will list all wifi stats of selected spa.
+
+==== Response structure
+
+include::{snippets}/wifistat-list-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/wifistat-list-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/wifistat-list-example/http-response.adoc[]
+
+
+[[resource-event]]
+=== Get Events
+
+A `GET` request to will list all events of selected spa.
+
+==== Response structure
+
+include::{snippets}/event-list-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/event-list-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/event-list-example/http-response.adoc[]
+
+
 
 [[resources-alert]]
 == Alert
@@ -431,42 +485,6 @@ include::{snippets}/alert-update-example/http-response.adoc[]
 == Dealer
 
 The dealer resource is used to retrieve, update, and delete individual dealers
-
-
-[[resource-faultLog]]
-=== Get Fault Logs
-
-A `GET` request to will list all fault logs of selected spa.
-
-==== Response structure
-
-include::{snippets}/faultlog-list-example/response-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/faultlog-list-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/faultlog-list-example/http-response.adoc[]
-
-
-[[resource-wifiStat]]
-=== Get Wifi Stats
-
-A `GET` request to will list all wifi stats of selected spa.
-
-==== Response structure
-
-include::{snippets}/wifistat-list-example/response-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/wifistat-list-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/wifistat-list-example/http-response.adoc[]
 
 
 [[resources-dealer-links]]
