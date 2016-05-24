@@ -186,7 +186,8 @@ public class ApiDocumentation extends ModelTestBase{
 							linkWithRel("self").description("This <<resources-spa,spa>>"),
                             linkWithRel("spa").description("This <<resources-spa,spa>>"),
 							linkWithRel("owner").description("This <<resources-user,user>>"),
-							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>")),
+							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>"),
+							linkWithRel("wifiStats").description("This <<resources-wifiStat,wifiStat>>")),
 					responseFields(
 							fieldWithPath("_id").description("Object Id"),
                             fieldWithPath("serialNumber").description("The serial of the spa"),
@@ -263,7 +264,8 @@ public class ApiDocumentation extends ModelTestBase{
 							linkWithRel("self").description("This <<resources-spa,spa>>"),
 							linkWithRel("spa").description("This <<resources-spa,spa>>"),
 							linkWithRel("owner").description("This <<resources-user,user>>"),
-							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>")),
+							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>"),
+							linkWithRel("wifiStats").description("This <<resources-wifiStat,wifiStat>>")),
 					responseFields(
 							fieldWithPath("_id").description("Object Id"),
 							fieldWithPath("serialNumber").description("The serial of the spa"),
@@ -337,6 +339,23 @@ public class ApiDocumentation extends ModelTestBase{
 				.andDo(document("faultlog-list-example",
 						responseFields(
 								fieldWithPath("_embedded.faultLogs").description("An array of <<resources-spa, Spa resources>>"),
+								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"))));
+	}
+
+	@Test
+	public void wifiStatListExample() throws Exception {
+		this.spaRepository.deleteAll();
+		this.wifiStatRepository.deleteAll();
+
+		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
+		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
+		createSpaWifiStat(spa.get_id());
+
+		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/wifiStats"))
+				.andExpect(status().isOk())
+				.andDo(document("wifistat-list-example",
+						responseFields(
+								fieldWithPath("_embedded.wifiStats").description("An array of <<resources-spa, Spa resources>>"),
 								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"))));
 	}
 

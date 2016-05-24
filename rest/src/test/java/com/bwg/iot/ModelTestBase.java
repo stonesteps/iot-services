@@ -54,6 +54,9 @@ public class ModelTestBase {
     protected FaultLogDescriptionRepository faultLogDescriptionRepository;
 
     @Autowired
+    protected WifiStatRepository wifiStatRepository;
+
+    @Autowired
     protected SpaTemplateRepository spaTemplateRepository;
 
     @Autowired
@@ -159,9 +162,9 @@ public class ModelTestBase {
         user.setPhone("(800) 471-2382");
         user.setCreatedDate(new Date());
         if (StringUtils.isBlank(notes)) {
-        	user.setNotes("Generic note for " + firstName);
+            user.setNotes("Generic note for " + firstName);
         } else {
-        	user.setNotes(notes);
+            user.setNotes(notes);
         }
         userRepository.save(user);
         return user;
@@ -209,7 +212,7 @@ public class ModelTestBase {
     public final static String CONTROLLER4_SKU = "56550-02";
 
 
-    protected Material createSpaTemplateMaterial(String displayName, String sku){
+    protected Material createSpaTemplateMaterial(String displayName, String sku) {
         Material mat = materialRepository.findBySku(sku);
         if (mat != null) {
             mat.setDisplayName(displayName);
@@ -842,6 +845,15 @@ public class ModelTestBase {
         description.setControllerType("NGSC");
         faultLogDescriptionRepository.save(description);
     }
+
+    protected void createSpaWifiStat(String spaId) {
+        final WifiStat stat = new WifiStat();
+        stat.setSpaId(spaId);
+        stat.setMode("mode");
+        stat.setWifiConnectionHealth(WifiConnectionHealth.AVG);
+        wifiStatRepository.save(stat);
+    }
+
 
     protected SpaTemplate createSpaTemplate(String productName, String model, String sku, String oemId, List<Material> materialList) {
         SpaTemplate spaTemplate = new SpaTemplate();

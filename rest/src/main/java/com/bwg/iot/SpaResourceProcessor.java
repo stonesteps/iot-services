@@ -29,6 +29,7 @@ public class SpaResourceProcessor implements ResourceProcessor<Resource<Spa>> {
             resource.add(entityLinks.linkToSingleResource(User.class, owner.get_id()).withRel("owner"));
             //resource.add(entityLinks.linkToCollectionResource(FaultLog.class));
             resource.add(new Link(resource.getId().getHref() + "/faultLogs", "faultLogs"));
+            resource.add(new Link(resource.getId().getHref() + "/wifiStats", "wifiStats"));
         }
 
         List<Alert> alerts = spa.getAlerts();
