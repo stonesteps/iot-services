@@ -8,10 +8,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by triton on 2/22/16.
@@ -52,6 +49,12 @@ public class ModelTestBase {
 
     @Autowired
     protected FaultLogDescriptionRepository faultLogDescriptionRepository;
+
+    @Autowired
+    protected WifiStatRepository wifiStatRepository;
+
+    @Autowired
+    protected EventRepository eventRepository;
 
     @Autowired
     protected SpaTemplateRepository spaTemplateRepository;
@@ -163,9 +166,9 @@ public class ModelTestBase {
         user.setPhone("(800) 471-2382");
         user.setCreatedDate(new Date());
         if (StringUtils.isBlank(notes)) {
-        	user.setNotes("Generic note for " + firstName);
+            user.setNotes("Generic note for " + firstName);
         } else {
-        	user.setNotes(notes);
+            user.setNotes(notes);
         }
         userRepository.save(user);
         return user;
@@ -213,7 +216,7 @@ public class ModelTestBase {
     public final static String CONTROLLER4_SKU = "56550-02";
 
 
-    protected Material createSpaTemplateMaterial(String displayName, String sku){
+    protected Material createSpaTemplateMaterial(String displayName, String sku) {
         Material mat = materialRepository.findBySku(sku);
         if (mat != null) {
             mat.setDisplayName(displayName);
@@ -845,6 +848,28 @@ public class ModelTestBase {
         description.setDescription("Code description");
         description.setControllerType("NGSC");
         faultLogDescriptionRepository.save(description);
+    }
+
+    protected void createSpaWifiStat(String spaId) {
+        final WifiStat stat = new WifiStat();
+        stat.setSpaId(spaId);
+        stat.setMode("mode");
+        stat.setWifiConnectionHealth(WifiConnectionHealth.AVG);
+        wifiStatRepository.save(stat);
+    }
+
+    protected void createSpaEvent(String spaId) {
+        final Event event = new Event();
+        event.setSpaId(spaId);
+        Map<String, String> metadata = new HashMap<>();
+        metadata.put("sample", "value");
+        event.setOidData(metadata);
+        event.setEventType(EventType.ALERT);
+        event.setMetadata(metadata);
+        event.setEventOccuredTimestamp(new Date());
+        event.setEventReceivedTimestamp(new Date());
+        event.setDescription("test");
+        eventRepository.save(event);
     }
 
     protected SpaTemplate createSpaTemplate(String productName, String model, String sku, String oemId, List<Material> materialList) {

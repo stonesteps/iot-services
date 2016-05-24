@@ -37,6 +37,8 @@ public class SpaState {
     SetupParams setupParams;
     SystemInfo systemInfo;
 
+    WifiConnectionHealth wifiConnectionHealth;
+
     // optional params of spas, these can come from different controllers, but an effort
     // is made to coalesce any controller into the same properties first, and if not lined up
     // the a new property is broken out here
@@ -509,6 +511,14 @@ public class SpaState {
 
     public void setMaintenanceLocked(Boolean maintenanceLocked) {
         this.maintenanceLocked = maintenanceLocked;
+    }
+
+    public WifiConnectionHealth getWifiConnectionHealth() {
+        return wifiConnectionHealth;
+    }
+
+    public void setWifiConnectionHealth(WifiConnectionHealth wifiConnectionHealth) {
+        this.wifiConnectionHealth = wifiConnectionHealth;
     }
 
     @Override

@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties
 public class IotServicesApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(IotServicesApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(IotServicesApplication.class, args);
+    }
 }
