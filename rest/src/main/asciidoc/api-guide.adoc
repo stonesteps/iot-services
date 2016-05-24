@@ -330,6 +330,36 @@ include::{snippets}/spas-sell-example/http-response.adoc[]
 
 
 
+[[resources-spas-recipes]]
+=== Save Spa Settings
+
+*/spas/{spaId}/recipes*
+
+A `POST` request is used to save a set of spa settings.
+
+A user may create a set of spa settings used to set the spa to a desired state.
+This group of settings can then be executed as a set of spa commands together to achieve the
+desired state of the spa.
+
+==== Request structure
+
+include::{snippets}/spas-create-recipe-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/spas-create-recipe-example/curl-request.adoc[]
+
+==== Response structure
+
+include::{snippets}/spas-create-recipe-example/response-fields.adoc[]
+
+==== Example response
+
+include::{snippets}/spas-create-recipe-example/http-response.adoc[]
+
+
+
+
 [[resources-alert]]
 == Alert
 

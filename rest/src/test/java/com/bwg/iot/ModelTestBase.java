@@ -57,6 +57,9 @@ public class ModelTestBase {
     protected SpaTemplateRepository spaTemplateRepository;
 
     @Autowired
+    protected RecipeRepository recipeRepository;
+
+    @Autowired
     protected AttachmentRepository attachmentRepository;
 
     @Autowired
@@ -78,6 +81,7 @@ public class ModelTestBase {
         this.tacUserAgreementRepository.deleteAll();
         this.termsAndConditionsRepository.deleteAll();
         this.spaTemplateRepository.deleteAll();
+        this.recipeRepository.deleteAll();
         this.attachmentRepository.deleteAll();
         this.gridFsTemplate.delete(new Query());
     }

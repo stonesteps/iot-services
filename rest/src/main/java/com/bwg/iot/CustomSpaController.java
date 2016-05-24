@@ -7,14 +7,22 @@ package com.bwg.iot;
 import com.bwg.iot.model.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/spas")
@@ -33,7 +41,13 @@ public class CustomSpaController {
     MaterialRepository materialRepository;
 
     @Autowired
+    RecipeRepository recipeRepository;
+
+    @Autowired
     SpaRepository spaRepository;
+
+    @Autowired
+    SpaCommandHelper helper;
 
     @RequestMapping(value = "/{spaId}/sellSpa", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> sellSpa(@PathVariable String spaId, @RequestBody SellSpaRequest request) {
@@ -176,5 +190,64 @@ public class CustomSpaController {
 
         ResponseEntity<?> response = new ResponseEntity<Spa>(myNewSpa, HttpStatus.CREATED);
         return response;
+    }
+
+
+    @RequestMapping(value = "/{spaId}/recipes", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> saveSettings(@PathVariable String spaId, @RequestBody SaveSettingsRequest request) {
+        Recipe recipe = new Recipe();
+        List<SpaCommand> settings = new ArrayList<>();
+
+        try {
+            for (HashMap.Entry<String, HashMap<String, String>> entry : request.getSettings().entrySet()) {
+                SpaCommand.RequestType key = SpaCommand.RequestType.valueOf(entry.getKey());
+                switch (key) {
+                    case HEATER:
+                        settings.add(helper.setDesiredTemp(spaId, entry.getValue(), key.getCode(), false));
+                        break;
+                    case PUMPS:
+                    case CIRCULATION_PUMP:
+                    case LIGHTS:
+                    case BLOWER:
+                    case MISTER:
+                    case OZONE:
+                    case MICROSILK:
+                        settings.add(helper.setButtonCommand(spaId, entry.getValue(), key.getCode(), false));
+                        break;
+                    case FILTER:
+                        settings.add(helper.setFilerCycleIntervals(spaId, entry.getValue(), key.getCode(), false));
+                        break;
+                    default:
+                }
+            }
+        } catch (ValidationException ve) {
+            return new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        recipe.setSpaId(spaId);
+        recipe.setName(request.getName());
+        recipe.setNotes(request.getNotes());
+        recipe.setSettings(settings);
+        // TODO: Schedule
+        recipe.setCreationDate(new Date());
+        recipe = recipeRepository.save(recipe);
+
+        ResponseEntity<?> response = new ResponseEntity<Recipe>(recipe, HttpStatus.OK);
+        return response;
+    }
+
+    @RequestMapping(value = "/{spaId}/recipes", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public ResponseEntity<?> getSpaSettings(@PathVariable String spaId,
+        @RequestParam(value = "page", required = false, defaultValue = "0") final int page,
+        @RequestParam(value = "size", required = false, defaultValue = "20") final int size) {
+
+            final Pageable pageable = new PageRequest(page, size, new Sort(Sort.Direction.DESC, "timestamp"));
+
+            final Page<Recipe> recipes = recipeRepository.findBySpaId(spaId, pageable);
+
+            final Resources<Recipe> resources = new Resources<>(recipes);
+            resources.add(linkTo(methodOn(CustomSpaController.class).getSpaSettings(spaId, page, size)).withSelfRel());
+            return ResponseEntity.ok(resources);
     }
 }
