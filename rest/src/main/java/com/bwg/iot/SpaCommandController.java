@@ -8,6 +8,7 @@ import com.bwg.iot.model.SpaCommand;
 import com.bwg.iot.model.SpaCommand.RequestType;
 import com.bwg.iot.model.util.SpaRequestUtil;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +24,13 @@ public class SpaCommandController {
 
     @Autowired
     SpaCommandRepository spaCommandRepository;
-
+    
     @Autowired
     SpaRepository spaRepository;
 
+    @Autowired
+    SpaCommandHelper helper;
+    
     @RequestMapping(value = "/{spaId}/restartAgent", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> restartAgent(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
 
@@ -50,83 +54,118 @@ public class SpaCommandController {
         if (body != null) {
             originatorId = body.get("originatorId");
         }
-        SpaCommand command = buildAndSaveCommand(spaId, originatorId, requestCode, new HashMap<>());
+        SpaCommand command = helper.buildCommand(spaId, originatorId, requestCode, new HashMap<>(), true);
 
         return new ResponseEntity<SpaCommand>(command, HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/{spaId}/setDesiredTemp", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setDesiredTemp(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
-        if (spaId == null) {
-            return new ResponseEntity<>("Spa Id not provided", HttpStatus.BAD_REQUEST);
+        ResponseEntity<?> response;
+        try {
+            SpaCommand command = helper.setDesiredTemp(spaId, body, SpaCommand.RequestType.HEATER.getCode(), true);
+            response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
+        } catch (ValidationException ve) {
+            response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        String desiredTemp = body.get("desiredTemp");
-        if (desiredTemp == null) {
-            return new ResponseEntity<>("Desired Temperature not provided", HttpStatus.BAD_REQUEST);
-        }
-        HashMap<String, String> values = new HashMap<String, String>();
-        values.put("DESIREDTEMP", desiredTemp);
-
-        String originatorId = body.get("originatorId");
-        SpaCommand command = buildAndSaveCommand(spaId, originatorId, SpaCommand.RequestType.HEATER.getCode(), values);
-
-        return new ResponseEntity<SpaCommand>(command, HttpStatus.ACCEPTED);
+        return response;
     }
 
     @RequestMapping(value = "/{spaId}/setJetState", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setJetState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
-
-        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.PUMPS.getCode());
+        ResponseEntity<?> response;
+        try {
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.PUMPS.getCode(), true);
+            response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
+        } catch (ValidationException ve) {
+            response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return response;
     }
 
     @RequestMapping(value = "/{spaId}/setCircPumpState", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setCircPumpState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
 
-        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.CIRCULATION_PUMP.getCode());
+        ResponseEntity<?> response;
+        try {
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.CIRCULATION_PUMP.getCode(), true);
+            response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
+        } catch (ValidationException ve) {
+            response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return response;
     }
 
     @RequestMapping(value = "/{spaId}/setLightState", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setLightState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
 
-        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.LIGHTS.getCode());
+        ResponseEntity<?> response;
+        try {
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.LIGHTS.getCode(), true);
+            response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
+        } catch (ValidationException ve) {
+            response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return response;
     }
 
     @RequestMapping(value = "/{spaId}/setBlowerState", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setBlowerState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
-
-        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.BLOWER.getCode());
+        ResponseEntity<?> response;
+        try {
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.BLOWER.getCode(), true);
+            response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
+        } catch (ValidationException ve) {
+            response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return response;
     }
 
     @RequestMapping(value = "/{spaId}/setMisterState", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setMisterState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
-
-        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.MISTER.getCode());
+        ResponseEntity<?> response;
+        try {
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.MISTER.getCode(), true);
+            response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
+        } catch (ValidationException ve) {
+            response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return response;
     }
 
     @RequestMapping(value = "/{spaId}/setOzoneState", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setOzoneState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
-
-        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.OZONE.getCode());
+        ResponseEntity<?> response;
+        try {
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.OZONE.getCode(), true);
+            response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
+        } catch (ValidationException ve) {
+            response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return response;
     }
 
     @RequestMapping(value = "/{spaId}/setMicrosilkState", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setMicrosilkState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
-
-        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.MICROSILK.getCode());
+        ResponseEntity<?> response;
+        try {
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.MICROSILK.getCode(), true);
+            response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
+        } catch (ValidationException ve) {
+            response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return response;
     }
 
     @RequestMapping(value = "/{spaId}/setAuxState", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setAuxState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
-
-        ResponseEntity<?> response = setButtonCommand(spaId, body, SpaCommand.RequestType.AUX.getCode());
+        ResponseEntity<?> response;
+        try {
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.AUX.getCode(), true);
+            response = new ResponseEntity<Object>(command, HttpStatus.OK);
+        } catch (ValidationException ve) {
+            response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
+        }
         return response;
     }
 
@@ -137,90 +176,20 @@ public class SpaCommandController {
         }
 
         final String originatorId = body.get("originatorId");
-        SpaCommand command = buildAndSaveCommand(spaId, originatorId, RequestType.UPDATE_AGENT_SETTINGS.getCode(), body);
+        SpaCommand command = helper.buildCommand(spaId, originatorId, RequestType.UPDATE_AGENT_SETTINGS.getCode(), body, true);
 
         return new ResponseEntity<SpaCommand>(command, HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/{spaId}/setFilterCycleIntervals", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> setFilterCycleIntervals(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
-        if (spaId == null) {
-            return new ResponseEntity<>("Spa Id not provided", HttpStatus.BAD_REQUEST);
+        ResponseEntity<?> response;
+        try {
+            SpaCommand command = helper.setFilerCycleIntervals(spaId, body, SpaCommand.RequestType.FILTER.getCode(), true);
+            response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
+        } catch (ValidationException ve) {
+            response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        final HashMap<String, String> values = new HashMap<String, String>();
-
-        final String deviceNumber = body.get("deviceNumber");
-        if (deviceNumber == null) {
-            return new ResponseEntity<>("Device Number Required", HttpStatus.BAD_REQUEST);
-        }
-        if (deviceNumber != null && !NumberUtils.isNumber(deviceNumber)) {
-            return new ResponseEntity<>("Device Number Invalid", HttpStatus.BAD_REQUEST);
-        }
-        values.put("PORT", deviceNumber);
-
-        final String intervalNumber = body.get("intervalNumber");
-        if (intervalNumber == null) {
-            return new ResponseEntity<>("Interval Number not provided", HttpStatus.BAD_REQUEST);
-        }
-        if (!NumberUtils.isNumber(intervalNumber)) {
-            return new ResponseEntity<>("Interval Number is not a number", HttpStatus.BAD_REQUEST);
-        }
-        values.put("FILTER_DURATION_15MINUTE_INTERVALS", intervalNumber);
-
-        final String originatorId = body.get("originatorId");
-        SpaCommand command = buildAndSaveCommand(spaId, originatorId, SpaCommand.RequestType.FILTER.getCode(), values);
-
-        return new ResponseEntity<SpaCommand>(command, HttpStatus.ACCEPTED);
-    }
-
-    private ResponseEntity<?> setButtonCommand(String spaId, HashMap<String, String> body, int requestCode) {
-        if (spaId == null) {
-            return new ResponseEntity<>("Spa Id not provided", HttpStatus.BAD_REQUEST);
-        }
-
-        String desiredState = body.get("desiredState");
-        if (desiredState == null || !SpaRequestUtil.validState(requestCode, desiredState)) {
-            return new ResponseEntity<>("Desired State Invalid", HttpStatus.BAD_REQUEST);
-        }
-
-        String deviceNumber = body.get("deviceNumber");
-        if (deviceNumber == null && SpaRequestUtil.portRequired(requestCode)) {
-            return new ResponseEntity<>("Device Number Required", HttpStatus.BAD_REQUEST);
-        }
-
-        if (deviceNumber != null && SpaRequestUtil.portRequired(requestCode) && !NumberUtils.isNumber(deviceNumber)) {
-            return new ResponseEntity<>("Device Number Invalid", HttpStatus.BAD_REQUEST);
-        }
-
-        if (deviceNumber != null && SpaRequestUtil.portRequired(requestCode) && !SpaRequestUtil.validPort(requestCode, NumberUtils.createInteger(deviceNumber))) {
-            return new ResponseEntity<>("Device Number Invalid, out of range", HttpStatus.BAD_REQUEST);
-        }
-
-        HashMap<String, String> values = new HashMap<>();
-        values.put("DESIREDSTATE", desiredState);
-        if (deviceNumber != null) {
-            values.put("PORT", deviceNumber);
-        }
-
-        String originatorId = body.get("originatorId");
-        SpaCommand command = buildAndSaveCommand(spaId, originatorId, requestCode, values);
-
-        return new ResponseEntity<SpaCommand>(command, HttpStatus.ACCEPTED);
-    }
-
-    private SpaCommand buildAndSaveCommand(String spaId, String originatorId, int requestCode, HashMap<String, String> values) {
-        SpaCommand command = new SpaCommand();
-        if (originatorId == null) {
-            originatorId = UUID.randomUUID().toString();
-        }
-        command.setSpaId(spaId);
-        command.setOriginatorId(originatorId);
-        command.setRequestTypeId(requestCode);
-        command.setValues(values);
-        command.setSentTimestamp(new Date());
-        spaCommandRepository.save(command);
-
-        return command;
+        return response;
     }
 }
