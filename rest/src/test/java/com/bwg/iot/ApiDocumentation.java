@@ -473,6 +473,63 @@ public class ApiDocumentation extends ModelTestBase{
 								fieldWithPath("online").ignored())));
 	}
 
+	@Test
+	public void createRecipeExample() throws Exception {
+		clearAllData();
+
+		// create an owner
+		// create a spa with a few components
+		List<Address> addresses = createAddresses(3);
+		List<String> ownerRole = Arrays.asList("OWNER");
+		User owner1 = createUser("npeart", "Neal", "Peart", null, null, addresses.get(0), ownerRole, null);
+		User associate = createUser("nwilson", "Nancy", "Wilson", "101", "oem001", addresses.get(1), Arrays.asList(User.Role.ASSOCIATE.toString()), null);
+		User tech = createUser("awilson", "Ann", "Wilson", "101", "oem001", addresses.get(2), Arrays.asList(User.Role.TECHNICIAN.toString()), null);
+		Spa myNewSpa = createSmallSpaWithState("160104", "Shark", "Tiger", "oem001", "101", null);
+
+		// Build up SaveSettingsRequest
+		HashMap<String, HashMap<String,String>> settings = new HashMap<>();
+		HashMap<String,String> setTempValues = new HashMap<String, String>();
+		setTempValues.put("desiredTemp", "101");
+		settings.put("HEATER",setTempValues);
+
+		HashMap<String,String> setPumpValues = new HashMap<String, String>();
+		setPumpValues.put("deviceNumber", "0");
+		setPumpValues.put("desiredState", "HIGH");
+		settings.put("PUMPS", setPumpValues);
+
+		HashMap<String,String> setLightValues = new HashMap<String, String>();
+		setLightValues.put("deviceNumber", "0");
+		setLightValues.put("desiredState", "HIGH");
+		settings.put("LIGHTS", setLightValues);
+
+		SaveSettingsRequest request = new SaveSettingsRequest();
+		request.setName("Test Recipe");
+		request.setNotes("This is a test.");
+
+		request.setSettings(settings);
+
+		this.mockMvc.perform(post("/spas/" + myNewSpa.get_id() + "/recipes")
+				.header("remote_user", "npeart")
+				.contentType(MediaTypes.HAL_JSON)
+				.content(this.objectMapper.writeValueAsString(request)))
+				.andExpect(status().is2xxSuccessful())
+				.andDo(document("spas-create-recipe-example",
+						requestFields(
+								fieldWithPath("name").description("A friendly name for this group of settings"),
+//								fieldWithPath("schedule").description("tbd"),
+                                fieldWithPath("notes").description("Text field for notes about these settings"),
+								fieldWithPath("settings").description("A list of apa settings. Each enty is is the format <String, Map<String,String>  RequestType, Values"))))
+				.andDo(document("spas-create-recipe-example",
+						responseFields(
+//								fieldWithPath("_id").description("Unique Identifier for these settings"),
+								fieldWithPath("name").description("The friendly name of these settings").type("String"),
+								fieldWithPath("spaId").description("The spa associated with these settings. (or FACTORY for factory settings)").type("String"),
+								fieldWithPath("settings").description("The set of commands to put the spa in the desired state"),
+//								fieldWithPath("schedule").description("tbd"),
+								fieldWithPath("notes").description("Text field for miscellaneous use").type("String").optional(),
+								fieldWithPath("creationDate").description("The date the spa was created").type(Date.class).optional())));
+	}
+
 	private Spa createSpa(HashMap<String,Object> attributes) throws Exception {
 		Spa spa = new Spa();
 		attributes.forEach((k,v) -> {
