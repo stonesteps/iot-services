@@ -319,6 +319,7 @@ public class ModelTestBase {
             spa.setOwner(owner);
             spa.setSalesDate(new Date());
             spa.setTransactionCode(String.valueOf((int) (Math.random() * 10000)));
+            spa.setLocation(new double[] {SAO_PAULO_LON, SAO_PAULO_LAT});
         }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
@@ -441,6 +442,7 @@ public class ModelTestBase {
             spa.setOwner(owner);
             spa.setSalesDate(new Date());
             spa.setTransactionCode("a" + String.valueOf((int) (Math.random() * 10000)));
+            spa.setLocation(new double[] {SARDINIA_LON, SARDINIA_LAT});
         }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
@@ -511,6 +513,7 @@ public class ModelTestBase {
             spa.setOwner(owner);
             spa.setSalesDate(new Date());
             spa.setTransactionCode(String.valueOf((int) (Math.random() * 20000)));
+            spa.setLocation(new double[] {SARDINIA_LON, SARDINIA_LAT});
         }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
@@ -566,6 +569,8 @@ public class ModelTestBase {
     protected final static double HIVE_LON = -117.161084;
     protected final static double SARDINIA_LAT = 40.1209;
     protected final static double SARDINIA_LON = 9.0129;
+    protected final static double SAO_PAULO_LAT = -23.5505;
+    protected final static double SAO_PAULO_LON = -46.6333;
 
 
 
