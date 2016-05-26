@@ -891,6 +891,47 @@ public class ModelTestBase {
         eventRepository.save(event);
     }
 
+    protected Recipe createSpaRecipe(String spaId, String name, String notes) {
+        return createSpaRecipe(spaId, name, notes, "103");
+    }
+
+    protected Recipe createSpaRecipe(String spaId, String name, String notes, String temperature) {
+        SpaCommand sc1 = new SpaCommand();
+        sc1.setSpaId(spaId);
+        sc1.setRequestTypeId(SpaCommand.RequestType.HEATER.getCode());
+        HashMap<String,String> setTempValues = new HashMap<String, String>();
+        setTempValues.put("desiredTemp", temperature);
+        sc1.setValues(setTempValues);
+
+        SpaCommand sc2 = new SpaCommand();
+        sc2.setSpaId(spaId);
+        sc2.setRequestTypeId(SpaCommand.RequestType.PUMPS.getCode());
+        HashMap<String,String> setPumpValues = new HashMap<String, String>();
+        setPumpValues.put("deviceNumber", "0");
+        setPumpValues.put("desiredState", "HIGH");
+        sc2.setValues(setPumpValues);
+
+        SpaCommand sc3 = new SpaCommand();
+        sc3.setSpaId(spaId);
+        sc3.setRequestTypeId(SpaCommand.RequestType.LIGHTS.getCode());
+        HashMap<String,String> setLightValues = new HashMap<String, String>();
+        setLightValues.put("deviceNumber", "0");
+        setLightValues.put("desiredState", "HIGH");
+        sc3.setValues(setLightValues);
+
+        List<SpaCommand> settings = Arrays.asList(sc1, sc2, sc3);
+        Recipe recipe = new Recipe();
+        recipe.setSpaId(spaId);
+        recipe.setSettings(settings);
+        recipe.setName(name);
+        if (StringUtils.isNotEmpty(notes)) {
+            recipe.setNotes(notes);
+        }
+
+        recipe =  recipeRepository.save(recipe);
+        return recipe;
+    }
+
     protected SpaTemplate createSpaTemplate(String productName, String model, String sku, String oemId, List<Material> materialList) {
         SpaTemplate spaTemplate = new SpaTemplate();
         spaTemplate.setProductName(productName);

@@ -358,6 +358,86 @@ include::{snippets}/spas-create-recipe-example/response-fields.adoc[]
 include::{snippets}/spas-create-recipe-example/http-response.adoc[]
 
 
+=== List Spa Recipes
+
+*/spas/{spaId}/recipes*
+
+A `GET` request returns a list of recipes related to a spa.
+
+A recipe is set of spa settings used to set the spa to a desired state.
+This recipe can then be executed as a set of spa commands together to achieve the
+desired state of the spa.
+
+
+==== Example request
+
+include::{snippets}/recipe-list-example/curl-request.adoc[]
+
+==== Response structure
+
+include::{snippets}/recipe-list-example/response-fields.adoc[]
+
+==== Example response
+
+include::{snippets}/recipe-list-example/http-response.adoc[]
+
+=== Get a Spa Recipe
+
+*/spas/{spaId}/recipes/{id}*
+
+A `GET` request returns a specific recipe related to a spa.
+
+
+==== Example request
+
+include::{snippets}/recipe-get-example/curl-request.adoc[]
+
+==== Response structure
+
+include::{snippets}/recipe-get-example/response-fields.adoc[]
+
+==== Example response
+
+include::{snippets}/recipe-get-example/http-response.adoc[]
+
+=== Update a Spa Recipe
+
+*/spas/{spaId}/recipes/{id}*
+
+A `PUT` request updates a recipe
+
+
+==== Example request
+
+include::{snippets}/recipe-put-example/curl-request.adoc[]
+
+==== Response structure
+
+include::{snippets}/recipe-put-example/response-fields.adoc[]
+
+==== Example response
+
+include::{snippets}/recipe-put-example/http-response.adoc[]
+
+
+=== Delete a Spa Recipe
+
+*/spas/{spaId}/recipes/{id}*
+
+A `DELETE` request removes a spa recipe.
+
+
+==== Example request
+
+include::{snippets}/recipe-delete-example/curl-request.adoc[]
+
+
+==== Example response
+
+include::{snippets}/recipe-delete-example/http-response.adoc[]
+
+
+
 
 [[resource-faultLog]]
 === Get Fault Logs
