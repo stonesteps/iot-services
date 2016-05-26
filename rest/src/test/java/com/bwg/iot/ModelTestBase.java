@@ -560,9 +560,20 @@ public class ModelTestBase {
         return spa;
     }
 
+    protected final static double BWG_LAT = 33.714453;
+    protected final static double BWG_LON = -117.837151;
+    protected final static double HIVE_LAT = 32.715738;
+    protected final static double HIVE_LON = -117.161084;
+    protected final static double SARDINIA_LAT = 40.1209;
+    protected final static double SARDINIA_LON = 9.0129;
+
+
+
+
     protected Spa createDemoSpa1(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate) {
         final String productName = "Shark";
         final String model = "Blue";
+
         Spa spa = new Spa();
         if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
@@ -570,6 +581,7 @@ public class ModelTestBase {
         spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
+        spa.setLocation(new double[] {BWG_LON, BWG_LAT});
         spa.setDealerId(dealerId);
         if (owner != null) {
             owner.setSpaId(spaId);
@@ -634,6 +646,7 @@ public class ModelTestBase {
         spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
+        spa.setLocation(new double[] {HIVE_LON, HIVE_LAT});
         spa.setDealerId(dealerId);
         if (owner != null) {
             owner.setSpaId(spaId);
@@ -701,6 +714,7 @@ public class ModelTestBase {
         spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
+        spa.setLocation(new double[] {SARDINIA_LON, SARDINIA_LAT});
         spa.setDealerId(dealerId);
         if (owner != null) {
             owner.setSpaId(spaId);
