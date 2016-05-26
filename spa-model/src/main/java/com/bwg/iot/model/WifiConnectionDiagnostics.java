@@ -10,6 +10,7 @@ public class WifiConnectionDiagnostics {
     private Long deltaLinkQualityPercentage;
     private String linkQualityRaw;
     private Long signalLevelUnits; //usually it's dBm, but no gaurantee
+    private String signalLevelUnitsRaw;
     private Long deltaSignalLevelUnits;
     private Long rxOtherAPPacketCount;
     private Long deltaRxOtherAPPacketCount;
@@ -23,6 +24,7 @@ public class WifiConnectionDiagnostics {
     private Long deltaLostBeaconCount;
     private Long noiseLevel;
     private Long deltaNoiseLevel;
+    private String noiseLevelRaw;
 
     public String getFrequency() {
         return frequency;
@@ -190,5 +192,21 @@ public class WifiConnectionDiagnostics {
 
     public void setDeltaNoiseLevel(Long deltaNoiseLevel) {
         this.deltaNoiseLevel = deltaNoiseLevel;
+    }
+
+    public String getSignalLevelUnitsRaw() {
+        return signalLevelUnitsRaw;
+    }
+
+    public void setSignalLevelUnitsRaw(String signalLevelUnitsRaw) {
+        this.signalLevelUnitsRaw = signalLevelUnitsRaw;
+    }
+
+    public String getNoiseLevelRaw() {
+        return noiseLevelRaw;
+    }
+
+    public void setNoiseLevelRaw(String noiseLevelRaw) {
+        this.noiseLevelRaw = noiseLevelRaw;
     }
 }
