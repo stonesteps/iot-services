@@ -36,8 +36,8 @@ public class SpaState {
     List<Measurement> measurements;
     SetupParams setupParams;
     SystemInfo systemInfo;
-
     WifiConnectionHealth wifiConnectionHealth;
+    Boolean ethernetPluggedIn;
 
     // optional params of spas, these can come from different controllers, but an effort
     // is made to coalesce any controller into the same properties first, and if not lined up
@@ -520,6 +520,15 @@ public class SpaState {
     public void setWifiConnectionHealth(WifiConnectionHealth wifiConnectionHealth) {
         this.wifiConnectionHealth = wifiConnectionHealth;
     }
+
+    public Boolean getEthernetPluggedIn() {
+        return ethernetPluggedIn;
+    }
+
+    public void setEthernetPluggedIn(Boolean ethernetPluggedIn) {
+        this.ethernetPluggedIn = ethernetPluggedIn;
+    }
+
 
     @Override
     public String toString() {

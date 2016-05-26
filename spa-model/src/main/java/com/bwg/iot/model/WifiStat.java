@@ -33,6 +33,7 @@ public class WifiStat extends ResourceSupport {
     private String SSID;
     private WifiConnectionDiagnostics connectedDiag;
     private String sensitivity;
+    private Boolean ethernetPortPluggedIn;
 
     public String get_id() {
         return _id;
@@ -184,5 +185,13 @@ public class WifiStat extends ResourceSupport {
 
     public void setSensitivity(String sensitivity) {
         this.sensitivity = sensitivity;
+    }
+
+    public Boolean isEthernetPortPluggedIn() {
+        return ethernetPortPluggedIn;
+    }
+
+    public void setEthernetPortPluggedIn(Boolean ethernetPortPluggedIn) {
+        this.ethernetPortPluggedIn = ethernetPortPluggedIn;
     }
 }
