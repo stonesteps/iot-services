@@ -32,6 +32,7 @@ public class WifiStat extends ResourceSupport {
     private String powerMgmtConfig;
     private String SSID;
     private WifiConnectionDiagnostics connectedDiag;
+    private String sensitivity;
 
     public String get_id() {
         return _id;
@@ -175,5 +176,13 @@ public class WifiStat extends ResourceSupport {
 
     public void setConnectedDiag(WifiConnectionDiagnostics connectedDiag) {
         this.connectedDiag = connectedDiag;
+    }
+
+    public String getSensitivity() {
+        return sensitivity;
+    }
+
+    public void setSensitivity(String sensitivity) {
+        this.sensitivity = sensitivity;
     }
 }
