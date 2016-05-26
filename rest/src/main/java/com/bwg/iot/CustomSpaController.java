@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,6 +49,9 @@ public class CustomSpaController {
 
     @Autowired
     SpaRepository spaRepository;
+
+    @Autowired
+    EntityLinks entityLinks;
 
     @Autowired
     SpaCommandHelper helper;
@@ -234,6 +238,9 @@ public class CustomSpaController {
         // TODO: Schedule
         recipe.setCreationDate(new Date());
         recipe = recipeRepository.save(recipe);
+        recipe.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
+                .slash("/" + recipe.getSpaId() + "/recipes/" + recipe.get_id())
+                .withSelfRel());
 
         ResponseEntity<?> response = new ResponseEntity<Recipe>(recipe, HttpStatus.OK);
         return response;
@@ -243,7 +250,12 @@ public class CustomSpaController {
     @ResponseBody
     public ResponseEntity<?> getSpaRecipes(@PathVariable("spaId") final String spaId, final Pageable pageable) {
             final Page<Recipe> recipes = recipeRepository.findBySpaId(spaId, pageable);
+            recipes.forEach(recipe -> {
+                recipe.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
+                        .slash("/" + recipe.getSpaId() + "/recipes/" + recipe.get_id())
+                        .withSelfRel());
 
+            });
             final Resources<Recipe> resources = new Resources<>(recipes);
             resources.add(linkTo(methodOn(CustomSpaController.class).getSpaRecipes(spaId, pageable)).withSelfRel());
             return ResponseEntity.ok(resources);
@@ -258,12 +270,14 @@ public class CustomSpaController {
             LOGGER.info("Spa Recipe with id " + id + " not found");
             return new ResponseEntity<String>("Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
         }
+        recipe.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
+                .slash("/" + recipe.getSpaId() + "/recipes/" + recipe.get_id())
+                .withSelfRel());
         return new ResponseEntity<Recipe>(recipe, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{spaId}/recipes/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateSpaRecipe(@PathVariable("id") String id, @RequestBody Recipe recipe) {
-
         Recipe currentRecipe = recipeRepository.findOne(id);
         if (currentRecipe == null) {
             LOGGER.info("Spa Recipe with id " + id + " not found");
@@ -275,6 +289,9 @@ public class CustomSpaController {
         currentRecipe.setSettings(recipe.getSettings());
 
         currentRecipe = recipeRepository.save(currentRecipe);
+        currentRecipe.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
+                .slash("/" + recipe.getSpaId() + "/recipes/" + recipe.get_id())
+                .withSelfRel());
         return new ResponseEntity<Recipe>(currentRecipe, HttpStatus.OK);
     }
 

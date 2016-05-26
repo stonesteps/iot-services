@@ -21,9 +21,7 @@ import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.li
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.put;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -188,7 +186,8 @@ public class ApiDocumentation extends ModelTestBase{
 							linkWithRel("owner").description("This <<resources-user,user>>"),
 							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>"),
 							linkWithRel("wifiStats").description("This <<resources-wifiStat,wifiStat>>"),
-							linkWithRel("events").description("This <<resources-event,event>>")),
+							linkWithRel("events").description("This <<resources-event,event>>"),
+							linkWithRel("recipes").description("This <<resources-recipes, recipe>>")),
 					responseFields(
 							fieldWithPath("_id").description("Object Id"),
                             fieldWithPath("serialNumber").description("The serial of the spa"),
@@ -267,7 +266,8 @@ public class ApiDocumentation extends ModelTestBase{
 							linkWithRel("owner").description("This <<resources-user,user>>"),
 							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>"),
 							linkWithRel("wifiStats").description("This <<resources-wifiStat,wifiStat>>"),
-							linkWithRel("events").description("This <<resources-event,event>>")),
+							linkWithRel("events").description("This <<resources-event,event>>"),
+							linkWithRel("recipes").description("This <<resources-recipes, recipe>>")),
 					responseFields(
 							fieldWithPath("_id").description("Object Id"),
 							fieldWithPath("serialNumber").description("The serial of the spa"),
@@ -541,16 +541,137 @@ public class ApiDocumentation extends ModelTestBase{
 								fieldWithPath("settings").description("A list of apa settings. Each enty is is the format <String, Map<String,String>  RequestType, Values"))))
 				.andDo(document("spas-create-recipe-example",
 						responseFields(
-//								fieldWithPath("_id").description("Unique Identifier for these settings"),
+								fieldWithPath("_id").description("Unique Identifier for these settings"),
 								fieldWithPath("name").description("The friendly name of these settings").type("String"),
 								fieldWithPath("spaId").description("The spa associated with these settings. (or FACTORY for factory settings)").type("String"),
 								fieldWithPath("settings").description("The set of commands to put the spa in the desired state"),
 //								fieldWithPath("schedule").description("tbd"),
 								fieldWithPath("notes").description("Text field for miscellaneous use").type("String").optional(),
-								fieldWithPath("creationDate").description("The date the spa was created").type(Date.class).optional())));
+								fieldWithPath("creationDate").description("The date the spa was created").type(Date.class).optional(),
+								fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
 	}
 
-	private Spa createSpa(HashMap<String,Object> attributes) throws Exception {
+	@Test
+	public void recipeListExample() throws Exception {
+		clearAllData();
+
+		// create an owner
+		// create a spa with a few components
+		List<Address> addresses = createAddresses(3);
+		List<String> ownerRole = Arrays.asList("OWNER");
+		User owner1 = createUser("npeart", "Neal", "Peart", null, null, addresses.get(0), ownerRole, null);
+		User associate = createUser("nwilson", "Nancy", "Wilson", "101", "oem001", addresses.get(1), Arrays.asList(User.Role.ASSOCIATE.toString()), null);
+		User tech = createUser("awilson", "Ann", "Wilson", "101", "oem001", addresses.get(2), Arrays.asList(User.Role.TECHNICIAN.toString()), null);
+		Spa myNewSpa = createSmallSpaWithState("160104", "Shark", "Tiger", "oem001", "101", null);
+
+		createSpaRecipe(myNewSpa.get_id(), "TGIF", "Some like it hot!");
+        createSpaRecipe(myNewSpa.get_id(), "Kid Time", null);
+
+		this.mockMvc.perform(get("/spas/" + myNewSpa.get_id() + "/recipes"))
+				.andExpect(status().isOk())
+				.andDo(document("recipe-list-example",
+						responseFields(
+								fieldWithPath("_embedded.recipes").description("An array of <<resources-recipe, Recipe resources>>"),
+								fieldWithPath("_links").description("<<resources-spaslist-links,Links>>"))));
+	}
+
+    @Test
+    public void recipeGetExample() throws Exception {
+        clearAllData();
+
+        // create an owner
+        // create a spa with a few components
+        List<Address> addresses = createAddresses(3);
+        List<String> ownerRole = Arrays.asList("OWNER");
+        User owner1 = createUser("npeart", "Neal", "Peart", null, null, addresses.get(0), ownerRole, null);
+        User associate = createUser("nwilson", "Nancy", "Wilson", "101", "oem001", addresses.get(1), Arrays.asList(User.Role.ASSOCIATE.toString()), null);
+        User tech = createUser("awilson", "Ann", "Wilson", "101", "oem001", addresses.get(2), Arrays.asList(User.Role.TECHNICIAN.toString()), null);
+        Spa myNewSpa = createSmallSpaWithState("160104", "Shark", "Tiger", "oem001", "101", null);
+
+        Recipe recipe = createSpaRecipe(myNewSpa.get_id(), "TGIF", "Some like it hot!");
+
+        this.mockMvc.perform(get("/spas/" + myNewSpa.get_id() + "/recipes/" + recipe.get_id()))
+                .andExpect(status().isOk())
+                .andDo(document("recipe-get-example",
+                    responseFields(
+                        fieldWithPath("_id").description("Unique Identifier for these settings"),
+                        fieldWithPath("name").description("The friendly name of these settings").type("String"),
+                        fieldWithPath("spaId").description("The spa associated with these settings. (or FACTORY for factory settings)").type("String"),
+                        fieldWithPath("settings").description("The set of commands to put the spa in the desired state"),
+//								fieldWithPath("schedule").description("tbd"),
+                        fieldWithPath("notes").description("Text field for miscellaneous use").type("String").optional(),
+                        fieldWithPath("creationDate").description("The date the spa was created").type(Date.class).optional(),
+                        fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
+    }
+
+    @Test
+    public void recipePutExample() throws Exception {
+        clearAllData();
+
+        // create an owner
+        // create a spa with a few components
+        List<Address> addresses = createAddresses(3);
+        List<String> ownerRole = Arrays.asList("OWNER");
+        User owner1 = createUser("npeart", "Neal", "Peart", null, null, addresses.get(0), ownerRole, null);
+        User associate = createUser("nwilson", "Nancy", "Wilson", "101", "oem001", addresses.get(1), Arrays.asList(User.Role.ASSOCIATE.toString()), null);
+        User tech = createUser("awilson", "Ann", "Wilson", "101", "oem001", addresses.get(2), Arrays.asList(User.Role.TECHNICIAN.toString()), null);
+        Spa myNewSpa = createSmallSpaWithState("160104", "Shark", "Tiger", "oem001", "101", null);
+
+        Recipe recipe = createSpaRecipe(myNewSpa.get_id(), "TGIF", "Some like it hot!");
+
+        Map<String, Object> update = new HashMap<String, Object>();
+        update.put("_id", recipe.get_id());
+        update.put("name", "FridayNightLights");
+        update.put("notes", "Are you ready for some football?");
+        update.put("settings", recipe.getSettings());
+        update.put("spaId", recipe.getSpaId());
+
+        this.mockMvc
+                .perform(put("/spas/" + myNewSpa.get_id() + "/recipes/" + recipe.get_id())
+                        .contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(update)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("recipe-put-example",
+                        responseFields(
+                                fieldWithPath("_id").description("Unique Identifier for these settings"),
+                                fieldWithPath("name").description("The friendly name of these settings").type("String"),
+                                fieldWithPath("spaId").description("The spa associated with these settings. (or FACTORY for factory settings)").type("String"),
+                                fieldWithPath("settings").description("The set of commands to put the spa in the desired state"),
+//								fieldWithPath("schedule").description("tbd"),
+                                fieldWithPath("notes").description("Text field for miscellaneous use").type("String").optional(),
+                                fieldWithPath("creationDate").description("The date the spa was created").type(Date.class).optional(),
+                                fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
+    }
+
+    @Test
+    public void recipeDeleteExample() throws Exception {
+        clearAllData();
+
+        // create an owner
+        // create a spa with a few components
+        List<Address> addresses = createAddresses(3);
+        List<String> ownerRole = Arrays.asList("OWNER");
+        User owner1 = createUser("npeart", "Neal", "Peart", null, null, addresses.get(0), ownerRole, null);
+        User associate = createUser("nwilson", "Nancy", "Wilson", "101", "oem001", addresses.get(1), Arrays.asList(User.Role.ASSOCIATE.toString()), null);
+        User tech = createUser("awilson", "Ann", "Wilson", "101", "oem001", addresses.get(2), Arrays.asList(User.Role.TECHNICIAN.toString()), null);
+        Spa myNewSpa = createSmallSpaWithState("160104", "Shark", "Tiger", "oem001", "101", null);
+
+        Recipe recipe = createSpaRecipe(myNewSpa.get_id(), "TGIF", "Some like it hot!");
+
+        Map<String, Object> update = new HashMap<String, Object>();
+        update.put("_id", recipe.get_id());
+        update.put("name", "FridayNightLights");
+        update.put("notes", "Are you ready for some football?");
+        update.put("settings", recipe.getSettings());
+        update.put("spaId", recipe.getSpaId());
+
+        this.mockMvc
+                .perform(delete("/spas/" + myNewSpa.get_id() + "/recipes/" + recipe.get_id()))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("recipe-delete-example"));
+    }
+
+    private Spa createSpa(HashMap<String,Object> attributes) throws Exception {
 		Spa spa = new Spa();
 		attributes.forEach((k,v) -> {
 			Class c = v.getClass();
