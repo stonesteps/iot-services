@@ -279,6 +279,7 @@ public class ApiDocumentation extends ModelTestBase{
 							fieldWithPath("transactionCode").description("Optional ticket number of the sale").optional().type("String"),
 							fieldWithPath("salesDate").description("Date this spa was sold").optional().type(Date.class),
 							fieldWithPath("sold").description("Flag denoting if spa has been sold"),
+							fieldWithPath("location").description("Contains longitude and latitude of spa location").optional().type("Map<double, double>"),
 							fieldWithPath("online").description("Boolean, is spa communicating with cloud"),
 							fieldWithPath("alerts").description("Current Issues with the spa").optional().type(Alert.class),
 							fieldWithPath("dealerId").description("The dealer assigned to the spa"),
