@@ -7,6 +7,8 @@ package com.bwg.iot;
 import com.bwg.iot.model.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/spas")
 public class CustomSpaController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomSpaController.class);
 
     @Autowired
     UserRepository userRepository;
@@ -238,16 +241,54 @@ public class CustomSpaController {
 
     @RequestMapping(value = "/{spaId}/recipes", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public ResponseEntity<?> getSpaSettings(@PathVariable String spaId,
-        @RequestParam(value = "page", required = false, defaultValue = "0") final int page,
-        @RequestParam(value = "size", required = false, defaultValue = "20") final int size) {
-
-            final Pageable pageable = new PageRequest(page, size, new Sort(Sort.Direction.DESC, "timestamp"));
-
+    public ResponseEntity<?> getSpaRecipes(@PathVariable("spaId") final String spaId, final Pageable pageable) {
             final Page<Recipe> recipes = recipeRepository.findBySpaId(spaId, pageable);
 
             final Resources<Recipe> resources = new Resources<>(recipes);
-            resources.add(linkTo(methodOn(CustomSpaController.class).getSpaSettings(spaId, page, size)).withSelfRel());
+            resources.add(linkTo(methodOn(CustomSpaController.class).getSpaRecipes(spaId, pageable)).withSelfRel());
             return ResponseEntity.ok(resources);
     }
+
+
+
+    @RequestMapping(value = "/{spaId}/recipes/{id}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<?> getSpaRecipe(@PathVariable("id") String id) {
+        Recipe recipe = recipeRepository.findOne(id);
+        if (recipe == null) {
+            LOGGER.info("Spa Recipe with id " + id + " not found");
+            return new ResponseEntity<String>("Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Recipe>(recipe, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{spaId}/recipes/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateSpaRecipe(@PathVariable("id") String id, @RequestBody Recipe recipe) {
+
+        Recipe currentRecipe = recipeRepository.findOne(id);
+        if (currentRecipe == null) {
+            LOGGER.info("Spa Recipe with id " + id + " not found");
+            return new ResponseEntity<String>("Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
+        }
+
+        currentRecipe.setName(recipe.getName());
+        currentRecipe.setNotes(recipe.getNotes());
+        currentRecipe.setSettings(recipe.getSettings());
+
+        currentRecipe = recipeRepository.save(currentRecipe);
+        return new ResponseEntity<Recipe>(currentRecipe, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/{spaId}/recipes/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteSpaRecipe(@PathVariable("id") String id) {
+
+        Recipe currentRecipe = recipeRepository.findOne(id);
+        if (currentRecipe == null) {
+            LOGGER.info("Unable to delete: Spa Recipe with id " + id + " not found");
+            return new ResponseEntity<String>("Unable to delete: Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
+        }
+
+        recipeRepository.delete(id);
+        return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
+    }
+
 }
