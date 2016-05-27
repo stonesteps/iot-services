@@ -17,7 +17,7 @@ import static com.google.common.collect.Maps.newHashMap;
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class Component extends ResourceSupport {
 
-    public enum ComponentType { GATEWAY, MOTE, PUMP, LIGHT, BLOWER, MISTER, FILTER, AUX, PANEL, OZONE, MICROSILK, CONTROLLER };
+    public enum ComponentType { GATEWAY, MOTE, PUMP, LIGHT, BLOWER, MISTER, FILTER, AUX, PANEL, OZONE, MICROSILK, CONTROLLER, UV, AV, CIRCULATION_PUMP };
     public final static List<String> PORT_BASED_COMPONENT_TYPES =
             newArrayList(ComponentType.AUX.name(),
                     ComponentType.BLOWER.name(),

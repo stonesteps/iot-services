@@ -575,9 +575,9 @@ public class ModelTestBase {
 
 
 
-    protected Spa createDemoSpa1(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate) {
-        final String productName = "Shark";
-        final String model = "Blue";
+    protected Spa createDemoJacuzziSpa(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate) {
+        final String productName = "J-500 Luxury Series";
+        final String model = "J-585";
 
         Spa spa = new Spa();
         if (StringUtils.isNotEmpty(spaId)) {
@@ -611,24 +611,57 @@ public class ModelTestBase {
 
 
         String pumpPartNo1 = "1016205*";
-        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Circulation", pumpPartNo1 + serialNumber, spa.get_id());
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Main Jets", pumpPartNo1 + serialNumber, spa.get_id());
         Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Captain's Chair", pumpPartNo1 + serialNumber, spa.get_id());
+        Component pump3 = createComponent(Component.ComponentType.PUMP.name(), "2", "Foot Massage", pumpPartNo1 + serialNumber, spa.get_id());
         Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", "Main Light", serialNumber, spa.get_id());
+        Component light2 = createComponent(Component.ComponentType.LIGHT.name(), "1", "Captain Lights", serialNumber, spa.get_id());
+        Component light3 = createComponent(Component.ComponentType.LIGHT.name(), "2", "Mood Lighting", serialNumber, spa.get_id());
+        Component light4 = createComponent(Component.ComponentType.LIGHT.name(), "3", "Disco", serialNumber, spa.get_id());
         Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
+        Component filter2 = createComponent(Component.ComponentType.FILTER.name(), "1", "Secondary Filter", serialNumber, spa.get_id());
+        Component ozone1 = createComponent(Component.ComponentType.OZONE.name(), "0", "Purifier", serialNumber, spa.get_id());
+        Component aux1 = createComponent(Component.ComponentType.AUX.name(), "0", "Waterfall", serialNumber, spa.get_id());
+        Component aux2 = createComponent(Component.ComponentType.AUX.name(), "0", "Niagra Falls", serialNumber, spa.get_id());
+        Component circ1 = createComponent(Component.ComponentType.CIRCULATION_PUMP.name(), "0", "Circulation", serialNumber, spa.get_id());
+        Component av = createComponent(Component.ComponentType.AV.name(), "0", "Sound System", serialNumber, spa.get_id());
+        Component uv = createComponent(Component.ComponentType.UV.name(), "0", "Ultra Violet", serialNumber, spa.get_id());
 
         ComponentState p1State = createComponentState(pump1, "LOW");
         ComponentState p2State = createComponentState(pump2, "OFF");
+        ComponentState p3State = createComponentState(pump3, "OFF");
         ComponentState light1State = createComponentState(light1, "OFF");
+        ComponentState light2State = createComponentState(light2, "OFF");
+        ComponentState light3State = createComponentState(light3, "OFF");
+        ComponentState light4State = createComponentState(light4, "OFF");
         ComponentState gatewayState = createComponentState(gateway, "OFF");
-        ComponentState filterState = createComponentState(filter1, "OFF");
+        ComponentState filter1State = createComponentState(filter1, "OFF");
+        ComponentState filter2State = createComponentState(filter2, "OFF");
+        ComponentState ozone1State = createComponentState(ozone1, "OFF");
+        ComponentState aux1State = createComponentState(aux1, "OFF");
+        ComponentState aux2State = createComponentState(aux2, "OFF");
+        ComponentState avState = createComponentState(av, "1");
+        ComponentState uvState = createComponentState(uv, "OFF");
+        ComponentState circState = createComponentState(circ1, "OFF");
 
         SpaState spaState = new SpaStateBuilder()
                 .runMode("Ready")
                 .component(p1State)
                 .component(p2State)
+                .component(p3State)
                 .component(light1State)
+                .component(light2State)
+                .component(light3State)
+                .component(light4State)
                 .component(gatewayState)
-                .component(filterState)
+                .component(filter1State)
+                .component(filter2State)
+                .component(ozone1State)
+                .component(aux1State)
+                .component(aux1State)
+                .component(avState)
+                .component(uvState)
+                .component(circState)
                 .targetDesiredTemp("100")
                 .desiredTemp("100")
                 .currentTemp("97")
