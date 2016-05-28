@@ -51,6 +51,9 @@ public class CustomSpaController {
     SpaRepository spaRepository;
 
     @Autowired
+    SpaCommandRepository spaCommandRepository;
+
+    @Autowired
     EntityLinks entityLinks;
 
     @Autowired
@@ -307,5 +310,18 @@ public class CustomSpaController {
         recipeRepository.delete(id);
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
+
+    @RequestMapping(value = "/{spaId}/recipes/{id}/run", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> runSpaRecipe(@PathVariable("id") String id) {
+        Recipe recipe = recipeRepository.findOne(id);
+        if (recipe == null) {
+            LOGGER.info("Spa Recipe with id " + id + " not found");
+            return new ResponseEntity<String>("Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
+        }
+
+        spaCommandRepository.insert(recipe.getSettings());
+        return new ResponseEntity<Recipe>(recipe, HttpStatus.OK);
+    }
+
 
 }

@@ -436,6 +436,23 @@ include::{snippets}/recipe-delete-example/curl-request.adoc[]
 
 include::{snippets}/recipe-delete-example/http-response.adoc[]
 
+=== Run a Spa Recipe
+
+*/spas/{spaId}/recipes/{id}/run*
+
+A `POST` request executes a spa recipe.
+
+
+==== Example request
+
+include::{snippets}/recipe-run-example/curl-request.adoc[]
+
+
+==== Example response
+
+include::{snippets}/recipe-run-example/http-response.adoc[]
+
+
 
 
 

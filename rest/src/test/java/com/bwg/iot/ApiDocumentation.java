@@ -671,7 +671,29 @@ public class ApiDocumentation extends ModelTestBase{
                 .andDo(document("recipe-delete-example"));
     }
 
-    private Spa createSpa(HashMap<String,Object> attributes) throws Exception {
+	@Test
+	public void runRecipeExample() throws Exception {
+		clearAllData();
+
+		// create an owner
+		// create a spa with a few components
+		List<Address> addresses = createAddresses(3);
+		List<String> ownerRole = Arrays.asList("OWNER");
+		User owner1 = createUser("npeart", "Neal", "Peart", null, null, addresses.get(0), ownerRole, null);
+		User associate = createUser("nwilson", "Nancy", "Wilson", "101", "oem001", addresses.get(1), Arrays.asList(User.Role.ASSOCIATE.toString()), null);
+		User tech = createUser("awilson", "Ann", "Wilson", "101", "oem001", addresses.get(2), Arrays.asList(User.Role.TECHNICIAN.toString()), null);
+		Spa myNewSpa = createSmallSpaWithState("160104", "Shark", "Tiger", "oem001", "101", null);
+
+		Recipe recipe = createSpaRecipe(myNewSpa.get_id(), "TGIF", "Some like it hot!");
+
+		this.mockMvc
+				.perform(post("/spas/" + myNewSpa.get_id()
+						+ "/recipes/" + recipe.get_id() + "/run"))
+				.andExpect(status().is2xxSuccessful())
+				.andDo(document("recipe-run-example"));
+	}
+
+	private Spa createSpa(HashMap<String,Object> attributes) throws Exception {
 		Spa spa = new Spa();
 		attributes.forEach((k,v) -> {
 			Class c = v.getClass();
