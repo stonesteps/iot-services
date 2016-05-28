@@ -109,7 +109,7 @@ public class SpaCommandHelper  {
             }
             command.setOriginatorId(originatorId);
             command.setSentTimestamp(new Date());
-            command = spaCommandRepository.save(command);
+            command = spaCommandRepository.insert(command);
         }
 
         return command;
