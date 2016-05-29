@@ -7,7 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceAssembler;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +28,9 @@ public class EventController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/spas/{spaId}/events")
     @ResponseBody
-    public ResponseEntity<?> getEvents(@PathVariable("spaId") final String spaId,
-                                       final Pageable pageable,
-                                       PersistentEntityResourceAssembler entityAssembler) {
-
+    public HttpEntity<PagedResources<Resource<Event>>> getEvents(@PathVariable("spaId") final String spaId,
+                                                                    final Pageable pageable,
+                                                                    PersistentEntityResourceAssembler entityAssembler) {
         final Page<Event> events = eventRepository.findBySpaId(spaId, pageable);
         return ResponseEntity.ok(pagedAssembler.toResource(events, (ResourceAssembler)entityAssembler));
     }
