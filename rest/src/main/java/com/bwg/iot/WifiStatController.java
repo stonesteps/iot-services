@@ -31,6 +31,7 @@ public class WifiStatController {
     public HttpEntity<PagedResources<Resource<WifiStat>>> getWifiStats(@PathVariable("spaId") final String spaId,
                                                                        final Pageable pageable,
                                                                        PersistentEntityResourceAssembler entityAssembler) {
+        pagedAssembler.setForceFirstAndLastRels(true);
         final Page<WifiStat> wifiStats = wifiStatRepository.findBySpaId(spaId, pageable);
         return ResponseEntity.ok(pagedAssembler.toResource(wifiStats, (ResourceAssembler)entityAssembler));
     }

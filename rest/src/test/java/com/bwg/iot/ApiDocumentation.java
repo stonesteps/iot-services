@@ -342,7 +342,8 @@ public class ApiDocumentation extends ModelTestBase{
 				.andDo(document("faultlog-list-example",
 						responseFields(
 								fieldWithPath("_embedded.faultLogs").description("An array of <<resources-spa, Spa resources>>"),
-								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"))));
+								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"),
+								fieldWithPath("page").description("Page information"))));
 	}
 
 	@Test

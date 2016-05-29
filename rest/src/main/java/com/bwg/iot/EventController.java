@@ -31,6 +31,7 @@ public class EventController {
     public HttpEntity<PagedResources<Resource<Event>>> getEvents(@PathVariable("spaId") final String spaId,
                                                                     final Pageable pageable,
                                                                     PersistentEntityResourceAssembler entityAssembler) {
+        pagedAssembler.setForceFirstAndLastRels(true);
         final Page<Event> events = eventRepository.findBySpaId(spaId, pageable);
         return ResponseEntity.ok(pagedAssembler.toResource(events, (ResourceAssembler)entityAssembler));
     }
