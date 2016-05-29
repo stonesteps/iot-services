@@ -147,7 +147,10 @@ public final class ZSeedDbTest extends ModelTestBase {
         SpaTemplate st3 = createSpaTemplate("Hot Spring Spas", "Los Coyote", "109834-1525-811", "oem002", spaTemplate2List);
 
         // create a variety of spas.  sold, unsold, fully populated w components, some with alerts...
-        Spa spa22 = createDemoSpa1("150307", oem1.get_id(), dealer1.get_id(), owner1, "spa000022", GATEWAY_1_SN, maker1);
+        Spa spa22 = createDemoJacuzziSpa("150307", oem1.get_id(), dealer1.get_id(), owner1, "spa000022", GATEWAY_1_SN, maker1);
+        createSpaRecipe(spa22.get_id(), "TGIF", "Some like it hot!");
+        createSpaRecipe(spa22.get_id(), "Kids Play", "Body Temp", "98");
+
         Spa spa24 = createDemoSpa2("160104", oem1.get_id(), dealer1.get_id(), owner2, "spa000024", GATEWAY_2_SN, sales1);
         Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", oem1.get_id(), dealer1.get_id(), owner3, "spa000025", sales2);
         this.add2Alerts(spa25);

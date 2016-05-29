@@ -319,6 +319,7 @@ public class ModelTestBase {
             spa.setOwner(owner);
             spa.setSalesDate(new Date());
             spa.setTransactionCode(String.valueOf((int) (Math.random() * 10000)));
+            spa.setLocation(new double[] {SAO_PAULO_LON, SAO_PAULO_LAT});
         }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
@@ -441,6 +442,7 @@ public class ModelTestBase {
             spa.setOwner(owner);
             spa.setSalesDate(new Date());
             spa.setTransactionCode("a" + String.valueOf((int) (Math.random() * 10000)));
+            spa.setLocation(new double[] {SARDINIA_LON, SARDINIA_LAT});
         }
         if (associate != null) {
             spa.setAssociate(associate.toMinimal());
@@ -511,6 +513,7 @@ public class ModelTestBase {
             spa.setOwner(owner);
             spa.setSalesDate(new Date());
             spa.setTransactionCode(String.valueOf((int) (Math.random() * 20000)));
+            spa.setLocation(new double[] {SARDINIA_LON, SARDINIA_LAT});
         }
         spa.setOemId(oemId);
         spa.setManufacturedDate(new Date());
@@ -560,9 +563,22 @@ public class ModelTestBase {
         return spa;
     }
 
-    protected Spa createDemoSpa1(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate) {
-        final String productName = "Shark";
-        final String model = "Blue";
+    protected final static double BWG_LAT = 33.714453;
+    protected final static double BWG_LON = -117.837151;
+    protected final static double HIVE_LAT = 32.715738;
+    protected final static double HIVE_LON = -117.161084;
+    protected final static double SARDINIA_LAT = 40.1209;
+    protected final static double SARDINIA_LON = 9.0129;
+    protected final static double SAO_PAULO_LAT = -23.5505;
+    protected final static double SAO_PAULO_LON = -46.6333;
+
+
+
+
+    protected Spa createDemoJacuzziSpa(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate) {
+        final String productName = "J-500 Luxury Series";
+        final String model = "J-585";
+
         Spa spa = new Spa();
         if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
@@ -570,6 +586,7 @@ public class ModelTestBase {
         spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
+        spa.setLocation(new double[] {BWG_LON, BWG_LAT});
         spa.setDealerId(dealerId);
         if (owner != null) {
             owner.setSpaId(spaId);
@@ -594,24 +611,57 @@ public class ModelTestBase {
 
 
         String pumpPartNo1 = "1016205*";
-        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Circulation", pumpPartNo1 + serialNumber, spa.get_id());
+        Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Main Jets", pumpPartNo1 + serialNumber, spa.get_id());
         Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Captain's Chair", pumpPartNo1 + serialNumber, spa.get_id());
+        Component pump3 = createComponent(Component.ComponentType.PUMP.name(), "2", "Foot Massage", pumpPartNo1 + serialNumber, spa.get_id());
         Component light1 = createComponent(Component.ComponentType.LIGHT.name(), "0", "Main Light", serialNumber, spa.get_id());
+        Component light2 = createComponent(Component.ComponentType.LIGHT.name(), "1", "Captain Lights", serialNumber, spa.get_id());
+        Component light3 = createComponent(Component.ComponentType.LIGHT.name(), "2", "Mood Lighting", serialNumber, spa.get_id());
+        Component light4 = createComponent(Component.ComponentType.LIGHT.name(), "3", "Disco", serialNumber, spa.get_id());
         Component filter1 = createComponent(Component.ComponentType.FILTER.name(), "0", "Primary Filter", serialNumber, spa.get_id());
+        Component filter2 = createComponent(Component.ComponentType.FILTER.name(), "1", "Secondary Filter", serialNumber, spa.get_id());
+        Component ozone1 = createComponent(Component.ComponentType.OZONE.name(), "0", "Purifier", serialNumber, spa.get_id());
+        Component aux1 = createComponent(Component.ComponentType.AUX.name(), "0", "Waterfall", serialNumber, spa.get_id());
+        Component aux2 = createComponent(Component.ComponentType.AUX.name(), "0", "Niagra Falls", serialNumber, spa.get_id());
+        Component circ1 = createComponent(Component.ComponentType.CIRCULATION_PUMP.name(), "0", "Circulation", serialNumber, spa.get_id());
+        Component av = createComponent(Component.ComponentType.AV.name(), "0", "Sound System", serialNumber, spa.get_id());
+        Component uv = createComponent(Component.ComponentType.UV.name(), "0", "Ultra Violet", serialNumber, spa.get_id());
 
         ComponentState p1State = createComponentState(pump1, "LOW");
         ComponentState p2State = createComponentState(pump2, "OFF");
+        ComponentState p3State = createComponentState(pump3, "OFF");
         ComponentState light1State = createComponentState(light1, "OFF");
+        ComponentState light2State = createComponentState(light2, "OFF");
+        ComponentState light3State = createComponentState(light3, "OFF");
+        ComponentState light4State = createComponentState(light4, "OFF");
         ComponentState gatewayState = createComponentState(gateway, "OFF");
-        ComponentState filterState = createComponentState(filter1, "OFF");
+        ComponentState filter1State = createComponentState(filter1, "OFF");
+        ComponentState filter2State = createComponentState(filter2, "OFF");
+        ComponentState ozone1State = createComponentState(ozone1, "OFF");
+        ComponentState aux1State = createComponentState(aux1, "OFF");
+        ComponentState aux2State = createComponentState(aux2, "OFF");
+        ComponentState avState = createComponentState(av, "1");
+        ComponentState uvState = createComponentState(uv, "OFF");
+        ComponentState circState = createComponentState(circ1, "OFF");
 
         SpaState spaState = new SpaStateBuilder()
                 .runMode("Ready")
                 .component(p1State)
                 .component(p2State)
+                .component(p3State)
                 .component(light1State)
+                .component(light2State)
+                .component(light3State)
+                .component(light4State)
                 .component(gatewayState)
-                .component(filterState)
+                .component(filter1State)
+                .component(filter2State)
+                .component(ozone1State)
+                .component(aux1State)
+                .component(aux1State)
+                .component(avState)
+                .component(uvState)
+                .component(circState)
                 .targetDesiredTemp("100")
                 .desiredTemp("100")
                 .currentTemp("97")
@@ -634,6 +684,7 @@ public class ModelTestBase {
         spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
+        spa.setLocation(new double[] {HIVE_LON, HIVE_LAT});
         spa.setDealerId(dealerId);
         if (owner != null) {
             owner.setSpaId(spaId);
@@ -701,6 +752,7 @@ public class ModelTestBase {
         spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
+        spa.setLocation(new double[] {SARDINIA_LON, SARDINIA_LAT});
         spa.setDealerId(dealerId);
         if (owner != null) {
             owner.setSpaId(spaId);
@@ -870,6 +922,47 @@ public class ModelTestBase {
         event.setEventReceivedTimestamp(new Date());
         event.setDescription("test");
         eventRepository.save(event);
+    }
+
+    protected Recipe createSpaRecipe(String spaId, String name, String notes) {
+        return createSpaRecipe(spaId, name, notes, "103");
+    }
+
+    protected Recipe createSpaRecipe(String spaId, String name, String notes, String temperature) {
+        SpaCommand sc1 = new SpaCommand();
+        sc1.setSpaId(spaId);
+        sc1.setRequestTypeId(SpaCommand.RequestType.HEATER.getCode());
+        HashMap<String,String> setTempValues = new HashMap<String, String>();
+        setTempValues.put("desiredTemp", temperature);
+        sc1.setValues(setTempValues);
+
+        SpaCommand sc2 = new SpaCommand();
+        sc2.setSpaId(spaId);
+        sc2.setRequestTypeId(SpaCommand.RequestType.PUMPS.getCode());
+        HashMap<String,String> setPumpValues = new HashMap<String, String>();
+        setPumpValues.put("deviceNumber", "0");
+        setPumpValues.put("desiredState", "HIGH");
+        sc2.setValues(setPumpValues);
+
+        SpaCommand sc3 = new SpaCommand();
+        sc3.setSpaId(spaId);
+        sc3.setRequestTypeId(SpaCommand.RequestType.LIGHTS.getCode());
+        HashMap<String,String> setLightValues = new HashMap<String, String>();
+        setLightValues.put("deviceNumber", "0");
+        setLightValues.put("desiredState", "HIGH");
+        sc3.setValues(setLightValues);
+
+        List<SpaCommand> settings = Arrays.asList(sc1, sc2, sc3);
+        Recipe recipe = new Recipe();
+        recipe.setSpaId(spaId);
+        recipe.setSettings(settings);
+        recipe.setName(name);
+        if (StringUtils.isNotEmpty(notes)) {
+            recipe.setNotes(notes);
+        }
+
+        recipe =  recipeRepository.save(recipe);
+        return recipe;
     }
 
     protected SpaTemplate createSpaTemplate(String productName, String model, String sku, String oemId, List<Material> materialList) {
