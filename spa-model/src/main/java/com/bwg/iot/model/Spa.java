@@ -69,7 +69,7 @@ public class Spa extends ResourceSupport {
         boolean online = false;
         if (this.currentState != null) {
             Date timestamp = this.currentState.getUplinkTimestamp();
-            long updateInterval = currentState.getUpdateIntervalSeconds() < 1 ? 0 : currentState.getUpdateIntervalSeconds();
+            long updateInterval = currentState.getUpdateIntervalSeconds() < 1 ? 60 : currentState.getUpdateIntervalSeconds();
             updateInterval+=45; // give it time padding for transit&processing
 
             Date oneIntervalAgo = new Date(System.currentTimeMillis() - TimeUnit.SECONDS.toMillis(updateInterval));
