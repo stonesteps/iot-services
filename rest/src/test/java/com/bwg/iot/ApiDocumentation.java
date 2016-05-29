@@ -357,8 +357,9 @@ public class ApiDocumentation extends ModelTestBase{
 				.andExpect(status().isOk())
 				.andDo(document("wifistat-list-example",
 						responseFields(
-								fieldWithPath("_embedded.wifiStats").description("An array of <<resources-spa, Spa resources>>"),
-								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"))));
+								fieldWithPath("_embedded.wifiStats").description("An array of wifi stats"),
+								fieldWithPath("_links").description("links to other resources"),
+		                        fieldWithPath("page").description("Page information"))));
 	}
 
 	@Test
@@ -374,8 +375,9 @@ public class ApiDocumentation extends ModelTestBase{
 				.andExpect(status().isOk())
 				.andDo(document("event-list-example",
 						responseFields(
-								fieldWithPath("_embedded.events").description("An array of <<resources-spa, Spa resources>>"),
-								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"))));
+								fieldWithPath("_embedded.events").description("An array of events"),
+								fieldWithPath("_links").description("Links to other resources"),
+								fieldWithPath("page").description("Page information"))));
 	}
 
 	@Test
