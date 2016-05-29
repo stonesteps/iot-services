@@ -357,7 +357,6 @@ public class ApiDocumentation extends ModelTestBase{
 
 		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/wifiStats"))
 				.andExpect(status().isOk())
-				.andDo(print(System.out))
 				.andDo(document("wifistat-list-example",
 						responseFields(
 								fieldWithPath("_embedded.wifiStats").description("An array of wifi stats"),

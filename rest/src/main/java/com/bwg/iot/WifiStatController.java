@@ -1,7 +1,6 @@
 package com.bwg.iot;
 
 import com.bwg.iot.model.WifiStat;
-import org.jboss.seam.annotations.intercept.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
