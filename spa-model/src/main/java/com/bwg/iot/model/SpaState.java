@@ -32,6 +32,7 @@ public class SpaState {
     boolean spaOverheatDisabled;
     String bluetoothStatus;
     int updateIntervalSeconds;
+    int wifiUpdateIntervalSeconds;
     List<ComponentState> components;
     List<Measurement> measurements;
     SetupParams setupParams;
@@ -344,6 +345,10 @@ public class SpaState {
     public int getUpdateIntervalSeconds() { return updateIntervalSeconds; }
 
     public void setUpdateIntervalSeconds(int updateIntervalSeconds) { this.updateIntervalSeconds = updateIntervalSeconds; }
+
+    public int getWifiUpdateIntervalSeconds() { return wifiUpdateIntervalSeconds; }
+
+    public void setWifiUpdateIntervalSeconds(int wifiUpdateIntervalSeconds) { this.wifiUpdateIntervalSeconds = wifiUpdateIntervalSeconds; }
 
     public Integer getReminderDaysClearRay() {
         return reminderDaysClearRay;
