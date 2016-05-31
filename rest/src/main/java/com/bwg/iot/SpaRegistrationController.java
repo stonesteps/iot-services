@@ -72,7 +72,7 @@ public class SpaRegistrationController {
     }
 
     public void afterPropertiesSet() {
-        // TODO: why doesn't this work?
+        // TODO: why doesn't this work? Answer: possible missing @PostConstruct annotation?
         clientId = environment.getProperty(PropertyNames.MOBILE_CLIENT_ID);
         clientSecret = environment.getProperty(PropertyNames.MOBILE_CLIENT_SECRET);
         tokenUrl = environment.getProperty(PropertyNames.TOKEN_ENDPOINT);

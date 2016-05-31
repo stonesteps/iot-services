@@ -17,5 +17,6 @@ public final class PropertyNames {
     public static final String UMA_METADATA_URL = "uma.metadata.url";
     public static final String UMA_AAT_CLIENT_ID = "uma.aat.client.id";
     public static final String UMA_AAT_CLIENT_KEY_ID = "uma.aat.client.key.id";
+    public static final String UMA_OPENID_KEYS_FILENAME = "uma.openid.keys.filename";
     
 }
