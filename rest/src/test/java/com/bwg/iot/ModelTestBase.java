@@ -916,7 +916,7 @@ public class ModelTestBase {
         Map<String, String> metadata = new HashMap<>();
         metadata.put("sample", "value");
         event.setOidData(metadata);
-        event.setEventType(EventType.ALERT);
+        event.setEventType("ALERT");
         event.setMetadata(metadata);
         event.setEventOccuredTimestamp(new Date());
         event.setEventReceivedTimestamp(new Date());
