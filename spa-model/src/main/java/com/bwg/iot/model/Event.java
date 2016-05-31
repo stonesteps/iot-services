@@ -19,7 +19,7 @@ public class Event {
     private String dealerId;
     private String oemId;
 
-    private EventType eventType;
+    private String eventType;
 
     private Date eventOccuredTimestamp;
     private Date eventReceivedTimestamp;
@@ -67,11 +67,11 @@ public class Event {
         this.oemId = oemId;
     }
 
-    public EventType getEventType() {
+    public String getEventType() {
         return eventType;
     }
 
-    public void setEventType(EventType eventType) {
+    public void setEventType(String eventType) {
         this.eventType = eventType;
     }
 
