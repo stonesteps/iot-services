@@ -342,7 +342,8 @@ public class ApiDocumentation extends ModelTestBase{
 				.andDo(document("faultlog-list-example",
 						responseFields(
 								fieldWithPath("_embedded.faultLogs").description("An array of <<resources-spa, Spa resources>>"),
-								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"))));
+								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"),
+								fieldWithPath("page").description("Page information"))));
 	}
 
 	@Test
@@ -362,8 +363,9 @@ public class ApiDocumentation extends ModelTestBase{
 				.andExpect(status().isOk())
 				.andDo(document("wifistat-list-example",
 						responseFields(
-								fieldWithPath("_embedded.wifiStats").description("An array of <<resources-spa, Spa resources>>"),
-								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"))));
+								fieldWithPath("_embedded.wifiStats").description("An array of wifi stats"),
+								fieldWithPath("_links").description("links to other resources"),
+		                        fieldWithPath("page").description("Page information"))));
 	}
 
 	@Test
@@ -373,17 +375,18 @@ public class ApiDocumentation extends ModelTestBase{
 
 		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
 		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
-		createSpaEvent(spa.get_id(), EventType.ALERT);
-		createSpaEvent(spa.get_id(), EventType.MEASUREMENT);
-		createSpaEvent(spa.get_id(), EventType.NOTIFICATION);
-		createSpaEvent(spa.get_id(), EventType.REQEUST);
+		createSpaEvent(spa.get_id(), "ALERT");
+		createSpaEvent(spa.get_id(), "MEASUREMENT");
+		createSpaEvent(spa.get_id(), "NOTIFICATION");
+		createSpaEvent(spa.get_id(), "REQEUST");
 
 		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/events"))
 				.andExpect(status().isOk())
 				.andDo(document("event-list-example",
 						responseFields(
-								fieldWithPath("_embedded.events").description("An array of <<resources-spa, Spa resources>>"),
-								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"))));
+								fieldWithPath("_embedded.events").description("An array of events"),
+								fieldWithPath("_links").description("Links to other resources"),
+								fieldWithPath("page").description("Page information"))));
 	}
 
 	@Test

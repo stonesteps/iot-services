@@ -5,8 +5,14 @@ import com.bwg.iot.model.FaultLogDescription;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,11 +34,16 @@ public class FaultLogController {
     @Autowired
     private FaultLogDescriptionRepository faultLogDescriptionRepository;
 
+    @Autowired
+    private PagedResourcesAssembler<FaultLog> pagedAssembler;
+
     private final Map<String, FaultLogDescription> cache = new HashMap<>();
 
     @RequestMapping(method = RequestMethod.GET, value = "/spas/{spaId}/faultLogs")
     @ResponseBody
-    public ResponseEntity<?> getFaultLogs(@PathVariable("spaId") final String spaId, final Pageable pageable) {
+    public HttpEntity<PagedResources<Resource<FaultLog>>> getFaultLogs(@PathVariable("spaId") final String spaId,
+                                                                       final Pageable pageable,
+                                                                       PersistentEntityResourceAssembler entityAssembler) {
 
         final Page<FaultLog> faultLogs = faultLogRepository.findBySpaId(spaId, pageable);
         if (faultLogs != null) {
@@ -40,10 +51,8 @@ public class FaultLogController {
                 appendDescription(faultLog);
             }
         }
-
-        final Resources<FaultLog> resources = new Resources<>(faultLogs);
-        resources.add(linkTo(methodOn(FaultLogController.class).getFaultLogs(spaId, pageable)).withSelfRel());
-        return ResponseEntity.ok(resources);
+        pagedAssembler.setForceFirstAndLastRels(true);
+        return ResponseEntity.ok(pagedAssembler.toResource(faultLogs, (ResourceAssembler)entityAssembler));
     }
 
     public void appendDescription(final FaultLog faultLog) {

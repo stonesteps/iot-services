@@ -952,7 +952,7 @@ public class ModelTestBase {
         wifiStatRepository.save(stat);
     }
 
-    protected void createSpaEvent(String spaId, final EventType eventType) {
+    protected void createSpaEvent(String spaId, final String eventType) {
         final Event event = new Event();
         event.setSpaId(spaId);
         event.setOemId("123123");
