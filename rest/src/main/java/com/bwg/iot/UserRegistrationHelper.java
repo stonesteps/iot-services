@@ -61,7 +61,7 @@ public class UserRegistrationHelper {
     umaAatClientKeyId = environment.getProperty(PropertyNames.UMA_AAT_CLIENT_KEY_ID);
     openidKeysFilename = environment.getProperty(PropertyNames.UMA_OPENID_KEYS_FILENAME);
     // process keys: the file is in the resources folder FIXME: make the filename dynamic?
-    InputStream is = getClass().getResourceAsStream("/openid-keys.json");
+    InputStream is = getClass().getResourceAsStream(openidKeysFilename);
     StringWriter writer = new StringWriter();
     IOUtils.copy(is, writer, "UTF8");
     umaAatClientJwks = writer.toString();
