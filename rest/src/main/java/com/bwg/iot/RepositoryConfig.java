@@ -21,7 +21,7 @@ public class RepositoryConfig extends RepositoryRestMvcConfiguration {
     protected void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
         config.exposeIdsFor(Spa.class, Alert.class, User.class, SpaCommand.class,
                 Dealer.class, Oem.class, TacUserAgreement.class, TermsAndConditions.class,
-                Material.class, SpaTemplate.class, Recipe.class);
+                Material.class, SpaTemplate.class, Recipe.class, Attachment.class);
     }
 
     @Override
