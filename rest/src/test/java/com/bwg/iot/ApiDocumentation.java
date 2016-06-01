@@ -353,7 +353,11 @@ public class ApiDocumentation extends ModelTestBase{
 
 		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
 		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
-		createSpaWifiStat(spa.get_id());
+		createSpaWifiStat(spa.get_id(), WifiConnectionHealth.AVG);
+		createSpaWifiStat(spa.get_id(), WifiConnectionHealth.DISCONNECTED);
+		createSpaWifiStat(spa.get_id(), WifiConnectionHealth.STRONG);
+		createSpaWifiStat(spa.get_id(), WifiConnectionHealth.UNKONWN);
+		createSpaWifiStat(spa.get_id(), WifiConnectionHealth.WEAK);
 
 		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/wifiStats"))
 				.andExpect(status().isOk())
@@ -371,7 +375,10 @@ public class ApiDocumentation extends ModelTestBase{
 
 		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
 		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
-		createSpaEvent(spa.get_id());
+		createSpaEvent(spa.get_id(), "ALERT");
+		createSpaEvent(spa.get_id(), "MEASUREMENT");
+		createSpaEvent(spa.get_id(), "NOTIFICATION");
+		createSpaEvent(spa.get_id(), "REQEUST");
 
 		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/events"))
 				.andExpect(status().isOk())
