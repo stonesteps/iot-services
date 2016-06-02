@@ -128,84 +128,84 @@ public final class UserDocumentation extends ModelTestBase {
 
     }
 
-    @Test
-    public void userCreateExample() throws Exception {
-        this.userRepository.deleteAll();
-        this.addressRepository.deleteAll();
+//    @Test
+//    public void userCreateExample() throws Exception {
+//        this.userRepository.deleteAll();
+//        this.addressRepository.deleteAll();
+//
+//        Address address = createAddress();
+//
+//        final Map<String, Object> user = new HashMap<>();
+//        user.put("username", "glee");
+//        user.put("firstName", "Getty");
+//        user.put("lastName", "Lee");
+//        user.put("dealerId", "dealer111");
+//        user.put("oemId", "oem222");
+//        user.put("email", "glee@rush.net");
+//        user.put("phone", "(800)222-3456");
+//        user.put("address", address);
+//        user.put("createdDate", new Date());
+//        user.put("roles", Arrays.asList("OWNER"));
+//        user.put("notes", "Notes");
+//
+//        this.mockMvc
+//                .perform(post("/users").contentType(MediaTypes.HAL_JSON)
+//                        .content(this.objectMapper.writeValueAsString(user)))
+//                .andExpect(status().isCreated())
+//                .andDo(document("user-create-example",
+//                        requestFields(fieldWithPath("username").description("Unique friendly identifier for the user."),
+//                                fieldWithPath("firstName").description("First name of the user"),
+//                                fieldWithPath("lastName").description("Last name of the user"),
+//                                fieldWithPath("dealerId").description("Dealer id"),
+//                                fieldWithPath("oemId").description("Manufacturer id"),
+//                                fieldWithPath("email").description("The user's email address"),
+//                                fieldWithPath("phone").description("The user's phone number"),
+//                                fieldWithPath("address").description("The user's address"),
+//                                fieldWithPath("createdDate").description("Created date").type("Date"),
+//                                fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),
+//                                fieldWithPath("notes").description("The notes about the user"))));
+//    }
 
-        Address address = createAddress();
-
-        final Map<String, Object> user = new HashMap<>();
-        user.put("username", "glee");
-        user.put("firstName", "Getty");
-        user.put("lastName", "Lee");
-        user.put("dealerId", "dealer111");
-        user.put("oemId", "oem222");
-        user.put("email", "glee@rush.net");
-        user.put("phone", "(800)222-3456");
-        user.put("address", address);
-        user.put("createdDate", new Date());
-        user.put("roles", Arrays.asList("OWNER"));
-        user.put("notes", "Notes");
-
-        this.mockMvc
-                .perform(post("/users").contentType(MediaTypes.HAL_JSON)
-                        .content(this.objectMapper.writeValueAsString(user)))
-                .andExpect(status().isCreated())
-                .andDo(document("user-create-example",
-                        requestFields(fieldWithPath("username").description("Unique friendly identifier for the user."),
-                                fieldWithPath("firstName").description("First name of the user"),
-                                fieldWithPath("lastName").description("Last name of the user"),
-                                fieldWithPath("dealerId").description("Dealer id"),
-                                fieldWithPath("oemId").description("Manufacturer id"),
-                                fieldWithPath("email").description("The user's email address"),
-                                fieldWithPath("phone").description("The user's phone number"),
-                                fieldWithPath("address").description("The user's address"),
-                                fieldWithPath("createdDate").description("Created date").type("Date"),
-                                fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),
-                                fieldWithPath("notes").description("The notes about the user"))));
-    }
-
-    @Test
-    public void userUpdateExample() throws Exception {
-        this.userRepository.deleteAll();
-        this.addressRepository.deleteAll();
-
-        Address address = createAddress();
-        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("OWNER"), null);
-
-        final Map<String, Object> userUpdate = new HashMap<>();
-        userUpdate.put("username", user.getUsername());
-        userUpdate.put("firstName", "Maurice");
-        userUpdate.put("lastName", user.getLastName());
-        userUpdate.put("dealerId", user.getDealerId());
-        userUpdate.put("oemId", user.getOemId());
-        userUpdate.put("address", address);
-        userUpdate.put("createdDate", user.getCreatedDate());
-        userUpdate.put("modifiedDate", new Date());
-        userUpdate.put("email", "glee@rush.net");
-        userUpdate.put("phone", "(800)222-3456");
-        userUpdate.put("roles", Arrays.asList("OWNER"));
-        userUpdate.put("notes", "edited notes for Mo");
-
-        this.mockMvc
-                .perform(patch("/users/{0}", user.get_id()).contentType(MediaTypes.HAL_JSON)
-                        .content(this.objectMapper.writeValueAsString(userUpdate)))
-                .andExpect(status().is2xxSuccessful())
-                .andDo(document("user-update-example",
-                        requestFields(fieldWithPath("username").description("Unique, friendly name for the user"),
-                                fieldWithPath("firstName").description("First name of the user"),
-                                fieldWithPath("lastName").description("Last name of the user"),
-                                fieldWithPath("dealerId").description("Dealer id"),
-                                fieldWithPath("oemId").description("Manufacturer id"),
-                                fieldWithPath("email").description("The user's email address"),
-                                fieldWithPath("phone").description("The user's phone number"),
-                                fieldWithPath("address").description("Address"),
-                                fieldWithPath("createdDate").description("Created date").type("Date"),
-                                fieldWithPath("modifiedDate").description("Last modified date").type("Date"),
-                                fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),
-                                fieldWithPath("notes").description("User's notes"))));
-    }
+//    @Test
+//    public void userUpdateExample() throws Exception {
+//        this.userRepository.deleteAll();
+//        this.addressRepository.deleteAll();
+//
+//        Address address = createAddress();
+//        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("OWNER"), null);
+//
+//        final Map<String, Object> userUpdate = new HashMap<>();
+//        userUpdate.put("username", user.getUsername());
+//        userUpdate.put("firstName", "Maurice");
+//        userUpdate.put("lastName", user.getLastName());
+//        userUpdate.put("dealerId", user.getDealerId());
+//        userUpdate.put("oemId", user.getOemId());
+//        userUpdate.put("address", address);
+//        userUpdate.put("createdDate", user.getCreatedDate());
+//        userUpdate.put("modifiedDate", new Date());
+//        userUpdate.put("email", "glee@rush.net");
+//        userUpdate.put("phone", "(800)222-3456");
+//        userUpdate.put("roles", Arrays.asList("OWNER"));
+//        userUpdate.put("notes", "edited notes for Mo");
+//
+//        this.mockMvc
+//                .perform(patch("/users/{0}", user.get_id()).contentType(MediaTypes.HAL_JSON)
+//                        .content(this.objectMapper.writeValueAsString(userUpdate)))
+//                .andExpect(status().is2xxSuccessful())
+//                .andDo(document("user-update-example",
+//                        requestFields(fieldWithPath("username").description("Unique, friendly name for the user"),
+//                                fieldWithPath("firstName").description("First name of the user"),
+//                                fieldWithPath("lastName").description("Last name of the user"),
+//                                fieldWithPath("dealerId").description("Dealer id"),
+//                                fieldWithPath("oemId").description("Manufacturer id"),
+//                                fieldWithPath("email").description("The user's email address"),
+//                                fieldWithPath("phone").description("The user's phone number"),
+//                                fieldWithPath("address").description("Address"),
+//                                fieldWithPath("createdDate").description("Created date").type("Date"),
+//                                fieldWithPath("modifiedDate").description("Last modified date").type("Date"),
+//                                fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),
+//                                fieldWithPath("notes").description("User's notes"))));
+//    }
 
     @Test
     public void userGetExample() throws Exception {
