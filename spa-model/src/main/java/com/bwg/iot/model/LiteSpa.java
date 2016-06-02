@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.core.config.Projection;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public interface LiteSpa {
     String getModel();
     String getDealerId();
     String getOemId();
-    String getManufacturedDate();
+    Date getManufacturedDate();
 
     @Value("#{target.owner?.toUserLite()}")
     User getOwner();
