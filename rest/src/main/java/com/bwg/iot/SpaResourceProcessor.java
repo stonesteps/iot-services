@@ -33,7 +33,9 @@ public class SpaResourceProcessor implements ResourceProcessor<Resource<Spa>> {
             resource.add(new Link(resource.getId().getHref() + "/events", "events"));
             resource.add(new Link(resource.getId().getHref() + "/recipes", "recipes"));
         }
-
+        if (spa.getTemplateId() != null) {
+            resource.add(entityLinks.linkToSingleResource(SpaTemplate.class, spa.getTemplateId()).withRel("spaTemplate"));
+        }
         List<Alert> alerts = spa.getAlerts();
         List<Link> alertLinks = new ArrayList<>();
         alerts.stream().forEach(alert -> {
