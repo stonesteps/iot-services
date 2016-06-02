@@ -24,7 +24,7 @@ public class SpaTemplate extends ResourceSupport {
     private Integer warrantyDays;
     private Boolean locked;
     private List<Material> materialList;
-    private Map<String, ?> attachments;
+    private List<Attachment> attachments;
 
     private String notes;
     private Date creationDate;
@@ -89,11 +89,11 @@ public class SpaTemplate extends ResourceSupport {
         this.materialList = materialList;
     }
 
-    public Map<String, ?> getAttachments() {
+    public List<Attachment> getAttachments() {
         return attachments;
     }
 
-    public void setAttachments(Map<String, ?> attachments) {
+    public void setAttachments(List<Attachment> attachments) {
         this.attachments = attachments;
     }
 
