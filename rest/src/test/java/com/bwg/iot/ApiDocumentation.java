@@ -166,7 +166,7 @@ public class ApiDocumentation extends ModelTestBase{
 		User owner = createUser("eblues", "Elwood", "Blues", "dealer2509", "oem001", createAddress(), Arrays.asList("OWNER"), null);
 		User sales1 = createUser("user0010", "nfinn", "Neil", "Finn", "dealer2509", "oem001", createAddress(), Arrays.asList(User.Role.ASSOCIATE.name()), null);
 		User tech1  = createUser("user0013", "wgates", "William", "Gates", "dealer2509", "oem001", createAddress(), Arrays.asList(User.Role.TECHNICIAN.name()), null);
-        Spa spa = createFullSpaWithState("0blah345", "Shark", "Blue", "oem0000001", "101", owner, null, sales1, tech1);
+        Spa spa = createFullSpaWithState("0blah345", "Shark", "Blue", "oem0000001", "101", owner, null, sales1, null, tech1);
         spa = this.addLowFlowYellowAlert(spa);
 
 		String spaLocation = "/spas/"+spa.get_id();
