@@ -12,4 +12,11 @@ public final class PropertyNames {
     public static final String SCIM_USER = "idm.scim.user";
     public static final String SCIM_PWD = "idm.scim.pwd";
     public static final String SCIM_URL = "idm.scim.url";
+    
+    public static final String IDM_DOMAIN = "idm.domain";
+    public static final String UMA_METADATA_URL = "uma.metadata.url";
+    public static final String UMA_AAT_CLIENT_ID = "uma.aat.client.id";
+    public static final String UMA_AAT_CLIENT_KEY_ID = "uma.aat.client.key.id";
+    public static final String UMA_OPENID_KEYS_FILENAME = "uma.openid.keys.filename";
+    
 }
