@@ -85,7 +85,7 @@ public final class AuthenticationDocumentation extends ModelTestBase{
 
 		List<Address> addresses = createAddresses(2);
 		User owner5 = createUser("user0005", "chynde", "Chrissie", "Hynde", "dealer0002", "oem02", addresses.get(0), Arrays.asList("OWNER"), null);
-		Spa spa27 = createDemoSpa("160315", "Whale", "Beluga","oem02", "dealer0002", owner5, "spa000027");
+		Spa spa27 = createDemoSpa("160315", "Whale", "Beluga","oem02", "dealer0002", owner5, "spa000027", null);
 
 		this.mockMvc.perform(get("/auth/whoami")
 				.header("remote_user", "chynde"))

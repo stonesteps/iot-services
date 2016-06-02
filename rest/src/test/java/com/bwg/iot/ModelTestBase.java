@@ -307,10 +307,10 @@ public class ModelTestBase {
     }
 
     protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, User associate) {
-        return createFullSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, spaId, associate, null);
+        return createFullSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, spaId, associate, null, null);
     }
 
-    protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, User associate, User technician) {
+    protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, User associate, String templateId, User technician) {
         Spa spa = new Spa();
         if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
@@ -318,6 +318,7 @@ public class ModelTestBase {
         spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
+        spa.setTemplateId(templateId);
         spa.setDealerId(dealerId);
         if (owner != null) {
             owner.setSpaId(spaId);
@@ -434,6 +435,10 @@ public class ModelTestBase {
     }
 
     protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, User associate) {
+        return createSmallSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, spaId, null, associate);
+    }
+
+    protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, String templateId, User associate) {
         Spa spa = new Spa();
         if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
@@ -441,6 +446,7 @@ public class ModelTestBase {
         spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
+        spa.setTemplateId(templateId);
         spa.setDealerId(dealerId);
         if (owner != null) {
             owner.setSpaId(spaId);
@@ -501,10 +507,10 @@ public class ModelTestBase {
     }
 
     protected Spa createDemoSpa(String serialNumber, String productName, String model, String oemId, String dealerId, User owner) {
-        return createDemoSpa(serialNumber, productName, model, oemId, dealerId, owner, null);
+        return createDemoSpa(serialNumber, productName, model, oemId, dealerId, owner, null, null);
     }
 
-    protected Spa createDemoSpa(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId) {
+    protected Spa createDemoSpa(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, String templateId) {
         Spa spa = new Spa();
         if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
@@ -512,6 +518,7 @@ public class ModelTestBase {
         spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
+        spa.setTemplateId(templateId);
         spa.setDealerId(dealerId);
         if (owner != null) {
             owner.setSpaId(spaId);
@@ -680,7 +687,7 @@ public class ModelTestBase {
         return spa;
     }
 
-    protected Spa createDemoSpa2(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate) {
+    protected Spa createDemoSpa2(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, String templateId, User associate) {
         final String productName = "Shark";
         final String model = "Tiger";
 
@@ -691,6 +698,7 @@ public class ModelTestBase {
         spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
+        spa.setTemplateId(templateId);
         spa.setLocation(new double[] {HIVE_LON, HIVE_LAT});
         spa.setDealerId(dealerId);
         if (owner != null) {
@@ -748,7 +756,7 @@ public class ModelTestBase {
         return spa;
     }
 
-    protected Spa createDemoSpa3(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate) {
+    protected Spa createDemoSpa3(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, String templateId, User associate) {
         final String productName = "Whale";
         final String model = "Beluga";
 
@@ -759,6 +767,7 @@ public class ModelTestBase {
         spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
+        spa.setTemplateId(templateId);
         spa.setLocation(new double[] {SARDINIA_LON, SARDINIA_LAT});
         spa.setDealerId(dealerId);
         if (owner != null) {
