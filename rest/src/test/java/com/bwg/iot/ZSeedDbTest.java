@@ -26,6 +26,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.io.BufferedReader;
@@ -35,6 +36,8 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
+
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -52,6 +55,7 @@ public final class ZSeedDbTest extends ModelTestBase {
 
 	@Before
 	public void setUp() {
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context).build();
 	}
 
 	@Test
@@ -141,13 +145,16 @@ public final class ZSeedDbTest extends ModelTestBase {
         Material t2Gateway = createSpaTemplateMaterial("Gateway", "17092-83280-1a");
         List<Material> spaTemplate2List = Arrays.asList(t2Panel, t2Controller, t2Pump, t2Gateway);
 
+        // create attachments
+        List<Attachment> attachments = createAttachments(mockMvc);
+
         // create spaTemplates
-        SpaTemplate st1 = createSpaTemplate("J-500 Luxury Collection", "J-585", "109834-1525-585", "oem001", spaTemplate1List);
+        SpaTemplate st1 = createSpaTemplate("J-500 Luxury Collection", "J-585", "109834-1525-585", "oem001", spaTemplate1List, attachments);
         SpaTemplate st2 = createSpaTemplate("J-400 Designer Collection", "J-495", "109834-1425-495", "oem001", spaTemplate2List);
         SpaTemplate st3 = createSpaTemplate("Hot Spring Spas", "Los Coyote", "109834-1525-811", "oem002", spaTemplate2List);
 
         // create a variety of spas.  sold, unsold, fully populated w components, some with alerts...
-        Spa spa22 = createDemoJacuzziSpa("150307", oem1.get_id(), dealer1.get_id(), owner1, "spa000022", GATEWAY_1_SN, maker1);
+        Spa spa22 = createDemoJacuzziSpa("150307", oem1.get_id(), dealer1.get_id(), owner1, "spa000022", GATEWAY_1_SN, st1.get_id(), maker1);
         createSpaRecipe(spa22.get_id(), "TGIF", "Some like it hot!");
         createSpaRecipe(spa22.get_id(), "Kids Play", "Body Temp", "98");
 

@@ -3,12 +3,18 @@ package com.bwg.iot;
 import com.bwg.iot.builders.SpaStateBuilder;
 import com.bwg.iot.model.*;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.*;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by triton on 2/22/16.
@@ -575,7 +581,7 @@ public class ModelTestBase {
 
 
 
-    protected Spa createDemoJacuzziSpa(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate) {
+    protected Spa createDemoJacuzziSpa(String serialNumber, String oemId, String dealerId, User owner, String spaId, String gatewaySN, String templateId, User associate) {
         final String productName = "J-500 Luxury Series";
         final String model = "J-585";
 
@@ -586,6 +592,7 @@ public class ModelTestBase {
         spa.setSerialNumber(serialNumber + (serialSuffix++));
         spa.setProductName(productName);
         spa.setModel(model);
+        spa.setTemplateId(templateId);
         spa.setLocation(new double[] {BWG_LON, BWG_LAT});
         spa.setDealerId(dealerId);
         if (owner != null) {
@@ -1014,6 +1021,11 @@ public class ModelTestBase {
     }
 
     protected SpaTemplate createSpaTemplate(String productName, String model, String sku, String oemId, List<Material> materialList) {
+        return createSpaTemplate(productName, model, sku, oemId, materialList, null);
+    }
+
+    protected SpaTemplate createSpaTemplate(String productName, String model, String sku, String oemId,
+                                            List<Material> materialList, List<Attachment> attachments) {
         SpaTemplate spaTemplate = new SpaTemplate();
         spaTemplate.setProductName(productName);
         spaTemplate.setModel(model);
@@ -1021,6 +1033,7 @@ public class ModelTestBase {
         spaTemplate.setOemId(oemId);
         spaTemplate.setNotes("This is a test note.");
         spaTemplate.setWarrantyDays(3650);
+        spaTemplate.setAttachments(attachments);
 
         materialList.stream().forEach(m -> {
             m.setOemId(null);
@@ -1059,5 +1072,22 @@ public class ModelTestBase {
 
         List<SpaTemplate> spaTemplateList = Arrays.asList(st1, st2, st3);
         return spaTemplateList;
+    }
+
+    protected List<Attachment> createAttachments(MockMvc mockMvc) throws Exception{
+        MockMultipartFile file = new MockMultipartFile("attachmentFile", "spaTouchMenuPanel42256_A", ContentType.APPLICATION_OCTET_STREAM.getMimeType(), AttachmentsDocumentation.class.getResourceAsStream("/spaTouchMenuPanel42256_A.pdf"));
+        mockMvc
+                .perform(MockMvcRequestBuilders.fileUpload("/attachments").file(file).param("name", "SpaTouch Menu Panel 42256_A.pdf"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        MockMultipartFile file2 = new MockMultipartFile("attachmentFile", "Troubleshooting Manual BP2100G1 - Italian - 42217", ContentType.APPLICATION_OCTET_STREAM.getMimeType(), AttachmentsDocumentation.class.getResourceAsStream("/Troubleshooting Manual BP2100G1 - Italian - 42217.pdf"));
+        mockMvc
+                .perform(MockMvcRequestBuilders.fileUpload("/attachments").file(file).param("name", "Troubleshooting Manual BP2100G1 - Italian - 42217"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<Attachment> attachments = attachmentRepository.findAll();
+        return attachments;
     }
 }
