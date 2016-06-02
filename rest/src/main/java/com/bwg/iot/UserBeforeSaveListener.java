@@ -3,6 +3,7 @@ package com.bwg.iot;
 import com.bwg.iot.model.Address;
 import com.bwg.iot.model.SpaCommand;
 import com.bwg.iot.model.User;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
@@ -31,7 +32,9 @@ public class UserBeforeSaveListener extends AbstractMongoEventListener<User> {
         Address address = source.getAddress();
         if (address != null && StringUtils.isEmpty(address.get_id())) {
             address = addressRepository.save(address);
-            dbo.put("address", address);
+
+            BasicDBObject dboAddr = (BasicDBObject) dbo.get("address");
+            dboAddr.put("_id", address.get_id());
         }
 
         // set createdDate
