@@ -8,13 +8,20 @@ package com.bwg.iot;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gluu.scim.client.ScimResponse;
+import gluu.scim.client.model.ScimName;
+import gluu.scim.client.model.ScimPerson;
+import gluu.scim.client.model.ScimPersonEmails;
 import gluu.scim2.client.Scim2Client;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.Arrays;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ws.rs.core.MediaType;
 import org.apache.commons.io.IOUtils;
 import org.gluu.oxtrust.model.scim2.Email;
+import org.gluu.oxtrust.model.scim2.Group;
+import org.gluu.oxtrust.model.scim2.GroupRef;
 import org.gluu.oxtrust.model.scim2.Name;
 import org.gluu.oxtrust.model.scim2.PhoneNumber;
 import org.gluu.oxtrust.model.scim2.Role;
@@ -61,64 +68,116 @@ public class UserRegistrationHelper {
     umaAatClientKeyId = environment.getProperty(PropertyNames.UMA_AAT_CLIENT_KEY_ID);
     openidKeysFilename = environment.getProperty(PropertyNames.UMA_OPENID_KEYS_FILENAME);
     // process keys: the file is in the resources folder FIXME: make the filename dynamic?
-    InputStream is = getClass().getResourceAsStream("/openid-keys.json");
+    InputStream is = getClass().getResourceAsStream(openidKeysFilename);
     StringWriter writer = new StringWriter();
     IOUtils.copy(is, writer, "UTF8");
     umaAatClientJwks = writer.toString();
     // create client
     scimClient = Scim2Client.umaInstance(domain, umaMetaDataUrl, umaAatClientId, umaAatClientJwks, umaAatClientKeyId);
-    log.info("SCIM Client created");
+    log.info("SCIM Client created: using key file " + openidKeysFilename);
+  }
+//  
+//  private ScimPerson createPerson(com.bwg.iot.model.User user) {
+//    ScimPerson person = new ScimPerson();
+//    
+//    if (null != user) {
+////      person.setActive("true");
+//      person.setUserName(user.getUsername());
+//      person.setPassword(user.getUsername());
+//      
+//      ScimName name = new ScimName();
+//      name.setFamilyName(user.getLastName());
+//      name.setGivenName(user.getFirstName());
+//      person.setName(name);
+//      
+//      ScimPersonEmails email = new ScimPersonEmails();
+//      
+////      email.setValue(user.getEmail());
+//      email.setPrimary(user.getEmail());
+//      person.getEmails().add(email);
+//      
+//    }
+//    return person;
+//  }
+  
+  /**
+   * Convert a bwg user into a gluu one
+   * @param user
+   * @return user
+   */
+  private User convertUser(com.bwg.iot.model.User user) {
+    User gluuUser = null;
+    
+    
+    if (null != user) {
+      gluuUser = new User();
+   
+      // user must be active
+      gluuUser.setActive(Boolean.TRUE);
+      // username
+      gluuUser.setUserName(user.getUsername());
+      // name
+      Name name = new Name();
+      name.setFamilyName(user.getLastName());
+      name.setGivenName(user.getFirstName());
+      gluuUser.setName(name);
+      // password
+      gluuUser.setPassword("adminadmin");
+      // display name
+      gluuUser.setDisplayName(user.getFullName());
+      // email
+      Email email = new Email();
+      email.setValue(user.getEmail());
+      email.setType(org.gluu.oxtrust.model.scim2.Email.Type.WORK);
+      email.setPrimary(true);
+      gluuUser.getEmails().add(email);
+      // phone
+      PhoneNumber phone = new PhoneNumber();
+      phone.setType(org.gluu.oxtrust.model.scim2.PhoneNumber.Type.WORK);
+      phone.setValue(user.getPhone());
+      gluuUser.getPhoneNumbers().add(phone);
+      // address
+      org.gluu.oxtrust.model.scim2.Address address = new org.gluu.oxtrust.model.scim2.Address();
+      address.setCountry(user.getAddress().getCountry());
+      address.setStreetAddress(user.getAddress().getAddress1());
+      address.setLocality(user.getAddress().getCity());
+      address.setPostalCode(user.getAddress().getZip());
+      address.setRegion(user.getAddress().getState());
+      address.setPrimary(true);
+      address.setType(org.gluu.oxtrust.model.scim2.Address.Type.WORK);
+      address.setFormatted(address.getStreetAddress() + " " + address.getLocality() + " " + address.getPostalCode() + " " + address.getRegion() + " "
+              + address.getCountry());
+      gluuUser.getAddresses().add(address);
+      // Group
+      /*
+      GroupRef group = new GroupRef();
+//      Group group = new Role();
+      group.setValue("@!AE19.F0AF.AA52.0416!0001!0EF9.F0BD!0003!60B7");
+      group.setDisplay("Gluu Manager Group");
+      gluuUser.getGroups().add(group);
+      */
+      gluuUser.setPreferredLanguage("US_us");
+    }
+    return gluuUser;
   }
   
   /**
    * Create a user in the Gluu server using SCIM-Client. This method uses the
    * the org.gluu.oxtrust.model.scim2.User object to pass data to the server.
-   * FIXME create a mediator to handle data transformation
    * @param user
    * @return the jsonNode containing the response recived
    * @throws Throwable
    */
   public JsonNode createUser(com.bwg.iot.model.User user) throws Throwable {
-    User gluuUser = new User();
     ObjectMapper mapper = new ObjectMapper();
+    User gluuUser = convertUser(user);
+//    ScimPerson gluuperson = createPerson(user);
     
-    Name name = new Name();
-    gluuUser.setUserName(user.getUsername());
-    name.setFamilyName(user.getLastName());
-    name.setGivenName(user.getFirstName());
-    gluuUser.setName(name);
-    gluuUser.setPassword(user.getUsername());
-    gluuUser.setDisplayName("Scim2DisplayName2");
-    
-    Email email = new Email();
-    email.setValue(user.getEmail());
-    email.setType(org.gluu.oxtrust.model.scim2.Email.Type.WORK);
-    email.setPrimary(true);
-    gluuUser.getEmails().add(email);
-    
-    PhoneNumber phone = new PhoneNumber();
-    phone.setType(org.gluu.oxtrust.model.scim2.PhoneNumber.Type.WORK);
-    phone.setValue("3286935623");
-    gluuUser.getPhoneNumbers().add(phone);
-    
-    org.gluu.oxtrust.model.scim2.Address address = new org.gluu.oxtrust.model.scim2.Address();
-    address.setCountry("IT");
-    address.setStreetAddress("Via Ingurtosu 8A");
-    address.setLocality("Cagliari");
-    address.setPostalCode("09121");
-    address.setRegion("CA");
-    address.setPrimary(true);
-    address.setType(org.gluu.oxtrust.model.scim2.Address.Type.WORK);
-    address.setFormatted(address.getStreetAddress() + " " + address.getLocality() + " " + address.getPostalCode() + " " + address.getRegion() + " "
-            + address.getCountry());
-    gluuUser.getAddresses().add(address);
-    
-    gluuUser.setPreferredLanguage("US_us");
-    
+    JsonNode jsonNode = null;
     ScimResponse response = scimClient.createPerson(gluuUser, MediaType.APPLICATION_JSON);
     
     // throw exception if the code is not 2xx
-    if (response.getStatusCode() < 200 
+    if (response.getStatusCode() < 200
             || response.getStatusCode() > 299) {
       log.error("SCIM-Client reported status " + response.getStatusCode());
       throw new RuntimeException("error condition returned by the SCIM-client");
@@ -127,7 +186,7 @@ public class UserRegistrationHelper {
     }
     // return a JsonNode object
     String body = response.getResponseBodyString();
-    JsonNode jsonNode = mapper.readTree(body);
+    jsonNode = mapper.readTree(body);
     log.info("SCIM-Client returned the following payload " + body);
     return jsonNode;
   }
