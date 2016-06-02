@@ -320,7 +320,8 @@ public class CustomSpaController {
         }
 
         spaCommandRepository.insert(recipe.getSettings());
-        return new ResponseEntity<Recipe>(recipe, HttpStatus.OK);
+        Spa spa = spaRepository.findOne(recipe.getSpaId());
+        return new ResponseEntity<Spa>(spa, HttpStatus.OK);
     }
 
 
