@@ -39,6 +39,8 @@ public class SpaState {
     SystemInfo systemInfo;
     WifiConnectionHealth wifiConnectionHealth;
     Boolean ethernetPluggedIn;
+    Boolean rs485ConnectionActive;
+    Integer rs485AcquiredAddress;
 
     // optional params of spas, these can come from different controllers, but an effort
     // is made to coalesce any controller into the same properties first, and if not lined up
@@ -534,6 +536,21 @@ public class SpaState {
         this.ethernetPluggedIn = ethernetPluggedIn;
     }
 
+    public Boolean getRs485ConnectionActive() {
+        return rs485ConnectionActive;
+    }
+
+    public void setRs485ConnectionActive(Boolean rs485ConnectionActive) {
+        this.rs485ConnectionActive = rs485ConnectionActive;
+    }
+
+    public Integer getRs485AcquiredAddress() {
+        return rs485AcquiredAddress;
+    }
+
+    public void setRs485AcquiredAddress(Integer rs485AcquiredAddress) {
+        this.rs485AcquiredAddress = rs485AcquiredAddress;
+    }
 
     @Override
     public String toString() {
