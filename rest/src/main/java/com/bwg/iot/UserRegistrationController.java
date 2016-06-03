@@ -84,9 +84,11 @@ public class UserRegistrationController {
         log.error("username is undefined, aborting user creation");
       }
     } catch (Throwable t) {
-      t.printStackTrace();
+      log.error("exception in gluuHelper: " + t.getMessage());
+      log.error(""+ t.getStackTrace().toString());
     }
     // save
+    log.info("Saving new user in mongo");
     userRepository.save(user);
     
     ResponseEntity<?> response = new ResponseEntity<User>(user, HttpStatus.OK);
