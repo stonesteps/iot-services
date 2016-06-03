@@ -93,6 +93,7 @@ public class UserRegistrationHelper {
 
       ScimPersonEmails email = new ScimPersonEmails();
 
+        log.info("Adding gluu person email: " + user.getEmail());
 //      email.setValue(user.getEmail());
       email.setPrimary(user.getEmail());
       person.getEmails().add(email);
@@ -177,8 +178,8 @@ public class UserRegistrationHelper {
     
     JsonNode jsonNode = null;
     log.info("Calling SCIM createPerson");
-//    ScimResponse response = scimClient.createPerson(gluuUser, MediaType.APPLICATION_JSON);
-    ScimResponse response = scimClient.createPerson(gluuperson, MediaType.APPLICATION_JSON);
+    ScimResponse response = scimClient.createPerson(gluuUser, MediaType.APPLICATION_JSON);
+//    ScimResponse response = scimClient.createPerson(gluuperson, MediaType.APPLICATION_JSON);
     log.info("Back from SCIM createPerson");
 
     // throw exception if the code is not 2xx
