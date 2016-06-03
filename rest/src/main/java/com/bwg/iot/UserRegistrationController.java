@@ -85,7 +85,7 @@ public class UserRegistrationController {
       }
     } catch (Throwable t) {
       log.error("exception in gluuHelper: " + t.getMessage());
-      log.error(""+ t.getStackTrace().toString());
+      log.error("doh",t);
     }
     // save
     log.info("Saving new user in mongo");
