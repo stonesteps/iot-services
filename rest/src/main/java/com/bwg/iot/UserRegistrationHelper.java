@@ -170,12 +170,15 @@ public class UserRegistrationHelper {
    */
   public JsonNode createUser(com.bwg.iot.model.User user) throws Throwable {
     ObjectMapper mapper = new ObjectMapper();
+    log.info("Inside GluuHelper.createUser");
     User gluuUser = convertUser(user);
 //    ScimPerson gluuperson = createPerson(user);
     
     JsonNode jsonNode = null;
+    log.info("Calling SCIM createPerson");
     ScimResponse response = scimClient.createPerson(gluuUser, MediaType.APPLICATION_JSON);
-    
+    log.info("Back from SCIM createPerson");
+
     // throw exception if the code is not 2xx
     if (response.getStatusCode() < 200
             || response.getStatusCode() > 299) {

@@ -75,8 +75,9 @@ public class UserRegistrationController {
   @RequestMapping(method = RequestMethod.POST, produces = "application/json")
   public ResponseEntity<?> createUser(@RequestBody com.bwg.iot.model.User user) {
     try {
-      
+      log.info("creating new user: " + user.getUsername());
       if (StringUtils.isNotBlank(user.getUsername())) {
+        log.info("About to create new gluu user");
         JsonNode json = gluuHelper.createUser(user);
         log.info("New user added with Gluu id " + json.get("id").textValue());
       } else {
