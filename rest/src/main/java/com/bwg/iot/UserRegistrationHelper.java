@@ -76,29 +76,30 @@ public class UserRegistrationHelper {
     scimClient = Scim2Client.umaInstance(domain, umaMetaDataUrl, umaAatClientId, umaAatClientJwks, umaAatClientKeyId);
     log.info("SCIM Client created: using key file " + openidKeysFilename);
   }
-//  
-//  private ScimPerson createPerson(com.bwg.iot.model.User user) {
-//    ScimPerson person = new ScimPerson();
-//    
-//    if (null != user) {
-////      person.setActive("true");
-//      person.setUserName(user.getUsername());
-//      person.setPassword(user.getUsername());
-//      
-//      ScimName name = new ScimName();
-//      name.setFamilyName(user.getLastName());
-//      name.setGivenName(user.getFirstName());
-//      person.setName(name);
-//      
-//      ScimPersonEmails email = new ScimPersonEmails();
-//      
-////      email.setValue(user.getEmail());
-//      email.setPrimary(user.getEmail());
-//      person.getEmails().add(email);
-//      
-//    }
-//    return person;
-//  }
+
+  private ScimPerson createPerson(com.bwg.iot.model.User user) {
+    ScimPerson person = new ScimPerson();
+
+    if (null != user) {
+//      person.setActive("true");
+      person.setUserName(user.getUsername());
+      person.setPassword(user.getUsername());
+      person.setActive("active");
+
+      ScimName name = new ScimName();
+      name.setFamilyName(user.getLastName());
+      name.setGivenName(user.getFirstName());
+      person.setName(name);
+
+      ScimPersonEmails email = new ScimPersonEmails();
+
+//      email.setValue(user.getEmail());
+      email.setPrimary(user.getEmail());
+      person.getEmails().add(email);
+
+    }
+    return person;
+  }
   
   /**
    * Convert a bwg user into a gluu one
@@ -172,11 +173,12 @@ public class UserRegistrationHelper {
     ObjectMapper mapper = new ObjectMapper();
     log.info("Inside GluuHelper.createUser");
     User gluuUser = convertUser(user);
-//    ScimPerson gluuperson = createPerson(user);
+    ScimPerson gluuperson = createPerson(user);
     
     JsonNode jsonNode = null;
     log.info("Calling SCIM createPerson");
-    ScimResponse response = scimClient.createPerson(gluuUser, MediaType.APPLICATION_JSON);
+//    ScimResponse response = scimClient.createPerson(gluuUser, MediaType.APPLICATION_JSON);
+    ScimResponse response = scimClient.createPerson(gluuperson, MediaType.APPLICATION_JSON);
     log.info("Back from SCIM createPerson");
 
     // throw exception if the code is not 2xx
