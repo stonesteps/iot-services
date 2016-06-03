@@ -77,7 +77,6 @@ public class UserRegistrationController {
     try {
       log.info("creating new user: " + user.getUsername());
       if (StringUtils.isNotBlank(user.getUsername())) {
-        log.info("About to create new gluu user");
         JsonNode json = gluuHelper.createUser(user);
         log.info("New user added with Gluu id " + json.get("id").textValue());
       } else {
@@ -85,7 +84,7 @@ public class UserRegistrationController {
       }
     } catch (Throwable t) {
       log.error("exception in gluuHelper: " + t.getMessage());
-      log.error("doh",t);
+      log.error("stacktrace: ",t);
     }
     // save
     log.info("Saving new user in mongo");
@@ -95,12 +94,5 @@ public class UserRegistrationController {
     return response;
   }
   
-  /*
-  @RequestMapping("/foo")
-  void handleFoo(HttpServletResponse response) {
-    response.sendRedirect("some-url");
-  }
-  */
- 
-  
+
 }
