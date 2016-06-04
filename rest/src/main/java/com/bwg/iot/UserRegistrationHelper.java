@@ -54,7 +54,6 @@ public class UserRegistrationHelper {
     @Autowired
     Environment environment;
 
-    private ScimClient scim1Client;
     private String domain;
     private String umaMetaDataUrl;
     private String umaAatClientId;
@@ -97,9 +96,9 @@ public class UserRegistrationHelper {
         StringWriter writer = new StringWriter();
         IOUtils.copy(is, writer, "UTF8");
         umaAatClientJwks = writer.toString();
-        // create client
-        scim1Client = ScimClient.umaInstance(domain, umaMetaDataUrl, umaAatClientId, umaAatClientJwks, umaAatClientKeyId);
-        log.info("SCIM Client created: using key file " + openidKeysFilename);
+        
+        
+        log.info("SCIM Client using key file " + openidKeysFilename);
         
         // email 
         mailServerProperties = System.getProperties();
@@ -273,6 +272,9 @@ public class UserRegistrationHelper {
         log.info("Inside GluuHelper.createUser");
         User gluuUser = convertUser(user);
         ScimPerson gluuperson = createPerson(user);
+        
+      // create client
+      ScimClient scim1Client = ScimClient.umaInstance(domain, umaMetaDataUrl, umaAatClientId, umaAatClientJwks, umaAatClientKeyId);
 
         JsonNode jsonNode = null;
         log.info("Calling SCIM createPerson");
@@ -294,9 +296,6 @@ public class UserRegistrationHelper {
         return jsonNode;
     }
 
-    public ScimClient getScim1Client() {
-        return scim1Client;
-    }
 
     public String getDomain() {
         return domain;
