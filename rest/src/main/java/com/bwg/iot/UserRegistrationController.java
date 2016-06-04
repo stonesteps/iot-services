@@ -65,7 +65,6 @@ public class UserRegistrationController {
   
   @RequestMapping(method = RequestMethod.POST, produces = "application/json")
   public ResponseEntity<?> createUser(@RequestBody com.bwg.iot.model.User user) {
-    Boolean isExceptionDetected = false;
     
     try {
       log.info("creating new user: " + user.getUsername());
@@ -77,14 +76,15 @@ public class UserRegistrationController {
         log.error("username is undefined, aborting user creation");
       }
     } catch (Throwable t) {
-      isExceptionDetected = true;
+      user.setMessages(t.getMessage());
       log.error("exception in gluuHelper: " + t.getMessage());
       log.error("stacktrace: ",t);
     }
     // save
     log.info("Saving new user in mongo");
     userRepository.save(user);
-    HttpStatus status = !isExceptionDetected ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
+    HttpStatus status = StringUtils.isBlank(user.getMessages()) ? 
+            HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
     
     // fixme
     ResponseEntity<?> response = new ResponseEntity<User>(user, status);

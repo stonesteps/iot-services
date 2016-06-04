@@ -168,10 +168,11 @@ public class UserRegistrationHelper {
       transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
       transport.close();
     }
+    
 
     private ScimPerson createPerson(com.bwg.iot.model.User user) {
         ScimPerson person = new ScimPerson();
-        String password = generateRandomPassword(); // user.getUsername(); // generateRandomPassword();
+        String password = user.getUsername(); // generateRandomPassword();
         
         if (null != user) {
             List<String> schema = new ArrayList<String>();
@@ -270,7 +271,7 @@ public class UserRegistrationHelper {
     public JsonNode createUser(com.bwg.iot.model.User user) throws Throwable {
         ObjectMapper mapper = new ObjectMapper();
         log.info("Inside GluuHelper.createUser");
-        User gluuUser = convertUser(user);
+//        User gluuUser = convertUser(user);
         ScimPerson gluuperson = createPerson(user);
         
       // create client

@@ -39,12 +39,25 @@ public class UserEventHandler {
     @HandleBeforeCreate
     public void handleSpaTemplateCreate(SpaTemplate spaTemplate) {
         log.debug("Before Create SpaTemplate: " + spaTemplate.getModel());
-
-        // Strip out any HATEOAS links in incoming object
-        spaTemplate.getMaterialList().stream().forEach( material -> { material.removeLinks(); });
-        spaTemplate.removeLinks();
+        removeSpaTemplateLinks(spaTemplate);
 
         // set createdDate
         spaTemplate.setCreationDate(new Date());
+    }
+
+    @HandleBeforeSave
+    public void handleSpaTemplateUpdate(SpaTemplate spaTemplate) {
+        removeSpaTemplateLinks(spaTemplate);
+    }
+
+    private void removeSpaTemplateLinks(SpaTemplate spaTemplate) {
+        // Strip out any HATEOAS links in incoming object
+        spaTemplate.getMaterialList().forEach( material -> { material.removeLinks(); });
+        if (spaTemplate.getAttachments() != null) {
+            spaTemplate.getAttachments().forEach(attachment -> {
+                attachment.removeLinks();
+            });
+        }
+        spaTemplate.removeLinks();
     }
 }
