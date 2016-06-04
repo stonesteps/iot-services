@@ -78,7 +78,8 @@ public class UserRegistrationHelper {
         log.info("SCIM Client created: using key file " + openidKeysFilename);
     }
 
-    private ScimPerson createPerson(com.bwg.iot.model.User user) {
+    private ScimPerson createPerson(com.bwg.iot.model.User user)  throws Throwable {
+        createScimClient();
         ScimPerson person = new ScimPerson();
 
         if (null != user) {
