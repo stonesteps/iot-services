@@ -8,7 +8,6 @@ import gluu.scim.client.model.ScimCustomAttributes;
 import gluu.scim.client.model.ScimName;
 import gluu.scim.client.model.ScimPerson;
 import gluu.scim.client.model.ScimPersonEmails;
-import gluu.scim2.client.Scim2Client;
 
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -19,12 +18,10 @@ import javax.annotation.PostConstruct;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.gluu.oxtrust.model.scim2.Email;
-import org.gluu.oxtrust.model.scim2.Group;
-import org.gluu.oxtrust.model.scim2.GroupRef;
 import org.gluu.oxtrust.model.scim2.Name;
 import org.gluu.oxtrust.model.scim2.PhoneNumber;
-import org.gluu.oxtrust.model.scim2.Role;
 import org.gluu.oxtrust.model.scim2.User;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +73,27 @@ public class UserRegistrationHelper {
         // create client
         scim1Client = ScimClient.umaInstance(domain, umaMetaDataUrl, umaAatClientId, umaAatClientJwks, umaAatClientKeyId);
         log.info("SCIM Client created: using key file " + openidKeysFilename);
+        
+        // email 
+        
+    }
+    
+    private String getMailTemplate(com.bwg.iot.model.User user) {
+      String template = "";
+      
+      // FIXME get localized template
+      if (user.getAddress().getCountry().equals("XYZ")) {
+          
+      } else {
+        // fallback language is English
+        template = environment.getProperty("mail.template.en");
+      }
+      // perform substitution
+      if (StringUtils.isNotBlank(template)) {
+        template = String.format(template, user.getFirstName(),
+                user.getPassword());
+      }
+      return template;
     }
 
     private ScimPerson createPerson(com.bwg.iot.model.User user) {

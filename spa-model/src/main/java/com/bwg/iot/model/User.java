@@ -66,8 +66,13 @@ public class User extends ResourceSupport {
         this.username = username;
     }
 
-    public void setPassword(String username) {
-        this.username = username;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    @Deprecated
+    public String getPassword() {
+      return this.password;
     }
 
     public boolean doesPasswordMatch(String pwd){
