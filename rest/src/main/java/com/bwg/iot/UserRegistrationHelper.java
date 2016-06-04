@@ -8,7 +8,6 @@ import gluu.scim.client.model.ScimCustomAttributes;
 import gluu.scim.client.model.ScimName;
 import gluu.scim.client.model.ScimPerson;
 import gluu.scim.client.model.ScimPersonEmails;
-import gluu.scim2.client.Scim2Client;
 
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -20,11 +19,8 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.IOUtils;
 import org.gluu.oxtrust.model.scim2.Email;
-import org.gluu.oxtrust.model.scim2.Group;
-import org.gluu.oxtrust.model.scim2.GroupRef;
 import org.gluu.oxtrust.model.scim2.Name;
 import org.gluu.oxtrust.model.scim2.PhoneNumber;
-import org.gluu.oxtrust.model.scim2.Role;
 import org.gluu.oxtrust.model.scim2.User;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +35,6 @@ public class UserRegistrationHelper {
     @Autowired
     Environment environment;
 
-    private ScimClient scim1Client;
     private String domain;
     private String umaMetaDataUrl;
     private String umaAatClientId;
@@ -73,10 +68,11 @@ public class UserRegistrationHelper {
         StringWriter writer = new StringWriter();
         IOUtils.copy(is, writer, "UTF8");
         umaAatClientJwks = writer.toString();
-        // create client
-        scim1Client = ScimClient.umaInstance(domain, umaMetaDataUrl, umaAatClientId, umaAatClientJwks, umaAatClientKeyId);
-        log.info("SCIM Client created: using key file " + openidKeysFilename);
+        
+        
+        log.info("SCIM Client using key file " + openidKeysFilename);
     }
+    
 
     private ScimPerson createPerson(com.bwg.iot.model.User user) {
         ScimPerson person = new ScimPerson();
@@ -177,8 +173,11 @@ public class UserRegistrationHelper {
     public JsonNode createUser(com.bwg.iot.model.User user) throws Throwable {
         ObjectMapper mapper = new ObjectMapper();
         log.info("Inside GluuHelper.createUser");
-        User gluuUser = convertUser(user);
+//        User gluuUser = convertUser(user);
         ScimPerson gluuperson = createPerson(user);
+        
+      // create client
+      ScimClient scim1Client = ScimClient.umaInstance(domain, umaMetaDataUrl, umaAatClientId, umaAatClientJwks, umaAatClientKeyId);
 
         JsonNode jsonNode = null;
         log.info("Calling SCIM createPerson");
@@ -200,9 +199,6 @@ public class UserRegistrationHelper {
         return jsonNode;
     }
 
-    public ScimClient getScim1Client() {
-        return scim1Client;
-    }
 
     public String getDomain() {
         return domain;
