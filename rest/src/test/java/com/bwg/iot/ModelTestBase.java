@@ -1084,13 +1084,13 @@ public class ModelTestBase {
     }
 
     protected List<Attachment> createAttachments(MockMvc mockMvc) throws Exception{
-        MockMultipartFile file = new MockMultipartFile("attachmentFile", "spaTouchMenuPanel42256_A", ContentType.APPLICATION_OCTET_STREAM.getMimeType(), AttachmentsDocumentation.class.getResourceAsStream("/spaTouchMenuPanel42256_A.pdf"));
+        MockMultipartFile file = new MockMultipartFile("attachmentFile", "spaTouchMenuPanel42256_A.pdf", ContentType.APPLICATION_OCTET_STREAM.getMimeType(), AttachmentsDocumentation.class.getResourceAsStream("/spaTouchMenuPanel42256_A.pdf"));
         mockMvc
                 .perform(MockMvcRequestBuilders.fileUpload("/attachments").file(file).param("name", "SpaTouch Menu Panel 42256_A.pdf"))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        MockMultipartFile file2 = new MockMultipartFile("attachmentFile", "Troubleshooting Manual BP2100G1 - Italian - 42217", ContentType.APPLICATION_OCTET_STREAM.getMimeType(), AttachmentsDocumentation.class.getResourceAsStream("/Troubleshooting Manual BP2100G1 - Italian - 42217.pdf"));
+        MockMultipartFile file2 = new MockMultipartFile("attachmentFile", "Troubleshooting Manual BP2100G1 - Italian - 42217.pdf", ContentType.APPLICATION_OCTET_STREAM.getMimeType(), AttachmentsDocumentation.class.getResourceAsStream("/Troubleshooting Manual BP2100G1 - Italian - 42217.pdf"));
         mockMvc
                 .perform(MockMvcRequestBuilders.fileUpload("/attachments").file(file).param("name", "Troubleshooting Manual BP2100G1 - Italian - 42217"))
                 .andExpect(status().isOk())
