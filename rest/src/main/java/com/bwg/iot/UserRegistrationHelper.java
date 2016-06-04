@@ -28,6 +28,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.io.InputStream;
+import java.io.StringWriter;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Properties;
+import javax.annotation.PostConstruct;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.ws.rs.core.MediaType;
+
 @Component
 public class UserRegistrationHelper {
 
@@ -43,6 +61,15 @@ public class UserRegistrationHelper {
     private String umaAatClientKeyId;
     private String umaAatClientJwks;
     private String openidKeysFilename;
+    
+    private Properties mailServerProperties;
+    private Session getMailSession;
+    private MimeMessage generateMailMessage;
+    private SecureRandom random;
+    
+    private String username;
+    private String password;
+
 
     @PostConstruct
     public void initialize() {
@@ -75,9 +102,31 @@ public class UserRegistrationHelper {
         log.info("SCIM Client created: using key file " + openidKeysFilename);
         
         // email 
+        mailServerProperties = System.getProperties();
+        mailServerProperties.put("mail.smtp.port", "587");
+        mailServerProperties.put("mail.smtp.auth", "true");
+        mailServerProperties.put("mail.smtp.starttls.enable", "true");
+        username = environment.getProperty("mail.username");
+        password = environment.getProperty("mail.password");
+        log.info("email parameters loaded");
         
+        // other expensive setup
+        random = new SecureRandom();
     }
     
+    /**
+     * Generate a random password
+     * @return 
+     */
+    private String generateRandomPassword() {
+      return new BigInteger(130, random).toString(32).substring(0, 8);
+    }
+    
+    /**
+     * Process mail tempate
+     * @param user
+     * @return 
+     */
     private String getMailTemplate(com.bwg.iot.model.User user) {
       String template = "";
       
@@ -91,21 +140,48 @@ public class UserRegistrationHelper {
       // perform substitution
       if (StringUtils.isNotBlank(template)) {
         template = String.format(template, user.getFirstName(),
+                user.getUsername(),
                 user.getPassword());
       }
       return template;
     }
+    
+    public void sendGmailRegistrationMail(com.bwg.iot.model.User user) throws AddressException, MessagingException {
+      // 
+      getMailSession = Session.getDefaultInstance(mailServerProperties, null);
+      generateMailMessage = new MimeMessage(getMailSession);
+      generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
+      generateMailMessage.setSubject("Greetings from Balboa Water Grups");
+      String emailBody = getMailTemplate(user);
+      generateMailMessage.setContent(emailBody, "text/html");
+      
+      Transport transport = getMailSession.getTransport("smtp");
+
+      // arrange mail properties
+      mailServerProperties = System.getProperties();
+      mailServerProperties.put("mail.smtp.port", "587");
+      mailServerProperties.put("mail.smtp.auth", "true");
+      mailServerProperties.put("mail.smtp.starttls.enable", "true");
+
+      // if you have 2FA enabled then provide App Specific Password
+  //		transport.connect("smtp.gmail.com", "controlmyspa@gmail.com", "4thoseabout2rock");
+      transport.connect("smtp.gmail.com", username, password);
+      transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
+      transport.close();
+    }
 
     private ScimPerson createPerson(com.bwg.iot.model.User user) {
         ScimPerson person = new ScimPerson();
-
+        String password = generateRandomPassword(); // user.getUsername(); // generateRandomPassword();
+        
         if (null != user) {
             List<String> schema = new ArrayList<String>();
             schema.add("urn:scim:schemas:core:1.0");
             person.setSchemas(schema);
 
             person.setUserName(user.getUsername());
-            person.setPassword(user.getUsername());
+            person.setPassword(password);
+            user.setPassword(password);
             person.setDisplayName(user.getFullName());
 
             ScimName name = new ScimName();

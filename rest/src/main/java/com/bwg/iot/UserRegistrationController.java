@@ -5,31 +5,22 @@
 */
 package com.bwg.iot;
 
-import com.bwg.iot.model.GluuUser;
 import com.bwg.iot.model.User;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.logging.Level;
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.hateoas.EntityLinks;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 /**
  *
@@ -79,6 +70,7 @@ public class UserRegistrationController {
       if (StringUtils.isNotBlank(user.getUsername())) {
         JsonNode json = gluuHelper.createUser(user);
         log.info("New user added with Gluu id " + json.get("id").textValue());
+        gluuHelper.sendGmailRegistrationMail(user);
       } else {
         log.error("username is undefined, aborting user creation");
       }
