@@ -286,7 +286,7 @@ public class UserRegistrationHelper {
         if (response.getStatusCode() < 200
                 || response.getStatusCode() > 299) {
             log.error("SCIM-Client reported status " + response.getStatusCode());
-            throw new RuntimeException("error condition returned by the SCIM-client");
+            throw new RuntimeException("SCIM-client returned error: " + response.getStatusCode());
         } else {
             log.info("SCIM-Client returned status " + response.getStatusCode());
         }
