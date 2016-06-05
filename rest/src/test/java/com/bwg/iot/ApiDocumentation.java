@@ -581,7 +581,7 @@ public class ApiDocumentation extends ModelTestBase{
 				.andExpect(status().isOk())
 				.andDo(document("recipe-list-example",
 						responseFields(
-								fieldWithPath("_embedded.recipes").description("An array of <<resources-recipe, Recipe resources>>"),
+								fieldWithPath("_embedded.recipeDToes").description("An array of <<resources-recipe, Recipe resources>>"),
 								fieldWithPath("_links").description("<<resources-spaslist-links,Links>>"))));
 	}
 
@@ -628,12 +628,12 @@ public class ApiDocumentation extends ModelTestBase{
         Spa myNewSpa = createSmallSpaWithState("160104", "Shark", "Tiger", "oem001", "101", null);
 
         Recipe recipe = createSpaRecipe(myNewSpa.get_id(), "TGIF", "Some like it hot!");
-
+		RecipeDTO dto = RecipeDTO.fromRecipe(recipe);
         Map<String, Object> update = new HashMap<String, Object>();
         update.put("_id", recipe.get_id());
         update.put("name", "FridayNightLights");
         update.put("notes", "Are you ready for some football?");
-        update.put("settings", recipe.getSettings());
+        update.put("settings", dto.getSettings());
         update.put("spaId", recipe.getSpaId());
 
         this.mockMvc
@@ -650,7 +650,7 @@ public class ApiDocumentation extends ModelTestBase{
 //								fieldWithPath("schedule").description("tbd"),
                                 fieldWithPath("notes").description("Text field for miscellaneous use").type("String").optional(),
                                 fieldWithPath("creationDate").description("The date the spa was created").type(Date.class).optional(),
-                                fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
+                                fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources").optional().type("Links"))));
     }
 
     @Test

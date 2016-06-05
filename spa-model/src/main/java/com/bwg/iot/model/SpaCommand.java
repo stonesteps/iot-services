@@ -15,6 +15,21 @@ public class SpaCommand {
         MICROSILK(10), AUX(11), CIRCULATION_PUMP(12), RESTART_AGENT(13), REBOOT_GATEWAY(14),
         UPDATE_AGENT_SETTINGS(15);
 
+        private static HashMap<Integer, RequestType> codeValueMap = new HashMap<Integer, RequestType>(15);
+
+        static
+        {
+            for (RequestType  type : RequestType.values())
+            {
+                codeValueMap.put(type.code, type);
+            }
+        }
+
+        public static RequestType getInstanceFromCodeValue(int codeValue)
+        {
+            return codeValueMap.get(codeValue);
+        }
+
         private int code;
         private RequestType(int c){
             code = c;
