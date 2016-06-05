@@ -9,6 +9,7 @@ import java.util.HashMap;
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class SaveSettingsRequest extends ResourceSupport {
 
+    private String _id;
     private String spaId;
     private HashMap<String, HashMap<String, String>> settings;
     private String name;
@@ -54,6 +55,14 @@ public class SaveSettingsRequest extends ResourceSupport {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String id) {
+        this._id = id;
     }
 
     @Override
