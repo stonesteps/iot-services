@@ -65,13 +65,17 @@ public class UserRegistrationController {
   
   @RequestMapping(method = RequestMethod.POST, produces = "application/json")
   public ResponseEntity<?> createUser(@RequestBody com.bwg.iot.model.User user) {
-    
+   
+    // alway clean the error message field.
+    if (StringUtils.isNotBlank(user.getErrorMessage())) {
+      user.setErrorMessage(null);
+    }
     try {
       log.info("creating new user: " + user.getUsername());
       if (StringUtils.isNotBlank(user.getUsername())) {
-        JsonNode json = gluuHelper.createUser(user);
-        log.info("New user added with Gluu id " + json.get("id").textValue());
-        gluuHelper.sendGmailRegistrationMail(user);
+//        JsonNode json = gluuHelper.createUser(user);
+//        log.info("New user added with Gluu id " + json.get("id").textValue());
+//        gluuHelper.sendGmailRegistrationMail(user);
       } else {
         log.error("username is undefined, aborting user creation");
       }
