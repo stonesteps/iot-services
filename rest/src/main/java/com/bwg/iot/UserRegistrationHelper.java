@@ -170,7 +170,8 @@ public class UserRegistrationHelper {
     }
     
 
-    private ScimPerson createPerson(com.bwg.iot.model.User user) {
+    private ScimPerson createPerson(com.bwg.iot.model.User user)  throws Throwable {
+        createScimClient();
         ScimPerson person = new ScimPerson();
         String password = user.getUsername(); // generateRandomPassword();
         
