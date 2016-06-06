@@ -155,8 +155,28 @@ public class RecipeDTO extends ResourceSupport {
                        SpaCommand.RequestType.LIGHTS.name().equalsIgnoreCase(key)) {
                    key = key.substring(0,key.length()-1);
                }
-               key = key + "_" + command.getValues().get("deviceNumber");
-               dtoSettings.put(key, command.getValues());
+                String deviceNumber = "";
+                switch (requestType) {
+                    case HEATER:
+                        break;
+                    case PUMPS:
+                    case CIRCULATION_PUMP:
+                    case LIGHTS:
+                    case BLOWER:
+                    case MISTER:
+                    case OZONE:
+                    case MICROSILK:
+                    case FILTER:
+                        deviceNumber = command.getValues().get("PORT");
+                        if (deviceNumber == null || deviceNumber.equalsIgnoreCase("null")) {
+                            deviceNumber = String.valueOf((int) (Math.random() * 10000));
+                        }
+                        key = key + "_" + deviceNumber;
+                        break;
+                    default:
+                }
+                HashMap<String, String> recipeSettings = reformatSettings(command);
+               dtoSettings.put(key, recipeSettings);
             }
             dto.setSettings(dtoSettings);
         }
@@ -164,5 +184,22 @@ public class RecipeDTO extends ResourceSupport {
         return dto;
     }
 
+    static private HashMap<String, String> reformatSettings(SpaCommand command) {
+        HashMap<String, String> commandSettings = command.getValues();
+        HashMap<String, String> recipeSettings = new HashMap<String, String>();
 
+        String port = commandSettings.get("PORT");
+        if (port != null) recipeSettings.put("deviceNumber", port);
+
+        String value = commandSettings.get("DESIREDSTATE");
+        if (value != null) recipeSettings.put("desiredState", value);
+
+        String temp = commandSettings.get("DESIREDTEMP");
+        if (temp != null) recipeSettings.put("desiredTemp", temp);
+
+        String interval = commandSettings.get("FILTER_DURATION_15MINUTE_INTERVALS");
+        if (interval != null) recipeSettings.put("intervalNumber", interval);
+
+        return recipeSettings;
+    }
 }
