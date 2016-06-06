@@ -204,13 +204,24 @@ public class CustomSpaController {
 
 
     @RequestMapping(value = "/{spaId}/recipes", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> saveSettings(@PathVariable String spaId, @RequestBody SaveSettingsRequest request) {
+    public ResponseEntity<?> saveSettings(@PathVariable String spaId, @RequestBody RecipeDTO request) {
         Recipe recipe = new Recipe();
         List<SpaCommand> settings = new ArrayList<>();
 
         try {
             for (HashMap.Entry<String, HashMap<String, String>> entry : request.getSettings().entrySet()) {
-                SpaCommand.RequestType key = SpaCommand.RequestType.valueOf(entry.getKey());
+                // massage key
+                String incomingKey = entry.getKey();
+                int suffixIndex = incomingKey.indexOf("_");
+                if (suffixIndex > 0) {
+                    incomingKey = incomingKey.substring(0, suffixIndex);
+                }
+                if (Component.ComponentType.PUMP.name().equalsIgnoreCase(incomingKey) ||
+                        Component.ComponentType.LIGHT.name().equalsIgnoreCase(incomingKey)) {
+                    incomingKey = incomingKey + "S";
+                }
+
+                SpaCommand.RequestType key = SpaCommand.RequestType.valueOf(incomingKey);
                 switch (key) {
                     case HEATER:
                         settings.add(helper.setDesiredTemp(spaId, entry.getValue(), key.getCode(), false));
@@ -231,7 +242,11 @@ public class CustomSpaController {
                 }
             }
         } catch (ValidationException ve) {
+            LOGGER.error(ve.getMessage());
             return new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException ex) {
+            LOGGER.error(ex.getMessage());
+            return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
         recipe.setSpaId(spaId);
@@ -241,11 +256,14 @@ public class CustomSpaController {
         // TODO: Schedule
         recipe.setCreationDate(new Date());
         recipe = recipeRepository.save(recipe);
-        recipe.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
+
+        request.set_id(recipe.get_id());
+        request.setSpaId(spaId);
+        request.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
                 .slash("/" + recipe.getSpaId() + "/recipes/" + recipe.get_id())
                 .withSelfRel());
 
-        ResponseEntity<?> response = new ResponseEntity<Recipe>(recipe, HttpStatus.OK);
+        ResponseEntity<?> response = new ResponseEntity<RecipeDTO>(request, HttpStatus.OK);
         return response;
     }
 
@@ -253,13 +271,16 @@ public class CustomSpaController {
     @ResponseBody
     public ResponseEntity<?> getSpaRecipes(@PathVariable("spaId") final String spaId, final Pageable pageable) {
             final Page<Recipe> recipes = recipeRepository.findBySpaId(spaId, pageable);
-            recipes.forEach(recipe -> {
-                recipe.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
+            List<RecipeDTO> dtos = new ArrayList<RecipeDTO>();
+            for (Recipe recipe : recipes) {
+                RecipeDTO dto = RecipeDTO.fromRecipe(recipe);
+                dto.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
                         .slash("/" + recipe.getSpaId() + "/recipes/" + recipe.get_id())
                         .withSelfRel());
+                dtos.add(dto);
+            }
 
-            });
-            final Resources<Recipe> resources = new Resources<>(recipes);
+            Resources<RecipeDTO> resources = new Resources<>(dtos);
             resources.add(linkTo(methodOn(CustomSpaController.class).getSpaRecipes(spaId, pageable)).withSelfRel());
             return ResponseEntity.ok(resources);
     }
@@ -273,14 +294,16 @@ public class CustomSpaController {
             LOGGER.info("Spa Recipe with id " + id + " not found");
             return new ResponseEntity<String>("Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
         }
-        recipe.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
+        RecipeDTO dto = RecipeDTO.fromRecipe(recipe);
+        dto.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
                 .slash("/" + recipe.getSpaId() + "/recipes/" + recipe.get_id())
                 .withSelfRel());
-        return new ResponseEntity<Recipe>(recipe, HttpStatus.OK);
+        return new ResponseEntity<RecipeDTO>(dto, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{spaId}/recipes/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateSpaRecipe(@PathVariable("id") String id, @RequestBody Recipe recipe) {
+    public ResponseEntity<?> updateSpaRecipe(@PathVariable("id") String id, @RequestBody RecipeDTO recipeDto) {
+        Recipe recipe = RecipeDTO.toRecipe(recipeDto);
         Recipe currentRecipe = recipeRepository.findOne(id);
         if (currentRecipe == null) {
             LOGGER.info("Spa Recipe with id " + id + " not found");
@@ -295,7 +318,8 @@ public class CustomSpaController {
         currentRecipe.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
                 .slash("/" + recipe.getSpaId() + "/recipes/" + recipe.get_id())
                 .withSelfRel());
-        return new ResponseEntity<Recipe>(currentRecipe, HttpStatus.OK);
+        RecipeDTO updatedRecipeDTO = RecipeDTO.fromRecipe(currentRecipe);
+        return new ResponseEntity<RecipeDTO>(updatedRecipeDTO, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{spaId}/recipes/{id}", method = RequestMethod.DELETE)
@@ -323,6 +347,4 @@ public class CustomSpaController {
         Spa spa = spaRepository.findOne(recipe.getSpaId());
         return new ResponseEntity<Spa>(spa, HttpStatus.OK);
     }
-
-
 }
