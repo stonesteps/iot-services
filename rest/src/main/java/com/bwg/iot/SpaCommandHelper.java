@@ -20,12 +20,12 @@ public class SpaCommandHelper  {
             throw new ValidationException("Spa Id not provided");
         }
 
-        String desiredState = body.get("desiredState");
+        String desiredState = body.get(SpaCommand.REQUEST_DESIRED_STATE);
         if (desiredState == null || !SpaRequestUtil.validState(requestCode, desiredState)) {
             throw new ValidationException("Desired State Invalid");
         }
 
-        String deviceNumber = body.get("deviceNumber");
+        String deviceNumber = body.get(SpaCommand.REQUEST_DEVICE_NUMBER);
         if (deviceNumber == null && SpaRequestUtil.portRequired(requestCode)) {
             throw new ValidationException("Device Number Required");
         }
@@ -39,12 +39,12 @@ public class SpaCommandHelper  {
         }
 
         HashMap<String, String> values = new HashMap<>();
-        values.put("DESIREDSTATE", desiredState);
+        values.put(SpaCommand.COMMAND_DESIRED_STATE, desiredState);
         if (deviceNumber != null) {
-            values.put("PORT", deviceNumber);
+            values.put(SpaCommand.COMMAND_DEVICE_NUMBER, deviceNumber);
         }
 
-        String originatorId = body.get("originatorId");
+        String originatorId = body.get(SpaCommand.REQUEST_ORIGINATOR);
         SpaCommand command = buildCommand(spaId, originatorId, requestCode, values, save);
         return command;
     }
@@ -54,14 +54,14 @@ public class SpaCommandHelper  {
             throw new ValidationException("Spa Id not provided");
         }
 
-        String desiredTemp = body.get("desiredTemp");
+        String desiredTemp = body.get(SpaCommand.REQUEST_DESIRED_TEMP);
         if (desiredTemp == null) {
             throw new ValidationException("Desired Temperature not provided");
         }
         HashMap<String, String> values = new HashMap<String, String>();
-        values.put("DESIREDTEMP", desiredTemp);
+        values.put(SpaCommand.COMMAND_DESIRED_TEMP, desiredTemp);
 
-        String originatorId = body.get("originatorId");
+        String originatorId = body.get(SpaCommand.REQUEST_ORIGINATOR);
         SpaCommand command = buildCommand(spaId, originatorId, SpaCommand.RequestType.HEATER.getCode(), values, save);
         return command;
     }
@@ -73,25 +73,25 @@ public class SpaCommandHelper  {
 
         final HashMap<String, String> values = new HashMap<String, String>();
 
-        final String deviceNumber = body.get("deviceNumber");
+        final String deviceNumber = body.get(SpaCommand.REQUEST_DEVICE_NUMBER);
         if (deviceNumber == null) {
             throw new ValidationException("Device Number Required");
         }
         if (deviceNumber != null && !NumberUtils.isNumber(deviceNumber)) {
             throw new ValidationException("Device Number Invalid");
         }
-        values.put("PORT", deviceNumber);
+        values.put(SpaCommand.COMMAND_DEVICE_NUMBER, deviceNumber);
 
-        final String intervalNumber = body.get("intervalNumber");
+        final String intervalNumber = body.get(SpaCommand.REQUEST_FILTER_INTERVAL);
         if (intervalNumber == null) {
             throw new ValidationException("Interval Number not provided");
         }
         if (!NumberUtils.isNumber(intervalNumber)) {
             throw new ValidationException("Interval Number is not a number");
         }
-        values.put("FILTER_DURATION_15MINUTE_INTERVALS", intervalNumber);
+        values.put(SpaCommand.COMMAND_FILTER_INTERVAL, intervalNumber);
 
-        final String originatorId = body.get("originatorId");
+        final String originatorId = body.get(SpaCommand.REQUEST_ORIGINATOR);
         SpaCommand command = buildCommand(spaId, originatorId, SpaCommand.RequestType.FILTER.getCode(), values, save);
         return command;
     }
