@@ -76,16 +76,22 @@ public class UserRegistrationController {
         log.error("username is undefined, aborting user creation");
       }
     } catch (Throwable t) {
-      user.setMessages(t.getMessage());
+      user.setErrorMessage(t.getMessage());
       log.error("exception in gluuHelper: " + t.getMessage());
       log.error("stacktrace: ",t);
     }
-    // save
-    log.info("Saving new user in mongo");
-    userRepository.save(user);
-    HttpStatus status = StringUtils.isBlank(user.getMessages()) ? 
+    // please note! Having an error message set implies a 500 error
+    HttpStatus status = StringUtils.isBlank(user.getErrorMessage()) ? 
             HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
     
+    // save the user on mongo only if the user was succesfully created on Gluu
+    if (status == HttpStatus.OK) {
+      // save
+      userRepository.save(user);
+      log.info("New user saved with ID " + user.getId());
+    } else {
+      log.warn("user creation aborted because of previous errors");
+    }
     // fixme
     ResponseEntity<?> response = new ResponseEntity<User>(user, status);
     return response;

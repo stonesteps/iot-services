@@ -39,7 +39,7 @@ public class User extends ResourceSupport {
     private String notes;
 
     private String spaId;
-    private String messages;
+    private String errorMessage;
 
     @Transient
     private String fullName;
@@ -184,14 +184,14 @@ public class User extends ResourceSupport {
         return _id;
     }
 
-    public String getMessages() {
-      return messages;
-    }
+  public String getErrorMessage() {
+    return errorMessage;
+  }
 
-    public void setMessages(String messages) {
-      this.messages = messages;
-    }
-    
+  public void setErrorMessage(String errorMessage) {
+    this.errorMessage = errorMessage;
+  }
+
 
     public void set_id(String _id) { this._id = _id; }
 
