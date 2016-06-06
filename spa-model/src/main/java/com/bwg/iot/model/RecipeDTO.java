@@ -9,7 +9,7 @@ import java.util.*;
 
 
 @Document
-@JsonInclude(value= JsonInclude.Include.NON_EMPTY)
+@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
 public class RecipeDTO extends ResourceSupport {
 
 
@@ -18,7 +18,7 @@ public class RecipeDTO extends ResourceSupport {
     private String spaId;
     private HashMap<String, HashMap<String, String>> settings;
     private String name;
-//    private Schedule schedule;
+    //    private Schedule schedule;
     private String notes;
     private Date creationDate;
 
@@ -41,11 +41,11 @@ public class RecipeDTO extends ResourceSupport {
         this.spaId = spaId;
     }
 
-    public HashMap<String, HashMap<String, String>>  getSettings() {
+    public HashMap<String, HashMap<String, String>> getSettings() {
         return settings;
     }
 
-    public void setSettings(HashMap<String, HashMap<String, String>>  settings) {
+    public void setSettings(HashMap<String, HashMap<String, String>> settings) {
         this.settings = settings;
     }
 
@@ -113,7 +113,7 @@ public class RecipeDTO extends ResourceSupport {
         HashMap<String, HashMap<String, String>> dtoSettings = dto.getSettings();
         List<SpaCommand> spaCommands = new ArrayList<>();
         if (dtoSettings != null) {
-            for ( Map.Entry<String, HashMap<String,String>> entry : dtoSettings.entrySet() ) {
+            for (Map.Entry<String, HashMap<String, String>> entry : dtoSettings.entrySet()) {
                 String incomingKey = entry.getKey();
                 int suffixIndex = incomingKey.indexOf("_");
                 if (suffixIndex > 0) {
@@ -148,13 +148,13 @@ public class RecipeDTO extends ResourceSupport {
 
         if (spaCommands != null) {
             for (SpaCommand command : spaCommands) {
-               SpaCommand.RequestType requestType =
-                       SpaCommand.RequestType.getInstanceFromCodeValue(command.getRequestTypeId());
-               String key = requestType.name();
-               if (SpaCommand.RequestType.PUMPS.name().equalsIgnoreCase(key) ||
-                       SpaCommand.RequestType.LIGHTS.name().equalsIgnoreCase(key)) {
-                   key = key.substring(0,key.length()-1);
-               }
+                SpaCommand.RequestType requestType =
+                        SpaCommand.RequestType.getInstanceFromCodeValue(command.getRequestTypeId());
+                String key = requestType.name();
+                if (SpaCommand.RequestType.PUMPS.name().equalsIgnoreCase(key) ||
+                        SpaCommand.RequestType.LIGHTS.name().equalsIgnoreCase(key)) {
+                    key = key.substring(0, key.length() - 1);
+                }
                 String deviceNumber = "";
                 switch (requestType) {
                     case HEATER:
@@ -167,7 +167,7 @@ public class RecipeDTO extends ResourceSupport {
                     case OZONE:
                     case MICROSILK:
                     case FILTER:
-                        deviceNumber = command.getValues().get("PORT");
+                        deviceNumber = command.getValues().get(SpaCommand.COMMAND_DEVICE_NUMBER);
                         if (deviceNumber == null || deviceNumber.equalsIgnoreCase("null")) {
                             deviceNumber = String.valueOf((int) (Math.random() * 10000));
                         }
@@ -176,7 +176,7 @@ public class RecipeDTO extends ResourceSupport {
                     default:
                 }
                 HashMap<String, String> recipeSettings = reformatSettings(command);
-               dtoSettings.put(key, recipeSettings);
+                dtoSettings.put(key, recipeSettings);
             }
             dto.setSettings(dtoSettings);
         }
@@ -188,17 +188,17 @@ public class RecipeDTO extends ResourceSupport {
         HashMap<String, String> commandSettings = command.getValues();
         HashMap<String, String> recipeSettings = new HashMap<String, String>();
 
-        String port = commandSettings.get("PORT");
-        if (port != null) recipeSettings.put("deviceNumber", port);
+        String port = commandSettings.get(SpaCommand.COMMAND_DEVICE_NUMBER);
+        if (port != null) recipeSettings.put(SpaCommand.REQUEST_DEVICE_NUMBER, port);
 
-        String value = commandSettings.get("DESIREDSTATE");
-        if (value != null) recipeSettings.put("desiredState", value);
+        String value = commandSettings.get(SpaCommand.COMMAND_DESIRED_STATE);
+        if (value != null) recipeSettings.put(SpaCommand.REQUEST_DESIRED_STATE, value);
 
-        String temp = commandSettings.get("DESIREDTEMP");
-        if (temp != null) recipeSettings.put("desiredTemp", temp);
+        String temp = commandSettings.get(SpaCommand.COMMAND_DESIRED_TEMP);
+        if (temp != null) recipeSettings.put(SpaCommand.REQUEST_DESIRED_TEMP, temp);
 
-        String interval = commandSettings.get("FILTER_DURATION_15MINUTE_INTERVALS");
-        if (interval != null) recipeSettings.put("intervalNumber", interval);
+        String interval = commandSettings.get(SpaCommand.COMMAND_FILTER_INTERVAL);
+        if (interval != null) recipeSettings.put(SpaCommand.REQUEST_FILTER_INTERVAL, interval);
 
         return recipeSettings;
     }

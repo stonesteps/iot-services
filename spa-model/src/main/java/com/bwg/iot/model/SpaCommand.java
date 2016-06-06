@@ -9,6 +9,16 @@ import java.util.*;
 @Document
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class SpaCommand {
+    public static final String REQUEST_DEVICE_NUMBER = "deviceNumber";
+    public static final String REQUEST_DESIRED_STATE = "desiredState";
+    public static final String REQUEST_DESIRED_TEMP = "desiredTemp";
+    public static final String REQUEST_FILTER_INTERVAL = "intervalNumber";
+    public static final String REQUEST_ORIGINATOR = "originatorId";
+
+    public static final String COMMAND_DEVICE_NUMBER = "PORT";
+    public static final String COMMAND_DESIRED_STATE = "DESIREDSTATE";
+    public static final String COMMAND_DESIRED_TEMP = "DESIREDTEMP";
+    public static final String COMMAND_FILTER_INTERVAL = "FILTER_DURATION_15MINUTE_INTERVALS";
 
     public enum RequestType {
         PUMPS(1), LIGHTS(2), BLOWER(3), MISTER(4), FILTER(5), DIAG_REPORT(6), PANEL(7), HEATER(8), OZONE(9),

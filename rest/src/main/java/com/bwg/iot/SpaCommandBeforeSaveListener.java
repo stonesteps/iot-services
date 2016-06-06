@@ -21,7 +21,7 @@ public class SpaCommandBeforeSaveListener extends AbstractMongoEventListener<Spa
         DBObject dbo = event.getDBObject();
 
         if ( source.getOriginatorId() == null ) {
-            dbo.put("originatorId", UUID.randomUUID().toString());
+            dbo.put(SpaCommand.REQUEST_ORIGINATOR, UUID.randomUUID().toString());
         }
 
         if ( source.getSentTimestamp() == null ) {

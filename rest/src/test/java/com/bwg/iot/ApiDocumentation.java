@@ -519,17 +519,17 @@ public class ApiDocumentation extends ModelTestBase{
 		// Build up SaveSettingsRequest
 		HashMap<String, HashMap<String,String>> settings = new HashMap<>();
 		HashMap<String,String> setTempValues = new HashMap<String, String>();
-		setTempValues.put("desiredTemp", "101");
+		setTempValues.put(SpaCommand.REQUEST_DESIRED_TEMP, "101");
 		settings.put("HEATER",setTempValues);
 
 		HashMap<String,String> setPumpValues = new HashMap<String, String>();
-		setPumpValues.put("deviceNumber", "0");
-		setPumpValues.put("desiredState", "HIGH");
+		setPumpValues.put(SpaCommand.REQUEST_DEVICE_NUMBER, "0");
+		setPumpValues.put(SpaCommand.REQUEST_DESIRED_STATE, "HIGH");
 		settings.put("PUMPS", setPumpValues);
 
 		HashMap<String,String> setLightValues = new HashMap<String, String>();
-		setLightValues.put("deviceNumber", "0");
-		setLightValues.put("desiredState", "HIGH");
+		setLightValues.put(SpaCommand.REQUEST_DEVICE_NUMBER, "0");
+		setLightValues.put(SpaCommand.REQUEST_DESIRED_STATE, "HIGH");
 		settings.put("LIGHTS", setLightValues);
 
 		SaveSettingsRequest request = new SaveSettingsRequest();
