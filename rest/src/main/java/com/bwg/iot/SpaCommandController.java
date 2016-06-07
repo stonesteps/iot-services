@@ -52,7 +52,7 @@ public class SpaCommandController {
 
         String originatorId = null;
         if (body != null) {
-            originatorId = body.get("originatorId");
+            originatorId = body.get(SpaCommand.REQUEST_ORIGINATOR);
         }
         SpaCommand command = helper.buildCommand(spaId, originatorId, requestCode, new HashMap<>(), true);
 
@@ -175,7 +175,7 @@ public class SpaCommandController {
             return new ResponseEntity<>("Spa Id not provided", HttpStatus.BAD_REQUEST);
         }
 
-        final String originatorId = body.get("originatorId");
+        final String originatorId = body.get(SpaCommand.REQUEST_ORIGINATOR);
         SpaCommand command = helper.buildCommand(spaId, originatorId, RequestType.UPDATE_AGENT_SETTINGS.getCode(), body, true);
 
         return new ResponseEntity<SpaCommand>(command, HttpStatus.ACCEPTED);

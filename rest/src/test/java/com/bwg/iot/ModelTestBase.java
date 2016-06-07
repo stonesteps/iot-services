@@ -997,23 +997,23 @@ public class ModelTestBase {
         sc1.setSpaId(spaId);
         sc1.setRequestTypeId(SpaCommand.RequestType.HEATER.getCode());
         HashMap<String,String> setTempValues = new HashMap<String, String>();
-        setTempValues.put("desiredTemp", temperature);
+        setTempValues.put(SpaCommand.REQUEST_DESIRED_TEMP, temperature);
         sc1.setValues(setTempValues);
 
         SpaCommand sc2 = new SpaCommand();
         sc2.setSpaId(spaId);
         sc2.setRequestTypeId(SpaCommand.RequestType.PUMPS.getCode());
         HashMap<String,String> setPumpValues = new HashMap<String, String>();
-        setPumpValues.put("deviceNumber", "0");
-        setPumpValues.put("desiredState", "HIGH");
+        setPumpValues.put(SpaCommand.REQUEST_DEVICE_NUMBER, "0");
+        setPumpValues.put(SpaCommand.REQUEST_DESIRED_STATE, "HIGH");
         sc2.setValues(setPumpValues);
 
         SpaCommand sc3 = new SpaCommand();
         sc3.setSpaId(spaId);
         sc3.setRequestTypeId(SpaCommand.RequestType.LIGHTS.getCode());
         HashMap<String,String> setLightValues = new HashMap<String, String>();
-        setLightValues.put("deviceNumber", "0");
-        setLightValues.put("desiredState", "HIGH");
+        setLightValues.put(SpaCommand.REQUEST_DEVICE_NUMBER, "0");
+        setLightValues.put(SpaCommand.REQUEST_DESIRED_STATE, "HIGH");
         sc3.setValues(setLightValues);
 
         List<SpaCommand> settings = Arrays.asList(sc1, sc2, sc3);
@@ -1044,10 +1044,12 @@ public class ModelTestBase {
         spaTemplate.setWarrantyDays(3650);
         spaTemplate.setAttachments(attachments);
 
-        materialList.stream().forEach(m -> {
-            m.setOemId(null);
-            m.setUploadDate(null);
-        });
+        if (materialList != null) {
+            materialList.forEach(m -> {
+                m.setOemId(null);
+                m.setUploadDate(null);
+            });
+        }
 
         spaTemplate.setMaterialList(materialList);
         spaTemplate.setCreationDate(new Date());
@@ -1062,7 +1064,7 @@ public class ModelTestBase {
         Oem oem2 = createOem("Blue Wave Spas, LTD", 1003042, addresses.get(0), "oem002");
 
         // create set of materials
-        Material t1Panel = createSpaTemplateMaterial("Panel", "6600-769");
+        Material t1Panel = createSpaTemplateMaterial("Panel", "6600-760");
         Material t1Controller = createSpaTemplateMaterial("Controller", "6600-761");
         Material t1Pump = createSpaTemplateMaterial("Captain's Chair", "DJAYGB-9173D");
         Material t1Gateway = createSpaTemplateMaterial("Gateway", "17092-83280-1b");
