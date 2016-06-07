@@ -216,6 +216,7 @@ public class CustomSpaController {
                 if (suffixIndex > 0) {
                     incomingKey = incomingKey.substring(0, suffixIndex);
                 }
+                // Hack due to componentType.PUMP RequestType.PUMPS
                 if (Component.ComponentType.PUMP.name().equalsIgnoreCase(incomingKey) ||
                         Component.ComponentType.LIGHT.name().equalsIgnoreCase(incomingKey)) {
                     incomingKey = incomingKey + "S";
@@ -257,13 +258,12 @@ public class CustomSpaController {
         recipe.setCreationDate(new Date());
         recipe = recipeRepository.save(recipe);
 
-        request.set_id(recipe.get_id());
-        request.setSpaId(spaId);
-        request.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
+        RecipeDTO returnDto = RecipeDTO.fromRecipe(recipe);
+        returnDto.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
                 .slash("/" + recipe.getSpaId() + "/recipes/" + recipe.get_id())
                 .withSelfRel());
 
-        ResponseEntity<?> response = new ResponseEntity<RecipeDTO>(request, HttpStatus.OK);
+        ResponseEntity<?> response = new ResponseEntity<RecipeDTO>(returnDto, HttpStatus.OK);
         return response;
     }
 

@@ -84,7 +84,7 @@ public final class MaterialDocumentation extends ModelTestBase{
 
 	@Test
 	public void materialGetExample() throws Exception {
-		Material t1Panel = createSpaTemplateMaterial("Panel", "6600-769");
+		Material t1Panel = createSpaTemplateMaterial("Panel", "6600-760");
 
         this.mockMvc.perform(get("/materials/{0}", t1Panel.get_id())).andExpect(status().isOk())
 				.andExpect(jsonPath("sku", is(t1Panel.getSku())))
@@ -109,7 +109,7 @@ public final class MaterialDocumentation extends ModelTestBase{
 
     @Test
     public void findBySkuExample() throws Exception {
-		String testSku = "6600-769";
+		String testSku = "6600-760";
 
         this.mockMvc.perform(get("/materials/search/findBySku?sku=" + testSku))
                 .andExpect(status().isOk())

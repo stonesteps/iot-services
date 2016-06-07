@@ -117,7 +117,7 @@ public final class SpaTemplateDocumentation extends ModelTestBase {
         Oem oem2 = createOem("Jazzi Pool & Spa Products, LTD", 20404, addresses.get(1), "oem002");
 
         // create set of materials
-        Material t1Panel = createSpaTemplateMaterial("Panel", "6600-769");
+        Material t1Panel = createSpaTemplateMaterial("Panel", "6600-760");
         Material t1Controller = createSpaTemplateMaterial("Controller", "6600-761");
         Material t1Pump = createSpaTemplateMaterial("Captain's Chair", "DJAYGB-9173D");
         Material t1Gateway = createSpaTemplateMaterial("Gateway", "17092-83280-1b");
