@@ -997,23 +997,23 @@ public class ModelTestBase {
         sc1.setSpaId(spaId);
         sc1.setRequestTypeId(SpaCommand.RequestType.HEATER.getCode());
         HashMap<String,String> setTempValues = new HashMap<String, String>();
-        setTempValues.put(SpaCommand.REQUEST_DESIRED_TEMP, temperature);
+        setTempValues.put(SpaCommand.COMMAND_DESIRED_TEMP, temperature);
         sc1.setValues(setTempValues);
 
         SpaCommand sc2 = new SpaCommand();
         sc2.setSpaId(spaId);
         sc2.setRequestTypeId(SpaCommand.RequestType.PUMPS.getCode());
         HashMap<String,String> setPumpValues = new HashMap<String, String>();
-        setPumpValues.put(SpaCommand.REQUEST_DEVICE_NUMBER, "0");
-        setPumpValues.put(SpaCommand.REQUEST_DESIRED_STATE, "HIGH");
+        setPumpValues.put(SpaCommand.COMMAND_DEVICE_NUMBER, "0");
+        setPumpValues.put(SpaCommand.COMMAND_DESIRED_STATE, "HIGH");
         sc2.setValues(setPumpValues);
 
         SpaCommand sc3 = new SpaCommand();
         sc3.setSpaId(spaId);
         sc3.setRequestTypeId(SpaCommand.RequestType.LIGHTS.getCode());
         HashMap<String,String> setLightValues = new HashMap<String, String>();
-        setLightValues.put(SpaCommand.REQUEST_DEVICE_NUMBER, "0");
-        setLightValues.put(SpaCommand.REQUEST_DESIRED_STATE, "HIGH");
+        setLightValues.put(SpaCommand.COMMAND_DEVICE_NUMBER, "0");
+        setLightValues.put(SpaCommand.COMMAND_DESIRED_STATE, "HIGH");
         sc3.setValues(setLightValues);
 
         List<SpaCommand> settings = Arrays.asList(sc1, sc2, sc3);
