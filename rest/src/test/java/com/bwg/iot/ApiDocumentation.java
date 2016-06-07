@@ -444,7 +444,7 @@ public class ApiDocumentation extends ModelTestBase{
 		clearAllData();
 
 		// create set of materials
-		Material t1Panel = createSpaTemplateMaterial("Panel", "6600-769");
+		Material t1Panel = createSpaTemplateMaterial("Panel", "6600-760");
 		Material t1Controller = createSpaTemplateMaterial("Controller", "6600-761");
 		Material t1Pump = createSpaTemplateMaterial("Captain's Chair", "DJAYGB-9173D");
 		Material t1Gateway = createSpaTemplateMaterial("Gateway", "17092-83280-1b");
