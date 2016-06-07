@@ -1044,10 +1044,12 @@ public class ModelTestBase {
         spaTemplate.setWarrantyDays(3650);
         spaTemplate.setAttachments(attachments);
 
-        materialList.stream().forEach(m -> {
-            m.setOemId(null);
-            m.setUploadDate(null);
-        });
+        if (materialList != null) {
+            materialList.forEach(m -> {
+                m.setOemId(null);
+                m.setUploadDate(null);
+            });
+        }
 
         spaTemplate.setMaterialList(materialList);
         spaTemplate.setCreationDate(new Date());
@@ -1062,7 +1064,7 @@ public class ModelTestBase {
         Oem oem2 = createOem("Blue Wave Spas, LTD", 1003042, addresses.get(0), "oem002");
 
         // create set of materials
-        Material t1Panel = createSpaTemplateMaterial("Panel", "6600-769");
+        Material t1Panel = createSpaTemplateMaterial("Panel", "6600-760");
         Material t1Controller = createSpaTemplateMaterial("Controller", "6600-761");
         Material t1Pump = createSpaTemplateMaterial("Captain's Chair", "DJAYGB-9173D");
         Material t1Gateway = createSpaTemplateMaterial("Gateway", "17092-83280-1b");
