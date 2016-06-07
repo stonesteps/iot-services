@@ -126,7 +126,7 @@ public class RecipeDTO extends ResourceSupport {
                 SpaCommand.RequestType key = SpaCommand.RequestType.valueOf(incomingKey);
                 SpaCommand spaCommand = new SpaCommand();
                 spaCommand.setRequestTypeId(key.getCode());
-                spaCommand.setValues(entry.getValue());
+                spaCommand.setValues(reformatRecipeSettings(entry.getValue()));
                 spaCommands.add(spaCommand);
             }
             recipe.setSettings(spaCommands);
@@ -202,4 +202,23 @@ public class RecipeDTO extends ResourceSupport {
 
         return recipeSettings;
     }
+
+    static private HashMap<String, String> reformatRecipeSettings(HashMap<String, String> requestSettings) {
+        HashMap<String, String> commandSettings = new HashMap<String, String>();
+
+        String port = requestSettings.get(SpaCommand.REQUEST_DEVICE_NUMBER);
+        if (port != null) commandSettings.put(SpaCommand.COMMAND_DEVICE_NUMBER, port);
+
+        String value = requestSettings.get(SpaCommand.REQUEST_DESIRED_STATE);
+        if (value != null) commandSettings.put(SpaCommand.COMMAND_DESIRED_STATE, value);
+
+        String temp = requestSettings.get(SpaCommand.REQUEST_DESIRED_TEMP);
+        if (temp != null) commandSettings.put(SpaCommand.COMMAND_DESIRED_TEMP, temp);
+
+        String interval = requestSettings.get(SpaCommand.REQUEST_FILTER_INTERVAL);
+        if (interval != null) commandSettings.put(SpaCommand.COMMAND_FILTER_INTERVAL, interval);
+
+        return commandSettings;
+    }
+
 }
