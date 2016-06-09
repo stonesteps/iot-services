@@ -251,6 +251,8 @@ include::{snippets}/spas-findbyUsername-example/http-response.adoc[]
 [[resources-spa-retrieve]]
 === Retrieve a spa by Id
 
+*/spas/{id}*
+
 A `GET` request will retrieve the details of a single spa.
 
 ==== Response structure
@@ -659,6 +661,8 @@ include::{snippets}/user-get-example/links.adoc[]
 
 === Listing All Users
 
+*/users*
+
 A `GET` request will list all of the service's users.
 
 ==== Response structure
@@ -729,6 +733,8 @@ include::{snippets}/users-findbyoem-example/http-response.adoc[]
 [[resources-user-retrieve]]
 === Retrieve a User by Id
 
+*/users/{id}*
+
 A `GET` request will retrieve the details of a user
 
 ==== Response structure
@@ -747,6 +753,8 @@ include::{snippets}/user-get-example/http-response.adoc[]
 [[resources-user-findByUserName]]
 === Find User by Username
 
+*/users/search/findByUsername?username*
+
 A `GET` request will retrieve the details of a user given the username assigned to the person.
 
 ==== Response structure
@@ -764,6 +772,8 @@ include::{snippets}/user-findByUsername-example/http-response.adoc[]
 
 [[resources-user-create]]
 === Creating a user
+
+*/user-registration*
 
 A `POST` request is used to create a user.
 There are different types of users:
@@ -791,7 +801,9 @@ include::{snippets}/user-create-example/http-response.adoc[]
 [[resources-user-update]]
 === Update a user
 
-A `PATCH` request is used to update a user
+*/user-registration/{id}*
+
+A `PUT` request is used to update a user
 
 ==== Request structure
 
@@ -806,6 +818,8 @@ include::{snippets}/user-update-example/curl-request.adoc[]
 include::{snippets}/user-update-example/http-response.adoc[]
 
 === Find Current User
+
+*/auth/whoami*
 
 The /auth/whoami API returns the currently logged in user.
 The user is identified by the remote_user request header.

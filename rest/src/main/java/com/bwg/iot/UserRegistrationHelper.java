@@ -39,7 +39,6 @@ public class UserRegistrationHelper {
     @Autowired
     Environment environment;
 
-    private ScimClient scim1Client;
     private String domain;
     private String umaMetaDataUrl;
     private String umaAatClientId;
@@ -49,37 +48,30 @@ public class UserRegistrationHelper {
 
     @PostConstruct
     public void initialize() {
-        try {
-            createScimClient();
-        } catch (Throwable t) {
-            log.error("error in service initialization");
-        }
-    }
-
-    /**
-     * Create the Gluu client using configuration parameters. The client is defined
-     * once at boot time.
-     *
-     * @throws Throwable
-     */
-    private void createScimClient() throws Throwable {
         domain = environment.getProperty(PropertyNames.IDM_DOMAIN);
         umaMetaDataUrl = environment.getProperty(PropertyNames.UMA_METADATA_URL);
         umaAatClientId = environment.getProperty(PropertyNames.UMA_AAT_CLIENT_ID);
         umaAatClientKeyId = environment.getProperty(PropertyNames.UMA_AAT_CLIENT_KEY_ID);
         openidKeysFilename = environment.getProperty(PropertyNames.UMA_OPENID_KEYS_FILENAME);
-        // process keys: the file is in the resources folder FIXME: make the filename dynamic?
+    }
+
+    /**
+     * Create the Gluu client using configuration parameters.
+     *
+     * @throws Throwable
+     */
+    private ScimClient createScimClient() throws Throwable {
         InputStream is = getClass().getResourceAsStream(openidKeysFilename);
         StringWriter writer = new StringWriter();
         IOUtils.copy(is, writer, "UTF8");
         umaAatClientJwks = writer.toString();
         // create client
-        scim1Client = ScimClient.umaInstance(domain, umaMetaDataUrl, umaAatClientId, umaAatClientJwks, umaAatClientKeyId);
+        ScimClient scimClient = ScimClient.umaInstance(domain, umaMetaDataUrl, umaAatClientId, umaAatClientJwks, umaAatClientKeyId);
         log.info("SCIM Client created: using key file " + openidKeysFilename);
+        return scimClient;
     }
 
     private ScimPerson createPerson(com.bwg.iot.model.User user)  throws Throwable {
-        createScimClient();
         ScimPerson person = new ScimPerson();
 
         if (null != user) {
@@ -176,6 +168,7 @@ public class UserRegistrationHelper {
      * @throws Throwable
      */
     public JsonNode createUser(com.bwg.iot.model.User user) throws Throwable {
+        ScimClient scimClient = createScimClient();
         ObjectMapper mapper = new ObjectMapper();
         log.info("Inside GluuHelper.createUser");
         User gluuUser = convertUser(user);
@@ -183,7 +176,7 @@ public class UserRegistrationHelper {
 
         JsonNode jsonNode = null;
         log.info("Calling SCIM createPerson");
-        ScimResponse response = scim1Client.createPerson(gluuperson, MediaType.APPLICATION_JSON);
+        ScimResponse response = scimClient.createPerson(gluuperson, MediaType.APPLICATION_JSON);
         log.info("Back from SCIM createPerson");
 
         // throw exception if the code is not 2xx
@@ -201,8 +194,32 @@ public class UserRegistrationHelper {
         return jsonNode;
     }
 
-    public ScimClient getScim1Client() {
-        return scim1Client;
+    public void deleteUser(String username) throws Throwable {
+        ObjectMapper mapper = new ObjectMapper();
+        log.info("Inside GluuHelper.deleteUser");
+        ScimClient scimClient = createScimClient();
+        ScimResponse fetchResponse = scimClient.personSearch("uid", username, MediaType.APPLICATION_JSON);
+        if (fetchResponse.getStatusCode() < 200 || fetchResponse.getStatusCode() > 299) {
+            log.error("Gluu User Not Found:" + username);
+            throw new RuntimeException("error condition returned by the SCIM-client");
+        }
+        String body = fetchResponse.getResponseBodyString();
+        JsonNode jsonNode = mapper.readTree(body);
+        String id = jsonNode.findValue("id").asText();
+
+        log.info("Calling SCIM deletePerson");
+        ScimResponse response = scimClient.deletePerson(id);
+        log.info("Back from SCIM deletePerson");
+
+        // throw exception if the code is not 2xx
+        if (response.getStatusCode() < 200
+                || response.getStatusCode() > 299) {
+            log.error("SCIM-Client reported status " + response.getStatusCode());
+            throw new RuntimeException("error condition returned by the SCIM-client");
+        } else {
+            log.info("SCIM-Client delete person returned status " + response.getStatusCode());
+        }
+        return;
     }
 
     public String getDomain() {
