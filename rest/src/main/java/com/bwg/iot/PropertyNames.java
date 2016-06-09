@@ -18,5 +18,9 @@ public final class PropertyNames {
     public static final String UMA_AAT_CLIENT_ID = "uma.aat.client.id";
     public static final String UMA_AAT_CLIENT_KEY_ID = "uma.aat.client.key.id";
     public static final String UMA_OPENID_KEYS_FILENAME = "uma.openid.keys.filename";
-    
+
+    public static final String MAX_FILE_SIZE = "multipart.maxFileSize";
+    public static final String LOG_FILE = "logging.file";
+    public static final String ACTIVE_PROFILES = "spring.profiles.active";
+
 }

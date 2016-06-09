@@ -1686,3 +1686,26 @@ A `DELETE` removes given attachment.
 
 include::{snippets}/attachment-delete-example/curl-request.adoc[]
 
+
+[[resources-utilities]]
+== Utilities
+
+The utilities controller handles miscellaneous utility APIs.
+
+=== System Settings
+
+*/util/systemSettings*
+
+This API returns various system settings for the iot-services application.
+
+==== Example request
+
+include::{snippets}/system-settings-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/system-settings-example/http-response.adoc[]
+
+==== Response structure
+include::{snippets}/system-settings-example/response-fields.adoc[]
+
