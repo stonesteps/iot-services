@@ -14,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by triton on 2/10/16.
@@ -29,6 +30,21 @@ public interface UserRepository extends MongoRepository<User, String>, QueryDslP
     @RestResource
     public Page findByOemId(@Param("oemId") String oemId, Pageable p);
 
+    @Override
+    @RestResource(exported = false)
+    User save(User user);
+
+    @Override
+    @RestResource(exported = false)
+    <S extends User> List<S> save(Iterable<S> users);
+
+    @Override
+    @RestResource(exported = false)
+    void delete(String id);
+
+    @Override
+    @RestResource(exported = false)
+    void delete(User user);
 
     /*
      * (non-Javadoc)

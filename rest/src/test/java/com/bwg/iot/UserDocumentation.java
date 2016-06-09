@@ -20,15 +20,23 @@ import com.bwg.iot.model.Address;
 import com.bwg.iot.model.Dealer;
 import com.bwg.iot.model.Oem;
 import com.bwg.iot.model.User;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.restdocs.JUnitRestDocumentation;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -38,6 +46,10 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.*;
 
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -58,7 +70,7 @@ public final class UserDocumentation extends ModelTestBase {
     public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository realUserRepository;
 
     @Autowired
     private AddressRepository addressRepository;
@@ -66,13 +78,27 @@ public final class UserDocumentation extends ModelTestBase {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Mock
+    private UserRegistrationHelper gluuHelper;
+
+    @Mock
+    private UserRepository userRepository;
+
+    @InjectMocks
+    private UserRegistrationController userRegistrationController;
+
     @Autowired
     private WebApplicationContext context;
 
     private MockMvc mockMvc;
+    private MockMvc userRegMockMvc;
 
     @Before
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
+        this.userRegMockMvc = MockMvcBuilders.standaloneSetup(userRegistrationController)
+                .apply(documentationConfiguration(this.restDocumentation)).build();
+
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
                 .apply(documentationConfiguration(this.restDocumentation)).build();
     }
@@ -128,88 +154,96 @@ public final class UserDocumentation extends ModelTestBase {
 
     }
 
-//    @Test
-//    public void userCreateExample() throws Exception {
-//        this.userRepository.deleteAll();
-//        this.addressRepository.deleteAll();
-//
-//        Address address = createAddress();
-//
-//        final Map<String, Object> user = new HashMap<>();
-//        user.put("username", "glee");
-//        user.put("firstName", "Getty");
-//        user.put("lastName", "Lee");
-//        user.put("dealerId", "dealer111");
-//        user.put("oemId", "oem222");
-//        user.put("email", "glee@rush.net");
-//        user.put("phone", "(800)222-3456");
-//        user.put("address", address);
-//        user.put("createdDate", new Date());
-//        user.put("roles", Arrays.asList("OWNER"));
-//        user.put("notes", "Notes");
-//
-//        this.mockMvc
-//                .perform(post("/users").contentType(MediaTypes.HAL_JSON)
-//                        .content(this.objectMapper.writeValueAsString(user)))
-//                .andExpect(status().isCreated())
-//                .andDo(document("user-create-example",
-//                        requestFields(fieldWithPath("username").description("Unique friendly identifier for the user."),
-//                                fieldWithPath("firstName").description("First name of the user"),
-//                                fieldWithPath("lastName").description("Last name of the user"),
-//                                fieldWithPath("dealerId").description("Dealer id"),
-//                                fieldWithPath("oemId").description("Manufacturer id"),
-//                                fieldWithPath("email").description("The user's email address"),
-//                                fieldWithPath("phone").description("The user's phone number"),
-//                                fieldWithPath("address").description("The user's address"),
-//                                fieldWithPath("createdDate").description("Created date").type("Date"),
-//                                fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),
-//                                fieldWithPath("notes").description("The notes about the user"))));
-//    }
+    @Test
+    public void userCreateExample() throws Throwable {
+        this.realUserRepository.deleteAll();
+        this.addressRepository.deleteAll();
 
-//    @Test
-//    public void userUpdateExample() throws Exception {
-//        this.userRepository.deleteAll();
-//        this.addressRepository.deleteAll();
-//
-//        Address address = createAddress();
-//        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("OWNER"), null);
-//
-//        final Map<String, Object> userUpdate = new HashMap<>();
-//        userUpdate.put("username", user.getUsername());
-//        userUpdate.put("firstName", "Maurice");
-//        userUpdate.put("lastName", user.getLastName());
-//        userUpdate.put("dealerId", user.getDealerId());
-//        userUpdate.put("oemId", user.getOemId());
-//        userUpdate.put("address", address);
-//        userUpdate.put("createdDate", user.getCreatedDate());
-//        userUpdate.put("modifiedDate", new Date());
-//        userUpdate.put("email", "glee@rush.net");
-//        userUpdate.put("phone", "(800)222-3456");
-//        userUpdate.put("roles", Arrays.asList("OWNER"));
-//        userUpdate.put("notes", "edited notes for Mo");
-//
-//        this.mockMvc
-//                .perform(patch("/users/{0}", user.get_id()).contentType(MediaTypes.HAL_JSON)
-//                        .content(this.objectMapper.writeValueAsString(userUpdate)))
-//                .andExpect(status().is2xxSuccessful())
-//                .andDo(document("user-update-example",
-//                        requestFields(fieldWithPath("username").description("Unique, friendly name for the user"),
-//                                fieldWithPath("firstName").description("First name of the user"),
-//                                fieldWithPath("lastName").description("Last name of the user"),
-//                                fieldWithPath("dealerId").description("Dealer id"),
-//                                fieldWithPath("oemId").description("Manufacturer id"),
-//                                fieldWithPath("email").description("The user's email address"),
-//                                fieldWithPath("phone").description("The user's phone number"),
-//                                fieldWithPath("address").description("Address"),
-//                                fieldWithPath("createdDate").description("Created date").type("Date"),
-//                                fieldWithPath("modifiedDate").description("Last modified date").type("Date"),
-//                                fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),
-//                                fieldWithPath("notes").description("User's notes"))));
-//    }
+        final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
+        ObjectNode jnode = nodeFactory.objectNode();
+        jnode.put("id", "glee");
+        when(gluuHelper.createUser(any(User.class))).thenReturn(jnode);
+        Address address = createAddress();
+
+
+
+        final Map<String, Object> user = new HashMap<>();
+        user.put("username", "glee");
+        user.put("firstName", "Getty");
+        user.put("lastName", "Lee");
+        user.put("dealerId", "dealer111");
+        user.put("oemId", "oem222");
+        user.put("email", "glee@rush.net");
+        user.put("phone", "(800)222-3456");
+        user.put("address", address);
+        user.put("createdDate", new Date());
+        user.put("roles", Arrays.asList("OWNER"));
+        user.put("notes", "Notes");
+
+        this.userRegMockMvc
+                .perform(post("/user-registration").contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(user)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("user-create-example",
+                        requestFields(fieldWithPath("username").description("Unique friendly identifier for the user."),
+                                fieldWithPath("firstName").description("First name of the user"),
+                                fieldWithPath("lastName").description("Last name of the user"),
+                                fieldWithPath("dealerId").description("Dealer id"),
+                                fieldWithPath("oemId").description("Manufacturer id"),
+                                fieldWithPath("email").description("The user's email address"),
+                                fieldWithPath("phone").description("The user's phone number"),
+                                fieldWithPath("address").description("The user's address"),
+                                fieldWithPath("createdDate").description("Created date").type("Date"),
+                                fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),
+                                fieldWithPath("notes").description("The notes about the user"))));
+
+//        helper.deleteUser((String) user.get("username"));
+    }
+
+    @Test
+    public void userUpdateExample() throws Exception {
+        this.realUserRepository.deleteAll();
+        this.addressRepository.deleteAll();
+
+        Address address = createAddress();
+        User user = createUser("meddy", "Mo", "Eddy", "111", "222", address, Arrays.asList("OWNER"), null);
+
+        final Map<String, Object> userUpdate = new HashMap<>();
+        userUpdate.put("username", user.getUsername());
+        userUpdate.put("firstName", "Maurice");
+        userUpdate.put("lastName", user.getLastName());
+        userUpdate.put("dealerId", user.getDealerId());
+        userUpdate.put("oemId", user.getOemId());
+        userUpdate.put("address", address);
+        userUpdate.put("createdDate", user.getCreatedDate());
+        userUpdate.put("modifiedDate", new Date());
+        userUpdate.put("email", "alee@rush.net");
+        userUpdate.put("phone", "(800)222-3456");
+        userUpdate.put("roles", Arrays.asList("OWNER"));
+        userUpdate.put("notes", "edited notes for Mo");
+
+        this.mockMvc
+                .perform(put("/user-registration/{0}", user.get_id()).contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(userUpdate)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("user-update-example",
+                        requestFields(fieldWithPath("username").description("Unique, friendly name for the user"),
+                                fieldWithPath("firstName").description("First name of the user"),
+                                fieldWithPath("lastName").description("Last name of the user"),
+                                fieldWithPath("dealerId").description("Dealer id"),
+                                fieldWithPath("oemId").description("Manufacturer id"),
+                                fieldWithPath("email").description("The user's email address"),
+                                fieldWithPath("phone").description("The user's phone number"),
+                                fieldWithPath("address").description("Address"),
+                                fieldWithPath("createdDate").description("Created date").type("Date"),
+                                fieldWithPath("modifiedDate").description("Last modified date").type("Date"),
+                                fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),
+                                fieldWithPath("notes").description("User's notes"))));
+    }
 
     @Test
     public void userGetExample() throws Exception {
-        this.userRepository.deleteAll();
+        this.realUserRepository.deleteAll();
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
@@ -241,7 +275,7 @@ public final class UserDocumentation extends ModelTestBase {
 
     @Test
     public void userFindByUsername() throws Exception {
-        this.userRepository.deleteAll();
+        this.realUserRepository.deleteAll();
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
