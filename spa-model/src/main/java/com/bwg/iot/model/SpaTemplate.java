@@ -23,6 +23,7 @@ public class SpaTemplate extends ResourceSupport {
     private String sku;
     private Integer warrantyDays;
     private Boolean locked;
+    private Boolean active;
     private List<Material> materialList;
     private List<Attachment> attachments;
 
@@ -31,6 +32,7 @@ public class SpaTemplate extends ResourceSupport {
 
     public SpaTemplate() {
         this.locked = Boolean.FALSE;
+        this.active = Boolean.TRUE;
     }
 
     public String get_id() {
@@ -119,6 +121,14 @@ public class SpaTemplate extends ResourceSupport {
 
     public void setLocked(Boolean locked) {
         this.locked = locked;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     @Override

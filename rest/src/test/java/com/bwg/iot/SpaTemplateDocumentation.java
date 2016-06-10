@@ -25,6 +25,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.http.HttpStatus;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -170,6 +171,7 @@ public final class SpaTemplateDocumentation extends ModelTestBase {
                                 fieldWithPath("oemId").description("Manufacturer ids"),
                                 fieldWithPath("warrantyDays").description("The number of days the spa is under warranty").optional().type(Integer.class),
                                 fieldWithPath("locked").description("Denotes whether the spa template is editable. If locked = true spaTemplate may not be changed.").type(Boolean.class),
+                                fieldWithPath("active").description("Denotes whether the spa template is currently used by manufacturers to build spas of this type").type(Boolean.class),
                                 fieldWithPath("notes").description("Field to store extra text about the spa template").optional().type("String"),
                                 fieldWithPath("materialList").description("List of Materials used to build the spa").type("List<Material>"),
                                 fieldWithPath("attachments").description("References to supporting documents").optional().type("List<String>"),
@@ -178,4 +180,34 @@ public final class SpaTemplateDocumentation extends ModelTestBase {
                                         .description("<<resources-templatelist-links,Links>> to other resources"))));
     }
 
+    @Test
+    public void spaTemplateRemoveExamples() throws Exception {
+        clearAllData();
+        List<SpaTemplate> spaTemplates = createSpaTemplates();
+        createSmallSpaWithState("SN001", "Fish", "Guppy", "oem001", null, null,"spa1234", spaTemplates.get(0).get_id(), null);
+
+        this.mockMvc.perform(post("/spaTemplates/{0}/remove", spaTemplates.get(0).get_id())).andExpect(status().isOk())
+                .andExpect(jsonPath("active", is(false)))
+                .andDo(document("template-archive-example",
+//                        links(linkWithRel("self").description("This <<resources-spaTemplate, SpaTemplate>>"),
+//                                linkWithRel("spaTemplate").description("This <<resources-spaTemplate,SpaTemplate>>")),
+                        responseFields(
+                                fieldWithPath("_id").description("Unique identifier for this spa template"),
+                                fieldWithPath("productName").description("Spa Product Line"),
+                                fieldWithPath("model").description("Model Name of the spa"),
+                                fieldWithPath("sku").description("The SKU number associated to this Spa"),
+                                fieldWithPath("oemId").description("Manufacturer ids"),
+                                fieldWithPath("warrantyDays").description("The number of days the spa is under warranty").optional().type(Integer.class),
+                                fieldWithPath("locked").description("Denotes whether the spa template is editable. If locked = true spaTemplate may not be changed.").type(Boolean.class),
+                                fieldWithPath("active").description("Denotes whether the spa template is currently used by manufacturers to build spas of this type").type(Boolean.class),
+                                fieldWithPath("notes").description("Field to store extra text about the spa template").optional().type("String"),
+                                fieldWithPath("materialList").description("List of Materials used to build the spa").type("List<Material>"),
+                                fieldWithPath("attachments").description("References to supporting documents").optional().type("List<String>"),
+                                fieldWithPath("creationDate").description("Created date").type("Date"))));
+
+
+        this.mockMvc.perform(post("/spaTemplates/{1}/remove", spaTemplates.get(1).get_id()))
+                .andExpect(status().is(HttpStatus.NO_CONTENT.value()))
+                .andDo((document("template-delete-example")));
+    }
 }
