@@ -13,6 +13,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+import java.util.List;
+
 /**
  * Created by triton on 2/10/16.
  */
@@ -28,6 +30,8 @@ public interface SpaRepository extends MongoRepository<Spa, String> , QueryDslPr
 
     @Query(value = "{ 'owner.username' : ?0 }")
     public Spa findByUsername(@Param("username") String username);
+
+    public List<Spa> findByTemplateId(@Param("templateId") String templateId);
 
     /*
      * (non-Javadoc)
