@@ -27,6 +27,7 @@ public class RepositoryConfig extends RepositoryRestMvcConfiguration {
     @Override
     protected void configureValidatingRepositoryEventListener(ValidatingRepositoryEventListener validatingListener) {
         validatingListener.addValidator("beforeCreate", new BeforeCreateUserValidator());
+        validatingListener.addValidator("beforeSave", new BeforeCreateUserValidator());
     }
 
     @Bean UserEventHandler userEventHandler() {

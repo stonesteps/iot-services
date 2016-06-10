@@ -251,6 +251,8 @@ include::{snippets}/spas-findbyUsername-example/http-response.adoc[]
 [[resources-spa-retrieve]]
 === Retrieve a spa by Id
 
+*/spas/{id}*
+
 A `GET` request will retrieve the details of a single spa.
 
 ==== Response structure
@@ -659,6 +661,8 @@ include::{snippets}/user-get-example/links.adoc[]
 
 === Listing All Users
 
+*/users*
+
 A `GET` request will list all of the service's users.
 
 ==== Response structure
@@ -729,6 +733,8 @@ include::{snippets}/users-findbyoem-example/http-response.adoc[]
 [[resources-user-retrieve]]
 === Retrieve a User by Id
 
+*/users/{id}*
+
 A `GET` request will retrieve the details of a user
 
 ==== Response structure
@@ -747,6 +753,8 @@ include::{snippets}/user-get-example/http-response.adoc[]
 [[resources-user-findByUserName]]
 === Find User by Username
 
+*/users/search/findByUsername?username*
+
 A `GET` request will retrieve the details of a user given the username assigned to the person.
 
 ==== Response structure
@@ -764,6 +772,8 @@ include::{snippets}/user-findByUsername-example/http-response.adoc[]
 
 [[resources-user-create]]
 === Creating a user
+
+*/user-registration*
 
 A `POST` request is used to create a user.
 There are different types of users:
@@ -791,7 +801,9 @@ include::{snippets}/user-create-example/http-response.adoc[]
 [[resources-user-update]]
 === Update a user
 
-A `PATCH` request is used to update a user
+*/user-registration/{id}*
+
+A `PUT` request is used to update a user
 
 ==== Request structure
 
@@ -806,6 +818,8 @@ include::{snippets}/user-update-example/curl-request.adoc[]
 include::{snippets}/user-update-example/http-response.adoc[]
 
 === Find Current User
+
+*/auth/whoami*
 
 The /auth/whoami API returns the currently logged in user.
 The user is identified by the remote_user request header.
@@ -1623,6 +1637,8 @@ include::{snippets}/template-get-example/http-response.adoc[]
 [[resources-template-create]]
 === Creating a Spa Template
 
+*/spaTemplates*
+
 A `POST` request is used to create a spa template
 
 ==== Request structure
@@ -1671,4 +1687,56 @@ A `DELETE` removes given attachment.
 ==== Example request
 
 include::{snippets}/attachment-delete-example/curl-request.adoc[]
+
+
+[[resources-template-delete]]
+=== Deleting a Spa Template
+
+*/spaTemplates/{id}/remove*
+
+A `POST` to the remove method is used to delete a spa template.
+
+If a template has not ever been used to build a spa, it will be deleted from the database,
+the response code will be  204 (NO_CONTENT)
+
+If a template has already been used to build a spa. It will simply be marked as inactive.
+It will remain in the database, but will no longer show up on the list of templates for an
+OEM to use to build new spas. The response code, in this case, will be 200 (OK) and will return
+the updated spa template in the response.
+
+==== Example request
+
+include::{snippets}/template-delete-example/curl-request.adoc[]
+
+==== Example response when Spa Template has never been used
+
+include::{snippets}/template-delete-example/http-response.adoc[]
+
+==== Example response when Spa Template has already been used to build a spa
+
+include::{snippets}/template-archive-example/http-response.adoc[]
+
+
+
+[[resources-utilities]]
+== Utilities
+
+The utilities controller handles miscellaneous utility APIs.
+
+=== System Settings
+
+*/util/systemSettings*
+
+This API returns various system settings for the iot-services application.
+
+==== Example request
+
+include::{snippets}/system-settings-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/system-settings-example/http-response.adoc[]
+
+==== Response structure
+include::{snippets}/system-settings-example/response-fields.adoc[]
 
