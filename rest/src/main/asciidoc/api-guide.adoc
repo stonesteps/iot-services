@@ -1637,6 +1637,8 @@ include::{snippets}/template-get-example/http-response.adoc[]
 [[resources-template-create]]
 === Creating a Spa Template
 
+*/spaTemplates*
+
 A `POST` request is used to create a spa template
 
 ==== Request structure
@@ -1686,6 +1688,7 @@ A `DELETE` removes given attachment.
 
 include::{snippets}/attachment-delete-example/curl-request.adoc[]
 
+
 [[resources-template-delete]]
 === Deleting a Spa Template
 
@@ -1701,10 +1704,6 @@ It will remain in the database, but will no longer show up on the list of templa
 OEM to use to build new spas. The response code, in this case, will be 200 (OK) and will return
 the updated spa template in the response.
 
-==== Request structure
-
-include::{snippets}/template-delete-example/request-fields.adoc[]
-
 ==== Example request
 
 include::{snippets}/template-delete-example/curl-request.adoc[]
@@ -1716,8 +1715,6 @@ include::{snippets}/template-delete-example/http-response.adoc[]
 ==== Example response when Spa Template has already been used to build a spa
 
 include::{snippets}/template-archive-example/http-response.adoc[]
-
-
 
 
 
