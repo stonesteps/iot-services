@@ -39,6 +39,7 @@ public class User extends ResourceSupport {
     private String notes;
 
     private String spaId;
+    private String errorMessage;
 
     @Transient
     private String fullName;
@@ -66,8 +67,13 @@ public class User extends ResourceSupport {
         this.username = username;
     }
 
-    public void setPassword(String username) {
-        this.username = username;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    @Deprecated
+    public String getPassword() {
+      return this.password;
     }
 
     public boolean doesPasswordMatch(String pwd){
@@ -177,6 +183,15 @@ public class User extends ResourceSupport {
     public String get_id() {
         return _id;
     }
+
+  public String getErrorMessage() {
+    return errorMessage;
+  }
+
+  public void setErrorMessage(String errorMessage) {
+    this.errorMessage = errorMessage;
+  }
+
 
     public void set_id(String _id) { this._id = _id; }
 

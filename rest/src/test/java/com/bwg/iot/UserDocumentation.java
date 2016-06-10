@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import gluu.scim.client.model.ScimPerson;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -159,10 +160,9 @@ public final class UserDocumentation extends ModelTestBase {
         this.realUserRepository.deleteAll();
         this.addressRepository.deleteAll();
 
-        final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
-        ObjectNode jnode = nodeFactory.objectNode();
-        jnode.put("id", "glee");
-        when(gluuHelper.createUser(any(User.class))).thenReturn(jnode);
+        ScimPerson scimPerson = new ScimPerson();
+        scimPerson.setUserName("glee");
+        when(gluuHelper.createUser(any(User.class))).thenReturn(scimPerson);
         Address address = createAddress();
 
 
