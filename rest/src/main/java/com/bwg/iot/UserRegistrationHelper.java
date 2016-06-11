@@ -55,6 +55,7 @@ public class UserRegistrationHelper {
     private Session getMailSession;
     private SecureRandom random;
 
+    private String mailServer;
     private String mailerUsername;
     private String mailerPassword;
     private String spaPortalEndpoint;
@@ -76,6 +77,7 @@ public class UserRegistrationHelper {
         umaAatClientJwks = writer.toString();
 
         // email
+        mailServer = environment.getProperty(PropertyNames.SMTP_SERVER);
         mailServerProperties = System.getProperties();
         mailServerProperties.put(PropertyNames.SMTP_PORT, environment.getProperty(PropertyNames.SMTP_PORT));
         mailServerProperties.put(PropertyNames.SMTP_AUTH, environment.getProperty(PropertyNames.SMTP_AUTH));
@@ -126,7 +128,7 @@ public class UserRegistrationHelper {
         getMailSession = Session.getDefaultInstance(mailServerProperties, null);
         MimeMessage generateMailMessage = new MimeMessage(getMailSession);
         generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(person.getEmails().get(0).getValue()));
-        generateMailMessage.setSubject("Greetings from Control My Spa");
+        generateMailMessage.setSubject(environment.getProperty(PropertyNames.MAIL_TEMPLATE_SUBJECT));
         String emailBody = getMailTemplate(person, role);
         generateMailMessage.setContent(emailBody, "text/html");
 
@@ -134,7 +136,7 @@ public class UserRegistrationHelper {
 
         // if you have 2FA enabled then provide App Specific Password
         //		transport.connect("smtp.gmail.com", "controlmyspa@gmail.com", "4thoseabout2rock");
-        transport.connect("smtp.gmail.com", mailerUsername, mailerPassword);
+        transport.connect(mailServer, mailerUsername, mailerPassword);
         transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
         transport.close();
     }

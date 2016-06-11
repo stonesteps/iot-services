@@ -71,6 +71,7 @@ public class UserRegistrationController {
 
     @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> createUser(@Valid @RequestBody com.bwg.iot.model.User user) {
+        ScimPerson person = null;
 
         // alwayS clean the error message field.
         if (StringUtils.isNotBlank(user.getErrorMessage())) {
@@ -79,10 +80,8 @@ public class UserRegistrationController {
         try {
             log.info("creating new user: " + user.getUsername());
             if (StringUtils.isNotBlank(user.getUsername())) {
-                ScimPerson person = gluuHelper.createUser(user);
+                person = gluuHelper.createUser(user);
                 log.info("New user added with Gluu id " + person.getUserName());
-                String role = (user.hasRole(User.Role.OWNER.name())) ? User.Role.OWNER.name() : user.getRoles().get(0);
-                gluuHelper.sendGmailRegistrationMail(person, role);
             } else {
                 log.error("username is undefined, aborting user creation");
             }
@@ -97,7 +96,16 @@ public class UserRegistrationController {
 
         // save the user on mongo only if the user was succesfully created on Gluu
         if (status == HttpStatus.OK) {
-            // save
+            // send email to user
+            try {
+                if (person != null) {
+                    String role = (user.hasRole(User.Role.OWNER.name())) ? User.Role.OWNER.name() : user.getRoles().get(0);
+                    gluuHelper.sendGmailRegistrationMail(person, role);
+                }
+            } catch (Exception ex) {
+                log.error("Unable to send registration email to user: " + user.getUsername());
+                log.error("Exception", ex.getMessage());
+            }
             userRepository.save(user);
             log.info("New user saved with ID " + user.getId());
         } else {

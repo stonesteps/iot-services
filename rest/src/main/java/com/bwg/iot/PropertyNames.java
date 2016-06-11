@@ -24,8 +24,10 @@ public final class PropertyNames {
 
     public static final String MAIL_USERNAME = "mail.username";
     public static final String MAIL_PASSWORD = "mail.password";
+    public static final String MAIL_TEMPLATE_SUBJECT = "mail.template.subject";
     public static final String MAIL_TEMPLATE_EMPLOYEE = "mail.template.employee.en";
     public static final String MAIL_TEMPLATE_OWNER = "mail.template.owner.en";
+    public static final String SMTP_SERVER = "mail.smtp.server";
     public static final String SMTP_PORT = "mail.smtp.port";
     public static final String SMTP_AUTH = "mail.smtp.auth";
     public static final String SMTP_TLS = "mail.smtp.starttls.enable";
