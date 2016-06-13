@@ -19,7 +19,7 @@ public class Recipe extends ResourceSupport {
     private String spaId;
     private List<SpaCommand> settings;
     private String name;
-//    private Schedule schedule;
+    private JobSchedule schedule;
     private String notes;
     private Date creationDate;
 
@@ -64,6 +64,14 @@ public class Recipe extends ResourceSupport {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public JobSchedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(JobSchedule schedule) {
+        this.schedule = schedule;
     }
 
     public Date getCreationDate() {
