@@ -21,6 +21,7 @@ public class RecipeDTO extends ResourceSupport {
     private JobSchedule schedule;
     private String notes;
     private Date creationDate;
+    private boolean system = false;
 
     public RecipeDTO() {
     }
@@ -73,6 +74,14 @@ public class RecipeDTO extends ResourceSupport {
         this.schedule = schedule;
     }
 
+    public boolean isSystem() {
+        return system;
+    }
+
+    public void setSystem(boolean system) {
+        this.system = system;
+    }
+
     public Date getCreationDate() {
         return creationDate;
     }
@@ -95,7 +104,6 @@ public class RecipeDTO extends ResourceSupport {
         if (name != null ? !name.equals(recipe.name) : recipe.name != null) return false;
         if (notes != null ? !notes.equals(recipe.notes) : recipe.notes != null) return false;
         return creationDate != null ? creationDate.equals(recipe.creationDate) : recipe.creationDate == null;
-
     }
 
     @Override
@@ -118,6 +126,7 @@ public class RecipeDTO extends ResourceSupport {
         recipe.setNotes(dto.getNotes());
         recipe.setSchedule(dto.getSchedule());
         recipe.setCreationDate(dto.getCreationDate());
+        recipe.setSystem(dto.isSystem());
 
         HashMap<String, HashMap<String, String>> dtoSettings = dto.getSettings();
         List<SpaCommand> spaCommands = new ArrayList<>();
@@ -127,10 +136,6 @@ public class RecipeDTO extends ResourceSupport {
                 int suffixIndex = incomingKey.indexOf("_");
                 if (suffixIndex > 0) {
                     incomingKey = incomingKey.substring(0, suffixIndex);
-                }
-                if (Component.ComponentType.PUMP.name().equalsIgnoreCase(incomingKey) ||
-                        Component.ComponentType.LIGHT.name().equalsIgnoreCase(incomingKey)) {
-                    incomingKey = incomingKey + "S";
                 }
                 SpaCommand.RequestType key = SpaCommand.RequestType.valueOf(incomingKey);
                 SpaCommand spaCommand = new SpaCommand();
@@ -151,6 +156,7 @@ public class RecipeDTO extends ResourceSupport {
         dto.setSpaId(recipe.getSpaId());
         dto.setNotes(recipe.getNotes());
         dto.setSchedule(recipe.getSchedule());
+        dto.setSystem(recipe.isSystem());
         dto.setCreationDate(recipe.getCreationDate());
 
         List<SpaCommand> spaCommands = recipe.getSettings();
@@ -161,17 +167,13 @@ public class RecipeDTO extends ResourceSupport {
                 SpaCommand.RequestType requestType =
                         SpaCommand.RequestType.getInstanceFromCodeValue(command.getRequestTypeId());
                 String key = requestType.name();
-                if (SpaCommand.RequestType.PUMPS.name().equalsIgnoreCase(key) ||
-                        SpaCommand.RequestType.LIGHTS.name().equalsIgnoreCase(key)) {
-                    key = key.substring(0, key.length() - 1);
-                }
                 String deviceNumber = "";
                 switch (requestType) {
                     case HEATER:
                         break;
-                    case PUMPS:
+                    case PUMP:
                     case CIRCULATION_PUMP:
-                    case LIGHTS:
+                    case LIGHT:
                     case BLOWER:
                     case MISTER:
                     case OZONE:

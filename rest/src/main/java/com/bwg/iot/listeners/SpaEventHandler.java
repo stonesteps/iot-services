@@ -1,7 +1,6 @@
-package com.bwg.iot;
+package com.bwg.iot.listeners;
 
-import com.bwg.iot.model.Address;
-import com.bwg.iot.model.Component;
+import com.bwg.iot.ComponentRepository;
 import com.bwg.iot.model.Spa;
 import com.bwg.iot.model.User;
 import org.slf4j.Logger;
@@ -10,10 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
-import org.springframework.util.StringUtils;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created by triton on 4/8/16.
