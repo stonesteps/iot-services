@@ -18,7 +18,7 @@ public class RecipeDTO extends ResourceSupport {
     private String spaId;
     private HashMap<String, HashMap<String, String>> settings;
     private String name;
-    //    private Schedule schedule;
+    private JobSchedule schedule;
     private String notes;
     private Date creationDate;
 
@@ -65,6 +65,14 @@ public class RecipeDTO extends ResourceSupport {
         this.notes = notes;
     }
 
+    public JobSchedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(JobSchedule schedule) {
+        this.schedule = schedule;
+    }
+
     public Date getCreationDate() {
         return creationDate;
     }
@@ -108,6 +116,7 @@ public class RecipeDTO extends ResourceSupport {
         recipe.setName(dto.getName());
         recipe.setSpaId(dto.getSpaId());
         recipe.setNotes(dto.getNotes());
+        recipe.setSchedule(dto.getSchedule());
         recipe.setCreationDate(dto.getCreationDate());
 
         HashMap<String, HashMap<String, String>> dtoSettings = dto.getSettings();
@@ -141,6 +150,7 @@ public class RecipeDTO extends ResourceSupport {
         dto.setName(recipe.getName());
         dto.setSpaId(recipe.getSpaId());
         dto.setNotes(recipe.getNotes());
+        dto.setSchedule(recipe.getSchedule());
         dto.setCreationDate(recipe.getCreationDate());
 
         List<SpaCommand> spaCommands = recipe.getSettings();

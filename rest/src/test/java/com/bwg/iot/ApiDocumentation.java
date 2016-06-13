@@ -532,11 +532,17 @@ public class ApiDocumentation extends ModelTestBase{
 		setLightValues.put(SpaCommand.REQUEST_DESIRED_STATE, "HIGH");
 		settings.put("LIGHTS", setLightValues);
 
-		SaveSettingsRequest request = new SaveSettingsRequest();
+		JobSchedule sched = new JobSchedule();
+		sched.setStartDate(new Date());
+		sched.setEndDate(new Date(2016,12,12));
+		sched.setCronExpression("0 0 12 ? * WED");
+		sched.setTimeZone(TimeZone.getTimeZone("Pacific/Kwajalein"));
+
+		RecipeDTO request = new RecipeDTO();
 		request.setName("Test Recipe");
 		request.setNotes("This is a test.");
-
 		request.setSettings(settings);
+		request.setSchedule(sched);
 
 		this.mockMvc.perform(post("/spas/" + myNewSpa.get_id() + "/recipes")
 				.header("remote_user", "npeart")
@@ -546,7 +552,7 @@ public class ApiDocumentation extends ModelTestBase{
 				.andDo(document("spas-create-recipe-example",
 						requestFields(
 								fieldWithPath("name").description("A friendly name for this group of settings"),
-//								fieldWithPath("schedule").description("tbd"),
+								fieldWithPath("schedule").description("Job Sheduling Metadata, start date, end date, frequency, timezone").optional().type(JobSchedule.class),
                                 fieldWithPath("notes").description("Text field for notes about these settings"),
 								fieldWithPath("settings").description("A list of apa settings. Each enty is is the format <String, Map<String,String>  RequestType, Values"))))
 				.andDo(document("spas-create-recipe-example",
@@ -555,7 +561,7 @@ public class ApiDocumentation extends ModelTestBase{
 								fieldWithPath("name").description("The friendly name of these settings").type("String"),
 								fieldWithPath("spaId").description("The spa associated with these settings. (or FACTORY for factory settings)").type("String"),
 								fieldWithPath("settings").description("The set of commands to put the spa in the desired state"),
-//								fieldWithPath("schedule").description("tbd"),
+								fieldWithPath("schedule").description("Job Sheduling Metadata, start date, end date, frequency, timezone").optional().type(JobSchedule.class),
 								fieldWithPath("notes").description("Text field for miscellaneous use").type("String").optional(),
 								fieldWithPath("creationDate").description("The date the spa was created").type(Date.class).optional(),
 								fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
@@ -608,7 +614,7 @@ public class ApiDocumentation extends ModelTestBase{
                         fieldWithPath("name").description("The friendly name of these settings").type("String"),
                         fieldWithPath("spaId").description("The spa associated with these settings. (or FACTORY for factory settings)").type("String"),
                         fieldWithPath("settings").description("The set of commands to put the spa in the desired state"),
-//								fieldWithPath("schedule").description("tbd"),
+						fieldWithPath("schedule").description("Job Sheduling Metadata, start date, end date, frequency, timezone").optional().type(JobSchedule.class),
                         fieldWithPath("notes").description("Text field for miscellaneous use").type("String").optional(),
                         fieldWithPath("creationDate").description("The date the spa was created").type(Date.class).optional(),
                         fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
@@ -647,7 +653,7 @@ public class ApiDocumentation extends ModelTestBase{
                                 fieldWithPath("name").description("The friendly name of these settings").type("String"),
                                 fieldWithPath("spaId").description("The spa associated with these settings. (or FACTORY for factory settings)").type("String"),
                                 fieldWithPath("settings").description("The set of commands to put the spa in the desired state"),
-//								fieldWithPath("schedule").description("tbd"),
+								fieldWithPath("schedule").description("Job Sheduling Metadata, start date, end date, frequency, timezone").optional().type(JobSchedule.class),
                                 fieldWithPath("notes").description("Text field for miscellaneous use").type("String").optional(),
                                 fieldWithPath("creationDate").description("The date the spa was created").type(Date.class).optional(),
                                 fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources").optional().type("Links"))));
