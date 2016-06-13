@@ -1,5 +1,6 @@
-package com.bwg.iot;
+package com.bwg.iot.listeners;
 
+import com.bwg.iot.AddressRepository;
 import com.bwg.iot.model.Address;
 import com.bwg.iot.model.SpaCommand;
 import com.bwg.iot.model.User;

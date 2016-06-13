@@ -1,4 +1,4 @@
-package com.bwg.iot;
+package com.bwg.iot.listeners;
 
 import com.bwg.iot.model.SpaCommand;
 import com.mongodb.DBObject;
