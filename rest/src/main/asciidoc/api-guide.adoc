@@ -353,6 +353,7 @@ The job schedule fields include:
 * end date: an optional Date when scheduling should stop.  Default is ongoing indefinately.
 * cronExpression: a string representing a cron expression. See: https://en.wikipedia.org/wiki/Cron reference.
 * timeZone: the time zone of the spa
+* enabled: boolean flag denoting whether schedule is active
 
 ==== Example request
 

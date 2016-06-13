@@ -254,8 +254,10 @@ public class CustomSpaController {
         recipe.setName(request.getName());
         recipe.setNotes(request.getNotes());
         recipe.setSettings(settings);
-        // TODO: Schedule
+        recipe.setSchedule(request.getSchedule());
         recipe.setCreationDate(new Date());
+
+        // TODO: Validate
         recipe = recipeRepository.save(recipe);
 
         RecipeDTO returnDto = RecipeDTO.fromRecipe(recipe);
