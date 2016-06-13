@@ -15,6 +15,7 @@ public class JobSchedule {
     private Date startDate;
     private Date endDate;
     private TimeZone timeZone;
+    private boolean enabled;
 
     public JobSchedule() {
     }
@@ -49,6 +50,14 @@ public class JobSchedule {
 
     public void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     @Override

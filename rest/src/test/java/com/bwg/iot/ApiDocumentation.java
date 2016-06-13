@@ -537,6 +537,7 @@ public class ApiDocumentation extends ModelTestBase{
 		sched.setEndDate(new Date(2016,12,12));
 		sched.setCronExpression("0 0 12 ? * WED");
 		sched.setTimeZone(TimeZone.getTimeZone("Pacific/Kwajalein"));
+		sched.setEnabled(true);
 
 		RecipeDTO request = new RecipeDTO();
 		request.setName("Test Recipe");
