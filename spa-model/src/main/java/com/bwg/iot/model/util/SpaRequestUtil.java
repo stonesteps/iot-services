@@ -19,8 +19,8 @@ public final class SpaRequestUtil {
     private static final Map<Integer, Range> codeRangeMap = new HashMap<>();
 
     static {
-        codeRangeMap.put(SpaCommand.RequestType.PUMPS.getCode(), new Range(0, 7));
-        codeRangeMap.put(SpaCommand.RequestType.LIGHTS.getCode(), new Range(0, 3));
+        codeRangeMap.put(SpaCommand.RequestType.PUMP.getCode(), new Range(0, 7));
+        codeRangeMap.put(SpaCommand.RequestType.LIGHT.getCode(), new Range(0, 3));
         codeRangeMap.put(SpaCommand.RequestType.BLOWER.getCode(), new Range(0, 1));
         codeRangeMap.put(SpaCommand.RequestType.MISTER.getCode(), new Range(0, 2));
         codeRangeMap.put(SpaCommand.RequestType.AUX.getCode(), new Range(0, 3));
@@ -29,9 +29,9 @@ public final class SpaRequestUtil {
     private static final Map<Integer, StateValidator> stateValidatorMap = new HashMap<>();
 
     static {
-        stateValidatorMap.put(SpaCommand.RequestType.PUMPS.getCode(), PUMP_STATE_VALIDATOR);
+        stateValidatorMap.put(SpaCommand.RequestType.PUMP.getCode(), PUMP_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.CIRCULATION_PUMP.getCode(), PUMP_STATE_VALIDATOR);
-        stateValidatorMap.put(SpaCommand.RequestType.LIGHTS.getCode(), LIGHT_STATE_VALIDATOR);
+        stateValidatorMap.put(SpaCommand.RequestType.LIGHT.getCode(), LIGHT_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.BLOWER.getCode(), BLOWER_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.MISTER.getCode(), ON_OFF_STATE_VALIDATOR);
         stateValidatorMap.put(SpaCommand.RequestType.FILTER.getCode(), ON_OFF_STATE_VALIDATOR);

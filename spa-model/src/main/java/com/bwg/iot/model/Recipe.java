@@ -22,6 +22,7 @@ public class Recipe extends ResourceSupport {
     private JobSchedule schedule;
     private String notes;
     private Date creationDate;
+    private boolean system = false;
 
     public Recipe() {
     }
@@ -82,6 +83,14 @@ public class Recipe extends ResourceSupport {
         this.creationDate = creationDate;
     }
 
+    public boolean isSystem() {
+        return system;
+    }
+
+    public void setSystem(boolean system) {
+        this.system = system;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -95,6 +104,7 @@ public class Recipe extends ResourceSupport {
         if (settings != null ? !settings.equals(recipe.settings) : recipe.settings != null) return false;
         if (name != null ? !name.equals(recipe.name) : recipe.name != null) return false;
         if (notes != null ? !notes.equals(recipe.notes) : recipe.notes != null) return false;
+        if (system != recipe.system) return false;
         return creationDate != null ? creationDate.equals(recipe.creationDate) : recipe.creationDate == null;
 
     }

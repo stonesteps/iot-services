@@ -470,11 +470,11 @@ public class ApiDocumentation extends ModelTestBase{
 		components.add(c1);
 
 		Component c2 = new Component();
-		c1.setName("Controller");
-		c1.setSerialNumber("c001");
-		c1.setSku("525151");
-		c1.setComponentType(Component.ComponentType.CONTROLLER.name());
-		c1.setPort("0");
+		c2.setName("Controller");
+		c2.setSerialNumber("c001");
+		c2.setSku("525151");
+		c2.setComponentType(Component.ComponentType.CONTROLLER.name());
+		c2.setPort("0");
 		components.add(c2);
 
 		BuildSpaRequest request = new BuildSpaRequest();
@@ -525,12 +525,12 @@ public class ApiDocumentation extends ModelTestBase{
 		HashMap<String,String> setPumpValues = new HashMap<String, String>();
 		setPumpValues.put(SpaCommand.REQUEST_DEVICE_NUMBER, "0");
 		setPumpValues.put(SpaCommand.REQUEST_DESIRED_STATE, "HIGH");
-		settings.put("PUMPS", setPumpValues);
+		settings.put("PUMP", setPumpValues);
 
 		HashMap<String,String> setLightValues = new HashMap<String, String>();
 		setLightValues.put(SpaCommand.REQUEST_DEVICE_NUMBER, "0");
 		setLightValues.put(SpaCommand.REQUEST_DESIRED_STATE, "HIGH");
-		settings.put("LIGHTS", setLightValues);
+		settings.put("LIGHT", setLightValues);
 
 		JobSchedule sched = new JobSchedule();
 		sched.setStartDate(new Date());
@@ -555,6 +555,7 @@ public class ApiDocumentation extends ModelTestBase{
 								fieldWithPath("name").description("A friendly name for this group of settings"),
 								fieldWithPath("schedule").description("Job Sheduling Metadata, start date, end date, frequency, timezone").optional().type(JobSchedule.class),
                                 fieldWithPath("notes").description("Text field for notes about these settings"),
+								fieldWithPath("system").description("If true, recipe is may not be edited or deleted").type("boolean"),
 								fieldWithPath("settings").description("A list of apa settings. Each enty is is the format <String, Map<String,String>  RequestType, Values"))))
 				.andDo(document("spas-create-recipe-example",
 						responseFields(
@@ -565,6 +566,7 @@ public class ApiDocumentation extends ModelTestBase{
 								fieldWithPath("schedule").description("Job Sheduling Metadata, start date, end date, frequency, timezone").optional().type(JobSchedule.class),
 								fieldWithPath("notes").description("Text field for miscellaneous use").type("String").optional(),
 								fieldWithPath("creationDate").description("The date the spa was created").type(Date.class).optional(),
+								fieldWithPath("system").description("If true, recipe is may not be edited or deleted").type("boolean"),
 								fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
 	}
 
@@ -618,6 +620,7 @@ public class ApiDocumentation extends ModelTestBase{
 						fieldWithPath("schedule").description("Job Sheduling Metadata, start date, end date, frequency, timezone").optional().type(JobSchedule.class),
                         fieldWithPath("notes").description("Text field for miscellaneous use").type("String").optional(),
                         fieldWithPath("creationDate").description("The date the spa was created").type(Date.class).optional(),
+						fieldWithPath("system").description("If true, recipe is may not be edited or deleted").type("boolean"),
                         fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources"))));
     }
 
@@ -657,6 +660,7 @@ public class ApiDocumentation extends ModelTestBase{
 								fieldWithPath("schedule").description("Job Sheduling Metadata, start date, end date, frequency, timezone").optional().type(JobSchedule.class),
                                 fieldWithPath("notes").description("Text field for miscellaneous use").type("String").optional(),
                                 fieldWithPath("creationDate").description("The date the spa was created").type(Date.class).optional(),
+								fieldWithPath("system").description("If true, recipe is may not be edited or deleted").type("boolean"),
                                 fieldWithPath("_links").description("<<resources-spa-links,Links>> to other resources").optional().type("Links"))));
     }
 

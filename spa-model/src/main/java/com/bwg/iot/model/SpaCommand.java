@@ -20,8 +20,11 @@ public class SpaCommand {
     public static final String COMMAND_DESIRED_TEMP = "DESIREDTEMP";
     public static final String COMMAND_FILTER_INTERVAL = "FILTER_DURATION_15MINUTE_INTERVALS";
 
+    public static final String OFF = "OFF";
+    public static final String LOW_TEMP = "50";
+
     public enum RequestType {
-        PUMPS(1), LIGHTS(2), BLOWER(3), MISTER(4), FILTER(5), DIAG_REPORT(6), PANEL(7), HEATER(8), OZONE(9),
+        PUMP(1), LIGHT(2), BLOWER(3), MISTER(4), FILTER(5), DIAG_REPORT(6), PANEL(7), HEATER(8), OZONE(9),
         MICROSILK(10), AUX(11), CIRCULATION_PUMP(12), RESTART_AGENT(13), REBOOT_GATEWAY(14),
         UPDATE_AGENT_SETTINGS(15);
 
@@ -61,7 +64,9 @@ public class SpaCommand {
     private String ackResponseCode;
     private HashMap<String, String> values;
 
-    public SpaCommand(){}
+    public SpaCommand() {
+        this.values = new HashMap<String, String> ();
+    }
 
 
     public String get_id() {
@@ -167,5 +172,40 @@ public class SpaCommand {
         sb.append("  values: " ).append(values).append("\n");
         sb.append("}\n");
     return sb.toString();
+    }
+
+    public static SpaCommand newInstanceFromComponent(Component component) {
+        // is component controllable
+
+        SpaCommand command = null;
+
+        // cross reference component type and request type
+        Component.ComponentType componentType = Component.ComponentType.valueOf(component.getComponentType());
+        switch (componentType) {
+            case PUMP:
+            case CIRCULATION_PUMP:
+            case LIGHT:
+            case BLOWER:
+            case MISTER:
+            case OZONE:
+            case MICROSILK:
+                command = new SpaCommand();
+                command.setRequestTypeId(RequestType.valueOf(componentType.name()).getCode());
+                HashMap<String, String> values = new HashMap<>();
+                values.put(SpaCommand.COMMAND_DEVICE_NUMBER, component.getPort());
+                values.put(SpaCommand.COMMAND_DESIRED_STATE, "OFF");
+                command.setValues(values);
+                break;
+            case FILTER:
+            default:
+        }
+        return command;
+    }
+
+    public static SpaCommand newInstanceNoHeat() {
+        SpaCommand command = new SpaCommand();
+        command.setRequestTypeId(RequestType.HEATER.getCode());
+        command.getValues().put(COMMAND_DESIRED_TEMP, LOW_TEMP);
+        return command;
     }
 }

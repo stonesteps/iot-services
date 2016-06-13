@@ -1002,7 +1002,7 @@ public class ModelTestBase {
 
         SpaCommand sc2 = new SpaCommand();
         sc2.setSpaId(spaId);
-        sc2.setRequestTypeId(SpaCommand.RequestType.PUMPS.getCode());
+        sc2.setRequestTypeId(SpaCommand.RequestType.PUMP.getCode());
         HashMap<String,String> setPumpValues = new HashMap<String, String>();
         setPumpValues.put(SpaCommand.COMMAND_DEVICE_NUMBER, "0");
         setPumpValues.put(SpaCommand.COMMAND_DESIRED_STATE, "HIGH");
@@ -1010,7 +1010,7 @@ public class ModelTestBase {
 
         SpaCommand sc3 = new SpaCommand();
         sc3.setSpaId(spaId);
-        sc3.setRequestTypeId(SpaCommand.RequestType.LIGHTS.getCode());
+        sc3.setRequestTypeId(SpaCommand.RequestType.LIGHT.getCode());
         HashMap<String,String> setLightValues = new HashMap<String, String>();
         setLightValues.put(SpaCommand.COMMAND_DEVICE_NUMBER, "0");
         setLightValues.put(SpaCommand.COMMAND_DESIRED_STATE, "HIGH");

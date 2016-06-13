@@ -184,19 +184,34 @@ public class CustomSpaController {
 
         myNewSpa = spaRepository.insert(myNewSpa);
 
+        // create TurnMeOff default Recipe
+        Recipe turnMeOff = new Recipe();
+        turnMeOff.setName("Turn Off Spa");
+        turnMeOff.setSpaId(myNewSpa.get_id());
+        turnMeOff.setSystem(true);
+        List<SpaCommand> commands = new ArrayList<>();
+        commands.add(SpaCommand.newInstanceNoHeat());
+
         // process component list
         for( Component component : components) {
+            // TODO: validate SKU
+            // validate component
+
             component.setSpaId(myNewSpa.get_id());
             component.setOemId(myNewSpa.getOemId());
             component.setFactoryInit(false);
             component.removeLinks();
             component.set_id(null);
 
-            // TODO: validate SKU
-            // validate component
-
+            SpaCommand sc = SpaCommand.newInstanceFromComponent(component);
+            if (sc != null) {
+                sc.setOriginatorId("Shut Down Recipe");
+                commands.add(sc);
+            }
             componentRepository.insert(component);
         }
+        turnMeOff.setSettings(commands);
+        recipeRepository.insert(turnMeOff);
 
         ResponseEntity<?> response = new ResponseEntity<Spa>(myNewSpa, HttpStatus.CREATED);
         return response;
@@ -216,20 +231,15 @@ public class CustomSpaController {
                 if (suffixIndex > 0) {
                     incomingKey = incomingKey.substring(0, suffixIndex);
                 }
-                // Hack due to componentType.PUMP RequestType.PUMPS
-                if (Component.ComponentType.PUMP.name().equalsIgnoreCase(incomingKey) ||
-                        Component.ComponentType.LIGHT.name().equalsIgnoreCase(incomingKey)) {
-                    incomingKey = incomingKey + "S";
-                }
 
                 SpaCommand.RequestType key = SpaCommand.RequestType.valueOf(incomingKey);
                 switch (key) {
                     case HEATER:
                         settings.add(helper.setDesiredTemp(spaId, entry.getValue(), key.getCode(), false));
                         break;
-                    case PUMPS:
+                    case PUMP:
                     case CIRCULATION_PUMP:
-                    case LIGHTS:
+                    case LIGHT:
                     case BLOWER:
                     case MISTER:
                     case OZONE:
@@ -311,6 +321,9 @@ public class CustomSpaController {
             LOGGER.info("Spa Recipe with id " + id + " not found");
             return new ResponseEntity<String>("Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
         }
+        if (currentRecipe.isSystem()) {
+            return new ResponseEntity<String>("Cannot Edit System Presets", HttpStatus.FORBIDDEN);
+        }
 
         currentRecipe.setName(recipe.getName());
         currentRecipe.setNotes(recipe.getNotes());
@@ -331,6 +344,9 @@ public class CustomSpaController {
         if (currentRecipe == null) {
             LOGGER.info("Unable to delete: Spa Recipe with id " + id + " not found");
             return new ResponseEntity<String>("Unable to delete: Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
+        }
+        if (currentRecipe.isSystem()) {
+            return new ResponseEntity<String>("Cannot Delete System Presets", HttpStatus.FORBIDDEN);
         }
 
         recipeRepository.delete(id);

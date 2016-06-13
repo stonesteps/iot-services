@@ -1,5 +1,6 @@
 package com.bwg.iot;
 
+import com.bwg.iot.listeners.UserEventHandler;
 import com.bwg.iot.model.*;
 import com.bwg.iot.validator.BeforeCreateUserValidator;
 import org.slf4j.Logger;
@@ -30,7 +31,8 @@ public class RepositoryConfig extends RepositoryRestMvcConfiguration {
         validatingListener.addValidator("beforeSave", new BeforeCreateUserValidator());
     }
 
-    @Bean UserEventHandler userEventHandler() {
+    @Bean
+    UserEventHandler userEventHandler() {
         return new UserEventHandler();
     }
 

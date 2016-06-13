@@ -75,7 +75,7 @@ public class SpaCommandController {
     public ResponseEntity<?> setJetState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
         ResponseEntity<?> response;
         try {
-            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.PUMPS.getCode(), true);
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.PUMP.getCode(), true);
             response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
         } catch (ValidationException ve) {
             response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
@@ -101,7 +101,7 @@ public class SpaCommandController {
 
         ResponseEntity<?> response;
         try {
-            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.LIGHTS.getCode(), true);
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.LIGHT.getCode(), true);
             response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
         } catch (ValidationException ve) {
             response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
