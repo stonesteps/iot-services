@@ -334,13 +334,15 @@ public class CustomSpaController {
             LOGGER.info("Spa Recipe with id " + id + " not found");
             return new ResponseEntity<String>("Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
         }
-        if (currentRecipe.isSystem()) {
-            return new ResponseEntity<String>("Cannot Edit System Presets", HttpStatus.FORBIDDEN);
-        }
 
-        currentRecipe.setName(recipe.getName());
-        currentRecipe.setNotes(recipe.getNotes());
-        currentRecipe.setSettings(recipe.getSettings());
+        if (currentRecipe.isSystem()) {
+            currentRecipe.setSchedule(recipe.getSchedule());
+        } else {
+            currentRecipe.setName(recipe.getName());
+            currentRecipe.setNotes(recipe.getNotes());
+            currentRecipe.setSettings(recipe.getSettings());
+            currentRecipe.setSchedule(recipe.getSchedule());
+        }
 
         currentRecipe = recipeRepository.save(currentRecipe);
         currentRecipe.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
