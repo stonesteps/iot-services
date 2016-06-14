@@ -31,7 +31,9 @@ public class MeasurementReadingController {
                                                                           @RequestParam("measurementType") final MeasurementReadingType type,
                                                                           final Pageable pageable,
                                                                           PersistentEntityResourceAssembler entityAssembler) {
+
         pagedAssembler.setForceFirstAndLastRels(true);
+
         final Page<MeasurementReading> readings = measurementReadingRepository.findBySpaIdAndType(spaId, type, pageable);
         return ResponseEntity.ok(pagedAssembler.toResource(readings, (ResourceAssembler) entityAssembler));
     }
