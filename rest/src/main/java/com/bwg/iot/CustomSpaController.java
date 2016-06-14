@@ -188,9 +188,11 @@ public class CustomSpaController {
 
         myNewSpa = spaRepository.insert(myNewSpa);
 
-        // create TurnMeOff default Recipe
+        // create TurnOffSpa default Recipe,
+        // same _id as spaId to avoid db fetch when creating link
         Recipe turnMeOff = new Recipe();
         turnMeOff.setName("Turn Off Spa");
+        turnMeOff.set_id(myNewSpa.get_id());
         turnMeOff.setSpaId(myNewSpa.get_id());
         turnMeOff.setSystem(true);
         List<SpaCommand> commands = new ArrayList<>();
