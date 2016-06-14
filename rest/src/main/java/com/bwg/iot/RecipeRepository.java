@@ -13,4 +13,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(exported = false)
 public interface RecipeRepository extends MongoRepository<Recipe, String> {
     public Page findBySpaId(@Param("spaId") String spaId, Pageable p);
+
+    Long countBySpaId(String spaId);
 }

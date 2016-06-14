@@ -21,6 +21,7 @@ public final class PropertyNames {
     public static final String MAX_FILE_SIZE = "multipart.maxFileSize";
     public static final String LOG_FILE = "logging.file";
     public static final String ACTIVE_PROFILES = "spring.profiles.active";
+    public static final String MAX_RECIPES = "spa.recipes.max";
 
     public static final String MAIL_USERNAME = "mail.username";
     public static final String MAIL_PASSWORD = "mail.password";
