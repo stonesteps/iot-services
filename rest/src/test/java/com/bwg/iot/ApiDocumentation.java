@@ -187,6 +187,8 @@ public class ApiDocumentation extends ModelTestBase{
 							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>"),
 							linkWithRel("wifiStats").description("This <<resources-wifiStat,wifiStat>>"),
 							linkWithRel("events").description("This <<resources-event,event>>"),
+							linkWithRel("AC Current measurements").description("This <<resources-acCurrentMeasurements,measurementReading>>"),
+							linkWithRel("Ambient Temp measurements").description("This <<resources-ambientTempMeasurements,measurementReading>>"),
 							linkWithRel("turnOffSpa").description("Shut Down Spa command"),
 							linkWithRel("recipes").description("This <<resources-recipes, recipe>>")),
 					responseFields(
@@ -268,6 +270,8 @@ public class ApiDocumentation extends ModelTestBase{
 							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>"),
 							linkWithRel("wifiStats").description("This <<resources-wifiStat,wifiStat>>"),
 							linkWithRel("events").description("This <<resources-event,event>>"),
+							linkWithRel("AC Current measurements").description("This <<resources-acCurrentMeasurements,measurementReading>>"),
+							linkWithRel("Ambient Temp measurements").description("This <<resources-ambientTempMeasurements,measurementReading>>"),
 							linkWithRel("turnOffSpa").description("Shut Down Spa command"),
 							linkWithRel("recipes").description("This <<resources-recipes, recipe>>")),
 					responseFields(
@@ -387,6 +391,46 @@ public class ApiDocumentation extends ModelTestBase{
 				.andDo(document("event-list-example",
 						responseFields(
 								fieldWithPath("_embedded.events").description("An array of events"),
+								fieldWithPath("_links").description("Links to other resources"),
+								fieldWithPath("page").description("Page information"))));
+	}
+
+	@Test
+	public void acCurrentMeasurementsExample() throws Exception {
+		this.spaRepository.deleteAll();
+		this.measurementReadingRepository.deleteAll();
+
+		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
+		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
+		createMeasurementReading(spa.get_id(), MeasurementReadingType.AC_CURRENT, "milliamps");
+		createMeasurementReading(spa.get_id(), MeasurementReadingType.AC_CURRENT, "milliamps");
+		createMeasurementReading(spa.get_id(), MeasurementReadingType.AC_CURRENT, "milliamps");
+
+		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/measurements?measurementType="+MeasurementReadingType.AC_CURRENT))
+				.andExpect(status().isOk())
+				.andDo(document("acCurrentMeasurements-list-example",
+						responseFields(
+								fieldWithPath("_embedded.measurementReadings").description("An array of measurements"),
+								fieldWithPath("_links").description("Links to other resources"),
+								fieldWithPath("page").description("Page information"))));
+	}
+
+	@Test
+	public void ambientTempMeasurementsExample() throws Exception {
+		this.spaRepository.deleteAll();
+		this.measurementReadingRepository.deleteAll();
+
+		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
+		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
+		createMeasurementReading(spa.get_id(), MeasurementReadingType.AMBIENT_TEMP, "celsius");
+		createMeasurementReading(spa.get_id(), MeasurementReadingType.AMBIENT_TEMP, "celsius");
+		createMeasurementReading(spa.get_id(), MeasurementReadingType.AMBIENT_TEMP, "celsius");
+
+		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/measurements?measurementType="+MeasurementReadingType.AMBIENT_TEMP))
+				.andExpect(status().isOk())
+				.andDo(document("ambientTempMeasurements-list-example",
+						responseFields(
+								fieldWithPath("_embedded.measurementReadings").description("An array of measurements"),
 								fieldWithPath("_links").description("Links to other resources"),
 								fieldWithPath("page").description("Page information"))));
 	}

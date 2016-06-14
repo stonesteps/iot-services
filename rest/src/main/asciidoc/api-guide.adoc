@@ -520,6 +520,43 @@ include::{snippets}/event-list-example/curl-request.adoc[]
 include::{snippets}/event-list-example/http-response.adoc[]
 
 
+[[resource-acCurrentMeasurements]]
+
+=== Get AC Current Measurements
+
+A `GET` request to will list ac current measurements of selected spa.
+
+==== Response structure
+
+include::{snippets}/acCurrentMeasurements-list-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/acCurrentMeasurements-list-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/acCurrentMeasurements-list-example/http-response.adoc[]
+
+
+[[resource-ambientTempMeasurements]]
+
+=== Get Ambient Temp Measurements
+
+A `GET` request to will list ambient temp measurements of selected spa.
+
+==== Response structure
+
+include::{snippets}/ambientTempMeasurements-list-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/ambientTempMeasurements-list-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/ambientTempMeasurements-list-example/http-response.adoc[]
+
 
 [[resources-alert]]
 == Alert
