@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -58,6 +59,9 @@ public class CustomSpaController {
 
     @Autowired
     SpaCommandHelper helper;
+
+    @Autowired
+    Environment environment;
 
     @RequestMapping(value = "/{spaId}/sellSpa", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> sellSpa(@PathVariable String spaId, @RequestBody SellSpaRequest request) {
@@ -220,6 +224,13 @@ public class CustomSpaController {
 
     @RequestMapping(value = "/{spaId}/recipes", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> saveSettings(@PathVariable String spaId, @RequestBody RecipeDTO request) {
+        // check for maximum allowed number of Recipes
+        long maxRecipeCount = Long.valueOf(environment.getProperty(PropertyNames.MAX_RECIPES));
+        long spaRecipeCount = recipeRepository.countBySpaId(spaId);
+        if (spaRecipeCount >= maxRecipeCount) {
+            return new ResponseEntity<String>("Maximum number of recipes exceeded for this spa.", HttpStatus.CONFLICT);
+        }
+
         Recipe recipe = new Recipe();
         List<SpaCommand> settings = new ArrayList<>();
 
