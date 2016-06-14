@@ -187,6 +187,7 @@ public class ApiDocumentation extends ModelTestBase{
 							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>"),
 							linkWithRel("wifiStats").description("This <<resources-wifiStat,wifiStat>>"),
 							linkWithRel("events").description("This <<resources-event,event>>"),
+							linkWithRel("turnOffSpa").description("Shut Down Spa command"),
 							linkWithRel("recipes").description("This <<resources-recipes, recipe>>")),
 					responseFields(
 							fieldWithPath("_id").description("Object Id"),
@@ -267,6 +268,7 @@ public class ApiDocumentation extends ModelTestBase{
 							linkWithRel("faultLogs").description("This <<resources-faultLog,faultLog>>"),
 							linkWithRel("wifiStats").description("This <<resources-wifiStat,wifiStat>>"),
 							linkWithRel("events").description("This <<resources-event,event>>"),
+							linkWithRel("turnOffSpa").description("Shut Down Spa command"),
 							linkWithRel("recipes").description("This <<resources-recipes, recipe>>")),
 					responseFields(
 							fieldWithPath("_id").description("Object Id"),

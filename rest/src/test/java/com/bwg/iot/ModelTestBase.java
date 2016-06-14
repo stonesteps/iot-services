@@ -295,6 +295,7 @@ public class ModelTestBase {
         spa.setDealerId(dealerId);
         spa.setOemId(oemId);
         this.spaRepository.save(spa);
+        createTurnOffSpaRecipe(spa);
         return spa;
     }
 
@@ -422,6 +423,7 @@ public class ModelTestBase {
 
         spa.setCurrentState(spaState);
         spa = this.spaRepository.save(spa);
+        createTurnOffSpaRecipe(spa);
 
         return spa;
     }
@@ -502,6 +504,7 @@ public class ModelTestBase {
 
         spa.setCurrentState(spaState);
         spa = this.spaRepository.save(spa);
+        createTurnOffSpaRecipe(spa);
 
         return spa;
     }
@@ -572,6 +575,7 @@ public class ModelTestBase {
 
         spa.setCurrentState(spaState);
         spa = this.spaRepository.save(spa);
+        createTurnOffSpaRecipe(spa);
 
         return spa;
     }
@@ -683,6 +687,7 @@ public class ModelTestBase {
 
         spa.setCurrentState(spaState);
         spa = this.spaRepository.save(spa);
+        createTurnOffSpaRecipe(spa);
 
         return spa;
     }
@@ -752,6 +757,7 @@ public class ModelTestBase {
 
         spa.setCurrentState(spaState);
         spa = this.spaRepository.save(spa);
+        createTurnOffSpaRecipe(spa);
 
         return spa;
     }
@@ -821,8 +827,29 @@ public class ModelTestBase {
 
         spa.setCurrentState(spaState);
         spa = this.spaRepository.save(spa);
+        createTurnOffSpaRecipe(spa);
 
         return spa;
+    }
+
+    protected void createTurnOffSpaRecipe(Spa spa) {
+        Recipe turnMeOff = new Recipe();
+        turnMeOff.setName("Turn Off Spa");
+        turnMeOff.set_id(spa.get_id());
+        turnMeOff.setSpaId(spa.get_id());
+        turnMeOff.setSystem(true);
+        List<SpaCommand> commands = new ArrayList<>();
+        commands.add(SpaCommand.newInstanceNoHeat());
+        List<Component> components = componentRepository.findBySpaId(spa.get_id());
+        for( Component component : components) {
+            SpaCommand sc = SpaCommand.newInstanceFromComponent(component);
+            if (sc != null) {
+                sc.setOriginatorId("Shut Down Recipe");
+                commands.add(sc);
+            }
+        }
+        turnMeOff.setSettings(commands);
+        recipeRepository.insert(turnMeOff);
     }
 
     public static final String LF_INDICATES = "Persistent water flow problem. ";
