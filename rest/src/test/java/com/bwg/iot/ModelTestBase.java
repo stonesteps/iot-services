@@ -63,6 +63,9 @@ public class ModelTestBase {
     protected EventRepository eventRepository;
 
     @Autowired
+    protected MeasurementReadingRepository measurementReadingRepository;
+
+    @Autowired
     protected SpaTemplateRepository spaTemplateRepository;
 
     @Autowired
@@ -1013,6 +1016,23 @@ public class ModelTestBase {
         event.setOidData(oidData);
         event.setDescription("test description");
         eventRepository.save(event);
+    }
+
+    protected void createMeasurementReading(String spaId, final MeasurementReadingType type, final String unitOfMeasure) {
+        final MeasurementReading reading = new MeasurementReading();
+        reading.setSpaId(spaId);
+        reading.setOemId("123123");
+        reading.setOwnerId("111111");
+        reading.setDealerId("222222");
+
+        reading.setTimestamp(new Date());
+        reading.setValue(Double.valueOf(12.0));
+        reading.setType(type);
+        reading.setUnitOfMeasure(unitOfMeasure);
+        Map<String, String> metadata = new HashMap<>();
+        metadata.put("sample", "value");
+        reading.setMetadata(metadata);
+        measurementReadingRepository.save(reading);
     }
 
     protected Recipe createSpaRecipe(String spaId, String name, String notes) {
