@@ -2,6 +2,7 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -19,6 +20,7 @@ public class WifiStat extends ResourceSupport {
     private String dealerId;
     private String oemId;
 
+    @Indexed
     private Date recordedDate;
     private Long elapsedDeltaMilliseconds;
     private WifiConnectionHealth wifiConnectionHealth;

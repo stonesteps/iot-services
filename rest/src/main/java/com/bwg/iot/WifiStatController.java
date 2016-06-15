@@ -3,7 +3,9 @@ package com.bwg.iot;
 import com.bwg.iot.model.WifiStat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -31,8 +33,13 @@ public class WifiStatController {
     public HttpEntity<PagedResources<Resource<WifiStat>>> getWifiStats(@PathVariable("spaId") final String spaId,
                                                                        final Pageable pageable,
                                                                        PersistentEntityResourceAssembler entityAssembler) {
+        final PageRequest pageRequest = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), getSort(pageable.getSort()));
         pagedAssembler.setForceFirstAndLastRels(true);
-        final Page<WifiStat> wifiStats = wifiStatRepository.findBySpaId(spaId, pageable);
+        final Page<WifiStat> wifiStats = wifiStatRepository.findBySpaId(spaId, pageRequest);
         return ResponseEntity.ok(pagedAssembler.toResource(wifiStats, (ResourceAssembler)entityAssembler));
+    }
+
+    private Sort getSort(final Sort sort) {
+        return (sort != null) ? sort : new Sort(Sort.Direction.DESC, "recordedDate");
     }
 }

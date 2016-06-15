@@ -4,7 +4,9 @@ import com.bwg.iot.model.FaultLog;
 import com.bwg.iot.model.FaultLogDescription;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -45,7 +47,9 @@ public class FaultLogController {
                                                                        final Pageable pageable,
                                                                        PersistentEntityResourceAssembler entityAssembler) {
 
-        final Page<FaultLog> faultLogs = faultLogRepository.findBySpaId(spaId, pageable);
+        final PageRequest pageRequest = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), getSort(pageable.getSort()));
+
+        final Page<FaultLog> faultLogs = faultLogRepository.findBySpaId(spaId, pageRequest);
         if (faultLogs != null) {
             for (final FaultLog faultLog : faultLogs) {
                 appendDescription(faultLog);
@@ -53,6 +57,10 @@ public class FaultLogController {
         }
         pagedAssembler.setForceFirstAndLastRels(true);
         return ResponseEntity.ok(pagedAssembler.toResource(faultLogs, (ResourceAssembler)entityAssembler));
+    }
+
+    private Sort getSort(final Sort sort) {
+        return (sort != null) ? sort : new Sort(Sort.Direction.DESC, "timestamp");
     }
 
     public void appendDescription(final FaultLog faultLog) {

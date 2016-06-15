@@ -3,6 +3,7 @@ package com.bwg.iot.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -21,6 +22,7 @@ public class FaultLog extends ResourceSupport {
     private String dealerId;
     private String oemId;
     private int code;
+    @Indexed
     private Date timestamp;
     private FaultLogSeverity severity;
     private int targetTemp;

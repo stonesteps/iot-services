@@ -2,6 +2,7 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -21,6 +22,7 @@ public class Event {
 
     private String eventType;
 
+    @Indexed
     private Date eventOccuredTimestamp;
     private Date eventReceivedTimestamp;
     private Map<String, String> metadata;

@@ -3,7 +3,9 @@ package com.bwg.iot;
 import com.bwg.iot.model.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.data.web.PagedResourcesAssembler;
@@ -29,10 +31,17 @@ public class EventController {
     @RequestMapping(method = RequestMethod.GET, value = "/spas/{spaId}/events")
     @ResponseBody
     public HttpEntity<PagedResources<Resource<Event>>> getEvents(@PathVariable("spaId") final String spaId,
-                                                                    final Pageable pageable,
-                                                                    PersistentEntityResourceAssembler entityAssembler) {
+                                                                 final Pageable pageable,
+                                                                 PersistentEntityResourceAssembler entityAssembler) {
+
+        final PageRequest pageRequest = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), getSort(pageable.getSort()));
+
         pagedAssembler.setForceFirstAndLastRels(true);
-        final Page<Event> events = eventRepository.findBySpaId(spaId, pageable);
-        return ResponseEntity.ok(pagedAssembler.toResource(events, (ResourceAssembler)entityAssembler));
+        final Page<Event> events = eventRepository.findBySpaId(spaId, pageRequest);
+        return ResponseEntity.ok(pagedAssembler.toResource(events, (ResourceAssembler) entityAssembler));
+    }
+
+    private Sort getSort(final Sort sort) {
+        return (sort != null) ? sort : new Sort(Sort.Direction.DESC, "eventOccuredTimestamp");
     }
 }
