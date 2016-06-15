@@ -12,6 +12,7 @@ import java.util.*;
 public class JobSchedule {
 
     private String cronExpression;
+    private int durationMinutes;
     private Date startDate;
     private Date endDate;
     private TimeZone timeZone;
@@ -26,6 +27,14 @@ public class JobSchedule {
 
     public void setCronExpression(String cronExpression) {
         this.cronExpression = cronExpression;
+    }
+
+    public int getDurationMinutes() {
+        return durationMinutes;
+    }
+
+    public void setDurationMinutes(int durationMinutes) {
+        this.durationMinutes = durationMinutes;
     }
 
     public Date getStartDate() {

@@ -351,7 +351,8 @@ The job schedule fields include:
 
 * start date: an optional Date specifying when to begin. Default value is today.
 * end date: an optional Date when scheduling should stop.  Default is ongoing indefinately.
-* cronExpression: a string representing a cron expression. See: https://en.wikipedia.org/wiki/Cron reference.
+* cronExpression: a string representing a cron expression to specify run interval. See: https://en.wikipedia.org/wiki/Cron reference.
+* durationMinutes: the length of time to operate the spa in this state
 * timeZone: the time zone of the spa
 * enabled: boolean flag denoting whether schedule is active
 
