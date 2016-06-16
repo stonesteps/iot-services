@@ -102,7 +102,7 @@ public class AuthenticationController {
 
         if (user.getOemId() != null) {
             Oem oem = oemRepository.findOne(user.getOemId());
-            if (oem.getLogo() != null) {
+            if (oem != null && oem.getLogo() != null) {
                 Link logoLink = entityLinks.linkToSingleResource(Attachment.class, oem.getLogo().get_id()).withRel("logo");
                 user.add(logoLink);
             }
