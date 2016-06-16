@@ -2,14 +2,17 @@ package com.bwg.iot;
 
 import com.bwg.iot.builders.SpaStateBuilder;
 import com.bwg.iot.model.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.*;
@@ -79,6 +82,9 @@ public class ModelTestBase {
 
     @Autowired
     protected Environment environment;
+
+    @Autowired
+    ObjectMapper objectMapper;
 
     protected static int serialSuffix = 1001;
 
@@ -1147,5 +1153,16 @@ public class ModelTestBase {
 
         List<Attachment> attachments = attachmentRepository.findAll();
         return attachments;
+    }
+
+    protected Attachment createLogoAttachment(MockMvc mockMvc) throws Exception{
+        MockMultipartFile file3 = new MockMultipartFile("attachmentFile", "riotFist.png", ContentType.APPLICATION_OCTET_STREAM.getMimeType(), AttachmentsDocumentation.class.getResourceAsStream("/Troubleshooting Manual BP2100G1 - Italian - 42217.pdf"));
+        MockHttpServletResponse result = mockMvc
+                .perform(MockMvcRequestBuilders.fileUpload("/attachments").file(file3).param("name", "Fist Logo"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse();
+        String jsonString = result.getContentAsString();
+        Attachment logo = objectMapper.readValue(jsonString, Attachment.class);
+        return logo;
     }
 }
