@@ -2,6 +2,9 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -14,6 +17,9 @@ import static com.google.common.collect.Maps.newHashMap;
 
 
 @Document
+@CompoundIndexes({
+        @CompoundIndex(name = "cmp_spa_ctype_idx", def = "{'spaId': 1, 'componentTYpe':1}")
+})
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class Component extends ResourceSupport {
 
@@ -32,6 +38,8 @@ public class Component extends ResourceSupport {
 
     @Id
     private String _id;
+
+    @Indexed
     private String spaId;
     private String ownerId;
     private String dealerId;

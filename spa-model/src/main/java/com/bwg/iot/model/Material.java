@@ -2,6 +2,9 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -11,10 +14,15 @@ import java.util.List;
 
 @Document
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
+@CompoundIndexes({
+        @CompoundIndex(name = "mat_oem_ctype_idx", def = "{'oemId': 1, 'componentTYpe':1}")
+})
 public class Material extends ResourceSupport {
 
     @Id
     private String _id;
+
+    @Indexed
     private String oemId;
     private String componentType;
     private String brandName;

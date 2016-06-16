@@ -2,6 +2,7 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -16,6 +17,8 @@ public class Recipe extends ResourceSupport {
 
     @Id
     private String _id;
+
+    @Indexed
     private String spaId;
     private List<SpaCommand> settings;
     private String name;
