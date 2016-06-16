@@ -955,7 +955,9 @@ include::{snippets}/oem-get-example/links.adoc[]
 [[resources-oem-retrieve]]
 === Retrieve an OEM
 
-A `GET` request will retrieve the details of an OEM
+*/oems/{id}*
+
+A `GET` request will retrieve the details of a Spa Manufacturer
 
 ==== Response structure
 
@@ -972,6 +974,8 @@ include::{snippets}/oem-get-example/http-response.adoc[]
 
 [[resources-oem-create]]
 === Creating an OEM
+
+*/oems*
 
 A `POST` request is used to create an OEM
 
@@ -991,7 +995,9 @@ include::{snippets}/oem-create-example/http-response.adoc[]
 [[resources-oem-update]]
 === Update an OEM
 
-A `PATCH` request is used to update an OEM
+*/oems/{id}*
+
+A `PATCH` request is used to update a spa manufacturer.
 
 ==== Request structure
 
