@@ -4,9 +4,7 @@ package com.bwg.iot;
  * Created by triton on 2/17/16.
  */
 
-import com.bwg.iot.model.Spa;
-import com.bwg.iot.model.TacUserAgreement;
-import com.bwg.iot.model.User;
+import com.bwg.iot.model.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +37,9 @@ public class AuthenticationController {
 
     @Autowired
     SpaRepository spaRepository;
+
+    @Autowired
+    OemRepository oemRepository;
 
     @Autowired
     MongoOperations mongoOps;
@@ -96,6 +97,14 @@ public class AuthenticationController {
             if (spa != null) {
                 Link link = entityLinks.linkToSingleResource(Spa.class, spa.get_id()).withRel("spa");
                 user.add(link);
+            }
+        }
+
+        if (user.getOemId() != null) {
+            Oem oem = oemRepository.findOne(user.getOemId());
+            if (oem.getLogo() != null) {
+                Link logoLink = entityLinks.linkToSingleResource(Attachment.class, oem.getLogo().get_id()).withRel("logo");
+                user.add(logoLink);
             }
         }
         return new ResponseEntity<User>(user, HttpStatus.OK);
