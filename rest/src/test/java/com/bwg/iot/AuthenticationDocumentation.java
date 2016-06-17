@@ -16,10 +16,7 @@
 
 package com.bwg.iot;
 
-import com.bwg.iot.model.Address;
-import com.bwg.iot.model.Oem;
-import com.bwg.iot.model.Spa;
-import com.bwg.iot.model.User;
+import com.bwg.iot.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
@@ -83,8 +80,14 @@ public final class AuthenticationDocumentation extends ModelTestBase{
 	public void whoamiExample() throws Exception {
 		this.userRepository.deleteAll();
 
-		List<Address> addresses = createAddresses(2);
-		User owner5 = createUser("user0005", "chynde", "Chrissie", "Hynde", "dealer0002", "oem02", addresses.get(0), Arrays.asList("OWNER"), null);
+		List<Address> addresses = createAddresses(4);
+		Oem oem1 = createOem("Sundance Spas", 103498, addresses.get(1), "oem001");
+		Dealer dealer1 = createDealer("Pt. Loma Spas", addresses.get(2), oem1.get_id(), "dealer001");
+		Attachment logo = createLogoAttachment(mockMvc);
+		dealer1.setLogo(logo);
+		dealerRepository.save(dealer1);
+
+		User owner5 = createUser("user0005", "chynde", "Chrissie", "Hynde", "dealer001", "oem001", addresses.get(0), Arrays.asList("OWNER"), null);
 		Spa spa27 = createDemoSpa("160315", "Whale", "Beluga","oem02", "dealer0002", owner5, "spa000027", null);
 
 		this.mockMvc.perform(get("/auth/whoami")

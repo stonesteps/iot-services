@@ -886,6 +886,9 @@ include::{snippets}/whoami-example/http-response.adoc[]
 
 If the user is a spa owner, a link to the spa is included in the response payload.
 
+A logo link is also included in the response if the dealer or oem associated with the user has a custom logo.
+If a user is associated with a dealer and an oem each with custom logos, the dealer logo is used.
+
 === Mobile Application Authentication
 
 */idm/tokenEndpoint*
