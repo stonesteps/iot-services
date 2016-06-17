@@ -2,6 +2,8 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -9,6 +11,7 @@ import java.util.Date;
 
 @Document
 @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
+@CompoundIndexes({@CompoundIndex(name = "wifistat_spaid_recordeddate_idx", def = "{'spaId': 1, 'recordedDate': -1}")})
 public class WifiStat extends ResourceSupport {
 
     @Id

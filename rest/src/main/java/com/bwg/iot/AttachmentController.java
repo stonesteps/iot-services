@@ -43,16 +43,18 @@ public class AttachmentController implements ResourceProcessor<RepositoryLinksRe
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<?> listAll(@RequestParam(value = "page", required = false, defaultValue = "0") final int page,
-                                     @RequestParam(value = "size", required = false, defaultValue = "20") final int size) {
+    public ResponseEntity<?> listAll(final Pageable pageable) {
 
-        final Pageable pageable = new PageRequest(page, size, new Sort(Sort.Direction.DESC, "created"));
-
-        final Page<Attachment> attachments = attachmentRepository.findAll(pageable);
+        final PageRequest pageRequest = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), getSort(pageable.getSort()));
+        final Page<Attachment> attachments = attachmentRepository.findAll(pageRequest);
 
         final Resources<Attachment> resources = new Resources<>(attachments);
-        resources.add(linkTo(methodOn(AttachmentController.class).listAll(page, size)).withSelfRel());
+        resources.add(linkTo(methodOn(AttachmentController.class).listAll(pageable)).withSelfRel());
         return ResponseEntity.ok(resources);
+    }
+
+    private Sort getSort(final Sort sort) {
+        return (sort != null) ? sort : new Sort(Sort.Direction.DESC, "created");
     }
 
     @RequestMapping(method = RequestMethod.POST)

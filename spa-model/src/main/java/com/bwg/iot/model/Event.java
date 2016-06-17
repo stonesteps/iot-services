@@ -2,6 +2,8 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -9,6 +11,7 @@ import java.util.Map;
 
 @Document
 @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
+@CompoundIndexes({@CompoundIndex(name = "event_spaid_eventoccuredtimestamp_idx", def = "{'spaId': 1, 'eventOccuredTimestamp': -1}")})
 public class Event {
 
     @Id

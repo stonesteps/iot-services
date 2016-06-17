@@ -31,8 +31,8 @@ public class SpaResourceProcessor implements ResourceProcessor<Resource<Spa>> {
             resource.add(new Link(resource.getId().getHref() + "/faultLogs", "faultLogs"));
             resource.add(new Link(resource.getId().getHref() + "/wifiStats", "wifiStats"));
             resource.add(new Link(resource.getId().getHref() + "/events", "events"));
-            resource.add(new Link(resource.getId().getHref() + "/measurements?type=" + MeasurementReadingType.AC_CURRENT, "AC Current measurements"));
-            resource.add(new Link(resource.getId().getHref() + "/measurements?type=" + MeasurementReadingType.AMBIENT_TEMP, "Ambient Temp measurements"));
+            resource.add(new Link(resource.getId().getHref() + "/measurements?measurementType=" + MeasurementReadingType.AC_CURRENT, "AC Current measurements"));
+            resource.add(new Link(resource.getId().getHref() + "/measurements?measurementType=" + MeasurementReadingType.AMBIENT_TEMP, "Ambient Temp measurements"));
         }
         resource.add(new Link(resource.getId().getHref() + "/recipes", "recipes"));
         resource.add(new Link(resource.getId().getHref() + "/recipes/" + spa.get_id() + "/run", "turnOffSpa"));
