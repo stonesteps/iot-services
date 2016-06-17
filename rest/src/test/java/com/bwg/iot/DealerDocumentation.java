@@ -17,6 +17,7 @@
 package com.bwg.iot;
 
 import com.bwg.iot.model.Address;
+import com.bwg.iot.model.Attachment;
 import com.bwg.iot.model.Dealer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -98,6 +99,8 @@ public final class DealerDocumentation extends ModelTestBase{
 		final Map<String, Object> dealer = new HashMap<>();
 		dealer.put("name", "South Coast Spas");
 		dealer.put("address", address);
+		dealer.put("email", "service@riot.com");
+		dealer.put("phone", "800-iot-spas");
 
 		this.mockMvc
 				.perform(post("/dealers").contentType(MediaTypes.HAL_JSON)
@@ -105,8 +108,11 @@ public final class DealerDocumentation extends ModelTestBase{
 				.andExpect(status().isCreated())
 				.andDo(document("dealer-create-example",
 						requestFields(fieldWithPath("name").description("Name of the dealer"),
-//								fieldWithPath("id").description("Unique identifier for the dealer"),
-								fieldWithPath("address").description("The address of the dealer"))));
+//							fieldWithPath("id").description("Unique identifier for the dealer"),
+                            fieldWithPath("address").description("The address of the dealer"),
+	            			fieldWithPath("email").description("The dealer's email address").optional().type("String"),
+	            			fieldWithPath("phone").description("Phone number for the dealership").optional().type("String"),
+	            			fieldWithPath("logo").description("Logo image file for the Dealer").optional().type(Attachment.class))));
 	}
 
 	@Test
@@ -114,18 +120,24 @@ public final class DealerDocumentation extends ModelTestBase{
 		this.dealerRepository.deleteAll();
         this.addressRepository.deleteAll();
 
+        Attachment logo = createLogoAttachment(mockMvc);
         Address address = createAddress();
 		Dealer dealer = createDealer("Backyard Beach", address, null);
 
-		final Map<String, String> dealerUpdate = new HashMap<>();
-		dealerUpdate.put("name", "Spalicious");
+        dealer.setName("Spalicious");
+        dealer.setLogo(logo);
 
 		this.mockMvc
 				.perform(patch("/dealers/{0}", dealer.get_id()).contentType(MediaTypes.HAL_JSON)
-						.content(this.objectMapper.writeValueAsString(dealerUpdate)))
+						.content(this.objectMapper.writeValueAsString(dealer)))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(document("dealer-update-example",
-						requestFields(fieldWithPath("name").description("Business name of the dealer"))));
+						requestFields(fieldWithPath("name").description("Business name of the dealer"),
+							fieldWithPath("_id").description("Unique identifier for the dealer"),
+                fieldWithPath("address").description("The address of the dealer"),
+                fieldWithPath("email").description("The dealer's email address").optional().type("String"),
+                fieldWithPath("phone").description("Phone number for the dealership").optional().type("String"),
+                fieldWithPath("logo").description("Logo image file for the Dealer").optional().type(Attachment.class))));
 	}
 
 	@Test
@@ -149,6 +161,9 @@ public final class DealerDocumentation extends ModelTestBase{
 								fieldWithPath("name").description("The name of the dealer"),
 								fieldWithPath("address").description("Contact info for the dealer"),
 								fieldWithPath("oemId").description("Manufacturer"),
+                                fieldWithPath("email").description("The dealer's email address").optional().type("String"),
+                                fieldWithPath("phone").description("Phone number for the dealership").optional().type("String"),
+                                fieldWithPath("logo").description("Logo image file for the Dealer").optional().type(Attachment.class),
                                 fieldWithPath("_links")
 										.description("<<resources-dealer-links,Links>> to other resources"))));
 	}
