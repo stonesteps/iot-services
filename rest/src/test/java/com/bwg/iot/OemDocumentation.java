@@ -126,8 +126,6 @@ public final class OemDocumentation extends ModelTestBase{
         Address address = createAddress();
 		Oem oem = createOem("Backyard Beach", 201450, address, null);
 
-//		final Map<String, String> oemUpdate = new HashMap<>();
-//		oemUpdate.put("name", "Spalicious");
         oem.setName("Spalicious");
         oem.setLogo(logo);
 		this.mockMvc
