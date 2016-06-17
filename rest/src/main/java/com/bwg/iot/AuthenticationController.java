@@ -42,6 +42,9 @@ public class AuthenticationController {
     OemRepository oemRepository;
 
     @Autowired
+    DealerRepository dealerRepository;
+
+    @Autowired
     MongoOperations mongoOps;
 
 
@@ -100,14 +103,27 @@ public class AuthenticationController {
             }
         }
 
-        if (user.getOemId() != null) {
-            Oem oem = oemRepository.findOne(user.getOemId());
-            if (oem != null && oem.getLogo() != null) {
-                Link logoLink = entityLinks.linkToSingleResource(Attachment.class, oem.getLogo().get_id()).withRel("logo");
-                user.add(logoLink);
-            }
+        Link logoLink = findMyLogo(user);
+        if (logoLink != null) {
+            user.add(logoLink);
         }
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
+    private Link findMyLogo(User user) {
+        Link logoLink = null;
+        if (user.getDealerId() != null) {
+            Dealer dealer = dealerRepository.findOne(user.getDealerId());
+            if (dealer != null && dealer.getLogo() != null) {
+                logoLink = entityLinks.linkToSingleResource(Attachment.class, dealer.getLogo().get_id()).withRel("logo");
+            }
+        }
+        if (logoLink == null && user.getOemId() != null) {
+            Oem oem = oemRepository.findOne(user.getOemId());
+            if (oem != null && oem.getLogo() != null) {
+                logoLink = entityLinks.linkToSingleResource(Attachment.class, oem.getLogo().get_id()).withRel("logo");
+            }
+        }
+        return logoLink;
+    }
 }
