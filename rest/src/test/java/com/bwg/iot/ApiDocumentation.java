@@ -402,11 +402,11 @@ public class ApiDocumentation extends ModelTestBase{
 
 		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
 		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
-		createMeasurementReading(spa.get_id(), MeasurementReadingType.AC_CURRENT, "milliamps");
-		createMeasurementReading(spa.get_id(), MeasurementReadingType.AC_CURRENT, "milliamps");
-		createMeasurementReading(spa.get_id(), MeasurementReadingType.AC_CURRENT, "milliamps");
+		createMeasurementReading(spa.get_id(), "AC_CURRENT", "milliamps");
+		createMeasurementReading(spa.get_id(), "AC_CURRENT", "milliamps");
+		createMeasurementReading(spa.get_id(), "AC_CURRENT", "milliamps");
 
-		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/measurements?measurementType="+MeasurementReadingType.AC_CURRENT))
+		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/measurements?measurementType="+"AC_CURRENT"))
 				.andExpect(status().isOk())
 				.andDo(document("acCurrentMeasurements-list-example",
 						responseFields(
@@ -422,11 +422,11 @@ public class ApiDocumentation extends ModelTestBase{
 
 		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
 		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
-		createMeasurementReading(spa.get_id(), MeasurementReadingType.AMBIENT_TEMP, "celsius");
-		createMeasurementReading(spa.get_id(), MeasurementReadingType.AMBIENT_TEMP, "celsius");
-		createMeasurementReading(spa.get_id(), MeasurementReadingType.AMBIENT_TEMP, "celsius");
+		createMeasurementReading(spa.get_id(), "AMBIENT_TEMP", "celsius");
+		createMeasurementReading(spa.get_id(), "AMBIENT_TEMP", "celsius");
+		createMeasurementReading(spa.get_id(), "AMBIENT_TEMP", "celsius");
 
-		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/measurements?measurementType="+MeasurementReadingType.AMBIENT_TEMP))
+		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/measurements?measurementType="+"AMBIENT_TEMP"))
 				.andExpect(status().isOk())
 				.andDo(document("ambientTempMeasurements-list-example",
 						responseFields(

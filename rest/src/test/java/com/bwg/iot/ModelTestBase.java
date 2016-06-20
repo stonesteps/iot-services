@@ -1024,7 +1024,7 @@ public class ModelTestBase {
         eventRepository.save(event);
     }
 
-    protected void createMeasurementReading(String spaId, final MeasurementReadingType type, final String unitOfMeasure) {
+    protected void createMeasurementReading(String spaId, final String type, final String unitOfMeasure) {
         final MeasurementReading reading = new MeasurementReading();
         reading.setSpaId(spaId);
         reading.setOemId("123123");

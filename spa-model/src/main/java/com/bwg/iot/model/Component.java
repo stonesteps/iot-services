@@ -11,6 +11,7 @@ import org.springframework.hateoas.ResourceSupport;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
@@ -52,7 +53,7 @@ public class Component extends ResourceSupport {
     private String sku;
     private Date registrationDate;
     private Boolean factoryInit = new Boolean(true);
-    private HashMap<String, String> metaValues = newHashMap();
+    private Map<String, String> metaValues = newHashMap();
 
     public String get_id() {
         return _id;
@@ -150,11 +151,11 @@ public class Component extends ResourceSupport {
         this.oemId = oemId;
     }
 
-    public HashMap<String, String> getMetaValues() {
+    public Map<String, String> getMetaValues() {
         return metaValues;
     }
 
-    public void setMetaValues(HashMap<String, String> values) {
+    public void setMetaValues(Map<String, String> values) {
         this.metaValues = values;
     }
 
