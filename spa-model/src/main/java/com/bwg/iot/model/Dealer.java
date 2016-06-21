@@ -2,6 +2,7 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Objects;
@@ -12,9 +13,14 @@ public class Dealer extends ResourceSupport {
 
     @Id
     private String _id;
+
+    @Indexed
     private String oemId;
     private String name;
     private Address address;
+    private String email;
+    private String phone;
+    private Attachment logo;
 
     public String get_id() {
         return _id;
@@ -48,6 +54,30 @@ public class Dealer extends ResourceSupport {
         this.oemId = oemId;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Attachment getLogo() {
+        return logo;
+    }
+
+    public void setLogo(Attachment logo) {
+        this.logo = logo;
+    }
+
     @Override
     public boolean equals(Object o) {
       if (this == o) {
@@ -68,12 +98,20 @@ public class Dealer extends ResourceSupport {
 
     @Override
     public String toString()  {
+        String logoFilename = "";
+        if (logo != null) {
+            logoFilename = logo.getName();
+        }
+
         StringBuilder sb = new StringBuilder();
         sb.append("class Dealer {\n");
-
         sb.append("  _id: ").append(_id).append("\n");
         sb.append("  name: ").append(name).append("\n");
         sb.append("  address: ").append(address.toString()).append("\n");
+        sb.append("  email: ").append(email).append("\n");
+        sb.append("  phone: ").append(phone).append("\n");
+        sb.append("  address: ").append(address.toString()).append("\n");
+        sb.append("  logo: ").append(logoFilename).append("\n");
         sb.append("}\n");
         return sb.toString();
     }

@@ -2,18 +2,25 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
 
 
 @Document
+@CompoundIndexes({
+        @CompoundIndex(name = "cmp_spa_ctype_idx", def = "{'spaId': 1, 'componentTYpe':1}")
+})
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class Component extends ResourceSupport {
 
@@ -32,6 +39,8 @@ public class Component extends ResourceSupport {
 
     @Id
     private String _id;
+
+    @Indexed
     private String spaId;
     private String ownerId;
     private String dealerId;
@@ -44,7 +53,7 @@ public class Component extends ResourceSupport {
     private String sku;
     private Date registrationDate;
     private Boolean factoryInit = new Boolean(true);
-    private HashMap<String, String> metaValues = newHashMap();
+    private Map<String, String> metaValues = newHashMap();
 
     public String get_id() {
         return _id;
@@ -142,11 +151,11 @@ public class Component extends ResourceSupport {
         this.oemId = oemId;
     }
 
-    public HashMap<String, String> getMetaValues() {
+    public Map<String, String> getMetaValues() {
         return metaValues;
     }
 
-    public void setMetaValues(HashMap<String, String> values) {
+    public void setMetaValues(Map<String, String> values) {
         this.metaValues = values;
     }
 

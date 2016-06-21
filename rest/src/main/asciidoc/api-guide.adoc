@@ -642,6 +642,8 @@ include::{snippets}/dealer-get-example/links.adoc[]
 [[resources-dealer-retrieve]]
 === Retrieve a dealer
 
+*/dealers/{id}*
+
 A `GET` request will retrieve the details of a dealer
 
 ==== Response structure
@@ -660,6 +662,8 @@ include::{snippets}/dealer-get-example/http-response.adoc[]
 [[resources-dealer-create]]
 === Creating a dealer
 
+*/dealers*
+
 A `POST` request is used to create a dealer
 
 ==== Request structure
@@ -677,6 +681,8 @@ include::{snippets}/dealer-create-example/http-response.adoc[]
 
 [[resources-dealer-update]]
 === Update a dealer
+
+*/dealers/{id}*
 
 A `PATCH` request is used to update a dealer
 
@@ -880,6 +886,9 @@ include::{snippets}/whoami-example/http-response.adoc[]
 
 If the user is a spa owner, a link to the spa is included in the response payload.
 
+A logo link is also included in the response if the dealer or oem associated with the user has a custom logo.
+If a user is associated with a dealer and an oem each with custom logos, the dealer logo is used.
+
 === Mobile Application Authentication
 
 */idm/tokenEndpoint*
@@ -955,7 +964,9 @@ include::{snippets}/oem-get-example/links.adoc[]
 [[resources-oem-retrieve]]
 === Retrieve an OEM
 
-A `GET` request will retrieve the details of an OEM
+*/oems/{id}*
+
+A `GET` request will retrieve the details of a Spa Manufacturer
 
 ==== Response structure
 
@@ -972,6 +983,8 @@ include::{snippets}/oem-get-example/http-response.adoc[]
 
 [[resources-oem-create]]
 === Creating an OEM
+
+*/oems*
 
 A `POST` request is used to create an OEM
 
@@ -991,7 +1004,9 @@ include::{snippets}/oem-create-example/http-response.adoc[]
 [[resources-oem-update]]
 === Update an OEM
 
-A `PATCH` request is used to update an OEM
+*/oems/{id}*
+
+A `PATCH` request is used to update a spa manufacturer.
 
 ==== Request structure
 

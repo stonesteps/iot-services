@@ -1,7 +1,6 @@
 package com.bwg.iot;
 
 import com.bwg.iot.model.MeasurementReading;
-import com.bwg.iot.model.MeasurementReadingType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,7 +14,11 @@ import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @RepositoryRestController
 public class MeasurementReadingController {
@@ -29,7 +32,7 @@ public class MeasurementReadingController {
     @RequestMapping(method = RequestMethod.GET, value = "/spas/{spaId}/measurements")
     @ResponseBody
     public HttpEntity<PagedResources<Resource<MeasurementReading>>> getMeasurements(@PathVariable("spaId") final String spaId,
-                                                                                    @RequestParam("measurementType") final MeasurementReadingType type,
+                                                                                    @RequestParam("measurementType") final String type,
                                                                                     final Pageable pageable,
                                                                                     PersistentEntityResourceAssembler entityAssembler) {
         final PageRequest pageRequest = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), getSort(pageable.getSort()));

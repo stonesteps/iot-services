@@ -2,6 +2,8 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -10,6 +12,7 @@ import java.util.Map;
 
 @Document
 @JsonInclude(value = JsonInclude.Include.NON_EMPTY)
+@CompoundIndexes({@CompoundIndex(name = "measurementreading_spaid_timestamp_idx", def = "{'spaId': 1, 'timestamp': -1}")})
 public class MeasurementReading extends ResourceSupport {
 
     @Id
@@ -19,9 +22,10 @@ public class MeasurementReading extends ResourceSupport {
     private String ownerId;
     private String dealerId;
     private String oemId;
+    private String moteId;
 
     private Date timestamp;
-    private MeasurementReadingType type;
+    private String type;
     private String unitOfMeasure;
     private Double value;
     private Map<String, String> metadata;
@@ -40,6 +44,14 @@ public class MeasurementReading extends ResourceSupport {
 
     public void setSpaId(String spaId) {
         this.spaId = spaId;
+    }
+
+    public String getMoteId() {
+        return moteId;
+    }
+
+    public void setMoteId(String spaId) {
+        this.moteId = moteId;
     }
 
     public String getOwnerId() {
@@ -74,11 +86,11 @@ public class MeasurementReading extends ResourceSupport {
         this.timestamp = timestamp;
     }
 
-    public MeasurementReadingType getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(MeasurementReadingType type) {
+    public void setType(String type) {
         this.type = type;
     }
 

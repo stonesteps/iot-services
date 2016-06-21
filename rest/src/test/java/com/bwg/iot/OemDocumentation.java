@@ -17,6 +17,7 @@
 package com.bwg.iot;
 
 import com.bwg.iot.model.Address;
+import com.bwg.iot.model.Attachment;
 import com.bwg.iot.model.Oem;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
@@ -99,6 +100,8 @@ public final class OemDocumentation extends ModelTestBase{
 		oem.put("name", "South Coast Spas");
 		oem.put("customerNumber", 15215);
 		oem.put("address", address);
+		oem.put("email", "matteo@sardinaspas.com");
+		oem.put("phone", "800-BUBBLES");
 
 		this.mockMvc
 				.perform(post("/oems").contentType(MediaTypes.HAL_JSON)
@@ -108,7 +111,10 @@ public final class OemDocumentation extends ModelTestBase{
 						requestFields(fieldWithPath("name").description("Name of the oem"),
 //								fieldWithPath("id").description("Unique identifier for the oem"),
 								fieldWithPath("customerNumber").description("Balboa identifier for the oem"),
-								fieldWithPath("address").description("The address of the oem"))));
+								fieldWithPath("address").description("The address of the oem"),
+								fieldWithPath("email").description("The Manufacturer's email address").optional().type("String"),
+								fieldWithPath("phone").description("Phone number for the Manufacturer").optional().type("String"),
+								fieldWithPath("logo").description("Logo image file for the Manufacturer").optional().type(Attachment.class))));
 	}
 
 	@Test
@@ -116,18 +122,24 @@ public final class OemDocumentation extends ModelTestBase{
 		this.oemRepository.deleteAll();
         this.addressRepository.deleteAll();
 
+        Attachment logo = createLogoAttachment(mockMvc);
         Address address = createAddress();
 		Oem oem = createOem("Backyard Beach", 201450, address, null);
 
-		final Map<String, String> oemUpdate = new HashMap<>();
-		oemUpdate.put("name", "Spalicious");
-
+        oem.setName("Spalicious");
+        oem.setLogo(logo);
 		this.mockMvc
 				.perform(patch("/oems/{0}", oem.get_id()).contentType(MediaTypes.HAL_JSON)
-						.content(this.objectMapper.writeValueAsString(oemUpdate)))
+						.content(this.objectMapper.writeValueAsString(oem)))
 				.andExpect(status().is2xxSuccessful())
 				.andDo(document("oem-update-example",
-						requestFields(fieldWithPath("name").description("Business name of the oem"))));
+						requestFields(fieldWithPath("name").description("Business name of the oem"),
+								fieldWithPath("_id").description("Unique identifier for the oem"),
+                                fieldWithPath("customerNumber").description("Balboa identifier for the oem"),
+                                fieldWithPath("address").description("The address of the oem"),
+                                fieldWithPath("email").description("The Manufacturer's email address").optional().type("String"),
+                                fieldWithPath("phone").description("Phone number for the Manufacturer").optional().type("String"),
+                                fieldWithPath("logo").description("Logo image file for the Manufacturer").optional().type(Attachment.class))));
 	}
 
 	@Test
@@ -147,9 +159,12 @@ public final class OemDocumentation extends ModelTestBase{
 								linkWithRel("oem").description("This <<resources-oem,oem>>")),
 						responseFields(
 								fieldWithPath("_id").description("Object Id"),
-								fieldWithPath("name").description("The name of the oem"),
-								fieldWithPath("customerNumber").description("Balboa identifier for the OEM"),
-								fieldWithPath("address").description("Contact info for the oem"),
+								fieldWithPath("name").description("The name of the Manufacturer"),
+								fieldWithPath("customerNumber").description("Balboa identifier for the Manufacturer"),
+								fieldWithPath("address").description("The address of the Manufacturer"),
+								fieldWithPath("email").description("The Manufacturer's email address").optional().type("String"),
+								fieldWithPath("phone").description("Phone number for the Manufacturer").optional().type("String"),
+								fieldWithPath("logo").description("Logo image file for the Manufacturer").optional().type(Attachment.class),
                                 fieldWithPath("_links")
 										.description("<<resources-oem-links,Links>> to other resources"))));
 	}

@@ -15,6 +15,9 @@ public class Oem extends ResourceSupport {
     private String name;
     private int customerNumber;
     private Address address;
+    private String email;
+    private String phone;
+    private Attachment logo;
 
     public String get_id() {
         return _id;
@@ -48,6 +51,30 @@ public class Oem extends ResourceSupport {
         this.customerNumber = customerNumber;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Attachment getLogo() {
+        return logo;
+    }
+
+    public void setLogo(Attachment logo) {
+        this.logo = logo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,11 +100,18 @@ public class Oem extends ResourceSupport {
 
     @Override
     public String toString() {
+        String logoFilename = "";
+        if (logo != null) {
+            logoFilename = logo.getName();
+        }
         return "Oem{" +
                 "_id='" + _id + '\'' +
                 ", name='" + name + '\'' +
                 ", customerNumber=" + customerNumber +
                 ", address=" + address +
+                ", email=" + email +
+                ", phone=" + phone +
+                ", logo=" + logoFilename +
                 '}';
     }
 }

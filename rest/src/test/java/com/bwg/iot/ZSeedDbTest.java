@@ -76,9 +76,11 @@ public final class ZSeedDbTest extends ModelTestBase {
         // create some oems and dealers
         Oem oem1 = createOem("Sundance Spas", 103498, addresses.get(0), "oem001");
         Oem oem2 = createOem("Maax Spas Industries Corp.", 102188, addresses.get(1), "oem002");
+        Oem oem3 = createOem("Coast Spas Manufacturing Inc.", 100843, addresses.get(26), "oem003");
+
         Dealer dealer1 = createDealer("Sundance Spas", addresses.get(2), oem1.get_id(), "dealer001");
         Dealer dealer2 = createDealer("Pt. Loma Spa Outlet", addresses.get(3), oem1.get_id(), "dealer002");
-        Dealer dealer3 = createDealer("SpaStic", addresses.get(15), oem2.get_id(), "dealer003");
+        Dealer dealer3 = createDealer("Valley Hot Springs Spas", addresses.get(15), oem3.get_id(), "dealer003");
 
         // create some users
         List<String> ownerRole = Arrays.asList(User.Role.OWNER.name());
@@ -94,7 +96,7 @@ public final class ZSeedDbTest extends ModelTestBase {
         List<String> bwgAdminRole = Arrays.asList(User.Role.BWG.name(), User.Role.ADMIN.name());
 
         User owner1 = createUser("user0001", "braitt", "Bonnie", "Raitt", dealer1.get_id(), oem1.get_id(), addresses.get(4), ownerRole, "Bonnie is the owner of this spa");
-        User owner2 = createUser("user0002", "ptownsend", "Pete", "Townsend", dealer1.get_id(), oem1.get_id(), addresses.get(4), ownerRole, null);
+        User owner2 = createUser("user0002", "ptownsend", "Pete", "Townsend", dealer3.get_id(), oem3.get_id(), addresses.get(4), ownerRole, null);
         User owner3 = createUser("user0003", "pgabriel", "Peter", "Gabriel", dealer1.get_id(), oem1.get_id(), addresses.get(5), ownerRole, null);
         User owner4 = createUser("user0004", "lgaga", "Lady", "Gaga", dealer2.get_id(), oem2.get_id(), addresses.get(6), ownerRole, null);
         User owner5 = createUser("user0005", "chynde", "Chrissie", "Hynde", dealer1.get_id(), oem1.get_id(), addresses.get(7), ownerRole, null);
@@ -104,12 +106,12 @@ public final class ZSeedDbTest extends ModelTestBase {
 
         User maker1 = createUser("user0006", "jpage", "Jimmy", "Page", dealer1.get_id(), oem1.get_id(), addresses.get(8), oemDealerRole, null);
         User maker2 = createUser("user0007", "pfenton", "Peter", "Fenton", null, oem2.get_id(), addresses.get(9), oemRole, null);
+        User sales3 = createUser("user0012", "cclemons", "Clarence", "Clemons", dealer3.get_id(), oem3.get_id(), addresses.get(12), oemDealerRole, null);
         User pink   = createUser("user0008", "bgeldof", "Bob", "Geldof", null, null, addresses.get(10), bwgRole, null);
         User oz     = createUser("user0009", "oosborn", "Ozzie", "Osborn", null, null, addresses.get(11), adminRole, null);
 
         User sales1 = createUser("user0010", "nfinn", "Neil", "Finn", dealer1.get_id(), oem1.get_id(), addresses.get(12), salesRole, null);
-        User sales2 = createUser("user0011", "bpreston", "Billy", "Preston", dealer1.get_id(), oem1.get_id(), addresses.get(12), salesRole, null);
-        User sales3 = createUser("user0012", "cclemons", "Clarence", "Clemons", dealer2.get_id(), oem1.get_id(), addresses.get(12), salesRole, null);
+        User sales2 = createUser("user0011", "bpreston", "Billy", "Preston", dealer3.get_id(), oem3.get_id(), addresses.get(12), salesRole, null);
         User sales4 = createUser("user0025", "rwaters", "Roger", "Waters", dealer3.get_id(), oem2.get_id(), addresses.get(28), salesRole, null);
         User tech1  = createUser("user0013", "wgates", "William", "Gates", dealer1.get_id(), oem1.get_id(), addresses.get(13), techRole, null);
         User tech2  = createUser("user0014", "sjobs", "Stefan", "Jobs", dealer1.get_id(), oem1.get_id(), addresses.get(14), techRole, null);
@@ -119,12 +121,13 @@ public final class ZSeedDbTest extends ModelTestBase {
         User dealer3Admin   = createUser("user0017", "ptosh", "Peter", "Tosh", dealer3.get_id(), null, addresses.get(18), dealerAdminRole, null);
         User oem1Admin   = createUser("user0018", "smorse", "Steve", "Morse", null, oem1.get_id(), addresses.get(19), oemAdminRole, null);
         User oem2Admin   = createUser("user0019", "jmitchell", "Joni", "Mitchell", null, oem2.get_id(), addresses.get(20), oemAdminRole, null);
+        User oem3Admin   = createUser("user0028", "fmercury", "Fred", "Mercury", null, oem3.get_id(), addresses.get(30), oemAdminRole, null);
         User bwgAdmin   = createUser("user0020", "blondie", "Debbi", "Harry", null, null, addresses.get(21), bwgAdminRole, null);
 
         User salesD2 = createUser("user0021", "psimon", "Paul", "Simon", dealer2.get_id(), oem1.get_id(), addresses.get(22), salesRole, null);
         User salesD3 = createUser("user0021", "mwaters", "Muddy", "Waters", dealer3.get_id(), oem2.get_id(), addresses.get(23), salesRole, null);
         User techD2  = createUser("user0023", "csagan", "Carl", "Sagan", dealer2.get_id(), oem1.get_id(), addresses.get(24), techRole, null);
-        User techD3  = createUser("user0024", "shawking", "Stephen", "Hawking", dealer3.get_id(), oem2.get_id(), addresses.get(25), techRole, null);
+        User techD3  = createUser("user0024", "shawking", "Stephen", "Hawking", dealer3.get_id(), oem3.get_id(), addresses.get(25), techRole, null);
 
 
         // create term and conditions
@@ -158,7 +161,7 @@ public final class ZSeedDbTest extends ModelTestBase {
         createSpaRecipe(spa22.get_id(), "TGIF", "Some like it hot!");
         createSpaRecipe(spa22.get_id(), "Kids Play", "Body Temp", "98");
 
-        Spa spa24 = createDemoSpa2("160104", oem1.get_id(), dealer1.get_id(), owner2, "spa000024", GATEWAY_2_SN, st1.get_id(), sales1);
+        Spa spa24 = createDemoSpa2("160104", oem3.get_id(), dealer3.get_id(), owner2, "spa000024", GATEWAY_2_SN, st1.get_id(), sales3);
         Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", oem1.get_id(), dealer1.get_id(), owner3, "spa000025", st1.get_id(), sales2);
         this.add2Alerts(spa25);
         Spa spa26 = createFullSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4, "spa000026", sales3, st1.get_id(), null);
