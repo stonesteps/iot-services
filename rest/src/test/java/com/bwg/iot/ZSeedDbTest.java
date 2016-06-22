@@ -63,6 +63,11 @@ public final class ZSeedDbTest extends ModelTestBase {
         final String GATEWAY_1_SN = "1503071099";
         final String GATEWAY_2_SN = "1601041224";
         final String GATEWAY_3_SN = "1603141151";
+        final String GATEWAY_4_SN = "1603141152";
+        final String GATEWAY_5_SN = "1603141153";
+        final String GATEWAY_6_SN = "1603141154";
+        final String GATEWAY_7_SN = "1603141155";
+        final String GATEWAY_8_SN = "1603141156";
 
 		clearAllData();
 
@@ -162,15 +167,15 @@ public final class ZSeedDbTest extends ModelTestBase {
         createSpaRecipe(spa22.get_id(), "Kids Play", "Body Temp", "98");
 
         Spa spa24 = createDemoSpa2("160104", oem3.get_id(), dealer3.get_id(), owner2, "spa000024", GATEWAY_2_SN, st1.get_id(), sales3);
-        Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", oem1.get_id(), dealer1.get_id(), owner3, "spa000025", st1.get_id(), sales2);
+        Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", oem1.get_id(), dealer1.get_id(), owner3, "spa000025", GATEWAY_5_SN, st1.get_id(), sales2);
         this.add2Alerts(spa25);
-        Spa spa26 = createFullSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4, "spa000026", sales3, st1.get_id(), null);
+        Spa spa26 = createFullSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4, "spa000026", GATEWAY_4_SN, sales3, st1.get_id(), null);
         spa26 = this.addOverheatRedAlert(spa26);
         Spa spa27 = createDemoSpa3("160315", oem1.get_id(), dealer1.get_id(), owner5, "spa000027", GATEWAY_3_SN, st1.get_id(), sales1);
 
-        Spa spa23 = createSmallSpaWithState("160412", "Fish", "Minnow", oem1.get_id(), dealer2.get_id(), owner6, "spa000023", st1.get_id(), maker1);
-        Spa spa28 = createSmallSpaWithState("160412", "Shark", "Card", oem2.get_id(), dealer3.get_id(), owner7, "spa000028", st1.get_id(), sales4);
-        Spa spa29 = createSmallSpaWithState("160412", "Shark", "Land", oem2.get_id(), dealer3.get_id(), owner8, "spa000029", st1.get_id(), sales4);
+        Spa spa23 = createSmallSpaWithState("160412", "Fish", "Minnow", oem1.get_id(), dealer2.get_id(), owner6, "spa000023", GATEWAY_6_SN, st1.get_id(), maker1);
+        Spa spa28 = createSmallSpaWithState("160412", "Shark", "Card", oem2.get_id(), dealer3.get_id(), owner7, "spa000028", GATEWAY_7_SN, st1.get_id(), sales4);
+        Spa spa29 = createSmallSpaWithState("160412", "Shark", "Land", oem2.get_id(), dealer3.get_id(), owner8, "spa000029", GATEWAY_8_SN, st1.get_id(), sales4);
 
         Spa spa1  = createSmallSpaWithState("160217", "Shark", "Hammerhead", oem1.get_id(), dealer1.get_id(), null, "spa000001", st1.get_id(), null);
         Spa spa2  = createSmallSpaWithState("160217", "Shark", "Hammerhead", oem1.get_id(), dealer1.get_id(), null, "spa000002", st1.get_id(), null);
