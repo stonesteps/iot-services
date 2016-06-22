@@ -78,13 +78,17 @@ public final class ZSeedDbTest extends ModelTestBase {
 
         List<Address> addresses = createAddresses(40);
 
+        // create attachments
+        List<Attachment> attachments = createAttachments(mockMvc);
+        Attachment logo1 = createLogoAttachment(mockMvc);
+
         // create some oems and dealers
         Oem oem1 = createOem("Sundance Spas", 103498, addresses.get(0), "oem001");
-        Oem oem2 = createOem("Maax Spas Industries Corp.", 102188, addresses.get(1), "oem002");
+        Oem oem2 = createOemWithLogo("Maax Spas Industries Corp.", 102188, addresses.get(1), "oem002", logo1);
         Oem oem3 = createOem("Coast Spas Manufacturing Inc.", 100843, addresses.get(26), "oem003");
 
         Dealer dealer1 = createDealer("Sundance Spas", addresses.get(2), oem1.get_id(), "dealer001");
-        Dealer dealer2 = createDealer("Pt. Loma Spa Outlet", addresses.get(3), oem1.get_id(), "dealer002");
+        Dealer dealer2 = createDealerWithLogo("Pt. Loma Spa Outlet", addresses.get(3), oem1.get_id(), "dealer002", logo1);
         Dealer dealer3 = createDealer("Valley Hot Springs Spas", addresses.get(15), oem3.get_id(), "dealer003");
 
         // create some users
@@ -152,9 +156,6 @@ public final class ZSeedDbTest extends ModelTestBase {
         Material t2Pump = createSpaTemplateMaterial("Main Jets", "1023012");
         Material t2Gateway = createSpaTemplateMaterial("Gateway", "17092-83280-1a");
         List<Material> spaTemplate2List = Arrays.asList(t2Panel, t2Controller, t2Pump, t2Gateway);
-
-        // create attachments
-        List<Attachment> attachments = createAttachments(mockMvc);
 
         // create spaTemplates
         SpaTemplate st1 = createSpaTemplate("J-500 Luxury Collection", "J-585", "109834-1525-585", "oem001", spaTemplate1List, attachments);

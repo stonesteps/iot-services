@@ -95,12 +95,14 @@ public final class DealerDocumentation extends ModelTestBase{
 		this.addressRepository.deleteAll();
 
 		Address address = createAddress();
+		Attachment logo = createLogoAttachment(mockMvc);
 
 		final Map<String, Object> dealer = new HashMap<>();
 		dealer.put("name", "South Coast Spas");
 		dealer.put("address", address);
 		dealer.put("email", "service@riot.com");
 		dealer.put("phone", "800-iot-spas");
+		dealer.put("logo", logo);
 
 		this.mockMvc
 				.perform(post("/dealers").contentType(MediaTypes.HAL_JSON)
@@ -146,7 +148,8 @@ public final class DealerDocumentation extends ModelTestBase{
         this.addressRepository.deleteAll();
 
         Address address = createAddress();
-        Dealer dealer = createDealer("Backyard Beach", address, "oem00001");
+		Attachment logo = createLogoAttachment(mockMvc);
+        Dealer dealer = createDealerWithLogo("Backyard Beach", address, "oem00001", null, logo);
 
 
         this.mockMvc.perform(get("/dealers/{0}", dealer.get_id())).andExpect(status().isOk())
@@ -155,7 +158,8 @@ public final class DealerDocumentation extends ModelTestBase{
 //				.andExpect(jsonPath("address", is(dealer.getAddress())))
 				.andDo(document("dealer-get-example",
 						links(linkWithRel("self").description("This <<resources-dealer,dealer>>"),
-								linkWithRel("dealer").description("This <<resources-dealer,dealer>>")),
+								linkWithRel("dealer").description("This <<resources-dealer,dealer>>"),
+								linkWithRel("logo").description("Link to logo file").optional()),
 						responseFields(
 								fieldWithPath("_id").description("Object Id"),
 								fieldWithPath("name").description("The name of the dealer"),
