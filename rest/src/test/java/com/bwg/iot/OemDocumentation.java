@@ -95,6 +95,7 @@ public final class OemDocumentation extends ModelTestBase{
 		this.addressRepository.deleteAll();
 
 		Address address = createAddress();
+		Attachment logo = createLogoAttachment(mockMvc);
 
 		final Map<String, Object> oem = new HashMap<>();
 		oem.put("name", "South Coast Spas");
@@ -102,6 +103,7 @@ public final class OemDocumentation extends ModelTestBase{
 		oem.put("address", address);
 		oem.put("email", "matteo@sardinaspas.com");
 		oem.put("phone", "800-BUBBLES");
+		oem.put("logo", logo);
 
 		this.mockMvc
 				.perform(post("/oems").contentType(MediaTypes.HAL_JSON)
@@ -147,16 +149,17 @@ public final class OemDocumentation extends ModelTestBase{
         this.oemRepository.deleteAll();
         this.addressRepository.deleteAll();
 
+        Attachment logo = createLogoAttachment(mockMvc);
         Address address = createAddress();
-        Oem oem = createOem("Backyard Beach", 201450, address, null);
-
+        Oem oem = createOemWithLogo("Backyard Beach", 201450, address, null, logo);
 
         this.mockMvc.perform(get("/oems/{0}", oem.get_id())).andExpect(status().isOk())
 				.andExpect(jsonPath("name", is(oem.getName())))
 //				.andExpect(jsonPath("address", is(oem.getAddress())))
 				.andDo(document("oem-get-example",
 						links(linkWithRel("self").description("This <<resources-oem,oem>>"),
-								linkWithRel("oem").description("This <<resources-oem,oem>>")),
+								linkWithRel("oem").description("This <<resources-oem,oem>>"),
+								linkWithRel("logo").description("Link to logo file").optional()),
 						responseFields(
 								fieldWithPath("_id").description("Object Id"),
 								fieldWithPath("name").description("The name of the Manufacturer"),

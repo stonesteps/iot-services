@@ -149,6 +149,18 @@ public class ModelTestBase {
         return dealerRepository.save(dealer);
     }
 
+    protected Dealer createDealerWithLogo(String name, Address address, String oemId, String myId, Attachment logo) {
+        Dealer dealer = new Dealer();
+        if (StringUtils.isNotEmpty(myId)) {
+            dealer.set_id(myId);
+        }
+        dealer.setName(name);
+        dealer.setAddress(address);
+        dealer.setOemId(oemId);
+        dealer.setLogo(logo);
+        return dealerRepository.save(dealer);
+    }
+
     protected Oem createOem(String name, Integer customerNumber, Address address, String id) {
         Oem oem = new Oem();
         if (StringUtils.isNotEmpty(id)) {
@@ -160,6 +172,17 @@ public class ModelTestBase {
         return oemRepository.save(oem);
     }
 
+    protected Oem createOemWithLogo(String name, Integer customerNumber, Address address, String id, Attachment logo) {
+        Oem oem = new Oem();
+        if (StringUtils.isNotEmpty(id)) {
+            oem.set_id(id);
+        }
+        oem.setName(name);
+        oem.setCustomerNumber(customerNumber);
+        oem.setAddress(address);
+        oem.setLogo(logo);
+        return oemRepository.save(oem);
+    }
 
     protected User createUser(String username, String firstName, String lastName, String dealerId, String oemId, Address address, List<String> roles, String notes) {
         return createUser(null, username, firstName, lastName, dealerId, oemId, address, roles, notes);
