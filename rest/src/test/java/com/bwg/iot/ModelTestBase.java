@@ -321,6 +321,10 @@ public class ModelTestBase {
     }
 
     protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, User associate, String templateId, User technician) {
+        return createFullSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, spaId, null, associate, templateId, technician);
+    }
+
+    protected Spa createFullSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, String gatewaySN, User associate, String templateId, User technician) {
         Spa spa = new Spa();
         if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
@@ -352,7 +356,13 @@ public class ModelTestBase {
         spa.setLocation(new double[]{17.092667, 51.096488});
         spa = this.spaRepository.save(spa);
 
-        Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", "IoT Gateway", serialNumber, spa.get_id());
+
+        Component gateway = null;
+        if (gatewaySN == null) {
+            gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", "IoT Gateway", serialNumber, spa.get_id());
+        } else {
+            gateway = createFixedComponent(Component.ComponentType.GATEWAY.name(), "0", "IoT Gateway", gatewaySN, spa.get_id());
+        }
         gateway.setRegistrationDate(new Date());
         componentRepository.save(gateway);
 
@@ -450,7 +460,11 @@ public class ModelTestBase {
     }
 
     protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, String templateId, User associate) {
-        Spa spa = new Spa();
+        return createSmallSpaWithState(serialNumber, productName, model, oemId, dealerId, owner, spaId, null, templateId, associate);
+    }
+
+    protected Spa createSmallSpaWithState(String serialNumber, String productName, String model, String oemId, String dealerId, User owner, String spaId, String gatewaySN, String templateId, User associate) {
+    Spa spa = new Spa();
         if (StringUtils.isNotEmpty(spaId)) {
             spa.set_id(spaId);
         }
@@ -477,7 +491,13 @@ public class ModelTestBase {
         spa.setP2pAPPassword("*******");
         spa = this.spaRepository.save(spa);
 
-        Component gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", "IoT Gateway", serialNumber, spa.get_id());
+
+        Component gateway = null;
+        if (gatewaySN == null) {
+            gateway = createComponent(Component.ComponentType.GATEWAY.name(), "0", "IoT Gateway", serialNumber, spa.get_id());
+        } else {
+            gateway = createFixedComponent(Component.ComponentType.GATEWAY.name(), "0", "IoT Gateway", gatewaySN, spa.get_id());
+        }
         gateway.setRegistrationDate(new Date());
         componentRepository.save(gateway);
 
