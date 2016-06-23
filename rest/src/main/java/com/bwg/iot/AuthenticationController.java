@@ -39,14 +39,7 @@ public class AuthenticationController {
     SpaRepository spaRepository;
 
     @Autowired
-    OemRepository oemRepository;
-
-    @Autowired
-    DealerRepository dealerRepository;
-
-    @Autowired
-    MongoOperations mongoOps;
-
+    CommonHelper commonHelper;
 
     @Autowired
     EntityLinks entityLinks;
@@ -95,35 +88,16 @@ public class AuthenticationController {
         user.add(entityLinks.linkToSingleResource(User.class, user.get_id()).withSelfRel());
         user.add(entityLinks.linkToSingleResource(User.class, user.get_id()).withRel("user"));
 
-        if (user.hasRole(User.Role.OWNER.toString())) {
-            Spa spa = spaRepository.findByUsername(user.getUsername());
-            if (spa != null) {
-                Link link = entityLinks.linkToSingleResource(Spa.class, spa.get_id()).withRel("spa");
-                user.add(link);
-            }
+        Link spaLink = commonHelper.getMySpaLink(user);
+        if (spaLink != null) {
+            user.add(spaLink);
         }
 
-        Link logoLink = findMyLogo(user);
+        Link logoLink = commonHelper.getMyLogoLink(user);
         if (logoLink != null) {
             user.add(logoLink);
         }
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
-    private Link findMyLogo(User user) {
-        Link logoLink = null;
-        if (user.getDealerId() != null) {
-            Dealer dealer = dealerRepository.findOne(user.getDealerId());
-            if (dealer != null && dealer.getLogo() != null) {
-                logoLink = entityLinks.linkToSingleResource(Attachment.class, dealer.getLogo().get_id()).withRel("logo");
-            }
-        }
-        if (logoLink == null && user.getOemId() != null) {
-            Oem oem = oemRepository.findOne(user.getOemId());
-            if (oem != null && oem.getLogo() != null) {
-                logoLink = entityLinks.linkToSingleResource(Attachment.class, oem.getLogo().get_id()).withRel("logo");
-            }
-        }
-        return logoLink;
-    }
 }
