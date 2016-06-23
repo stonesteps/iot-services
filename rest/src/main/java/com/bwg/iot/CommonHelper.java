@@ -1,40 +1,12 @@
 package com.bwg.iot;
 
 import com.bwg.iot.model.*;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import gluu.scim.client.ScimClient;
-import gluu.scim.client.ScimResponse;
-import gluu.scim.client.model.ScimCustomAttributes;
-import gluu.scim.client.model.ScimName;
-import gluu.scim.client.model.ScimPerson;
-import gluu.scim.client.model.ScimPersonEmails;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import javax.ws.rs.core.MediaType;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Properties;
 
 @Component
 public class CommonHelper {
