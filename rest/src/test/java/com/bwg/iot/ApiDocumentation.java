@@ -523,6 +523,13 @@ public class ApiDocumentation extends ModelTestBase{
 		c2.setPort("0");
 		components.add(c2);
 
+		Component c3 = new Component();
+		c3.setName("Gateway");
+		c3.setSerialNumber("Gateway-001");
+		c3.setSku("5251513434");
+		c3.setComponentType(Component.ComponentType.GATEWAY.name());
+		components.add(c3);
+
 		BuildSpaRequest request = new BuildSpaRequest();
 		request.setSpa(spa);
 		request.setComponents(components);
