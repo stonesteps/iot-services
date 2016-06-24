@@ -638,16 +638,12 @@ The dealer resource is used to retrieve, update, and delete individual dealers
 include::{snippets}/dealer-get-example/links.adoc[]
 
 
-=== List Users By OEM
+=== List Dealers By OEM
 
 */dealers/search/findByOemId?oemId*
 
 This request will list all dealers associated with a specific spa manufacturer.
 
-
-==== Request structure
-
-include::{snippets}/dealers-findbyoem-example/request-parameters.adoc[]
 
 ==== Response structure
 
