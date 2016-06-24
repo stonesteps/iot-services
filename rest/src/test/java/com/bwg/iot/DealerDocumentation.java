@@ -171,4 +171,26 @@ public final class DealerDocumentation extends ModelTestBase{
                                 fieldWithPath("_links")
 										.description("<<resources-dealer-links,Links>> to other resources"))));
 	}
+
+	@Test
+	public void dealersFindByOemExample() throws Exception {
+
+		Address address = createAddress(3);
+		Attachment logo = createLogoAttachment(mockMvc);
+		Dealer dealer1 = createDealerWithLogo("Backyard Beach", address, "oem00001", null, logo);
+
+		Dealer dealer2 = createDealerWithLogo("Spa World", address, "oem00001", null, logo);
+
+		Dealer dealer3 = createDealerWithLogo("Bubbleland", address, "oem00002", null, logo);
+
+		this.mockMvc.perform(get("/dealers/search/findByOemId?oemId=oem00001"))
+				.andExpect(status().isOk())
+				.andDo(document("dealers-findbyOem-example",
+						responseFields(
+								fieldWithPath("_embedded.dealers").description("An array of <<resources-spa, Spa resources>>"),
+								fieldWithPath("_links").description("<<resources-spaslist-links,Links>> to other resources"),
+								fieldWithPath("page").description("Page information"))));
+	}
+
+
 }
