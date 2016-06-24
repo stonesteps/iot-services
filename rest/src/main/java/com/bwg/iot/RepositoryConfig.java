@@ -48,10 +48,12 @@ public class RepositoryConfig extends RepositoryRestMvcConfiguration {
                 String remoteUser = request.getRemoteUser();
                 logger.info("REMOTE_USER: " + remoteUser);
                 // print all headers: for debug
-                Enumeration headerNames = request.getHeaderNames();
-                while (headerNames.hasMoreElements()) {
-                    String headerName = (String)headerNames.nextElement();
-                    logger.info("header: " + headerName + ":" + request.getHeader(headerName));
+                if (logger.isDebugEnabled()) {
+                    Enumeration headerNames = request.getHeaderNames();
+                    while (headerNames.hasMoreElements()) {
+                        String headerName = (String) headerNames.nextElement();
+                        logger.debug("header: " + headerName + ":" + request.getHeader(headerName));
+                    }
                 }
             }
 

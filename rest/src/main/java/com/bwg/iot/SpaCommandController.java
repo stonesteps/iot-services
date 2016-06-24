@@ -72,8 +72,12 @@ public class SpaCommandController {
     }
 
     @RequestMapping(value = "/{spaId}/setJetState", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> setJetState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+    public ResponseEntity<?> setJetState(@PathVariable String spaId, @RequestBody HashMap<String, String> body,
+                                         @RequestHeader(name="remote_user", required=false)String remote_user,
+                                         @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
         ResponseEntity<?> response;
+        body.put(SpaCommand.REQUESTED_BY, (remote_user == null) ? "Anonymous User" : remote_user);
+        body.put(SpaCommand.REQUEST_PATH, (pathPrefix == null) ? "Direct" : pathPrefix);
         try {
             SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.PUMP.getCode(), true);
             response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);

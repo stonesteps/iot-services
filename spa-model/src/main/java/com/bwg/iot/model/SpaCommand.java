@@ -20,6 +20,8 @@ public class SpaCommand {
     public static final String COMMAND_DESIRED_TEMP = "DESIREDTEMP";
     public static final String COMMAND_FILTER_INTERVAL = "FILTER_DURATION_15MINUTE_INTERVALS";
 
+    public static final String REQUESTED_BY = "Requested By";
+    public static final String REQUEST_PATH = "Via";
     public static final String OFF = "OFF";
     public static final String LOW_TEMP = "50";
 

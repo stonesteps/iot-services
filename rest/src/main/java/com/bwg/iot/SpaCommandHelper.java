@@ -39,6 +39,8 @@ public class SpaCommandHelper  {
         }
 
         HashMap<String, String> values = new HashMap<>();
+        values.put(SpaCommand.REQUESTED_BY, body.get(SpaCommand.REQUESTED_BY));
+        values.put(SpaCommand.REQUEST_PATH, body.get(SpaCommand.REQUEST_PATH));
         values.put(SpaCommand.COMMAND_DESIRED_STATE, desiredState);
         if (deviceNumber != null) {
             values.put(SpaCommand.COMMAND_DEVICE_NUMBER, deviceNumber);
