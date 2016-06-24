@@ -29,6 +29,15 @@ public class MeasurementReading extends ResourceSupport {
     private String unitOfMeasure;
     private Double value;
     private Map<String, String> metadata;
+    private String quality;
+
+    public String getQuality() {
+        return quality;
+    }
+
+    public void setQuality(String quality) {
+        this.quality = quality;
+    }
 
     public String get_id() {
         return _id;
