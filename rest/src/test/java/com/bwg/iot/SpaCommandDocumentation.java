@@ -91,6 +91,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("values").description("The set temperature"))));
     }
 
@@ -121,6 +122,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("values").description("The target state of the jets"))));
     }
 
@@ -149,6 +151,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("values").description("The target state of the jets"))));
     }
 
@@ -179,6 +182,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("values").description("The target state of the light"))));
     }
 
@@ -209,6 +213,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("values").description("The target state of the device"))));
     }
 
@@ -239,6 +244,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("values").description("The target state"))));
     }
 
@@ -267,6 +273,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("values").description("The target ozone setting"))));
     }
 
@@ -295,6 +302,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("values").description("The target state"))));
     }
 
@@ -325,6 +333,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("values").description("The target state of the device"))));
     }
 
@@ -357,6 +366,8 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("values").description("The target state of the device"))));
     }
 
@@ -387,6 +398,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("values").description("The target state of the filter cycle"))));
     }
 
@@ -412,6 +424,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("processedTimestamp").description("The time the command was processed").optional().type("String"),
                                 fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"))));
     }
 
@@ -437,6 +450,7 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("processedTimestamp").description("The time the command was processed").optional().type("String"),
                                 fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"))));
     }
 }
