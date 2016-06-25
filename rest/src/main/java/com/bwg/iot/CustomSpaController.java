@@ -13,9 +13,7 @@ import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
@@ -130,14 +128,6 @@ public class CustomSpaController {
 
     @RequestMapping(value = "/buildSpa", method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<?> buildSpa(@RequestHeader(name="remote_user")String remote_user, @RequestBody BuildSpaRequest request) {
-        Spa myNewSpa = request.getSpa();
-        List<Component> components = request.getComponents();
-
-        // required params: templateId, serialNumber,
-        if (myNewSpa.getManufacturedDate() == null) {
-            myNewSpa.setManufacturedDate(new Date());
-        }
-
         // validate user, get oemid
         User remoteUser = userRepository.findByUsername(remote_user);
         if (!remoteUser.hasRole(User.Role.OEM.toString())) {
@@ -145,23 +135,37 @@ public class CustomSpaController {
         }
 
         // TODO: validate minimal set of components
-
-        // Remove any existing spas using this gateway.
-        // One may have been created when the Gateway was tested on the factory floor
-        // (make sure they are unsold),  also delete any existing components
-        Component gatewayComponent = null;
-        String gatewaySerialNumber = null;
-        Component existingGateway = null;
+        List<Component> components = request.getComponents();
         List<Component> gateways = components.stream()
                 .filter(c -> Component.ComponentType.GATEWAY.name().equalsIgnoreCase(c.getComponentType()))
                 .collect(Collectors.toList());
-        if (!gateways.isEmpty()) {
-            gatewaySerialNumber = gateways.get(0).getSerialNumber();
+        if (gateways.isEmpty()) {
+            return new ResponseEntity<String>("Spa must have at least 1 Gateway Component", HttpStatus.BAD_REQUEST);
         }
+
+        Spa myNewSpa = new Spa();
+
+        // Find and use existing spas using this gateway.
+        // One may have been created when the Gateway was tested on the factory floor
+        Component existingGateway = null;
+        Component gatewayComponent = gateways.get(0);
+        String gatewaySerialNumber = gatewayComponent.getSerialNumber();
         if (gatewaySerialNumber != null) {
             existingGateway = componentRepository.findBySerialNumber(gatewaySerialNumber);
         }
         if (existingGateway != null) {
+            if (!existingGateway.isFactoryInit()) {
+                return new ResponseEntity<String>("A Gateway Board with serial number:"
+                        + gatewaySerialNumber + " is already in use.", HttpStatus.BAD_REQUEST);
+            }
+            existingGateway.setSku(gatewayComponent.getSku());
+            existingGateway.setName(gatewayComponent.getName());
+            existingGateway.setFactoryInit(false);
+            componentRepository.save(existingGateway);
+
+            components.remove(gatewayComponent);
+            components.add(existingGateway);
+
             String existingSpaId = existingGateway.getSpaId();
             if (existingSpaId != null) {
                 List<Component> existingComponents = componentRepository.findBySpaId(existingSpaId);
@@ -171,22 +175,25 @@ public class CustomSpaController {
                 if (CollectionUtils.isNotEmpty(testComponents)) {
                     componentRepository.delete(testComponents);
                 }
-                Spa existingSpa = spaRepository.findOne(existingSpaId);
-                if (existingSpa != null) {
-                    spaRepository.delete(existingSpa);
-                }
+                myNewSpa = spaRepository.findOne(existingSpaId);
             }
         }
 
-        // build up new spa
+        Spa requestSpa = request.getSpa();
+        // required params: templateId, serialNumber,
+        if (myNewSpa.getManufacturedDate() == null) {
+            myNewSpa.setManufacturedDate(new Date());
+        }
         myNewSpa.setOemId(remoteUser.getOemId());
 
         // validate spaTemplate, get productName, model, sku
-        SpaTemplate spaTemplate = spaTemplateRepository.findOne(myNewSpa.getTemplateId());
+        SpaTemplate spaTemplate = spaTemplateRepository.findOne(requestSpa.getTemplateId());
+        myNewSpa.setTemplateId(requestSpa.getTemplateId());
         myNewSpa.setProductName(spaTemplate.getProductName());
         myNewSpa.setModel(spaTemplate.getModel());
+        myNewSpa.setSerialNumber(requestSpa.getSerialNumber());
 
-        myNewSpa = spaRepository.insert(myNewSpa);
+        myNewSpa = spaRepository.save(myNewSpa);
 
         // create TurnOffSpa default Recipe,
         // same _id as spaId to avoid db fetch when creating link
@@ -207,14 +214,14 @@ public class CustomSpaController {
             component.setOemId(myNewSpa.getOemId());
             component.setFactoryInit(false);
             component.removeLinks();
-            component.set_id(null);
 
             SpaCommand sc = SpaCommand.newInstanceFromComponent(component);
             if (sc != null) {
                 sc.setOriginatorId("Shut Down Recipe");
+                sc.getMetadata().put("Recipe", "Turn Off Spa");
                 commands.add(sc);
             }
-            componentRepository.insert(component);
+            componentRepository.save(component);
         }
         turnMeOff.setSettings(commands);
         recipeRepository.insert(turnMeOff);
@@ -235,7 +242,8 @@ public class CustomSpaController {
 
         Recipe recipe = new Recipe();
         List<SpaCommand> settings = new ArrayList<>();
-
+        HashMap<String, String> metadata = new HashMap<>(1);
+        metadata.put("Recipe", request.getName());
         try {
             for (HashMap.Entry<String, HashMap<String, String>> entry : request.getSettings().entrySet()) {
                 // massage key
@@ -248,7 +256,7 @@ public class CustomSpaController {
                 SpaCommand.RequestType key = SpaCommand.RequestType.valueOf(incomingKey);
                 switch (key) {
                     case HEATER:
-                        settings.add(helper.setDesiredTemp(spaId, entry.getValue(), key.getCode(), false));
+                        settings.add(helper.setDesiredTemp(spaId, entry.getValue(), key.getCode(), metadata, false));
                         break;
                     case PUMP:
                     case CIRCULATION_PUMP:
@@ -257,10 +265,10 @@ public class CustomSpaController {
                     case MISTER:
                     case OZONE:
                     case MICROSILK:
-                        settings.add(helper.setButtonCommand(spaId, entry.getValue(), key.getCode(), false));
+                        settings.add(helper.setButtonCommand(spaId, entry.getValue(), key.getCode(), metadata, false));
                         break;
                     case FILTER:
-                        settings.add(helper.setFilerCycleIntervals(spaId, entry.getValue(), key.getCode(), false));
+                        settings.add(helper.setFilerCycleIntervals(spaId, entry.getValue(), key.getCode(), metadata, false));
                         break;
                     default:
                 }
@@ -369,12 +377,19 @@ public class CustomSpaController {
     }
 
     @RequestMapping(value = "/{spaId}/recipes/{id}/run", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> runSpaRecipe(@PathVariable("id") String id) {
+    public ResponseEntity<?> runSpaRecipe(@PathVariable("id") String id,
+                                          @RequestHeader(name="remote_user", required=false)String remote_user,
+                                          @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
         Recipe recipe = recipeRepository.findOne(id);
         if (recipe == null) {
             LOGGER.info("Spa Recipe with id " + id + " not found");
             return new ResponseEntity<String>("Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
         }
+
+        recipe.getSettings().forEach(spaCommand -> {
+            spaCommand.getMetadata().put(SpaCommand.REQUESTED_BY, (remote_user == null) ? "Anonymous User" : remote_user);
+            spaCommand.getMetadata().put(SpaCommand.REQUEST_PATH, (pathPrefix == null) ? "Direct" : pathPrefix);
+        });
 
         spaCommandRepository.insert(recipe.getSettings());
         Spa spa = spaRepository.findOne(recipe.getSpaId());

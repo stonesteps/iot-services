@@ -15,7 +15,7 @@ public class SpaCommandHelper  {
     @Autowired
     private  SpaCommandRepository spaCommandRepository;
 
-    public SpaCommand setButtonCommand(String spaId, HashMap<String, String> body, int requestCode, boolean save) throws ValidationException {
+    public SpaCommand setButtonCommand(String spaId, HashMap<String, String> body, int requestCode, HashMap<String, String> metadata, boolean save) throws ValidationException {
         if (spaId == null) {
             throw new ValidationException("Spa Id not provided");
         }
@@ -45,11 +45,11 @@ public class SpaCommandHelper  {
         }
 
         String originatorId = body.get(SpaCommand.REQUEST_ORIGINATOR);
-        SpaCommand command = buildCommand(spaId, originatorId, requestCode, values, save);
+        SpaCommand command = buildCommand(spaId, originatorId, requestCode, values, metadata, save);
         return command;
     }
 
-    public SpaCommand setDesiredTemp(String spaId, HashMap<String, String> body, int requestCode, boolean save) throws ValidationException {
+    public SpaCommand setDesiredTemp(String spaId, HashMap<String, String> body, int requestCode, HashMap<String, String> metadata, boolean save) throws ValidationException {
         if (spaId == null) {
             throw new ValidationException("Spa Id not provided");
         }
@@ -62,11 +62,11 @@ public class SpaCommandHelper  {
         values.put(SpaCommand.COMMAND_DESIRED_TEMP, desiredTemp);
 
         String originatorId = body.get(SpaCommand.REQUEST_ORIGINATOR);
-        SpaCommand command = buildCommand(spaId, originatorId, SpaCommand.RequestType.HEATER.getCode(), values, save);
+        SpaCommand command = buildCommand(spaId, originatorId, SpaCommand.RequestType.HEATER.getCode(), values, metadata, save);
         return command;
     }
     
-    public SpaCommand setFilerCycleIntervals(String spaId, HashMap<String, String> body, int requestCode, boolean save) throws ValidationException {
+    public SpaCommand setFilerCycleIntervals(String spaId, HashMap<String, String> body, int requestCode, HashMap<String, String> metadata, boolean save) throws ValidationException {
         if (spaId == null) {
             throw new ValidationException("Spa Id not provided");
         }
@@ -92,16 +92,17 @@ public class SpaCommandHelper  {
         values.put(SpaCommand.COMMAND_FILTER_INTERVAL, intervalNumber);
 
         final String originatorId = body.get(SpaCommand.REQUEST_ORIGINATOR);
-        SpaCommand command = buildCommand(spaId, originatorId, SpaCommand.RequestType.FILTER.getCode(), values, save);
+        SpaCommand command = buildCommand(spaId, originatorId, SpaCommand.RequestType.FILTER.getCode(), values, metadata, save);
         return command;
     }
 
 
-        public SpaCommand buildCommand(String spaId, String originatorId, int requestCode, HashMap<String, String> values, boolean save) {
+    public SpaCommand buildCommand(String spaId, String originatorId, int requestCode, HashMap<String, String> values, HashMap<String, String> metadata, boolean save) {
         SpaCommand command = new SpaCommand();
         command.setSpaId(spaId);
         command.setRequestTypeId(requestCode);
         command.setValues(values);
+        command.setMetadata(metadata);
 
         if (save) {
             if (originatorId == null) {
