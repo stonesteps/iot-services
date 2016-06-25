@@ -59,7 +59,7 @@ public class MeasurementReading extends ResourceSupport {
         return moteId;
     }
 
-    public void setMoteId(String spaId) {
+    public void setMoteId(String moteId) {
         this.moteId = moteId;
     }
 
