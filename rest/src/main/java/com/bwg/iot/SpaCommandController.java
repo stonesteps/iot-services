@@ -32,20 +32,25 @@ public class SpaCommandController {
     SpaCommandHelper helper;
     
     @RequestMapping(value = "/{spaId}/restartAgent", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> restartAgent(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
-
-        ResponseEntity<?> response = setPlainButtonCommand(spaId, body, SpaCommand.RequestType.RESTART_AGENT.getCode());
+    public ResponseEntity<?> restartAgent(@PathVariable String spaId, @RequestBody HashMap<String, String> body,
+                                          @RequestHeader(name="remote_user", required=false)String remote_user,
+                                          @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
+        HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
+        ResponseEntity<?> response = setPlainButtonCommand(spaId, body, metadata, SpaCommand.RequestType.RESTART_AGENT.getCode());
         return response;
     }
 
     @RequestMapping(value = "/{spaId}/rebootGateway", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> rebootGateway(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+    public ResponseEntity<?> rebootGateway(@PathVariable String spaId, @RequestBody HashMap<String, String> body,
+                                           @RequestHeader(name="remote_user", required=false)String remote_user,
+                                           @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
 
-        ResponseEntity<?> response = setPlainButtonCommand(spaId, body, SpaCommand.RequestType.REBOOT_GATEWAY.getCode());
+        HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
+        ResponseEntity<?> response = setPlainButtonCommand(spaId, body, metadata, SpaCommand.RequestType.REBOOT_GATEWAY.getCode());
         return response;
     }
 
-    private ResponseEntity<?> setPlainButtonCommand(String spaId, HashMap<String, String> body, int requestCode) {
+    private ResponseEntity<?> setPlainButtonCommand(String spaId, HashMap<String, String> body, HashMap<String, String> metadata, int requestCode) {
         if (spaId == null) {
             return new ResponseEntity<>("Spa Id not provided", HttpStatus.BAD_REQUEST);
         }
@@ -54,16 +59,20 @@ public class SpaCommandController {
         if (body != null) {
             originatorId = body.get(SpaCommand.REQUEST_ORIGINATOR);
         }
-        SpaCommand command = helper.buildCommand(spaId, originatorId, requestCode, new HashMap<>(), true);
+        SpaCommand command = helper.buildCommand(spaId, originatorId, requestCode, new HashMap<>(), metadata, true);
 
         return new ResponseEntity<SpaCommand>(command, HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/{spaId}/setDesiredTemp", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> setDesiredTemp(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+    public ResponseEntity<?> setDesiredTemp(@PathVariable String spaId, @RequestBody HashMap<String, String> body,
+                                            @RequestHeader(name="remote_user", required=false)String remote_user,
+                                            @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
         ResponseEntity<?> response;
+        HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
+
         try {
-            SpaCommand command = helper.setDesiredTemp(spaId, body, SpaCommand.RequestType.HEATER.getCode(), true);
+            SpaCommand command = helper.setDesiredTemp(spaId, body, SpaCommand.RequestType.HEATER.getCode(), metadata, true);
             response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
         } catch (ValidationException ve) {
             response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
@@ -76,10 +85,9 @@ public class SpaCommandController {
                                          @RequestHeader(name="remote_user", required=false)String remote_user,
                                          @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
         ResponseEntity<?> response;
-        body.put(SpaCommand.REQUESTED_BY, (remote_user == null) ? "Anonymous User" : remote_user);
-        body.put(SpaCommand.REQUEST_PATH, (pathPrefix == null) ? "Direct" : pathPrefix);
+        HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
         try {
-            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.PUMP.getCode(), true);
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.PUMP.getCode(), metadata, true);
             response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
         } catch (ValidationException ve) {
             response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
@@ -88,11 +96,13 @@ public class SpaCommandController {
     }
 
     @RequestMapping(value = "/{spaId}/setCircPumpState", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> setCircPumpState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
-
+    public ResponseEntity<?> setCircPumpState(@PathVariable String spaId, @RequestBody HashMap<String, String> body,
+                                              @RequestHeader(name="remote_user", required=false)String remote_user,
+                                              @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
         ResponseEntity<?> response;
+        HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
         try {
-            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.CIRCULATION_PUMP.getCode(), true);
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.CIRCULATION_PUMP.getCode(), metadata, true);
             response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
         } catch (ValidationException ve) {
             response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
@@ -101,11 +111,14 @@ public class SpaCommandController {
     }
 
     @RequestMapping(value = "/{spaId}/setLightState", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> setLightState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
-
+    public ResponseEntity<?> setLightState(@PathVariable String spaId, @RequestBody HashMap<String, String> body,
+                                           @RequestHeader(name="remote_user", required=false)String remote_user,
+                                           @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
         ResponseEntity<?> response;
+        HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
+
         try {
-            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.LIGHT.getCode(), true);
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.LIGHT.getCode(), metadata, true);
             response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
         } catch (ValidationException ve) {
             response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
@@ -114,10 +127,14 @@ public class SpaCommandController {
     }
 
     @RequestMapping(value = "/{spaId}/setBlowerState", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> setBlowerState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+    public ResponseEntity<?> setBlowerState(@PathVariable String spaId, @RequestBody HashMap<String, String> body,
+                                            @RequestHeader(name="remote_user", required=false)String remote_user,
+                                            @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
         ResponseEntity<?> response;
+        HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
+
         try {
-            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.BLOWER.getCode(), true);
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.BLOWER.getCode(), metadata, true);
             response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
         } catch (ValidationException ve) {
             response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
@@ -126,10 +143,14 @@ public class SpaCommandController {
     }
 
     @RequestMapping(value = "/{spaId}/setMisterState", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> setMisterState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+    public ResponseEntity<?> setMisterState(@PathVariable String spaId, @RequestBody HashMap<String, String> body,
+                                            @RequestHeader(name="remote_user", required=false)String remote_user,
+                                            @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
         ResponseEntity<?> response;
+        HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
+
         try {
-            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.MISTER.getCode(), true);
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.MISTER.getCode(), metadata, true);
             response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
         } catch (ValidationException ve) {
             response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
@@ -138,10 +159,14 @@ public class SpaCommandController {
     }
 
     @RequestMapping(value = "/{spaId}/setOzoneState", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> setOzoneState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+    public ResponseEntity<?> setOzoneState(@PathVariable String spaId, @RequestBody HashMap<String, String> body,
+                                           @RequestHeader(name="remote_user", required=false)String remote_user,
+                                           @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
         ResponseEntity<?> response;
+        HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
+
         try {
-            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.OZONE.getCode(), true);
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.OZONE.getCode(), metadata, true);
             response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
         } catch (ValidationException ve) {
             response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
@@ -150,10 +175,14 @@ public class SpaCommandController {
     }
 
     @RequestMapping(value = "/{spaId}/setMicrosilkState", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> setMicrosilkState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+    public ResponseEntity<?> setMicrosilkState(@PathVariable String spaId, @RequestBody HashMap<String, String> body,
+                                               @RequestHeader(name="remote_user", required=false)String remote_user,
+                                               @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
         ResponseEntity<?> response;
+        HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
+
         try {
-            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.MICROSILK.getCode(), true);
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.MICROSILK.getCode(), metadata, true);
             response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
         } catch (ValidationException ve) {
             response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
@@ -162,10 +191,14 @@ public class SpaCommandController {
     }
 
     @RequestMapping(value = "/{spaId}/setAuxState", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> setAuxState(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+    public ResponseEntity<?> setAuxState(@PathVariable String spaId, @RequestBody HashMap<String, String> body,
+                                         @RequestHeader(name="remote_user", required=false)String remote_user,
+                                         @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
         ResponseEntity<?> response;
+        HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
+
         try {
-            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.AUX.getCode(), true);
+            SpaCommand command = helper.setButtonCommand(spaId, body, SpaCommand.RequestType.AUX.getCode(), metadata, true);
             response = new ResponseEntity<Object>(command, HttpStatus.OK);
         } catch (ValidationException ve) {
             response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
@@ -174,26 +207,41 @@ public class SpaCommandController {
     }
 
     @RequestMapping(value = "/{spaId}/setAgentSettings", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> setAgentSettings(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+    public ResponseEntity<?> setAgentSettings(@PathVariable String spaId, @RequestBody HashMap<String, String> body,
+                                              @RequestHeader(name="remote_user", required=false)String remote_user,
+                                              @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
+        HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
+
         if (spaId == null) {
             return new ResponseEntity<>("Spa Id not provided", HttpStatus.BAD_REQUEST);
         }
 
         final String originatorId = body.get(SpaCommand.REQUEST_ORIGINATOR);
-        SpaCommand command = helper.buildCommand(spaId, originatorId, RequestType.UPDATE_AGENT_SETTINGS.getCode(), body, true);
+        SpaCommand command = helper.buildCommand(spaId, originatorId, RequestType.UPDATE_AGENT_SETTINGS.getCode(), body, metadata, true);
 
         return new ResponseEntity<SpaCommand>(command, HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value = "/{spaId}/setFilterCycleIntervals", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> setFilterCycleIntervals(@PathVariable String spaId, @RequestBody HashMap<String, String> body) {
+    public ResponseEntity<?> setFilterCycleIntervals(@PathVariable String spaId, @RequestBody HashMap<String, String> body,
+                                                     @RequestHeader(name="remote_user", required=false)String remote_user,
+                                                     @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
         ResponseEntity<?> response;
+        HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
+
         try {
-            SpaCommand command = helper.setFilerCycleIntervals(spaId, body, SpaCommand.RequestType.FILTER.getCode(), true);
+            SpaCommand command = helper.setFilerCycleIntervals(spaId, body, SpaCommand.RequestType.FILTER.getCode(), metadata, true);
             response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
         } catch (ValidationException ve) {
             response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return response;
+    }
+
+    private HashMap<String, String> setCommandMetadata(String remoteUser, String pathPrefix) {
+        HashMap<String, String> metadata = new HashMap<String, String>(2);
+        metadata.put(SpaCommand.REQUESTED_BY, (remoteUser == null) ? "Anonymous User" : remoteUser);
+        metadata.put(SpaCommand.REQUEST_PATH, (pathPrefix == null) ? "Direct" : pathPrefix);
+        return metadata;
     }
 }

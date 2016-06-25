@@ -13,9 +13,7 @@ import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
@@ -220,6 +218,7 @@ public class CustomSpaController {
             SpaCommand sc = SpaCommand.newInstanceFromComponent(component);
             if (sc != null) {
                 sc.setOriginatorId("Shut Down Recipe");
+                sc.getMetadata().put("Recipe", "Turn Off Spa");
                 commands.add(sc);
             }
             componentRepository.save(component);
@@ -243,7 +242,8 @@ public class CustomSpaController {
 
         Recipe recipe = new Recipe();
         List<SpaCommand> settings = new ArrayList<>();
-
+        HashMap<String, String> metadata = new HashMap<>(1);
+        metadata.put("Recipe", request.getName());
         try {
             for (HashMap.Entry<String, HashMap<String, String>> entry : request.getSettings().entrySet()) {
                 // massage key
@@ -256,7 +256,7 @@ public class CustomSpaController {
                 SpaCommand.RequestType key = SpaCommand.RequestType.valueOf(incomingKey);
                 switch (key) {
                     case HEATER:
-                        settings.add(helper.setDesiredTemp(spaId, entry.getValue(), key.getCode(), false));
+                        settings.add(helper.setDesiredTemp(spaId, entry.getValue(), key.getCode(), metadata, false));
                         break;
                     case PUMP:
                     case CIRCULATION_PUMP:
@@ -265,10 +265,10 @@ public class CustomSpaController {
                     case MISTER:
                     case OZONE:
                     case MICROSILK:
-                        settings.add(helper.setButtonCommand(spaId, entry.getValue(), key.getCode(), false));
+                        settings.add(helper.setButtonCommand(spaId, entry.getValue(), key.getCode(), metadata, false));
                         break;
                     case FILTER:
-                        settings.add(helper.setFilerCycleIntervals(spaId, entry.getValue(), key.getCode(), false));
+                        settings.add(helper.setFilerCycleIntervals(spaId, entry.getValue(), key.getCode(), metadata, false));
                         break;
                     default:
                 }
@@ -377,12 +377,19 @@ public class CustomSpaController {
     }
 
     @RequestMapping(value = "/{spaId}/recipes/{id}/run", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<?> runSpaRecipe(@PathVariable("id") String id) {
+    public ResponseEntity<?> runSpaRecipe(@PathVariable("id") String id,
+                                          @RequestHeader(name="remote_user", required=false)String remote_user,
+                                          @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
         Recipe recipe = recipeRepository.findOne(id);
         if (recipe == null) {
             LOGGER.info("Spa Recipe with id " + id + " not found");
             return new ResponseEntity<String>("Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
         }
+
+        recipe.getSettings().forEach(spaCommand -> {
+            spaCommand.getMetadata().put(SpaCommand.REQUESTED_BY, (remote_user == null) ? "Anonymous User" : remote_user);
+            spaCommand.getMetadata().put(SpaCommand.REQUEST_PATH, (pathPrefix == null) ? "Direct" : pathPrefix);
+        });
 
         spaCommandRepository.insert(recipe.getSettings());
         Spa spa = spaRepository.findOne(recipe.getSpaId());

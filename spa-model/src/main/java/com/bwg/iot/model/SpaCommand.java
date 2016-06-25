@@ -65,9 +65,11 @@ public class SpaCommand {
     private Date ackTimestamp;
     private String ackResponseCode;
     private HashMap<String, String> values;
+    private HashMap<String, String> metadata;
 
     public SpaCommand() {
         this.values = new HashMap<String, String> ();
+        this.metadata = new HashMap<String, String> ();
     }
 
 
@@ -142,6 +144,14 @@ public class SpaCommand {
         this.values = values;
     }
 
+    public HashMap<String, String> getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(HashMap<String, String> metadata) {
+        this.metadata = metadata;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -172,6 +182,7 @@ public class SpaCommand {
         sb.append("  processedTimestamp: " ).append(processedTimestamp).append("\n");
         sb.append("  ackTimestamp: " ).append(ackTimestamp).append("\n");
         sb.append("  values: " ).append(values).append("\n");
+        sb.append("  metadata: " ).append(metadata).append("\n");
         sb.append("}\n");
     return sb.toString();
     }
