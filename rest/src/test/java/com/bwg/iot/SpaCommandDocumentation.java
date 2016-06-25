@@ -367,7 +367,6 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"),
                                 fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
-                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("values").description("The target state of the device"))));
     }
 
