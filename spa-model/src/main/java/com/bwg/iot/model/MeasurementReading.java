@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.Map;
 
 @Document
-@JsonInclude(value = JsonInclude.Include.NON_EMPTY)
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 @CompoundIndexes({@CompoundIndex(name = "measurementreading_spaid_timestamp_idx", def = "{'spaId': 1, 'timestamp': -1}")})
 public class MeasurementReading extends ResourceSupport {
 
