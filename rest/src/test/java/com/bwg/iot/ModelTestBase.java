@@ -1067,9 +1067,10 @@ public class ModelTestBase {
         eventRepository.save(event);
     }
 
-    protected void createMeasurementReading(String spaId, final String type, final String unitOfMeasure) {
+    protected void createMeasurementReading(final String spaId, final String moteId, final String type, final String unitOfMeasure) {
         final MeasurementReading reading = new MeasurementReading();
         reading.setSpaId(spaId);
+        reading.setMoteId(moteId);
         reading.setOemId("123123");
         reading.setOwnerId("111111");
         reading.setDealerId("222222");
