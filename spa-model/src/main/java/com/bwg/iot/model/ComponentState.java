@@ -18,6 +18,15 @@ public class ComponentState extends ResourceSupport {
     private List<String> availableValues;
     private String name;
     private Date registeredTimestamp;
+    private String componentId;
+
+    public String getComponentId() {
+        return componentId;
+    }
+
+    public void setComponentId(String componentId) {
+        this.componentId = componentId;
+    }
 
     public String getComponentType() {
         return componentType;
@@ -88,6 +97,7 @@ public class ComponentState extends ResourceSupport {
             return false;
         if (port != null ? !port.equals(that.port) : that.port != null) return false;
         if (serialNumber != null ? !serialNumber.equals(that.serialNumber) : that.serialNumber != null) return false;
+        if (componentId != null ? !componentId.equals(that.componentId) : that.componentId != null) return false;
         return value != null ? value.equals(that.value) : that.value == null;
 
     }
@@ -97,6 +107,7 @@ public class ComponentState extends ResourceSupport {
         int result = componentType != null ? componentType.hashCode() : 0;
         result = 31 * result + (port != null ? port.hashCode() : 0);
         result = 31 * result + (serialNumber != null ? serialNumber.hashCode() : 0);
+        result = 31 * result + (componentId != null ? componentId.hashCode() : 0);
         result = 31 * result + (value != null ? value.hashCode() : 0);
         return result;
     }
