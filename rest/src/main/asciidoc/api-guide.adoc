@@ -559,6 +559,44 @@ include::{snippets}/ambientTempMeasurements-list-example/curl-request.adoc[]
 include::{snippets}/ambientTempMeasurements-list-example/http-response.adoc[]
 
 
+[[resource-acCurrentMeasurementsByMote]]
+
+=== Get AC Current Measurements By Mote
+
+A `GET` request to will list ac current measurements of selected spa and mote.
+
+==== Response structure
+
+include::{snippets}/acCurrentMeasurementsByMote-list-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/acCurrentMeasurementsByMote-list-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/acCurrentMeasurementsByMote-list-example/http-response.adoc[]
+
+
+[[resource-ambientTempMeasurementsByMote]]
+
+=== Get Ambient Temp Measurements By Mote
+
+A `GET` request to will list ambient temp measurements of selected spa and mote.
+
+==== Response structure
+
+include::{snippets}/ambientTempMeasurementsByMote-list-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/ambientTempMeasurementsByMote-list-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/ambientTempMeasurementsByMote-list-example/http-response.adoc[]
+
+
 [[resources-alert]]
 == Alert
 

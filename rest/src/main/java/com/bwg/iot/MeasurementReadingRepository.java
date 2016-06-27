@@ -10,6 +10,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 @RepositoryRestResource(exported = false)
 public interface MeasurementReadingRepository extends MongoRepository<MeasurementReading, String> {
 
+    Page<MeasurementReading> findBySpaIdAndMoteIdAndType(@Param("spaId") String spaId, @Param("moteId") String moteId, @Param("type") String type, Pageable pageable);
+
     Page<MeasurementReading> findBySpaIdAndType(@Param("spaId") String spaId, @Param("type") String type, Pageable pageable);
 
 }
