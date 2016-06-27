@@ -922,6 +922,8 @@ public class ModelTestBase {
         alert1.setShortDescription(shortDesc);
         alert1.setCreationDate(new Date());
         alert1.setSpaId(spa.get_id());
+        alert1.setDealerId(spa.getDealerId());
+        alert1.setOemId(spa.getOemId());
         alertRepository.save(alert1);
         return alert1;
     }

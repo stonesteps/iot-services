@@ -629,6 +629,63 @@ include::{snippets}/alert-get-example/curl-request.adoc[]
 include::{snippets}/alert-get-example/http-response.adoc[]
 
 
+=== List Alerts By OEM
+
+*/alerts/search/findByOemId?oemId*
+
+This request will list all alerts related to spas built by a manufacturer
+
+==== Response structure
+
+include::{snippets}/alerts-findbyoem-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/alerts-findbyoem-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/alerts-findbyoem-example/http-response.adoc[]
+
+
+=== List Alerts By Dealer
+
+*/alerts/search/findByDealerId?dealerId*
+
+This request will list all alerts related to spas built by a manufacturer
+
+==== Response structure
+
+include::{snippets}/alerts-findbydealer-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/alerts-findbydealer-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/alerts-findbydealer-example/http-response.adoc[]
+
+
+=== List Alerts By Spa
+
+*/alerts/search/findBySpaId?spaId*
+
+This request will list all alerts related to spas built by a manufacturer
+
+==== Response structure
+
+include::{snippets}/alerts-findbyspa-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/alerts-findbyspa-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/alerts-findbyspa-example/http-response.adoc[]
+
+
 [[resources-alert-create]]
 === Creating an alert
 
