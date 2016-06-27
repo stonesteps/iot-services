@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeRequests()
-                .antMatchers("/idm/**", "/*.html").permitAll()
+                .antMatchers("/idm/**", "/*.html", "/sw_upgrade").permitAll()
                 .anyRequest().authenticated()
         .and()
             .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint());
