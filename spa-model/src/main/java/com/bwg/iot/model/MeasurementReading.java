@@ -30,6 +30,15 @@ public class MeasurementReading extends ResourceSupport {
     private Double value;
     private Map<String, String> metadata;
     private String quality;
+    private String sensorIdentity;
+
+    public String getSensorIdentity() {
+        return sensorIdentity;
+    }
+
+    public void setSensorIdentity(String sensorIdentity) {
+        this.sensorIdentity = sensorIdentity;
+    }
 
     public String getQuality() {
         return quality;
