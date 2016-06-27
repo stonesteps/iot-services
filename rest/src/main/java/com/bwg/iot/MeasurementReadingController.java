@@ -1,6 +1,7 @@
 package com.bwg.iot;
 
 import com.bwg.iot.model.MeasurementReading;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,11 +15,7 @@ import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceAssembler;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @RepositoryRestController
 public class MeasurementReadingController {
@@ -33,12 +30,19 @@ public class MeasurementReadingController {
     @ResponseBody
     public HttpEntity<PagedResources<Resource<MeasurementReading>>> getMeasurements(@PathVariable("spaId") final String spaId,
                                                                                     @RequestParam("measurementType") final String type,
+                                                                                    @RequestParam(value = "moteId", required = false) final String moteId,
                                                                                     final Pageable pageable,
                                                                                     PersistentEntityResourceAssembler entityAssembler) {
         final PageRequest pageRequest = new PageRequest(pageable.getPageNumber(), pageable.getPageSize(), getSort(pageable.getSort()));
         pagedAssembler.setForceFirstAndLastRels(true);
 
-        final Page<MeasurementReading> readings = measurementReadingRepository.findBySpaIdAndType(spaId, type, pageRequest);
+
+        final Page<MeasurementReading> readings;
+        if (StringUtils.isNotBlank(moteId)) {
+            readings = measurementReadingRepository.findBySpaIdAndMoteIdAndType(spaId, moteId, type, pageRequest);
+        } else {
+            readings = measurementReadingRepository.findBySpaIdAndType(spaId, type, pageRequest);
+        }
         return ResponseEntity.ok(pagedAssembler.toResource(readings, (ResourceAssembler) entityAssembler));
     }
 

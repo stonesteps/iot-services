@@ -922,6 +922,8 @@ public class ModelTestBase {
         alert1.setShortDescription(shortDesc);
         alert1.setCreationDate(new Date());
         alert1.setSpaId(spa.get_id());
+        alert1.setDealerId(spa.getDealerId());
+        alert1.setOemId(spa.getOemId());
         alertRepository.save(alert1);
         return alert1;
     }
@@ -1067,9 +1069,10 @@ public class ModelTestBase {
         eventRepository.save(event);
     }
 
-    protected void createMeasurementReading(String spaId, final String type, final String unitOfMeasure) {
+    protected void createMeasurementReading(final String spaId, final String moteId, final String type, final String unitOfMeasure) {
         final MeasurementReading reading = new MeasurementReading();
         reading.setSpaId(spaId);
+        reading.setMoteId(moteId);
         reading.setOemId("123123");
         reading.setOwnerId("111111");
         reading.setDealerId("222222");
