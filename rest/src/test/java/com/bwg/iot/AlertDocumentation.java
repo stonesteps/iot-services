@@ -101,6 +101,8 @@ public final class AlertDocumentation {
 		alert.put("longDescription", "Your filter needs to be replaced. Order at www.bwg.com");
 		alert.put("component", "filter1");
 		alert.put("spaId", "abc00000000000000001");
+		alert.put("oemId", "oem001");
+		alert.put("dealerId", "dealer001");
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 		alert.put("creationDate", simpleDateFormat.format(new Date()));
 
@@ -112,6 +114,8 @@ public final class AlertDocumentation {
 						requestFields(fieldWithPath("name").description("Name of the alert"),
 								fieldWithPath("severityLevel").description("The Severity of the Alert (yellow, red)"),
 								fieldWithPath("spaId").description("The spa associated with the alert"),
+								fieldWithPath("oemId").description("The manufacturer of this spa"),
+								fieldWithPath("dealerId").description("The dealer that sold this spa"),
 								fieldWithPath("shortDescription").description("A brief description of the alert"),
                                 fieldWithPath("longDescription").description("The full text of the alert"),
                                 fieldWithPath("component").description("The spa component related to the alert"),
@@ -159,9 +163,62 @@ public final class AlertDocumentation {
 								fieldWithPath("longDescription").description("The full text of the alert"),
                                 fieldWithPath("component").description("The spa component reporting the alert"),
                                 fieldWithPath("spaId").description("The spa associated with the alert"),
+								fieldWithPath("oemId").description("The manufacturer of this spa"),
+								fieldWithPath("dealerId").description("The dealer that sold this spa"),
                                 fieldWithPath("creationDate").description("The timestamp of when the alert occurred"),
                                 fieldWithPath("_links")
 										.description("<<resources-alert-links,Links>> to other resources"))));
+	}
+
+
+	@Test
+	public void alertsFindByDealerExample() throws Exception {
+		this.alertRepository.deleteAll();
+
+		final Alert alert1 = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
+		final Alert alert2 = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
+
+		this.mockMvc.perform(get("/alerts/search/findByDealerId?dealerId=dealer001&sort=creationDate,desc"))
+				.andExpect(status().isOk())
+				.andDo(document("alerts-findbydealer-example",
+						responseFields(
+								fieldWithPath("_embedded.alerts").description("An array of <<resources-alert, Alert resources>>"),
+								fieldWithPath("_links").description("<<resources-alertslist-links,Links>> to other resources"),
+								fieldWithPath("page").description("Page information"))));
+	}
+
+
+
+	@Test
+	public void alertsFindByOemExample() throws Exception {
+		this.alertRepository.deleteAll();
+
+		final Alert alert1 = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
+		final Alert alert2 = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
+
+		this.mockMvc.perform(get("/alerts/search/findByOemId?oemId=oem001&sort=creationDate,desc"))
+				.andExpect(status().isOk())
+				.andDo(document("alerts-findbyoem-example",
+						responseFields(
+								fieldWithPath("_embedded.alerts").description("An array of <<resources-alert, Alert resources>>"),
+								fieldWithPath("_links").description("<<resources-alertslist-links,Links>> to other resources"),
+								fieldWithPath("page").description("Page information"))));
+	}
+
+	@Test
+	public void alertsFindBySpaExample() throws Exception {
+		this.alertRepository.deleteAll();
+
+		final Alert alert1 = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
+		final Alert alert2 = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
+
+		this.mockMvc.perform(get("/alerts/search/findBySpaId?spaId=mySpa001&sort=creationDate,desc"))
+				.andExpect(status().isOk())
+				.andDo(document("alerts-findbyspa-example",
+						responseFields(
+								fieldWithPath("_embedded.alerts").description("An array of <<resources-alert, Alert resources>>"),
+								fieldWithPath("_links").description("<<resources-alertslist-links,Links>> to other resources"),
+								fieldWithPath("page").description("Page information"))));
 	}
 
 	private Alert createAlert(String name, String severity, String shortDesc, String fullDesc, String component, String spaId) {
@@ -172,6 +229,8 @@ public final class AlertDocumentation {
 		alert.setLongDescription(fullDesc);
 		alert.setComponent(component);
 		alert.setSpaId(spaId);
+		alert.setDealerId("dealer001");
+		alert.setOemId("oem001");
 		alert.setCreationDate(new Date());
 		return alertRepository.save(alert);
 	}

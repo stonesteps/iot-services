@@ -24,6 +24,8 @@ public class Alert extends ResourceSupport {
   private String longDescription = null;
   private String component;
   private String spaId;
+  private String oemId;
+  private String dealerId;
   private Date creationDate;
 
   
@@ -82,6 +84,21 @@ public class Alert extends ResourceSupport {
     this.component = component;
   }
 
+  public String getOemId() {
+    return oemId;
+  }
+
+  public void setOemId(String oemId) {
+    this.oemId = oemId;
+  }
+
+  public String getDealerId() {
+    return dealerId;
+  }
+
+  public void setDealerId(String dealerId) {
+    this.dealerId = dealerId;
+  }
 
   public String getSpaId() {
     return spaId;
