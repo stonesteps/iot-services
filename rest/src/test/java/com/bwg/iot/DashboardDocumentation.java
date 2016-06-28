@@ -165,6 +165,7 @@ public final class DashboardDocumentation extends ModelTestBase {
                                         .description("A map containing counts for total alerts, red alerts, and yellow alerts"),
                                 fieldWithPath("spaCounts")
                                         .description("A map of counts for total spas, sold spas, and online spas"),
+                                fieldWithPath("messageCounts").description("Deprecated. Field no longer used."),
                                 fieldWithPath("_links").description("<<resources-dashboard-links,Links>> to other resources"))));
     }
 

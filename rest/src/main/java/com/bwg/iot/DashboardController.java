@@ -104,6 +104,10 @@ public class DashboardController {
         dashboardInfo.setAlertCounts(alertCountMap);
         dashboardInfo.setSpaCounts(spaCountMap);
 
+        // support deprecated fields until UI changes
+        Map<String, Long> messageCountMap = ImmutableMap.of("totalMessageCount", Long.valueOf(0), "newMessageCount", Long.valueOf(0));
+        dashboardInfo.setMessageCounts(messageCountMap);
+
         dashboardInfo.add(entityLinks.linkFor(com.bwg.iot.model.Alert.class)
                 .slash(slash)
                 .withRel("alertList"));
