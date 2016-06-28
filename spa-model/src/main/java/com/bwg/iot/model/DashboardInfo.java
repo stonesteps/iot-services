@@ -10,31 +10,31 @@ import java.util.Map;
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class DashboardInfo extends ResourceSupport {
 
-  private Map<String, Integer> alertCounts;
-  private Map<String, Integer> spaCounts;
-  private Map<String, Integer> messageCounts;
+  private Map<String, Long> alertCounts;
+  private Map<String, Long> spaCounts;
+  private Map<String, Long> messageCounts;
 
-  public Map<String, Integer> getAlertCounts() {
+  public Map<String, Long> getAlertCounts() {
     return alertCounts;
   }
 
-  public void setAlertCounts(Map<String, Integer> alertCounts) {
+  public void setAlertCounts(Map<String, Long> alertCounts) {
     this.alertCounts = alertCounts;
   }
 
-  public Map<String, Integer> getSpaCounts() {
+  public Map<String, Long> getSpaCounts() {
     return spaCounts;
   }
 
-  public void setSpaCounts(Map<String, Integer> spaCounts) {
+  public void setSpaCounts(Map<String, Long> spaCounts) {
     this.spaCounts = spaCounts;
   }
 
-  public Map<String, Integer> getMessageCounts() {
+  public Map<String, Long> getMessageCounts() {
     return messageCounts;
   }
 
-  public void setMessageCounts(Map<String, Integer> messageCounts) {
+  public void setMessageCounts(Map<String, Long> messageCounts) {
     this.messageCounts = messageCounts;
   }
 
