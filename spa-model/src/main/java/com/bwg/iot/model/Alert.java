@@ -2,6 +2,9 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -10,6 +13,11 @@ import java.util.Objects;
 
 @Document
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
+@CompoundIndexes({
+        @CompoundIndex(name = "alert_oem_idx", def = "{'oemId': 1, 'severityLevel' : 1, 'creationDate': -1}"),
+        @CompoundIndex(name = "alert_dealer_idx", def = "{'dealerId': 1,  'severityLevel' : 1, 'creationDate': -1}"),
+        @CompoundIndex(name = "alert_spa_idx", def = "{'spaId': 1,  'severityLevel' : 1, 'creationDate': -1}")
+})
 public class Alert extends ResourceSupport {
 
   public enum SeverityLevelEnum {
