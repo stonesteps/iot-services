@@ -1,17 +1,19 @@
 package com.bwg.iot;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Collections;
@@ -47,18 +49,21 @@ public class AgentSoftwareUpgradeController {
     private String agentSoftwareUpgradePackageFileNameTemplate;
 
     @RequestMapping(method = RequestMethod.GET)
-    public void getSoftwareUpgradePackage(
+    @ResponseBody
+    public ResponseEntity getSoftwareUpgradePackage(
             @RequestParam("currentBuildNumber") final String buildNumber, final HttpServletResponse response) {
 
         final File softwareUpgradePackageFile = getSoftwareUpgradePackageFile(buildNumber);
         final File latestSoftwareUpgradeFile = getLatestSoftwareUpgradePackageFile();
         if (softwareUpgradePackageFile.exists() || latestSoftwareUpgradeFile == null) {
-            response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            return ResponseEntity.noContent().build();
         } else {
-            response.setStatus(HttpServletResponse.SC_OK);
-            try (final InputStream is = new FileInputStream(latestSoftwareUpgradeFile)) {
-                IOUtils.copy(is, response.getOutputStream());
-                response.flushBuffer();
+            try {
+                return ResponseEntity.ok()
+                        .contentLength(latestSoftwareUpgradeFile.length())
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .header("UPGRADE_PACKAGE_NAME", latestSoftwareUpgradeFile.getName())
+                        .body(new InputStreamResource(new FileInputStream(latestSoftwareUpgradeFile)));
             } catch (final Exception e) {
                 throw new RuntimeException("Error while returning software upgrade package");
             }
