@@ -60,6 +60,7 @@ public class UserRegistrationHelper {
     private String mailerPassword;
     private String spaPortalEndpoint;
     private String idmPortalEndpoint;
+    private String activeProfile;
 
     @PostConstruct
     public void initialize() throws Exception {
@@ -68,6 +69,7 @@ public class UserRegistrationHelper {
         umaAatClientId = environment.getProperty(PropertyNames.UMA_AAT_CLIENT_ID);
         umaAatClientKeyId = environment.getProperty(PropertyNames.UMA_AAT_CLIENT_KEY_ID);
         openidKeysFilename = environment.getProperty(PropertyNames.UMA_OPENID_KEYS_FILENAME);
+        activeProfile = environment.getProperty(PropertyNames.ACTIVE_PROFILES);
 
         log.info("SCIM Client using key file " + openidKeysFilename);
 
@@ -98,7 +100,17 @@ public class UserRegistrationHelper {
      * @return
      */
     private String generateRandomPassword() {
-        return new BigInteger(130, random).toString(32).substring(0, 8);
+        // Pick from some letters that won't be easily mistaken for each
+        // other. So, for example, omit o O and 0, 1 l and L.
+        String letters = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789+@";
+
+        StringBuffer pw = new StringBuffer("");
+        for (int i=0; i<8; i++)
+        {
+            int index = (int)(random.nextDouble()*letters.length());
+            pw.append(letters.charAt(index));
+        }
+        return pw.toString();
     }
 
     /**
@@ -144,7 +156,7 @@ public class UserRegistrationHelper {
 
     private ScimPerson createPerson(com.bwg.iot.model.User user) throws Throwable {
         ScimPerson person = new ScimPerson();
-        String password = user.getUsername(); // generateRandomPassword();
+        String password = ("dev".equalsIgnoreCase(activeProfile)) ? user.getUsername() : generateRandomPassword();
 
         if (null != user) {
             List<String> schema = new ArrayList<String>();
