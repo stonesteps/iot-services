@@ -35,6 +35,8 @@ public class Material extends ResourceSupport {
     // embedded in saved SpaTemplate documents.
     // Not to be stored in Material collection
     private String displayName;
+    private String port;
+
 
     public String get_id() {
         return _id;
@@ -114,6 +116,14 @@ public class Material extends ResourceSupport {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public String getPort() {
+        return port;
+    }
+
+    public void setPort(String port) {
+        this.port = port;
     }
 
     @Override
