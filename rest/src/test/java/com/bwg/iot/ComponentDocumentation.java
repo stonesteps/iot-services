@@ -101,7 +101,7 @@ public final class ComponentDocumentation extends ModelTestBase{
 		component.put("serialNumber", "1503071080");
 		component.put("port", "0");
 		component.put("name", "Main Light");
-		component.put("associatedSensors", newArrayList(new AssociatedSensor("abc123","1"), new AssociatedSensor("abc123","2")));
+		component.put("associatedSensors", newArrayList(new AssociatedSensor("abc123", "1"), new AssociatedSensor("abc123", "2")));
 
 		this.mockMvc
 				.perform(post("/components").contentType(MediaTypes.HAL_JSON)
@@ -111,12 +111,31 @@ public final class ComponentDocumentation extends ModelTestBase{
 						requestFields(fieldWithPath("name").description("Friendly name of the component"),
 								fieldWithPath("serialNumber").description("Component Serial Number"),
 								fieldWithPath("port").description("Spa port component is attached."),
-                                fieldWithPath("componentType").description("The type of component"),
+								fieldWithPath("componentType").description("The type of component"),
 								fieldWithPath("oemId").description("Id of the spa manufacturer"),
 								fieldWithPath("dealerId").description("Id of the spa dealer"),
 								fieldWithPath("spaId").description("Id of the spa"),
 								fieldWithPath("associatedSensors").description("The moteIds(component ids that are of type MOTE) and specific sensorIds on the mote that should be asssociated to this component").optional(),
 								fieldWithPath("ownerId").description("Owner of the spa"))));
+	}
+
+	@Test
+	public void componentCreateNoSensorsExample() throws Exception {
+		final Map<String, Object> component = new HashMap<>();
+		component.put("spaId", "spa001");
+		component.put("oemId", "oem001");
+		component.put("dealerId", "dealer001");
+		component.put("ownerId", "owner001");
+		component.put("componentType", Component.ComponentType.LIGHT);
+		component.put("serialNumber", "1503071080");
+		component.put("port", "0");
+		component.put("name", "Main Light");
+
+		this.mockMvc
+				.perform(post("/components").contentType(MediaTypes.HAL_JSON)
+						.content(this.objectMapper.writeValueAsString(component)))
+				.andExpect(status().isCreated());
+
 	}
 
 	@Test
