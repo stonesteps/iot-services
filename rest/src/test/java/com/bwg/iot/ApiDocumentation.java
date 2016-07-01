@@ -402,11 +402,11 @@ public class ApiDocumentation extends ModelTestBase{
 
 		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
 		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
-		createMeasurementReading(spa.get_id(), "mote1", "AC_CURRENT", "milliamps");
-		createMeasurementReading(spa.get_id(), "mote1", "AC_CURRENT", "milliamps");
-		createMeasurementReading(spa.get_id(), "mote1", "AC_CURRENT", "milliamps");
+		createMeasurementReading(spa.get_id(), "mote1", "PUMP_AC_CURRENT", "milliamps", "1");
+		createMeasurementReading(spa.get_id(), "mote1", "PUMP_AC_CURRENT", "milliamps", "2");
+		createMeasurementReading(spa.get_id(), "mote1", "PUMP_AC_CURRENT", "milliamps", "2");
 
-		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/measurements?measurementType=AC_CURRENT"))
+		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/measurements?measurementType=PUMP_AC_CURRENT"))
 				.andExpect(status().isOk())
 				.andDo(document("acCurrentMeasurements-list-example",
 						responseFields(
@@ -422,13 +422,33 @@ public class ApiDocumentation extends ModelTestBase{
 
 		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
 		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
-		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_TEMP", "celsius");
-		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_TEMP", "celsius");
-		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_TEMP", "celsius");
+		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_TEMP", "celsius", "1");
+		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_TEMP", "celsius", "1");
+		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_TEMP", "celsius", "2");
 
 		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/measurements?measurementType=AMBIENT_TEMP"))
 				.andExpect(status().isOk())
 				.andDo(document("ambientTempMeasurements-list-example",
+						responseFields(
+								fieldWithPath("_embedded.measurementReadings").description("An array of measurements"),
+								fieldWithPath("_links").description("Links to other resources"),
+								fieldWithPath("page").description("Page information"))));
+	}
+
+	@Test
+	public void ambientHumidityMeasurementsExample() throws Exception {
+		this.spaRepository.deleteAll();
+		this.measurementReadingRepository.deleteAll();
+
+		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
+		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
+		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_HUMIDITY", "percent", "1");
+		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_HUMIDITY", "percent", "1");
+		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_HUMIDITY", "percent", "2");
+
+		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/measurements?measurementType=AMBIENT_HUMIDITY"))
+				.andExpect(status().isOk())
+				.andDo(document("ambientHumidityMeasurements-list-example",
 						responseFields(
 								fieldWithPath("_embedded.measurementReadings").description("An array of measurements"),
 								fieldWithPath("_links").description("Links to other resources"),
@@ -442,10 +462,10 @@ public class ApiDocumentation extends ModelTestBase{
 
 		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
 		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
-		createMeasurementReading(spa.get_id(), "mote1", "AC_CURRENT", "milliamps");
-		createMeasurementReading(spa.get_id(), "mote1", "AC_CURRENT", "milliamps");
+		createMeasurementReading(spa.get_id(), "mote1", "PUMP_AC_CURRENT", "milliamps", "1");
+		createMeasurementReading(spa.get_id(), "mote1", "PUMP_AC_CURRENT", "milliamps", "1");
 
-		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/measurements?measurementType=AC_CURRENT&moteId=mote1"))
+		this.mockMvc.perform(get("/spas/measurements?measurementType=PUMP_AC_CURRENT&moteId=mote1"))
 				.andExpect(status().isOk())
 				.andDo(document("acCurrentMeasurementsByMote-list-example",
 						responseFields(
@@ -461,12 +481,31 @@ public class ApiDocumentation extends ModelTestBase{
 
 		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
 		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
-		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_TEMP", "celsius");
-		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_TEMP", "celsius");
+		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_TEMP", "celsius", "1");
+		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_TEMP", "celsius", "2");
 
-		this.mockMvc.perform(get("/spas/"+spa.get_id()+"/measurements?measurementType=AMBIENT_TEMP&moteId=mote1"))
+		this.mockMvc.perform(get("/spas/measurements?measurementType=AMBIENT_TEMP&moteId=mote1"))
 				.andExpect(status().isOk())
 				.andDo(document("ambientTempMeasurementsByMote-list-example",
+						responseFields(
+								fieldWithPath("_embedded.measurementReadings").description("An array of measurements"),
+								fieldWithPath("_links").description("Links to other resources"),
+								fieldWithPath("page").description("Page information"))));
+	}
+
+	@Test
+	public void measurementsByMoteIdAndSensorIdExample() throws Exception {
+		this.spaRepository.deleteAll();
+		this.measurementReadingRepository.deleteAll();
+
+		User owner = createUser("eblues", "Elwood", "Blues", null, null, createAddress(), Arrays.asList("OWNER"), null);
+		final Spa spa = createFullSpaWithState("0blah345", "Shark", "Land", "oem0000001", "101", owner);
+		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_TEMP", "celsius", "1");
+		createMeasurementReading(spa.get_id(), "mote1", "AMBIENT_TEMP", "celsius", "2");
+
+		this.mockMvc.perform(get("/spas/measurements?&moteId=mote1&sensorId=2"))
+				.andExpect(status().isOk())
+				.andDo(document("ambientTempMeasurementsByMoteAndSensor-list-example",
 						responseFields(
 								fieldWithPath("_embedded.measurementReadings").description("An array of measurements"),
 								fieldWithPath("_links").description("Links to other resources"),

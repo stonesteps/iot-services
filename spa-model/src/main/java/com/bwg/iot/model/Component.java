@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -54,6 +53,7 @@ public class Component extends ResourceSupport {
     private Date registrationDate;
     private Boolean factoryInit = new Boolean(true);
     private Map<String, String> metaValues = newHashMap();
+    private List<AssociatedSensor> associatedSensors = newArrayList();
 
     public String get_id() {
         return _id;
@@ -165,6 +165,26 @@ public class Component extends ResourceSupport {
 
     public void setFactoryInit(Boolean factoryInit) {
         this.factoryInit = factoryInit;
+    }
+
+    /**
+     * get the sensors that are associated to the component.
+     *
+     * These associations are only updated as a result of person asserting them such as spa planner activity. They should only
+     * be created/updated as a result of a person saying 'hey, this sensor/mote instance was connected and measures this spa component'.
+     *
+     * The payoff then is that in System Info tab, the UI can know what sensors are associated to spa components
+     * and query for those specific sensor measurements and display right next to the real component they are
+     * related to. Primary example being ac current meassurments shown next to PUMP components.
+     *
+     * @return
+     */
+    public List<AssociatedSensor> getAssociatedSensors() {
+        return associatedSensors;
+    }
+
+    public void setAssociatedSensors(List<AssociatedSensor> associatedComponentSensors) {
+        this.associatedSensors = associatedComponentSensors;
     }
 
     @Override

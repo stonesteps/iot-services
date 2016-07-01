@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
@@ -100,6 +101,7 @@ public final class ComponentDocumentation extends ModelTestBase{
 		component.put("serialNumber", "1503071080");
 		component.put("port", "0");
 		component.put("name", "Main Light");
+		component.put("associatedSensors", newArrayList(new AssociatedSensor("abc123","1"), new AssociatedSensor("abc123","2")));
 
 		this.mockMvc
 				.perform(post("/components").contentType(MediaTypes.HAL_JSON)
@@ -113,6 +115,7 @@ public final class ComponentDocumentation extends ModelTestBase{
 								fieldWithPath("oemId").description("Id of the spa manufacturer"),
 								fieldWithPath("dealerId").description("Id of the spa dealer"),
 								fieldWithPath("spaId").description("Id of the spa"),
+								fieldWithPath("associatedSensors").description("The moteIds(component ids that are of type MOTE) and specific sensorIds on the mote that should be asssociated to this component").optional(),
 								fieldWithPath("ownerId").description("Owner of the spa"))));
 	}
 
@@ -138,6 +141,8 @@ public final class ComponentDocumentation extends ModelTestBase{
 		this.componentRepository.deleteAll();
 
 		Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Jets", "1502119991", "spa0001");
+        pump1.getAssociatedSensors().add(new AssociatedSensor("abc123","1"));
+		pump1.getAssociatedSensors().add(new AssociatedSensor("abc123","2"));
 
         this.mockMvc.perform(get("/components/{0}", pump1.get_id())).andExpect(status().isOk())
 				.andExpect(jsonPath("name", is(pump1.getName())))
@@ -154,6 +159,7 @@ public final class ComponentDocumentation extends ModelTestBase{
                                 fieldWithPath("dealerId").description("Id of the spa dealer").optional().type(String.class),
                                 fieldWithPath("spaId").description("Id of the spa").optional().type(String.class),
                                 fieldWithPath("ownerId").description("Owner of the spa").optional().type(String.class),
+								fieldWithPath("associcatedSensors").description("Sensors that have been associated to this component").optional().type(AssociatedSensor.class),
 								fieldWithPath("factoryInit").description("Boolean flag identifying components created during factory test").type(Boolean.class),
                                 fieldWithPath("_links")
 										.description("<<resources-oem-links,Links>> to other resources"))));

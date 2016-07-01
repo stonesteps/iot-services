@@ -20,24 +20,17 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 /**
- * decorate associated sensors with the links to their associated measurements
+ * decorate associated sensors with a hateoas link to their associated measurements
  */
 @Component
-public class AssociatedSensorResourceProcessor implements ResourceProcessor<Resource<com.bwg.iot.model.Component>> {
+public class AssociatedSensorResourceProcessor implements ResourceProcessor<Resource<AssociatedSensor>> {
 
-    @Autowired
-    private EntityLinks entityLinks;
+    public Resource<AssociatedSensor> process(Resource<AssociatedSensor> resource) {
+        final AssociatedSensor sensor = resource.getContent();
 
-    @Autowired
-    PersistentEntityResourceAssembler entityAssembler;
-
-    public Resource<com.bwg.iot.model.Component> process(Resource<com.bwg.iot.model.Component> resource) {
-        final com.bwg.iot.model.Component comp = resource.getContent();
-        for (AssociatedSensor sensor : comp.getAssociatedSensors()) {
-            if (sensor.getMoteId() != null && sensor.getSensorId() != null) {
-                PageRequest request = new PageRequest(0, 100, new Sort(new Order(Direction.DESC, "timestamp")));
-                linkTo(methodOn(MeasurementReadingController.class).getMeasurements(Optional.empty(), Optional.empty(), Optional.of(sensor.getMoteId()), Optional.of(sensor.getSensorId()), request, entityAssembler)).withRel("measurements");
-            }
+        if (sensor.getMoteId() != null && sensor.getSensorId() != null) {
+            PageRequest request = new PageRequest(0, 100, new Sort(new Order(Direction.DESC, "timestamp")));
+            resource.add(linkTo(methodOn(MeasurementReadingController.class).getMeasurements(Optional.empty(), Optional.empty(), Optional.of(sensor.getMoteId()), Optional.of(sensor.getSensorId()), request, null)).withRel("measurements"));
         }
         return resource;
     }
