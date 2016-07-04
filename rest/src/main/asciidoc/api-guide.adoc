@@ -554,23 +554,23 @@ include::{snippets}/ambientTempMeasurements-list-example/curl-request.adoc[]
 include::{snippets}/ambientTempMeasurements-list-example/http-response.adoc[]
 
 
-[[resource-ambientHumidityMeasurements]]
+[[resource-ambientHumidityMeasurementsByTypeAndSpa]]
 
-=== Get Ambient Humidity Measurements
+=== Get Ambient Humidity Measurements by Spa
 
-A `GET` request to list ambient humidity measurements of selected spa.
+A `GET` request to list humidity measurements of selected spa.
 
 ==== Response structure
 
-include::{snippets}/ambientHumidityMeasurements-list-example/response-fields.adoc[]
+include::{snippets}/ambientHumidityMeasurementsByTypeAndSpa-list-example/response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/ambientHumidityMeasurements-list-example/curl-request.adoc[]
+include::{snippets}/ambientHumidityMeasurementsByTypeAndSpa-list-example/curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/ambientHumidityMeasurements-list-example/http-response.adoc[]
+include::{snippets}/ambientHumidityMeasurementsByTypeAndSpa-list-example/http-response.adoc[]
 
 
 
@@ -593,42 +593,42 @@ include::{snippets}/acCurrentMeasurementsByMote-list-example/curl-request.adoc[]
 include::{snippets}/acCurrentMeasurementsByMote-list-example/http-response.adoc[]
 
 
-[[resource-ambientTempMeasurementsByMote]]
+[[resource-measurementsByMote]]
 
-=== Get Ambient Temp Measurements By Mote
+=== Get Measurements By Mote
 
-A `GET` request to will list ambient temp measurements of selected spa and mote.
-
-==== Response structure
-
-include::{snippets}/ambientTempMeasurementsByMote-list-example/response-fields.adoc[]
-
-==== Example request
-
-include::{snippets}/ambientTempMeasurementsByMote-list-example/curl-request.adoc[]
-
-==== Example response
-
-include::{snippets}/ambientTempMeasurementsByMote-list-example/http-response.adoc[]
-
-
-[[resource-ambientTempMeasurementsByMoteAndSensor]]
-
-=== Get Ambient Temp Measurements By Mote and Sensor
-
-A `GET` request to list all measurements of selected mote and sensor
+A `GET` request to will list all measurements of selected spa and mote.
 
 ==== Response structure
 
-include::{snippets}/ambientTempMeasurementsByMoteAndSensor-list-example/response-fields.adoc[]
+include::{snippets}/measurementsByMote-list-example/response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/ambientTempMeasurementsByMoteAndSensor-list-example/curl-request.adoc[]
+include::{snippets}/measurementsByMote-list-example/curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/ambientTempMeasurementsByMoteAndSensor-list-example/http-response.adoc[]
+include::{snippets}/measurementsByMote-list-example/http-response.adoc[]
+
+
+[[resource-ambientTempMeasurementsBySensor]]
+
+=== Get all measurements of an Ambient Temp Sensor
+
+A `GET` request to list all measurements of selected sensor
+
+==== Response structure
+
+include::{snippets}/ambientTempMeasurementsBySensor-list-example/response-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/ambientTempMeasurementsBySensor-list-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/ambientTempMeasurementsBySensor-list-example/http-response.adoc[]
 
 
 [[resources-alert]]

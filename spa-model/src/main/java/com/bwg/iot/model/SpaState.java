@@ -34,7 +34,6 @@ public class SpaState {
     int updateIntervalSeconds;
     int wifiUpdateIntervalSeconds;
     List<ComponentState> components;
-    List<Measurement> measurements;
     SetupParams setupParams;
     SystemInfo systemInfo;
     WifiConnectionHealth wifiConnectionHealth;
@@ -101,7 +100,6 @@ public class SpaState {
 
     public SpaState(){
         components = new ArrayList<ComponentState>();
-        measurements = new ArrayList<Measurement>();
     }
 
     public String getControllerType() {
@@ -150,14 +148,6 @@ public class SpaState {
 
     public void setComponents(List<ComponentState> components) {
         this.components = components;
-    }
-
-    public List<Measurement> getMeasurements() {
-        return measurements;
-    }
-
-    public void setMeasurements(List<Measurement> measurements) {
-        this.measurements = measurements;
     }
 
     public Date getUplinkTimestamp() {
@@ -560,7 +550,6 @@ public class SpaState {
                 ", targetDesiredTemp='" + targetDesiredTemp + '\'' +
                 ", currentTemp='" + currentTemp + '\'' +
                 ", components=" + components +
-                ", measurements=" + measurements +
                 ", uplinkTimestamp='" + uplinkTimestamp + '\'' +
                 '}';
     }

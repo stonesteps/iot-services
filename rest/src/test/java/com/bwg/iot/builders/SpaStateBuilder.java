@@ -23,10 +23,6 @@ public class SpaStateBuilder {
         spaState.getComponents().add(cs);
         return this;
     }
-    public SpaStateBuilder measurement(Measurement measurement){
-        spaState.getMeasurements().add(measurement);
-        return this;
-    }
     public SpaStateBuilder uplinkTimestamp(Date timestamp){
         spaState.setUplinkTimestamp(timestamp);
         return this;

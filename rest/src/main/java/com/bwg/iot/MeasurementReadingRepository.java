@@ -29,18 +29,6 @@ public interface MeasurementReadingRepository extends MongoRepository<Measuremen
      */
     Page<MeasurementReading> findByMoteId(@Param("moteId") String moteId, Pageable pageable);
 
-
-    /**
-     * sensorId on it's own is not globally unique
-     * is only meaningful when combined with a spaId and moteId that contains it, othewise it's ignored
-     *
-     * @param moteId
-     * @param sensorIdentity
-     * @param pageable
-     * @return
-     */
-    Page<MeasurementReading> findByMoteIdAndSensorIdentity(@Param("moteId") String moteId, @Param("sensorIdentity") String sensorIdentity, Pageable pageable);
-
     /**
      * retrieve sensor readings by the spaId and type of reading, this will include multiple motes/sensors in reesult set
      *
@@ -50,5 +38,24 @@ public interface MeasurementReadingRepository extends MongoRepository<Measuremen
      * @return
      */
     Page<MeasurementReading> findBySpaIdAndType(@Param("spaId") String spaId, @Param("type") String type, Pageable pageable);
+
+    /**
+     * retrieve sensor readings by the spaId, this will include multiple motes/sensors in reesult set
+     *
+     * @param spaId
+     * @param pageable
+     * @return
+     */
+    Page<MeasurementReading> findBySpaId(@Param("spaId") String spaId, Pageable pageable);
+
+    /**
+     * retrieve sensor readings by the sensorId
+     *
+     * @param sensorId
+     * @param pageable
+     * @return
+     */
+    Page<MeasurementReading> findBySensorId(@Param("sensorId") String sensorId, Pageable pageable);
+
 
 }
