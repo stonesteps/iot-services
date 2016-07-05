@@ -1,4 +1,4 @@
-package com.bwg.iot.job_scheduling;
+package com.bwg.iot.job_scheduling.job;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,7 @@ import org.springframework.batch.core.listener.JobExecutionListenerSupport;
 /**
  * Very basic job execution listener - just logs job status.
  */
-public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
+public final class JobCompletionNotificationListener extends JobExecutionListenerSupport {
 
     private static final Logger log = LoggerFactory.getLogger(JobCompletionNotificationListener.class);
 

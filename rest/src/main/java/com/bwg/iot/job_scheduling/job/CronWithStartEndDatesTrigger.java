@@ -1,4 +1,4 @@
-package com.bwg.iot.job_scheduling;
+package com.bwg.iot.job_scheduling.job;
 
 import org.springframework.scheduling.Trigger;
 import org.springframework.scheduling.TriggerContext;
@@ -10,7 +10,7 @@ import java.util.TimeZone;
 /**
  * Created by holow on 7/1/2016.
  */
-public class CronWithStartEndDatesTrigger implements Trigger {
+public final class CronWithStartEndDatesTrigger implements Trigger {
 
     private final Date startDate;
     private final Date endDate;
