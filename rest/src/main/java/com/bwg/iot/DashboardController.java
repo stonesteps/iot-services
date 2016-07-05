@@ -77,11 +77,11 @@ public class DashboardController {
             onlineSpaQuery.addCriteria(Criteria.where("oemId").is(user.getOemId()));
             slash = "/search/findByOemId?oemId=" + user.getOemId();
         } else if (user.hasRole(User.Role.DEALER.name())) {
-            alertQuery.addCriteria(Criteria.where("dealerId").is(user.getOemId()));
-            redAlertQuery.addCriteria(Criteria.where("dealerId").is(user.getOemId()));
-            spaQuery.addCriteria(Criteria.where("dealerId").is(user.getOemId()));
-            unsoldSpaQuery.addCriteria(Criteria.where("dealerId").is(user.getOemId()));
-            onlineSpaQuery.addCriteria(Criteria.where("dealerId").is(user.getOemId()));
+            alertQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
+            redAlertQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
+            spaQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
+            unsoldSpaQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
+            onlineSpaQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
             slash = "/search/findByDealerId?dealerId=" + user.getDealerId();
         }
         redAlertQuery.addCriteria(Criteria.where("severityLevel").is(Alert.SeverityLevelEnum.red.name()));
