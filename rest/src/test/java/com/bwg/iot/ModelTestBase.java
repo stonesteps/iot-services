@@ -12,11 +12,11 @@ import org.springframework.data.mongodb.gridfs.GridFsTemplate;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.*;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -87,6 +87,8 @@ public class ModelTestBase {
     ObjectMapper objectMapper;
 
     protected static int serialSuffix = 1001;
+    private Component sensor1;
+    private Component sensor2;
 
     protected void clearAllData() {
         this.addressRepository.deleteAll();
@@ -278,6 +280,19 @@ public class ModelTestBase {
         return component;
     }
 
+    protected Component createSensorComponent(String type, String port, String name, String serialNumber, String spaId, String moteId) {
+        Component component = new Component();
+        component.setComponentType(type);
+        component.setSerialNumber(serialNumber);
+        component.setPort(port);
+        component.setSpaId(spaId);
+        component.setName(name);
+        component.setParentComponentId(moteId);
+
+        componentRepository.save(component);
+        return component;
+    }
+
     protected ComponentState createComponentState(Component component, String value) {
         ComponentState cs = new ComponentState();
         cs.setComponentType(component.getComponentType());
@@ -389,17 +404,24 @@ public class ModelTestBase {
         gateway.setRegistrationDate(new Date());
         componentRepository.save(gateway);
 
-        Component mote1 = createComponent(Component.ComponentType.MOTE.name(), "0", "Pump #1 Measurement", serialNumber, spa.get_id());
+        Component mote1 = createComponent(Component.ComponentType.MOTE.name(), "0", "Mote 1", serialNumber, spa.get_id());
         gateway.setRegistrationDate(new Date());
         componentRepository.save(mote1);
 
-        Component mote2 = createComponent(Component.ComponentType.MOTE.name(), "1", "Pump #1 Measurement", serialNumber, spa.get_id());
+        sensor1 = createSensorComponent(Component.ComponentType.SENSOR.name(), null, "sensor 1", "1", spa.get_id(), mote1.get_id());
         gateway.setRegistrationDate(new Date());
-        componentRepository.save(mote2);
+        componentRepository.save(sensor1);
+
+        sensor2 = createSensorComponent(Component.ComponentType.SENSOR.name(), null, "sensor 2", "2", spa.get_id(), mote1.get_id());
+        gateway.setRegistrationDate(new Date());
+        componentRepository.save(sensor2);
 
         String pumpPartNo1 = "1016205*";
         String pumpPartNo2 = "1042118*";
         Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Circulation", pumpPartNo1 + serialNumber, spa.get_id());
+        pump1.setAssociatedSensors(newArrayList(new AssociatedSensor(sensor1.get_id()), new AssociatedSensor(sensor2.get_id())));
+        componentRepository.save(pump1);
+
         Component pump2 = createComponent(Component.ComponentType.PUMP.name(), "1", "Massage Jets", pumpPartNo1 + serialNumber, spa.get_id());
         Component pump3 = createComponent(Component.ComponentType.PUMP.name(), "2", "Captain's Chair", pumpPartNo1 + serialNumber, spa.get_id());
         Component pump4 = createComponent(Component.ComponentType.PUMP.name(), "3", "Foot Massage", pumpPartNo2 + serialNumber, spa.get_id());
@@ -423,6 +445,7 @@ public class ModelTestBase {
         Component panel = createComponent(Component.ComponentType.CONTROLLER.name(), "0", "Controller Panel", "56549-" + serialNumber, spa.get_id());
 
         ComponentState p1State = createComponentState(pump1, "LOW");
+        p1State.setComponentId(pump1.get_id());
         ComponentState p2State = createComponentState(pump2, "MED");
         ComponentState p3State = createComponentState(pump3, "OFF");
         ComponentState p4State = createComponentState(pump4, "OFF");
@@ -445,7 +468,6 @@ public class ModelTestBase {
         ComponentState microsilkState = createComponentState(microsilk, "ON");
         ComponentState gatewayState = createComponentState(gateway, "OFF");
         ComponentState mote1State = createComponentState(mote1, "2.50");
-        ComponentState mote2State = createComponentState(mote2, "3.3367");
 
         SpaState spaState = new SpaStateBuilder()
                 .runMode("Ready")
@@ -457,7 +479,7 @@ public class ModelTestBase {
                 .component(filter1State).component(filter2State)
                 .component(aux1State).component(aux2State).component(aux3State)
                 .component(microsilkState).component(ozoneState)
-                .component(gatewayState).component(mote1State).component(mote2State)
+                .component(gatewayState).component(mote1State)
                 .targetDesiredTemp("102")
                 .desiredTemp("102")
                 .currentTemp("100")
@@ -1069,13 +1091,23 @@ public class ModelTestBase {
         eventRepository.save(event);
     }
 
-    protected void createMeasurementReading(final String spaId, final String moteId, final String type, final String unitOfMeasure) {
+    protected Component getSensor1() {
+        return sensor1;
+    }
+
+    protected Component getSensor2() {
+        return sensor2;
+    }
+
+    protected void createMeasurementReading(final String spaId, final String moteId, final String type, final String unitOfMeasure, final Component sensor) {
         final MeasurementReading reading = new MeasurementReading();
         reading.setSpaId(spaId);
         reading.setMoteId(moteId);
         reading.setOemId("123123");
         reading.setOwnerId("111111");
         reading.setDealerId("222222");
+        reading.setSensorIdentifier(sensor.getSerialNumber());
+        reading.setSensorId(sensor.get_id());
 
         reading.setTimestamp(new Date());
         reading.setValue(Double.valueOf(12.0));

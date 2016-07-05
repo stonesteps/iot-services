@@ -9,9 +9,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.newHashMap;
@@ -24,7 +24,7 @@ import static com.google.common.collect.Maps.newHashMap;
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class Component extends ResourceSupport {
 
-    public enum ComponentType { GATEWAY, MOTE, PUMP, LIGHT, BLOWER, MISTER, FILTER, AUX, PANEL, OZONE, MICROSILK, CONTROLLER, UV, AV, CIRCULATION_PUMP };
+    public enum ComponentType { GATEWAY, MOTE, PUMP, LIGHT, BLOWER, MISTER, FILTER, AUX, PANEL, OZONE, MICROSILK, CONTROLLER, UV, AV, CIRCULATION_PUMP, SENSOR };
     public final static List<String> PORT_BASED_COMPONENT_TYPES =
             newArrayList(ComponentType.AUX.name(),
                     ComponentType.BLOWER.name(),
@@ -46,6 +46,7 @@ public class Component extends ResourceSupport {
     private String dealerId;
     private String oemId;
     private String templateId;
+    private String parentComponentId;
     private String componentType;
     private String name;
     private String serialNumber;
@@ -54,6 +55,7 @@ public class Component extends ResourceSupport {
     private Date registrationDate;
     private Boolean factoryInit = new Boolean(true);
     private Map<String, String> metaValues = newHashMap();
+    private List<AssociatedSensor> associatedSensors = newArrayList();
 
     public String get_id() {
         return _id;
@@ -151,6 +153,19 @@ public class Component extends ResourceSupport {
         this.oemId = oemId;
     }
 
+    /**
+     * get the optional parent association for a component, one such relationship that will be captured
+     * is that of sensor to a mote(parentId=moteId) or a sensor to the gateway component(parentId=gatewayId)
+     * @return
+     */
+    public String getParentComponentId() {
+        return parentComponentId;
+    }
+
+    public void setParentComponentId(String parentComponentId) {
+        this.parentComponentId = parentComponentId;
+    }
+
     public Map<String, String> getMetaValues() {
         return metaValues;
     }
@@ -167,6 +182,26 @@ public class Component extends ResourceSupport {
         this.factoryInit = factoryInit;
     }
 
+    /**
+     * get the sensors that are associated to the component.
+     *
+     * These associations are only updated as a result of person asserting them such as spa planner activity. They should only
+     * be created/updated as a result of a person saying 'hey, this sensor component measures this spa component'.
+     *
+     * The payoff then is that in System Info tab, the UI can know what sensors are associated to spa components
+     * and query for those specific sensor measurements and display right next to the real component they are
+     * related to. Primary example being ac current meassurments shown next to PUMP components.
+     *
+     * @return
+     */
+    public List<AssociatedSensor> getAssociatedSensors() {
+        return associatedSensors;
+    }
+
+    public void setAssociatedSensors(List<AssociatedSensor> associatedComponentSensors) {
+        this.associatedSensors = associatedComponentSensors;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -177,6 +212,7 @@ public class Component extends ResourceSupport {
 
         if (!componentType.equals(component.componentType)) return false;
         if (!serialNumber.equals(component.serialNumber)) return false;
+        if (!Objects.equals(parentComponentId, component.getParentComponentId())) return false;
         return registrationDate != null ? registrationDate.equals(component.registrationDate) : component.registrationDate == null;
 
     }
@@ -186,6 +222,9 @@ public class Component extends ResourceSupport {
         int result = super.hashCode();
         result = 31 * result + componentType.hashCode();
         result = 31 * result + serialNumber.hashCode();
+        if (parentComponentId != null) {
+            result = 31 * result + parentComponentId.hashCode();
+        }
         return result;
     }
 

@@ -23,6 +23,7 @@ public class MeasurementReading extends ResourceSupport {
     private String dealerId;
     private String oemId;
     private String moteId;
+    private String sensorId;
 
     private Date timestamp;
     private String type;
@@ -30,14 +31,33 @@ public class MeasurementReading extends ResourceSupport {
     private Double value;
     private Map<String, String> metadata;
     private String quality;
-    private String sensorIdentity;
+    private String sensorIdentifier;
 
-    public String getSensorIdentity() {
-        return sensorIdentity;
+    /**
+     * The sensor id is the mongodb generated id for the component that represents a sensor
+     *
+     * @return
+     */
+    public String getSensorId() {
+        return sensorId;
     }
 
-    public void setSensorIdentity(String sensorIdentity) {
-        this.sensorIdentity = sensorIdentity;
+    public void setSensorId(String sensorId) {
+        this.sensorId = sensorId;
+    }
+
+    /**
+     * The sensor identifier is whatever mac-like address the gateway reports on measurements for the sensor,
+     * it should be unique per mote only.
+     * @return
+     */
+
+    public String getSensorIdentifier() {
+        return sensorIdentifier;
+    }
+
+    public void setSensorIdentifier(String sensorIdentity) {
+        this.sensorIdentifier = sensorIdentity;
     }
 
     public String getQuality() {

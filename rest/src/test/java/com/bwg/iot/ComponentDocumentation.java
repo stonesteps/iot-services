@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.linkWithRel;
 import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.links;
@@ -44,6 +45,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -96,10 +98,12 @@ public final class ComponentDocumentation extends ModelTestBase{
 		component.put("oemId", "oem001");
 		component.put("dealerId", "dealer001");
 		component.put("ownerId", "owner001");
-		component.put("componentType", Component.ComponentType.LIGHT);
+		component.put("componentType", Component.ComponentType.PUMP);
 		component.put("serialNumber", "1503071080");
 		component.put("port", "0");
 		component.put("name", "Main Light");
+		component.put("parentComponentId", "mote_id_1");
+		component.put("associatedSensors", newArrayList(new AssociatedSensor("sensor_component_id_1"), new AssociatedSensor("sensor_component_id_2")));
 
 		this.mockMvc
 				.perform(post("/components").contentType(MediaTypes.HAL_JSON)
@@ -109,11 +113,32 @@ public final class ComponentDocumentation extends ModelTestBase{
 						requestFields(fieldWithPath("name").description("Friendly name of the component"),
 								fieldWithPath("serialNumber").description("Component Serial Number"),
 								fieldWithPath("port").description("Spa port component is attached."),
-                                fieldWithPath("componentType").description("The type of component"),
+								fieldWithPath("componentType").description("The type of component"),
 								fieldWithPath("oemId").description("Id of the spa manufacturer"),
 								fieldWithPath("dealerId").description("Id of the spa dealer"),
 								fieldWithPath("spaId").description("Id of the spa"),
+								fieldWithPath("parentComponentId").description("optionally create a hierarchy, such as when a sensor component is created it can also optionally by linked to a MOTE component by setting the parentComponentId property. Sensor components do not require being linked to MOTE components, if not they are considered wired to the gateway.").optional().type(String.class),
+								fieldWithPath("associatedSensors").description("The sensorIds(component ids that are of type SENSOR) to be associated to this component. A component of dataType=SENSOR, must be created first to get the sensorId.").optional().type(List.class),
 								fieldWithPath("ownerId").description("Owner of the spa"))));
+	}
+
+	@Test
+	public void componentCreateNoSensorsExample() throws Exception {
+		final Map<String, Object> component = new HashMap<>();
+		component.put("spaId", "spa001");
+		component.put("oemId", "oem001");
+		component.put("dealerId", "dealer001");
+		component.put("ownerId", "owner001");
+		component.put("componentType", Component.ComponentType.LIGHT);
+		component.put("serialNumber", "1503071080");
+		component.put("port", "0");
+		component.put("name", "Main Light");
+
+		this.mockMvc
+				.perform(post("/components").contentType(MediaTypes.HAL_JSON)
+						.content(this.objectMapper.writeValueAsString(component)))
+				.andExpect(status().isCreated());
+
 	}
 
 	@Test
@@ -137,9 +162,17 @@ public final class ComponentDocumentation extends ModelTestBase{
 	public void componentGetExample() throws Exception {
 		this.componentRepository.deleteAll();
 
+		Component mote1 = createComponent(Component.ComponentType.MOTE.name(), "0", "test mote", "mote_12345", "spa0001");
+		Component sensor1 = createSensorComponent(Component.ComponentType.SENSOR.name(), null, "test sensor", "1", "spa0001", mote1.get_id());
+		Component sensor2 = createSensorComponent(Component.ComponentType.SENSOR.name(), null, "test sensor", "2", "spa0001", mote1.get_id());
+
 		Component pump1 = createComponent(Component.ComponentType.PUMP.name(), "0", "Jets", "1502119991", "spa0001");
+        pump1.getAssociatedSensors().add(new AssociatedSensor(sensor1.get_id()));
+		pump1.getAssociatedSensors().add(new AssociatedSensor(sensor2.get_id()));
+		componentRepository.save(pump1);
 
         this.mockMvc.perform(get("/components/{0}", pump1.get_id())).andExpect(status().isOk())
+				.andDo(print())
 				.andExpect(jsonPath("name", is(pump1.getName())))
 				.andDo(document("component-get-example",
 						links(linkWithRel("self").description("This <<resources-component, component>>"),
@@ -154,6 +187,9 @@ public final class ComponentDocumentation extends ModelTestBase{
                                 fieldWithPath("dealerId").description("Id of the spa dealer").optional().type(String.class),
                                 fieldWithPath("spaId").description("Id of the spa").optional().type(String.class),
                                 fieldWithPath("ownerId").description("Owner of the spa").optional().type(String.class),
+								fieldWithPath("parentComponentId").description("the optional componentid specified as container for this component").optional().type(String.class),
+								fieldWithPath("associatedSensors").description("Sensors that have been associated to this component").optional().type(AssociatedSensor.class),
+								fieldWithPath("associatedSensors._links").description("link to measurements that are related to each associated sensor").optional().type(List.class),
 								fieldWithPath("factoryInit").description("Boolean flag identifying components created during factory test").type(Boolean.class),
                                 fieldWithPath("_links")
 										.description("<<resources-oem-links,Links>> to other resources"))));
