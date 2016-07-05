@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -30,7 +29,6 @@ public class Component extends ResourceSupport {
                     ComponentType.BLOWER.name(),
                     ComponentType.LIGHT.name(),
                     ComponentType.MOTE.name(),
-                    ComponentType.PANEL.name(),
                     ComponentType.PUMP.name(),
                     ComponentType.FILTER.name(),
                     ComponentType.MISTER.name()
@@ -47,6 +45,7 @@ public class Component extends ResourceSupport {
     private String oemId;
     private String templateId;
     private String componentType;
+    private String materialType;
     private String name;
     private String serialNumber;
     private String port;
@@ -85,6 +84,14 @@ public class Component extends ResourceSupport {
 
     public void setComponentType(String componentType) {
         this.componentType = componentType;
+    }
+
+    public String getMaterialType() {
+        return materialType;
+    }
+
+    public void setMaterialType(String materialType) {
+        this.materialType = materialType;
     }
 
     public String getName() {
