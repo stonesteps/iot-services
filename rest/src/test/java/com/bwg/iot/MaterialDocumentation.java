@@ -84,7 +84,7 @@ public final class MaterialDocumentation extends ModelTestBase{
 
 	@Test
 	public void materialGetExample() throws Exception {
-		Material t1Panel = createSpaTemplateMaterial("Panel", "6600-760");
+		Material t1Panel = createSpaTemplateMaterial("CONTROLLER", "52710-03");
 
         this.mockMvc.perform(get("/materials/{0}", t1Panel.get_id())).andExpect(status().isOk())
 				.andExpect(jsonPath("sku", is(t1Panel.getSku())))
@@ -96,20 +96,25 @@ public final class MaterialDocumentation extends ModelTestBase{
 								fieldWithPath("brandName").description("Name associated with this part"),
                                 fieldWithPath("description").description("A description of this part"),
                                 fieldWithPath("sku").description("The BWG part number of this item."),
-                                fieldWithPath("alternateSku").description("A alternate part number that may be used by the OEM."),
-                                fieldWithPath("componentType").description("The type of component."),
+                                fieldWithPath("alternateSku").description("A alternate part number that may be used by the OEM.").optional().type("String"),
+								fieldWithPath("materialType").description("The kind of material item this piece of equipment actually is.").optional().type("String"),
+								fieldWithPath("componentType").description("Usually the same as materialType. But when used " +
+										"inside a spa template, actually means: The type of input connection point as seen by the spa controller. "
+										+ "This distinction is necessary because piece of equipment may be hooked to any of the spa controller inputs."),
                                 fieldWithPath("warrantyDays").description("The type of component.").optional().type(Integer.class),
                                 fieldWithPath("uploadDate").description("The date this information was uploaded into the system."),
                                 fieldWithPath("oemId").description("The OEMS that use this part number").optional().type(List.class),
-								fieldWithPath("displayName").description("Display Name. It is not saved in the Materials db table."
-										+ "However the field is saved embedded saved spaTemplates.").optional().type("String"),
+								fieldWithPath("displayName").description("A friendly name to refer to this piece of equipment "
+										+ "as designed in a specific model of a spa.  Note: It is not saved in the Materials db table."
+										+ "Rather this name is saved embedded saved spaTemplates.").optional().type("String"),
+								fieldWithPath("port").description("When used in a spa template, indicates the spa controller board connection input assignment. (0 - based)").optional().type("String"),
                                 fieldWithPath("_links")
                                         .description("<<resources-oem-links,Links>> to other resources"))));
 	}
 
     @Test
     public void findBySkuExample() throws Exception {
-		String testSku = "6600-760";
+		String testSku = "52710-03";
 
         this.mockMvc.perform(get("/materials/search/findBySku?sku=" + testSku))
                 .andExpect(status().isOk())
@@ -133,7 +138,7 @@ public final class MaterialDocumentation extends ModelTestBase{
 
 	@Test
 	public void findByOemIdExample() throws Exception {
-		this.mockMvc.perform(get("/materials/search/findByOemId?oemId=" + "oem001"))
+		this.mockMvc.perform(get("/materials/search/findByOemId?oemId=" + "oem002"))
 				.andExpect(status().isOk())
 				.andDo(document("materials-findbyOemId-example",
 						responseFields(
@@ -144,7 +149,7 @@ public final class MaterialDocumentation extends ModelTestBase{
 
 	@Test
 	public void findByOemIdAndComponentTypeExample() throws Exception {
-		this.mockMvc.perform(get("/materials/search/findByOemIdAndComponentType?oemId=" + "oem001" + "&componentType=PUMP"))
+		this.mockMvc.perform(get("/materials/search/findByOemIdAndComponentType?oemId=" + "oem002" + "&componentType=PUMP"))
 				.andExpect(status().isOk())
 				.andDo(document("materials-findbyOemIdAndComponentType-example",
 						responseFields(

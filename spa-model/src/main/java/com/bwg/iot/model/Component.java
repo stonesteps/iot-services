@@ -30,7 +30,6 @@ public class Component extends ResourceSupport {
                     ComponentType.BLOWER.name(),
                     ComponentType.LIGHT.name(),
                     ComponentType.MOTE.name(),
-                    ComponentType.PANEL.name(),
                     ComponentType.PUMP.name(),
                     ComponentType.FILTER.name(),
                     ComponentType.MISTER.name()
@@ -48,6 +47,7 @@ public class Component extends ResourceSupport {
     private String templateId;
     private String parentComponentId;
     private String componentType;
+    private String materialType;
     private String name;
     private String serialNumber;
     private String port;
@@ -87,6 +87,14 @@ public class Component extends ResourceSupport {
 
     public void setComponentType(String componentType) {
         this.componentType = componentType;
+    }
+
+    public String getMaterialType() {
+        return materialType;
+    }
+
+    public void setMaterialType(String materialType) {
+        this.materialType = materialType;
     }
 
     public String getName() {

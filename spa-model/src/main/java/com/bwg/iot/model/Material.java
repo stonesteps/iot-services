@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Date;
-import java.util.List;
 
 
 @Document
@@ -35,6 +34,7 @@ public class Material extends ResourceSupport {
     // embedded in saved SpaTemplate documents.
     // Not to be stored in Material collection
     private String displayName;
+    private String materialType;
     private String port;
 
 
@@ -116,6 +116,14 @@ public class Material extends ResourceSupport {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public String getMaterialType() {
+        return materialType;
+    }
+
+    public void setMaterialType(String materialType) {
+        this.materialType = materialType;
     }
 
     public String getPort() {
