@@ -1,6 +1,7 @@
 package com.bwg.iot;
 
 import com.bwg.iot.model.*;
+import com.bwg.iot.model.Component.ComponentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,9 +17,11 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.StreamSupport;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -77,10 +80,21 @@ public class SpaResourceProcessor implements ResourceProcessor<Resource<Spa>> {
                     int ctr = 0;
                     com.bwg.iot.model.Component comp = lookup.get(state.getComponentId());
                     if ( comp != null) {
+                        List<String> processedSensorIds = newArrayList();
                         for (AssociatedSensor sensor : comp.getAssociatedSensors()) {
                             if (sensor.getSensorId() != null) {
+                                processedSensorIds.add(sensor.getSensorId());
                                 PageRequest request = new PageRequest(0, 100, new Sort(new Order(Direction.DESC, "timestamp")));
                                 state.add(linkTo(methodOn(MeasurementReadingController.class).getMeasurementsBySensorId(sensor.getSensorId(), request, null)).withRel("measurements_sensor_" + ctr++));
+                            }
+                        }
+                        if (Objects.equals(comp.getComponentType(), ComponentType.MOTE.name()) || Objects.equals(comp.getComponentType(), ComponentType.GATEWAY.name())) {
+                            List<com.bwg.iot.model.Component> attachedSensors = componentRepository.findByParentComponentIdAndComponentType(comp.get_id(), ComponentType.SENSOR.name());
+                            for (com.bwg.iot.model.Component sensor : attachedSensors) {
+                                if (!processedSensorIds.contains(sensor.get_id())) {
+                                    PageRequest request = new PageRequest(0, 100, new Sort(new Order(Direction.DESC, "timestamp")));
+                                    state.add(linkTo(methodOn(MeasurementReadingController.class).getMeasurementsBySensorId(sensor.get_id(), request, null)).withRel("measurements_sensor_" + ctr++));
+                                }
                             }
                         }
                     }
