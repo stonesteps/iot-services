@@ -17,6 +17,7 @@ public final class JobCompletionNotificationListener extends JobExecutionListene
     public void afterJob(final JobExecution jobExecution) {
         if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
             log.info("Job {} completed successfully", jobExecution.getJobConfigurationName());
+
         } else {
             log.info("Job {} ended with status {}", jobExecution.getJobConfigurationName(), jobExecution.getStatus());
         }

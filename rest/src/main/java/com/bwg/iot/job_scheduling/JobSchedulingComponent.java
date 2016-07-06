@@ -5,6 +5,7 @@ import com.bwg.iot.job_scheduling.job.CronWithStartEndDatesTrigger;
 import com.bwg.iot.job_scheduling.job.JobTask;
 import com.bwg.iot.model.JobSchedule;
 import com.bwg.iot.model.Recipe;
+import com.bwg.iot.model.SpaCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.JobParametersInvalidException;
@@ -15,6 +16,7 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
 import org.springframework.data.mongodb.core.mapping.event.AfterSaveEvent;
@@ -24,8 +26,12 @@ import org.springframework.scheduling.Trigger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Responsible for scheduling and rescheduling jobs.
@@ -53,8 +59,14 @@ public class JobSchedulingComponent extends AbstractMongoEventListener<Recipe> {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    private Map<String, ScheduledFuture<?>> scheduledRecipes;
-    private Map<String, JobSchedule> scheduledRecipesSchedules;
+    @Value("${jobRecipeSpaTurnOffAfterDurationMins:15}")
+    private int spaTurnOffDuration;
+
+    private final Map<String, ScheduledFuture<?>> scheduledRecipes = new HashMap<>();
+    private final Map<String, JobSchedule> scheduledRecipesSchedules = new HashMap<>();
+
+    // for turn of spa commands
+    private final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(10);
 
     @PostConstruct
     public void init() throws JobParametersInvalidException, JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException {
@@ -64,6 +76,8 @@ public class JobSchedulingComponent extends AbstractMongoEventListener<Recipe> {
     }
 
     public void scheduleRecipe(final Recipe recipe) {
+
+        LOG.info("Scheduling recipe {}", recipe.get_id());
 
         final String recipeId = recipe.get_id();
 
@@ -86,10 +100,19 @@ public class JobSchedulingComponent extends AbstractMongoEventListener<Recipe> {
                     recipe.getSchedule().getTimeZone());
 
             final ScheduledFuture<?> scheduledRecipe = taskScheduler.schedule(
-                    new JobTask(spaCommandRepository, stepBuilderFactory, jobBuilderFactory, jobLauncher, recipe), trigger);
+                    new JobTask(this, spaCommandRepository, stepBuilderFactory, jobBuilderFactory, jobLauncher, recipe), trigger);
             scheduledRecipes.put(recipeId, scheduledRecipe);
             scheduledRecipesSchedules.put(recipeId, recipe.getSchedule());
         }
+    }
+
+    public void scheduleSpaTurnOff(final String spaId) {
+        executorService.schedule(() -> {
+            LOG.info("Scheduling spa {} to turn off", spaId);
+            final SpaCommand turnOffSpaCommand = SpaCommand.newInstanceNoHeat();
+            turnOffSpaCommand.setSpaId(spaId);
+            spaCommandRepository.save(turnOffSpaCommand);
+        }, spaTurnOffDuration, TimeUnit.MINUTES);
     }
 
     /**
