@@ -11,6 +11,7 @@ import java.util.List;
 public class ComponentState extends ResourceSupport {
 
     private String componentType;
+    private String materialType;
     private String port;
     private String serialNumber;
     private String value;
@@ -19,6 +20,14 @@ public class ComponentState extends ResourceSupport {
     private String name;
     private Date registeredTimestamp;
     private String componentId;
+
+    public String getMaterialType() {
+        return materialType;
+    }
+
+    public void setMaterialType(String materialType) {
+        this.materialType = materialType;
+    }
 
     public String getComponentId() {
         return componentId;
