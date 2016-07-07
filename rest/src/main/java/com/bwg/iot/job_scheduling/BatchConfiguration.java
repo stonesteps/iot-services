@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
@@ -75,7 +75,8 @@ public class BatchConfiguration {
 
     @Bean(name = "taskScheduler")
     public TaskScheduler taskScheduler() {
-        return new ConcurrentTaskScheduler();
+        final ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+        taskScheduler.setPoolSize(10);
+        return taskScheduler;
     }
-
 }
