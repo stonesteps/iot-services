@@ -13,7 +13,7 @@ import java.util.Date;
 public interface LiteMaterial {
 
     String get_id();
-    String getComponentType();
+    String getMaterialType();
     String getBrandName();
     String getSku();
     String getAlternateSku();

@@ -23,7 +23,7 @@ public class Material extends ResourceSupport {
 
     @Indexed
     private String oemId;
-    private String componentType;
+    private String materialType;
     private String brandName;
     private String description;
     private String sku;
@@ -33,8 +33,8 @@ public class Material extends ResourceSupport {
 
     // embedded in saved SpaTemplate documents.
     // Not to be stored in Material collection
+    private String componentType;
     private String displayName;
-    private String materialType;
     private String port;
 
 

@@ -1706,10 +1706,10 @@ include::{snippets}/materials-findbyOemId-example/curl-request.adoc[]
 include::{snippets}/materials-findbyOemId-example/http-response.adoc[]
 
 
-[[resources-material-findbyOemIdAndComponentType]]
-=== List Materials of a single Component Type available to an OEM
+[[resources-material-findbyOemIdAndMaterialType]]
+=== List Materials of a single Material Type available to an OEM
 
-*/materials/search/findByOemIdAndComponentType*
+*/materials/search/findByOemIdAndMaterialType*
 
 A `GET` request will retrieve the a list materials of a certain type associated with a single OEM.
 
@@ -1717,15 +1717,15 @@ Component types include:  GATEWAY, MOTE, PUMP, LIGHT, BLOWER, MISTER, FILTER, AU
 
 ==== Response structure
 
-include::{snippets}/materials-findbyOemIdAndComponentType-example/response-fields.adoc[]
+include::{snippets}/materials-findbyOemIdAndMaterialType-example/response-fields.adoc[]
 
 ==== Example request
 
-include::{snippets}/materials-findbyOemIdAndComponentType-example/curl-request.adoc[]
+include::{snippets}/materials-findbyOemIdAndMaterialType-example/curl-request.adoc[]
 
 ==== Example response
 
-include::{snippets}/materials-findbyOemIdAndComponentType-example/http-response.adoc[]
+include::{snippets}/materials-findbyOemIdAndMaterialType-example/http-response.adoc[]
 
 
 [[resources-material-findBySku]]

@@ -18,6 +18,7 @@ public interface MaterialRepository extends MongoRepository<Material, String> {
     @RestResource
     public Page findByOemId(@Param("oemId") String oemId, Pageable p);
     public Page findByOemIdAndComponentType(@Param("oemId") String oemId, @Param("componentType") String type, Pageable p);
+    public Page findByOemIdAndMaterialType(@Param("oemId") String oemId, @Param("materialType") String type, Pageable p);
 
     public Material findBySku(@Param("sku") String sku);
 
