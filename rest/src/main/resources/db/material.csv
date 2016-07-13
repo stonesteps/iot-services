@@ -98,8 +98,8 @@ customerNumber,materialType,brandName,description,sku,alternateSku,warrantyDays,
 103498,MOTE,Triton Current Mote,Beta 01 - acme inc.,88-441a4,,1096
 103498,LIGHT,Standard White Light,150W 110V White,1435661-01,,1096
 102188,LIGHT,Standard White Light,150W 110V White,1435661-01,,1096
-103498,LIGHT,Standard Red Light,150W 110V Red,1435661-01,,1096
-102188,LIGHT,Standard Red Light,150W 110V Red,1435661-01,,1096
+103498,LIGHT,Standard Red Light,150W 110V Red,1435661-03,,1096
+102188,LIGHT,Standard Red Light,150W 110V Red,1435661-03,,1096
 103498,LIGHT,Standard Blue Light,150W 110V Blue,214222,,1096
 102188,LIGHT,Standard Blue Light,150W 110V Blue,214222,,1096
 103498,LIGHT,Bright White Light,250W 110V White,14214-01,,1096
@@ -201,7 +201,7 @@ customerNumber,materialType,brandName,description,sku,alternateSku,warrantyDays,
 100843,MOTE,Triton Current Mote,Beta 02,1-000020-1,,1096
 100843,MOTE,Triton Current Mote,Beta 01 - acme inc.,88-441a4,,1096
 100843,LIGHT,Standard White Light,150W 110V White,1435661-01,,1096
-100843,LIGHT,Standard Red Light,150W 110V Red,1435661-01,,1096
+100843,LIGHT,Standard Red Light,150W 110V Red,1435661-03,,1096
 100843,LIGHT,Standard Blue Light,150W 110V Blue,214222,,1096
 100843,LIGHT,Bright White Light,250W 110V White,14214-01,,1096
 100843,LIGHT,Disco Ball,390W 110V Multi-color,213144,,1096
@@ -251,7 +251,7 @@ customerNumber,materialType,brandName,description,sku,alternateSku,warrantyDays,
 100594,MOTE,Triton Current Mote,Beta 02,1-000020-1,,1096
 100594,MOTE,Triton Current Mote,Beta 01 - acme inc.,88-441a4,,1096
 100594,LIGHT,Standard White Light,150W 110V White,1435661-01,,1096
-100594,LIGHT,Standard Red Light,150W 110V Red,1435661-01,,1096
+100594,LIGHT,Standard Red Light,150W 110V Red,1435661-03,,1096
 100594,LIGHT,Standard Blue Light,150W 110V Blue,214222,,1096
 100594,LIGHT,Bright White Light,250W 110V White,14214-01,,1096
 100594,LIGHT,Disco Ball,390W 110V Multi-color,213144,,1096
@@ -319,7 +319,7 @@ customerNumber,materialType,brandName,description,sku,alternateSku,warrantyDays,
 102239,MOTE,Triton Current Mote,Beta 02,1-000020-1,,1096
 102239,MOTE,Triton Current Mote,Beta 01 - acme inc.,88-441a4,,1096
 102239,LIGHT,Standard White Light,150W 110V White,1435661-01,,1096
-102239,LIGHT,Standard Red Light,150W 110V Red,1435661-01,,1096
+102239,LIGHT,Standard Red Light,150W 110V Red,1435661-03,,1096
 102239,LIGHT,Standard Blue Light,150W 110V Blue,214222,,1096
 102239,LIGHT,Bright White Light,250W 110V White,14214-01,,1096
 102239,LIGHT,Disco Ball,390W 110V Multi-color,213144,,1096
@@ -441,7 +441,7 @@ customerNumber,materialType,brandName,description,sku,alternateSku,warrantyDays,
 102249,MOTE,Triton Current Mote,Beta 02,1-000020-1,,1096
 102249,MOTE,Triton Current Mote,Beta 01 - acme inc.,88-441a4,,1096
 102249,LIGHT,Standard White Light,150W 110V White,1435661-01,,1096
-102249,LIGHT,Standard Red Light,150W 110V Red,1435661-01,,1096
+102249,LIGHT,Standard Red Light,150W 110V Red,1435661-03,,1096
 102249,LIGHT,Standard Blue Light,150W 110V Blue,214222,,1096
 102249,LIGHT,Bright White Light,250W 110V White,14214-01,,1096
 102249,LIGHT,Disco Ball,390W 110V Multi-color,213144,,1096
