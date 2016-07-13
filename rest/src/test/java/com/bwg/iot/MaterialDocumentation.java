@@ -100,7 +100,7 @@ public final class MaterialDocumentation extends ModelTestBase{
 								fieldWithPath("materialType").description("The kind of material item this piece of equipment actually is.").optional().type("String"),
 								fieldWithPath("componentType").description("Usually the same as materialType. But when used " +
 										"inside a spa template, actually means: The type of input connection point as seen by the spa controller. "
-										+ "This distinction is necessary because piece of equipment may be hooked to any of the spa controller inputs."),
+										+ "This distinction is necessary because piece of equipment may be hooked to any of the spa controller inputs.").optional().type("String"),
                                 fieldWithPath("warrantyDays").description("The type of component.").optional().type(Integer.class),
                                 fieldWithPath("uploadDate").description("The date this information was uploaded into the system."),
                                 fieldWithPath("oemId").description("The OEMS that use this part number").optional().type(List.class),
@@ -125,8 +125,8 @@ public final class MaterialDocumentation extends ModelTestBase{
 								fieldWithPath("description").description("A description of this part"),
 								fieldWithPath("sku").description("The BWG part number of this item."),
 								fieldWithPath("alternateSku").description("A alternate part number that may be used by the OEM."),
-								fieldWithPath("componentType").description("The type of component."),
-                                fieldWithPath("warrantyDays").description("The type of component.").optional().type(Integer.class),
+								fieldWithPath("materialType").description("The type of component."),
+                                fieldWithPath("warrantyDays").description("The warranty period of this component").optional().type(Integer.class),
                                 fieldWithPath("uploadDate").description("The date this information was uploaded into the system."),
 								fieldWithPath("oemId").description("The OEMS that use this part number").optional().type(List.class),
 								fieldWithPath("displayName").description("Display Name. It is not saved in the Materials db table."
@@ -148,10 +148,10 @@ public final class MaterialDocumentation extends ModelTestBase{
 	}
 
 	@Test
-	public void findByOemIdAndComponentTypeExample() throws Exception {
-		this.mockMvc.perform(get("/materials/search/findByOemIdAndComponentType?oemId=" + "oem002" + "&componentType=PUMP"))
+	public void findByOemIdAndMaterialTypeExample() throws Exception {
+		this.mockMvc.perform(get("/materials/search/findByOemIdAndMaterialType?oemId=" + "oem002" + "&materialType=PUMP"))
 				.andExpect(status().isOk())
-				.andDo(document("materials-findbyOemIdAndComponentType-example",
+				.andDo(document("materials-findbyOemIdAndMaterialType-example",
 						responseFields(
 								fieldWithPath("_embedded.materials").description("An array of <<resources-material, Material resources>>"),
 								fieldWithPath("_links").description("<<resources-materialslist-links,Links>> to other resources"),

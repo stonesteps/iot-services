@@ -1,4 +1,4 @@
-customerNumber,componentType,brandName,description,sku,alternateSku,warrantyDays,customerName
+customerNumber,materialType,brandName,description,sku,alternateSku,warrantyDays,customerName
 102188,CONTROLLER,SUV US Systems,SYSTEM MAAX 137 SUV M7 102996,52710-03,102996,1096
 102188,CONTROLLER,Low End 2LE US Series (2LE),SYSTEM MAAX 630 M7 103002,52716-04,,1096
 102188,CONTROLLER,Simplex US Systems (SIM),SYSTEM BALBOA TSC240 SEQ. AMP,53720,103756,1096

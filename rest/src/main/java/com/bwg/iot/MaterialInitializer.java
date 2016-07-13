@@ -83,7 +83,7 @@ public class MaterialInitializer {
             }
 
             material.setOemId(oemId);
-            material.setComponentType(fields.readString("componentType"));
+            material.setMaterialType(fields.readString("materialType"));
             material.setBrandName(fields.readString("brandName"));
             material.setDescription(fields.readString("description"));
             material.setSku(fields.readString("sku"));
