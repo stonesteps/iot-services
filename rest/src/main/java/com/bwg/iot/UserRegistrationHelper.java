@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import javax.ws.rs.core.MediaType;
 
+import gluu.scim.client.util.Util;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
@@ -39,10 +40,14 @@ import javax.mail.internet.MimeMessage;
 @Component
 public class UserRegistrationHelper {
 
+    public final static String PWD_CHANGE = "PWD_CHANGE";
     private final static org.slf4j.Logger log = LoggerFactory.getLogger(UserRegistrationHelper.class);
 
     @Autowired
     Environment environment;
+
+    @Autowired
+    CommonHelper commonHelper;
 
     private String domain;
     private String umaMetaDataUrl;
@@ -125,6 +130,8 @@ public class UserRegistrationHelper {
 
         if (User.Role.OWNER.toString().equalsIgnoreCase(role)){
             template = environment.getProperty(PropertyNames.MAIL_TEMPLATE_OWNER);
+        } else if (PWD_CHANGE.equalsIgnoreCase(role)) {
+            template = environment.getProperty(PropertyNames.MAIL_TEMPLATE_PWD);
         } else {
             template = environment.getProperty(PropertyNames.MAIL_TEMPLATE_EMPLOYEE);
         }
@@ -165,7 +172,6 @@ public class UserRegistrationHelper {
 
             person.setUserName(user.getUsername());
             person.setPassword(password);
-//            user.setPassword(password);
             person.setDisplayName(user.getFullName());
 
             ScimName name = new ScimName();
@@ -173,13 +179,7 @@ public class UserRegistrationHelper {
             name.setGivenName(user.getFirstName());
             person.setName(name);
 
-            ScimPersonEmails email = new ScimPersonEmails();
-
-            log.info("Adding gluu person email: " + user.getEmail());
-            email.setValue(user.getEmail());
-            email.setType("Work");
-            email.setPrimary("true");
-            person.getEmails().add(email);
+            setPersonEmail(person, user);
 
             ScimCustomAttributes scimCustomAttributes = new ScimCustomAttributes();
             scimCustomAttributes.setName("gluuStatus");
@@ -187,6 +187,16 @@ public class UserRegistrationHelper {
             person.setCustomAttributes(Arrays.asList(scimCustomAttributes));
         }
         return person;
+    }
+
+    public void setPersonEmail(ScimPerson person, User user){
+        ScimPersonEmails email = new ScimPersonEmails();
+
+        log.info("Adding gluu person email: " + user.getEmail());
+        email.setValue(user.getEmail());
+        email.setType("Work");
+        email.setPrimary("true");
+        person.getEmails().add(email);
     }
 
     /**
@@ -225,6 +235,37 @@ public class UserRegistrationHelper {
         return gluuperson;
     }
 
+    public ScimPerson findPerson(com.bwg.iot.model.User user) throws Throwable {
+        ScimClient scimClient = ScimClient.umaInstance(domain, umaMetaDataUrl, umaAatClientId, umaAatClientJwks, umaAatClientKeyId);
+        ScimResponse response = scimClient.personSearch("userid", user.getUsername(), MediaType.APPLICATION_JSON);
+//        ScimResponse response = scimClient.retrieveAllPersons(MediaType.APPLICATION_JSON);
+
+        // throw exception if the code is not 2xx
+        if (response.getStatusCode() < 200 || response.getStatusCode() > 299) {
+            log.error("SCIM-Client reported status " + response.getStatusCode());
+            throw new RuntimeException("SCIM-client returned error: " + response.getStatusCode());
+        } else {
+            log.info("SCIM-Client returned status " + response.getStatusCode());
+        }
+        ScimPerson personRetrieved = (ScimPerson) commonHelper.jsonToObject(response, ScimPerson.class);
+        return personRetrieved;
+    }
+
+    public ScimPerson updatePerson(ScimPerson person) throws Throwable {
+        ScimClient scimClient = ScimClient.umaInstance(domain, umaMetaDataUrl, umaAatClientId, umaAatClientJwks, umaAatClientKeyId);
+        ScimResponse response = scimClient.updatePerson(person, person.getId(), MediaType.APPLICATION_JSON);
+
+        // throw exception if the code is not 2xx
+        if (response.getStatusCode() < 200
+                || response.getStatusCode() > 299) {
+            log.error("SCIM-Client reported status " + response.getStatusCode());
+            throw new RuntimeException("SCIM-client returned error: " + response.getStatusCode());
+        } else {
+            log.info("SCIM-Client returned status " + response.getStatusCode());
+        }
+        ScimPerson personRetrieved = (ScimPerson) commonHelper.jsonToObject(response, ScimPerson.class);
+        return personRetrieved;
+    }
 
     public String getDomain() {
         return domain;

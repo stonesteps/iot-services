@@ -1,6 +1,9 @@
 package com.bwg.iot;
 
 import com.bwg.iot.model.*;
+import gluu.scim.client.ScimResponse;
+import org.codehaus.jackson.map.DeserializationConfig;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
@@ -60,5 +63,16 @@ public class CommonHelper {
             }
         }
         return null;
+    }
+
+    public static Object jsonToObject(ScimResponse response, Class<?> clazz) throws Exception {
+        byte[] bytes = response.getResponseBody();
+        String json = new String(bytes);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES);
+        Object clazzObject = mapper.readValue(json, clazz);
+
+        return clazzObject;
     }
 }

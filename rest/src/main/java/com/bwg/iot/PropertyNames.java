@@ -28,6 +28,7 @@ public final class PropertyNames {
     public static final String MAIL_TEMPLATE_SUBJECT = "mail.template.subject";
     public static final String MAIL_TEMPLATE_EMPLOYEE = "mail.template.employee.en";
     public static final String MAIL_TEMPLATE_OWNER = "mail.template.owner.en";
+    public static final String MAIL_TEMPLATE_PWD = "mail.template.pwd.en";
     public static final String SMTP_SERVER = "mail.smtp.server";
     public static final String SMTP_PORT = "mail.smtp.port";
     public static final String SMTP_AUTH = "mail.smtp.auth";

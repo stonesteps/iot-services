@@ -144,5 +144,48 @@ public class UserRegistrationController {
         return new ResponseEntity<User>(currentUser, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/{id}/changePassword", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> changePassword(@RequestHeader(name="remote_user")String remote_user,
+                                            @PathVariable("id") String id,
+                                            @RequestBody User user) throws Throwable {
+        User remoteUser = userRepository.findByUsername(remote_user);
+        if (remoteUser == null || !id.equals(remoteUser.get_id())) {
+            return new ResponseEntity<String>("Only the user can change their own password", HttpStatus.FORBIDDEN);
+        }
 
+        ScimPerson person = null;
+        person = gluuHelper.findPerson(remoteUser);
+
+        try {
+            log.info("changing user password: " + remoteUser.getUsername());
+            person.setPassword(user.getPassword());
+            person = gluuHelper.updatePerson(person);
+            log.info("Gluu password updated for " + person.getUserName());
+        } catch (Throwable t) {
+            remoteUser.setErrorMessage(t.getMessage());
+            log.error("exception in gluuHelper: " + t.getMessage());
+            log.error("stacktrace: ", t);
+        }
+        // please note! Having an error message set implies a 500 error
+        HttpStatus status = StringUtils.isBlank(remoteUser.getErrorMessage()) ?
+                HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
+
+        // send email to user
+        if (status == HttpStatus.OK) {
+            try {
+                person.setPassword(user.getPassword());
+                gluuHelper.setPersonEmail(person, remoteUser);
+                gluuHelper.sendGmailRegistrationMail(person, UserRegistrationHelper.PWD_CHANGE);
+            } catch (Exception ex) {
+                log.error("Unable to send password update email to user: " + remoteUser.getUsername());
+                log.error("Exception", ex.getMessage());
+            }
+            log.info("Password changed for: " + remoteUser.getUsername());
+        } else {
+            log.warn("user password update aborted because of previous errors");
+        }
+
+        ResponseEntity<?> response = new ResponseEntity<User>(remoteUser, status);
+        return response;
+    }
 }

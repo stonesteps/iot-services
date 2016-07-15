@@ -47,7 +47,6 @@ public class User extends ResourceSupport {
         return firstName + " " + lastName;
     }
 
-    @JsonIgnore
     private String password;
 
 
@@ -71,7 +70,6 @@ public class User extends ResourceSupport {
         this.password = password;
     }
     
-    @Deprecated
     public String getPassword() {
       return this.password;
     }
