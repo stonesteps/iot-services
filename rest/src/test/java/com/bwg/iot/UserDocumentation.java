@@ -201,6 +201,35 @@ public final class UserDocumentation extends ModelTestBase {
     }
 
     @Test
+    public void userPasswordChangeExample() throws Throwable {
+        this.realUserRepository.deleteAll();
+        this.addressRepository.deleteAll();
+
+        Address address = createAddress();
+        User owner5 = createUser("user0003", "chynde", "Chrissie", "Hynde", "dealer001", "oem001", address, Arrays.asList("OWNER"), null);
+        userRepository.save(owner5);
+
+        ScimPerson scimPerson = new ScimPerson();
+        scimPerson.setUserName("chynde");
+
+        when(gluuHelper.findPerson(any(User.class))).thenReturn(scimPerson);
+        when(gluuHelper.updatePerson(any(ScimPerson.class))).thenReturn(scimPerson);
+        when(userRepository.findByUsername(any(String.class))).thenReturn(owner5);
+
+        final Map<String, Object> user = new HashMap<>();
+        user.put("password", "reckless");
+
+        this.userRegMockMvc
+                .perform(post("/user-registration/{0}/changePassword/", owner5.get_id())
+                        .contentType(MediaTypes.HAL_JSON)
+                        .header("remote_user", "chynde")
+                        .content(this.objectMapper.writeValueAsString(user)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("user-password-update-example",
+                        requestFields(fieldWithPath("password").description("newPassword"))));
+    }
+
+    @Test
     public void userUpdateExample() throws Exception {
         this.realUserRepository.deleteAll();
         this.addressRepository.deleteAll();
