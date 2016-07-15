@@ -158,9 +158,9 @@ public class UserRegistrationController {
 
         try {
             log.info("changing user password: " + remoteUser.getUsername());
-                person.setPassword(user.getPassword());
-                person = gluuHelper.updatePerson(person);
-                log.info("Gluu password updated for " + person.getUserName());
+            person.setPassword(user.getPassword());
+            person = gluuHelper.updatePerson(person);
+            log.info("Gluu password updated for " + person.getUserName());
         } catch (Throwable t) {
             remoteUser.setErrorMessage(t.getMessage());
             log.error("exception in gluuHelper: " + t.getMessage());
@@ -170,9 +170,8 @@ public class UserRegistrationController {
         HttpStatus status = StringUtils.isBlank(remoteUser.getErrorMessage()) ?
                 HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
 
-        // save the user on mongo only if the user was succesfully created on Gluu
+        // send email to user
         if (status == HttpStatus.OK) {
-            // send email to user
             try {
                 person.setPassword(user.getPassword());
                 gluuHelper.setPersonEmail(person, remoteUser);
@@ -189,6 +188,4 @@ public class UserRegistrationController {
         ResponseEntity<?> response = new ResponseEntity<User>(remoteUser, status);
         return response;
     }
-
-
 }
