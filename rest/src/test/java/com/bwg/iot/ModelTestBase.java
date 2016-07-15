@@ -260,8 +260,10 @@ public class ModelTestBase {
         Material mat = materialRepository.findBySku(sku);
         if (mat != null) {
             mat.setDisplayName(displayName);
-            mat.setPort("0");
-            mat.setMaterialType(mat.getComponentType());
+            mat.setComponentType(mat.getMaterialType());
+            if (Component.PORT_BASED_COMPONENT_TYPES.contains(mat.getComponentType())){
+                mat.setPort("0");
+            }
         }
         return mat;
     }
