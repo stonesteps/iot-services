@@ -1017,6 +1017,27 @@ include::{snippets}/user-update-example/curl-request.adoc[]
 
 include::{snippets}/user-update-example/http-response.adoc[]
 
+=== Change User Password
+
+*/user-registration/{id}/changePassword*
+
+A `POST` request is used to to change a user password.
+A user may only change their own password.
+When the password is updated, an email will be sent to the user notifying them of the change.
+
+==== Request structure
+
+include::{snippets}/user-password-update-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/user-password-update-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/user-password-update-example/http-response.adoc[]
+
+
 === Find Current User
 
 */auth/whoami*
