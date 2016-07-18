@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -42,7 +43,9 @@ public class JobSchedulingComponentTest {
 
     @Test
     public void testRecipeSchedule() throws InterruptedException {
-        // "0/30 * * * * ?"
+        // wait till it is 5s after full minute, so the schedule won't fire up twice
+        waitTill5sAfterFullMinute();
+
         final Recipe recipe = new Recipe();
         recipe.setSpaId("111");
         recipe.setName("test recipe");
@@ -57,6 +60,15 @@ public class JobSchedulingComponentTest {
         // there should be 1 command at this point
         final List<SpaCommand> foundCommands = spaCommandRepository.findAll();
         Assert.assertEquals(1, foundCommands.size());
+    }
+
+    private void waitTill5sAfterFullMinute() throws InterruptedException {
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MINUTE, 1);
+        c.set(Calendar.SECOND, 5);
+        c.set(Calendar.MILLISECOND, 0);
+
+        Thread.sleep(c.getTimeInMillis() - System.currentTimeMillis());
     }
 
     private List<SpaCommand> buildEmptyCommand(final String spaId) {
