@@ -34,4 +34,8 @@ public final class PropertyNames {
     public static final String SMTP_AUTH = "mail.smtp.auth";
     public static final String SMTP_TLS = "mail.smtp.starttls.enable";
 
+    public static final String MATERIAL_RESOURCE = "init.material";
+    public static final String MATERIAL_FILE = "init.material.file";
+    public static final String FAULT_DESC_RESOURCE = "init.fault.desc";
+    public static final String FAULT_DESC_FILE = "init.fault.desc.file";
 }

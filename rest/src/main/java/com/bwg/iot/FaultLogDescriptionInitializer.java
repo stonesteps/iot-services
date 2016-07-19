@@ -10,7 +10,10 @@ import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.separator.DefaultRecordSeparatorPolicy;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
@@ -25,14 +28,19 @@ import java.util.Scanner;
 @Component
 public class FaultLogDescriptionInitializer {
     private static final Logger LOGGER = LoggerFactory.getLogger(FaultLogDescriptionInitializer.class);
+    private static String defaultDescriptions;
+    private static String overrideDescriptions;
 
     @Autowired
-    public FaultLogDescriptionInitializer(FaultLogDescriptionRepository repository, MongoOperations operations) throws Exception {
+    public FaultLogDescriptionInitializer(Environment env, FaultLogDescriptionRepository repository, MongoOperations operations) throws Exception {
 
         if (repository.count() != 0) {
+            LOGGER.info("Found " + Long.toString(repository.count()) + " exising Fault Log Descriptions");
             return;
         }
 
+        defaultDescriptions = env.getProperty(PropertyNames.FAULT_DESC_RESOURCE);
+        overrideDescriptions = env.getProperty(PropertyNames.FAULT_DESC_FILE);
         List<FaultLogDescription> descriptions = readFaultLogDescriptions();
         LOGGER.info("Importing {} fault log descriptions into MongoDB…", descriptions.size());
         repository.save(descriptions);
@@ -44,7 +52,14 @@ public class FaultLogDescriptionInitializer {
      */
     public static List<FaultLogDescription> readFaultLogDescriptions() throws Exception {
 
-        ClassPathResource resource = new ClassPathResource("db/faultLogDescription.csv");
+        Resource resource;
+        if (overrideDescriptions != null) {
+            resource = new FileSystemResource(overrideDescriptions);
+            LOGGER.info("Overriding Fault Log Description List with: " + overrideDescriptions);
+        } else {
+            resource =  new ClassPathResource(defaultDescriptions);
+            LOGGER.info("Reloading Fault Log Description List from: " + defaultDescriptions);
+        }
         Scanner scanner = new Scanner(resource.getInputStream());
         String line = scanner.nextLine();
         scanner.close();
