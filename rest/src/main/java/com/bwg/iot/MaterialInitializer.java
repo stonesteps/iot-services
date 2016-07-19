@@ -10,7 +10,10 @@ import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.separator.DefaultRecordSeparatorPolicy;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -24,16 +27,23 @@ import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
 /**
- * Initializes the faultLogDescription collection.
+ * Initializes the Material collection.
+ *
+ * This initialization job will run if the material collection in the db, is empty.
+ * Loads the collection table by reading from a csv file.
+ * Uses customerNumber as reference to OEMs.
  *
  * Created by triton on 5/20/16.
  */
 @Component
 public class MaterialInitializer {
     private static final Logger LOGGER = LoggerFactory.getLogger(MaterialInitializer.class);
+    private static String defaultMaterials;
+    private static String overrideMaterials;
 
     @Autowired
-    public MaterialInitializer(MaterialRepository repository, MongoOperations operations) throws Exception {
+    public MaterialInitializer(Environment env, MaterialRepository repository, MongoOperations operations) throws Exception {
+
 
         if (repository.count() != 0) {
             return;
@@ -45,6 +55,8 @@ public class MaterialInitializer {
             return;
         }
 
+        defaultMaterials = env.getProperty(PropertyNames.MATERIAL_RESOURCE);
+        overrideMaterials = env.getProperty(PropertyNames.MATERIAL_FILE);
         List<Material> materials = readMaterials(operations);
         LOGGER.info("Importing {} Materials into MongoDB…", materials.size());
         repository.save(materials);
@@ -56,7 +68,14 @@ public class MaterialInitializer {
      */
     public static List<Material> readMaterials(MongoOperations operations) throws Exception {
 
-        ClassPathResource resource = new ClassPathResource("db/material.csv");
+
+        Resource resource;
+        if (overrideMaterials != null) {
+            resource = new FileSystemResource(overrideMaterials);
+            LOGGER.info("Overriding Material List with: " + overrideMaterials);
+        } else {
+            resource =  new ClassPathResource(defaultMaterials);
+        }
         Scanner scanner = new Scanner(resource.getInputStream());
         String line = scanner.nextLine();
         scanner.close();
@@ -115,7 +134,9 @@ public class MaterialInitializer {
                 LOGGER.warn("Skipping Material Entry, no OEM exists with id: " + custNum);
             }
         } while (material != null);
-
+        if (skipCount > 0) {
+            LOGGER.warn("Skipped a total of " + skipCount + " entries");
+        }
         return materials;
     }
 }

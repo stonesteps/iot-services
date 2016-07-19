@@ -2,6 +2,7 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
@@ -12,6 +13,8 @@ public class FaultLogDescription {
     private String _id;
 
     private String controllerType;
+
+    @Indexed
     private int code;
     private String description;
     private FaultLogSeverity severity;
