@@ -56,6 +56,9 @@ public class DashboardController {
         }
 
         DashboardInfo dashboardInfo = getDashboardInfo(remoteUser);
+        if (dashboardInfo == null) {
+            return new ResponseEntity<>("No Landing Page for this type of user", HttpStatus.BAD_REQUEST);
+        }
 
         return new ResponseEntity<DashboardInfo>(dashboardInfo, HttpStatus.OK);
     }
@@ -69,7 +72,8 @@ public class DashboardController {
 
         String slash = "";
 
-        if (user.hasRole(User.Role.OEM.name())) {
+        if (user.hasRole(User.Role.BWG.name())) {
+        } else if (user.hasRole(User.Role.OEM.name())) {
             alertQuery.addCriteria(Criteria.where("oemId").is(user.getOemId()));
             redAlertQuery.addCriteria(Criteria.where("oemId").is(user.getOemId()));
             spaQuery.addCriteria(Criteria.where("oemId").is(user.getOemId()));
@@ -83,6 +87,15 @@ public class DashboardController {
             unsoldSpaQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
             onlineSpaQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
             slash = "/search/findByDealerId?dealerId=" + user.getDealerId();
+        } else if (user.hasRole(User.Role.OWNER.name())) {
+            alertQuery.addCriteria(Criteria.where("spaId").is(user.getSpaId()));
+            redAlertQuery.addCriteria(Criteria.where("spaId").is(user.getSpaId()));
+            spaQuery.addCriteria(Criteria.where("_id").is(user.getSpaId()));
+            unsoldSpaQuery.addCriteria(Criteria.where("_id").is(user.getSpaId()));
+            onlineSpaQuery.addCriteria(Criteria.where("_id").is(user.getSpaId()));
+            slash = "/" + user.getSpaId();
+        } else {
+            return null;
         }
         redAlertQuery.addCriteria(Criteria.where("severityLevel").is(Alert.SeverityLevelEnum.red.name()));
         unsoldSpaQuery.addCriteria(Criteria.where("owner").exists(false));
@@ -103,10 +116,6 @@ public class DashboardController {
         Map<String, Long> spaCountMap = ImmutableMap.of("totalSpaCount", spaCount, "soldSpaCount", spaCount-unsoldSpaCount, "onlineSpaCount", onlineSpaCount);
         dashboardInfo.setAlertCounts(alertCountMap);
         dashboardInfo.setSpaCounts(spaCountMap);
-
-        // support deprecated fields until UI changes
-        Map<String, Long> messageCountMap = ImmutableMap.of("totalMessageCount", Long.valueOf(0), "newMessageCount", Long.valueOf(0));
-        dashboardInfo.setMessageCounts(messageCountMap);
 
         dashboardInfo.add(entityLinks.linkFor(com.bwg.iot.model.Alert.class)
                 .slash(slash)
