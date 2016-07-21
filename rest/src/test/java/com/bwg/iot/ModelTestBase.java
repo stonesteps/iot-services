@@ -922,7 +922,6 @@ public class ModelTestBase {
         for( Component component : components) {
             SpaCommand sc = SpaCommand.newInstanceFromComponent(component);
             if (sc != null) {
-                sc.setOriginatorId("Shut Down Recipe");
                 commands.add(sc);
             }
         }
