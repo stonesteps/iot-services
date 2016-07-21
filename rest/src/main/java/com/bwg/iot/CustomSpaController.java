@@ -217,7 +217,6 @@ public class CustomSpaController {
 
             SpaCommand sc = SpaCommand.newInstanceFromComponent(component);
             if (sc != null) {
-                sc.setOriginatorId("Shut Down Recipe");
                 sc.getMetadata().put("Recipe", "Turn Off Spa");
                 commands.add(sc);
             }
