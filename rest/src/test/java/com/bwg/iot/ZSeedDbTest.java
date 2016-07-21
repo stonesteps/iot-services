@@ -117,7 +117,7 @@ public final class ZSeedDbTest extends ModelTestBase {
         User maker2 = createUser("user0007", "pfenton", "Peter", "Fenton", null, oem2.get_id(), addresses.get(9), oemRole, null);
         User sales3 = createUser("user0012", "cclemons", "Clarence", "Clemons", dealer3.get_id(), oem3.get_id(), addresses.get(12), oemDealerRole, null);
         User pink   = createUser("user0008", "bgeldof", "Bob", "Geldof", null, null, addresses.get(10), bwgRole, null);
-        User oz     = createUser("user0009", "oosborn", "Ozzie", "Osborn", null, null, addresses.get(11), adminRole, null);
+        User oz     = createUser("user0009", "oosborn", "Ozzie", "Osborn", dealer1.get_id(), oem1.get_id(), addresses.get(11), adminRole, null);
 
         User sales1 = createUser("user0010", "nfinn", "Neil", "Finn", dealer1.get_id(), oem1.get_id(), addresses.get(12), salesRole, null);
         User sales2 = createUser("user0011", "bpreston", "Billy", "Preston", dealer3.get_id(), oem3.get_id(), addresses.get(12), salesRole, null);
