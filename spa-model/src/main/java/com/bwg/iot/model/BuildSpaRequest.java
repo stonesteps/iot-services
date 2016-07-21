@@ -6,7 +6,7 @@ import org.springframework.hateoas.ResourceSupport;
 
 import java.util.List;
 
-@Document
+
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class BuildSpaRequest extends ResourceSupport {
 
