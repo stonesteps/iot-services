@@ -2,12 +2,16 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.*;
 
 @Document
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
+@CompoundIndexes({@CompoundIndex(name = "command_spaid_senttimestamp_idx", def = "{'spaId': 1, 'sentTimestamp': -1}")})
 public class SpaCommand {
     public static final String REQUEST_DEVICE_NUMBER = "deviceNumber";
     public static final String REQUEST_DESIRED_STATE = "desiredState";
@@ -58,7 +62,11 @@ public class SpaCommand {
     private String _id;
     private String spaId;
     private Integer requestTypeId;
+
+    @Indexed
     private String originatorId;
+
+    @Indexed
     private Date sentTimestamp;
     private Date processedTimestamp;
     private ProcessedResult processedResult;
