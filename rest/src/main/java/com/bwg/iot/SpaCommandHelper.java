@@ -105,10 +105,7 @@ public class SpaCommandHelper  {
         command.setMetadata(metadata);
 
         if (save) {
-            if (originatorId == null) {
-                originatorId = UUID.randomUUID().toString();
-            }
-            command.setOriginatorId(originatorId);
+            command.setOriginatorId(UUID.randomUUID().toString());
             command.setSentTimestamp(new Date());
             command = spaCommandRepository.insert(command);
         }
