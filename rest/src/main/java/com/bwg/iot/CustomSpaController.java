@@ -136,6 +136,10 @@ public class CustomSpaController {
 
         // TODO: validate minimal set of components
         List<Component> components = request.getComponents();
+        components.forEach(c -> {
+            if (c.getComponentType()== null || c.getComponentType().isEmpty()) {
+                c.setComponentType(c.getMaterialType());
+            }});
         List<Component> gateways = components.stream()
                 .filter(c -> Component.ComponentType.GATEWAY.name().equalsIgnoreCase(c.getComponentType()))
                 .collect(Collectors.toList());
@@ -188,6 +192,10 @@ public class CustomSpaController {
 
         // validate spaTemplate, get productName, model, sku
         SpaTemplate spaTemplate = spaTemplateRepository.findOne(requestSpa.getTemplateId());
+        if (spaTemplate == null) {
+            return new ResponseEntity<String>("Invalid Spa Template ID", HttpStatus.BAD_REQUEST);
+        }
+
         myNewSpa.setTemplateId(requestSpa.getTemplateId());
         myNewSpa.setProductName(spaTemplate.getProductName());
         myNewSpa.setModel(spaTemplate.getModel());

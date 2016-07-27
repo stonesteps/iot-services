@@ -595,7 +595,8 @@ public class ApiDocumentation extends ModelTestBase{
 		c1.setName("Jets");
 		c1.setSerialNumber("p001");
 		c1.setSku("sku001001");
-		c1.setComponentType(Component.ComponentType.PUMP.name());
+		c1.setMaterialType(Component.ComponentType.PUMP.name());
+		c1.setComponentType(Component.ComponentType.CONTROLLER.name());
 		c1.setPort("0");
 		components.add(c1);
 
@@ -603,15 +604,14 @@ public class ApiDocumentation extends ModelTestBase{
 		c2.setName("Controller");
 		c2.setSerialNumber("c001");
 		c2.setSku("525151");
-		c2.setComponentType(Component.ComponentType.CONTROLLER.name());
-		c2.setPort("0");
+		c2.setMaterialType(Component.ComponentType.CONTROLLER.name());
 		components.add(c2);
 
 		Component c3 = new Component();
 		c3.setName("Gateway");
 		c3.setSerialNumber("Gateway-001");
 		c3.setSku("5251513434");
-		c3.setComponentType(Component.ComponentType.GATEWAY.name());
+		c3.setMaterialType(Component.ComponentType.GATEWAY.name());
 		components.add(c3);
 
 		BuildSpaRequest request = new BuildSpaRequest();
