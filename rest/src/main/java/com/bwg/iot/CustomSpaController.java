@@ -359,6 +359,14 @@ public class CustomSpaController {
             currentRecipe.setSchedule(recipe.getSchedule());
         }
 
+        final String spaId = currentRecipe.getSpaId();
+        final HashMap<String, String> meta = new HashMap<>();
+        meta.put("Recipe",currentRecipe.getName());
+        currentRecipe.getSettings().forEach(spaCommand -> {
+            spaCommand.setSpaId(spaId);
+            spaCommand.setMetadata(meta);
+        });
+
         currentRecipe = recipeRepository.save(currentRecipe);
         currentRecipe.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
                 .slash("/" + recipe.getSpaId() + "/recipes/" + recipe.get_id())
