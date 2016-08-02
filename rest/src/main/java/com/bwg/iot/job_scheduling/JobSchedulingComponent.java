@@ -77,7 +77,7 @@ public class JobSchedulingComponent extends AbstractMongoEventListener<Recipe> {
 
     public void scheduleRecipe(final Recipe recipe) {
 
-        LOG.info("Scheduling recipe {}", recipe.get_id());
+        LOG.info("Scheduling recipe {}, id: {}", recipe.getName(), recipe.get_id());
 
         final String recipeId = recipe.get_id();
 
@@ -87,6 +87,7 @@ public class JobSchedulingComponent extends AbstractMongoEventListener<Recipe> {
         final ScheduledFuture<?> recipeTask = scheduledRecipes.get(recipeId);
         if (scheduleChanged && recipeTask != null) {
             // cancel already scheduled task and reshedule it
+            LOG.info("Cancelling existing scheduled task");
             recipeTask.cancel(false);
         }
         scheduledRecipes.remove(recipeId);
@@ -125,6 +126,11 @@ public class JobSchedulingComponent extends AbstractMongoEventListener<Recipe> {
     public void onAfterSave(final AfterSaveEvent<Recipe> event) {
         super.onAfterSave(event);
         final Recipe recipe = event.getSource();
-        if (recipe != null) scheduleRecipe(recipe);
+        if (recipe != null) {
+            LOG.info("JobSchedule update: {}",recipe.getName());
+            scheduleRecipe(recipe);
+        } else {
+            LOG.info("JobSchedule update. - Null Recipe");
+        }
     }
 }
