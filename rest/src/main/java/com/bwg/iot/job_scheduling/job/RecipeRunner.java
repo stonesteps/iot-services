@@ -25,12 +25,13 @@ public final class RecipeRunner implements ItemProcessor<Recipe, Recipe> {
 
     @Override
     public Recipe process(final Recipe recipe) throws Exception {
-        LOG.info("Processing a recipe {}", recipe.get_id());
+        LOG.info("Processing a recipe {}, id:{}", recipe.getName(), recipe.get_id());
 
         recipe.getSettings().forEach(spaCommand -> {
             spaCommand.set_id(null); // null the id just in case
-            spaCommand.getMetadata().put(SpaCommand.REQUESTED_BY, "Anonymous User");
+            spaCommand.getMetadata().put(SpaCommand.REQUESTED_BY, "Scheduled Job");
             spaCommand.getMetadata().put(SpaCommand.REQUEST_PATH, "Direct");
+            LOG.info("Send Spa Command: {}", spaCommand.getRequestTypeId());
         });
         spaCommandRepository.insert(recipe.getSettings());
 
