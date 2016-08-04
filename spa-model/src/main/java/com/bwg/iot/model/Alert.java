@@ -21,7 +21,7 @@ import java.util.Objects;
 public class Alert extends ResourceSupport {
 
   public enum SeverityLevelEnum {
-    yellow,  red,
+    INFO, WARNING, ERROR, SEVERE
   };
 
   @Id

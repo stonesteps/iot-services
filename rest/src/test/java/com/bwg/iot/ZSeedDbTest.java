@@ -29,12 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Arrays;
-import java.util.Enumeration;
 import java.util.List;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
@@ -171,7 +166,7 @@ public final class ZSeedDbTest extends ModelTestBase {
         Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", oem1.get_id(), dealer1.get_id(), owner3, "spa000025", GATEWAY_5_SN, st1.get_id(), sales2);
         this.add2Alerts(spa25);
         Spa spa26 = createFullSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4, "spa000026", GATEWAY_4_SN, sales3, st1.get_id(), null);
-        spa26 = this.addOverheatRedAlert(spa26);
+        spa26 = this.addOverheatSevereAlert(spa26);
         Spa spa27 = createDemoSpa3("160315", oem1.get_id(), dealer1.get_id(), owner5, "spa000027", GATEWAY_3_SN, st1.get_id(), sales1);
 
         Spa spa23 = createSmallSpaWithState("160412", "Fish", "Minnow", oem1.get_id(), dealer2.get_id(), owner6, "spa000023", GATEWAY_6_SN, st1.get_id(), maker1);
