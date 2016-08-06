@@ -65,7 +65,9 @@ public class DashboardController {
 
     private DashboardInfo getDashboardInfo(User user) {
         Query alertQuery = new Query();
-        Query redAlertQuery = new Query();
+        Query warningAlertQuery = new Query();
+        Query errorAlertQuery = new Query();
+        Query severeAlertQuery = new Query();
         Query spaQuery = new Query();
         Query unsoldSpaQuery = new Query();
         Query onlineSpaQuery = new Query();
@@ -75,21 +77,27 @@ public class DashboardController {
         if (user.hasRole(User.Role.BWG.name())) {
         } else if (user.hasRole(User.Role.OEM.name())) {
             alertQuery.addCriteria(Criteria.where("oemId").is(user.getOemId()));
-            redAlertQuery.addCriteria(Criteria.where("oemId").is(user.getOemId()));
+            warningAlertQuery.addCriteria(Criteria.where("oemId").is(user.getOemId()));
+            errorAlertQuery.addCriteria(Criteria.where("oemId").is(user.getOemId()));
+            severeAlertQuery.addCriteria(Criteria.where("oemId").is(user.getOemId()));
             spaQuery.addCriteria(Criteria.where("oemId").is(user.getOemId()));
             unsoldSpaQuery.addCriteria(Criteria.where("oemId").is(user.getOemId()));
             onlineSpaQuery.addCriteria(Criteria.where("oemId").is(user.getOemId()));
             slash = "/search/findByOemId?oemId=" + user.getOemId();
         } else if (user.hasRole(User.Role.DEALER.name())) {
             alertQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
-            redAlertQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
+            warningAlertQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
+            errorAlertQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
+            severeAlertQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
             spaQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
             unsoldSpaQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
             onlineSpaQuery.addCriteria(Criteria.where("dealerId").is(user.getDealerId()));
             slash = "/search/findByDealerId?dealerId=" + user.getDealerId();
         } else if (user.hasRole(User.Role.OWNER.name())) {
             alertQuery.addCriteria(Criteria.where("spaId").is(user.getSpaId()));
-            redAlertQuery.addCriteria(Criteria.where("spaId").is(user.getSpaId()));
+            warningAlertQuery.addCriteria(Criteria.where("spaId").is(user.getSpaId()));
+            errorAlertQuery.addCriteria(Criteria.where("spaId").is(user.getSpaId()));
+            severeAlertQuery.addCriteria(Criteria.where("spaId").is(user.getSpaId()));
             spaQuery.addCriteria(Criteria.where("_id").is(user.getSpaId()));
             unsoldSpaQuery.addCriteria(Criteria.where("_id").is(user.getSpaId()));
             onlineSpaQuery.addCriteria(Criteria.where("_id").is(user.getSpaId()));
@@ -97,22 +105,27 @@ public class DashboardController {
         } else {
             return null;
         }
-        redAlertQuery.addCriteria(Criteria.where("severityLevel").is(Alert.SeverityLevelEnum.red.name()));
+        warningAlertQuery.addCriteria(Criteria.where("severityLevel").is(Alert.SeverityLevelEnum.WARNING.name()));
+        errorAlertQuery.addCriteria(Criteria.where("severityLevel").is(Alert.SeverityLevelEnum.ERROR.name()));
+        severeAlertQuery.addCriteria(Criteria.where("severityLevel").is(Alert.SeverityLevelEnum.SEVERE.name()));
         unsoldSpaQuery.addCriteria(Criteria.where("owner").exists(false));
         onlineSpaQuery.addCriteria(Criteria.where("owner").exists(true));
 
         Date anHourAgo = new Date(System.currentTimeMillis() - TimeUnit.HOURS.toMillis(1));
         onlineSpaQuery.addCriteria(Criteria.where("currentState.uplinkTimestamp").gt(anHourAgo));
 
-
         DashboardInfo dashboardInfo = new DashboardInfo();
         long alertCount = mongoOps.count(alertQuery, Alert.class);
-        long redAlertCount = mongoOps.count(redAlertQuery, Alert.class);
+        long warningAlertCount = mongoOps.count(warningAlertQuery, Alert.class);
+        long errorAlertCount = mongoOps.count(errorAlertQuery, Alert.class);
+        long severeAlertCount = mongoOps.count(severeAlertQuery, Alert.class);
         long spaCount = mongoOps.count(spaQuery, Spa.class);
         long unsoldSpaCount = mongoOps.count(unsoldSpaQuery, Spa.class);
         long onlineSpaCount = mongoOps.count(onlineSpaQuery, Spa.class);
 
-        Map<String, Long> alertCountMap = ImmutableMap.of("totalAlertCount", alertCount, "redAlertCount", redAlertCount, "yellowAlertCount", alertCount-redAlertCount);
+        Map<String, Long> alertCountMap = ImmutableMap.of("totalAlertCount", alertCount, "severeAlertCount", severeAlertCount,
+                "errorAlertCount", errorAlertCount, "warningAlertCount", warningAlertCount,
+                "infoAlertCount", alertCount-severeAlertCount-errorAlertCount-warningAlertCount);
         Map<String, Long> spaCountMap = ImmutableMap.of("totalSpaCount", spaCount, "soldSpaCount", spaCount-unsoldSpaCount, "onlineSpaCount", onlineSpaCount);
         dashboardInfo.setAlertCounts(alertCountMap);
         dashboardInfo.setSpaCounts(spaCountMap);

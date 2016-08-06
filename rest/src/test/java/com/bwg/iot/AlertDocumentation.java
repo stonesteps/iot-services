@@ -95,7 +95,7 @@ public final class AlertDocumentation {
 		this.alertRepository.deleteAll();
 
 		final Map<String, String> alert = new HashMap<>();
-		alert.put("severityLevel", "yellow");
+		alert.put("severityLevel", Alert.SeverityLevelEnum.ERROR.name());
 		alert.put("name", "ReplaceFilter");
 		alert.put("shortDescription", "Replace Filter");
 		alert.put("longDescription", "Your filter needs to be replaced. Order at www.bwg.com");
@@ -112,7 +112,7 @@ public final class AlertDocumentation {
 				.andExpect(status().isCreated())
 				.andDo(document("alert-create-example",
 						requestFields(fieldWithPath("name").description("Name of the alert"),
-								fieldWithPath("severityLevel").description("The Severity of the Alert (yellow, red)"),
+								fieldWithPath("severityLevel").description("The Severity of the Alert (INFO, WARNING, ERROR, SEVERE)"),
 								fieldWithPath("spaId").description("The spa associated with the alert"),
 								fieldWithPath("oemId").description("The manufacturer of this spa"),
 								fieldWithPath("dealerId").description("The dealer that sold this spa"),
@@ -126,10 +126,10 @@ public final class AlertDocumentation {
 	public void alertUpdateExample() throws Exception {
 		this.alertRepository.deleteAll();
 
-		final Alert alert = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
+		final Alert alert = createAlert("ReplaceFilter", Alert.SeverityLevelEnum.ERROR, "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
 
 		final Map<String, String> alertUpdate = new HashMap<>();
-		alertUpdate.put("severityLevel", "Red");
+		alertUpdate.put("severityLevel", Alert.SeverityLevelEnum.SEVERE.name());
 
 		this.mockMvc
 				.perform(patch("/alerts/{0}", alert.get_id()).contentType(MediaTypes.HAL_JSON)
@@ -143,7 +143,7 @@ public final class AlertDocumentation {
 	public void alertGetExample() throws Exception {
         this.alertRepository.deleteAll();
 
-        final Alert alert = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
+        final Alert alert = createAlert("ReplaceFilter", Alert.SeverityLevelEnum.ERROR, "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
 
 		this.mockMvc.perform(get("/alerts/{0}", alert.get_id())).andExpect(status().isOk())
 				.andExpect(jsonPath("name", is(alert.getName())))
@@ -158,7 +158,7 @@ public final class AlertDocumentation {
 						responseFields(
 								fieldWithPath("_id").description("Object Id"),
 								fieldWithPath("name").description("The name of the alert"),
-								fieldWithPath("severityLevel").description("The severity of the alert (yellow, red)"),
+								fieldWithPath("severityLevel").description("The severity of the alert (INFO, WARNING, ERROR, SEVERE)"),
 								fieldWithPath("shortDescription").description("A brief description of the alert"),
 								fieldWithPath("longDescription").description("The full text of the alert"),
                                 fieldWithPath("component").description("The spa component reporting the alert"),
@@ -175,8 +175,8 @@ public final class AlertDocumentation {
 	public void alertsFindByDealerExample() throws Exception {
 		this.alertRepository.deleteAll();
 
-		final Alert alert1 = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
-		final Alert alert2 = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
+		final Alert alert1 = createAlert("ReplaceFilter", Alert.SeverityLevelEnum.ERROR, "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
+		final Alert alert2 = createAlert("ReplaceFilter", Alert.SeverityLevelEnum.ERROR, "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
 
 		this.mockMvc.perform(get("/alerts/search/findByDealerId?dealerId=dealer001&sort=creationDate,desc"))
 				.andExpect(status().isOk())
@@ -193,8 +193,8 @@ public final class AlertDocumentation {
 	public void alertsFindByOemExample() throws Exception {
 		this.alertRepository.deleteAll();
 
-		final Alert alert1 = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
-		final Alert alert2 = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
+		final Alert alert1 = createAlert("ReplaceFilter", Alert.SeverityLevelEnum.ERROR, "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
+		final Alert alert2 = createAlert("ReplaceFilter", Alert.SeverityLevelEnum.ERROR, "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
 
 		this.mockMvc.perform(get("/alerts/search/findByOemId?oemId=oem001&sort=creationDate,desc"))
 				.andExpect(status().isOk())
@@ -209,8 +209,8 @@ public final class AlertDocumentation {
 	public void alertsFindBySpaExample() throws Exception {
 		this.alertRepository.deleteAll();
 
-		final Alert alert1 = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
-		final Alert alert2 = createAlert("ReplaceFilter", "yellow", "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
+		final Alert alert1 = createAlert("ReplaceFilter", Alert.SeverityLevelEnum.ERROR, "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
+		final Alert alert2 = createAlert("ReplaceFilter", Alert.SeverityLevelEnum.ERROR, "Replace Filter", "The filter is old, please replace", "filter1", "mySpa001");
 
 		this.mockMvc.perform(get("/alerts/search/findBySpaId?spaId=mySpa001&sort=creationDate,desc"))
 				.andExpect(status().isOk())
@@ -221,10 +221,10 @@ public final class AlertDocumentation {
 								fieldWithPath("page").description("Page information"))));
 	}
 
-	private Alert createAlert(String name, String severity, String shortDesc, String fullDesc, String component, String spaId) {
+	private Alert createAlert(String name, Alert.SeverityLevelEnum severity, String shortDesc, String fullDesc, String component, String spaId) {
 		final Alert alert = new Alert();
 		alert.setName(name);
-		alert.setSeverityLevel(severity);
+		alert.setSeverityLevel(severity.name());
 		alert.setShortDescription(shortDesc);
 		alert.setLongDescription(fullDesc);
 		alert.setComponent(component);

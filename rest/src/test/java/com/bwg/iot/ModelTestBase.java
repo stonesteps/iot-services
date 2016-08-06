@@ -938,11 +938,11 @@ public class ModelTestBase {
     public static final String OHH_CAUSE = "Low speed pump overuse. Continuous Filtering programming error. Faulty pump. ";
     public static final String OHH_ACTION = "Ensure slice valves are open, Open all jets, Reprogram time cycles. Contact Dealer. ";
 
-    protected Alert createAlert(Spa spa, String name, String level, String shortDesc, String longDesc, int compIndex) {
+    protected Alert createAlert(Spa spa, String name, Alert.SeverityLevelEnum level, String shortDesc, String longDesc, int compIndex) {
         Alert alert1 = new Alert();
         alert1.setName(name);
         alert1.setLongDescription(longDesc);
-        alert1.setSeverityLevel(level);
+        alert1.setSeverityLevel(level.name());
         alert1.setComponent(spa.getCurrentState().getComponents().get(compIndex).getSerialNumber());
         alert1.setShortDescription(shortDesc);
         alert1.setCreationDate(new Date());
@@ -953,8 +953,8 @@ public class ModelTestBase {
         return alert1;
     }
 
-    protected Spa addLowFlowYellowAlert(Spa spa) {
-        Alert alert1 = createAlert(spa, "Low FLow", "yellow", LF_INDICATES, LF_WAPPENS + LF_CAUSE + LF_ACTION, 0);
+    protected Spa addLowFlowErrorAlert(Spa spa) {
+        Alert alert1 = createAlert(spa, "Low FLow", Alert.SeverityLevelEnum.ERROR, LF_INDICATES, LF_WAPPENS + LF_CAUSE + LF_ACTION, 0);
         List<Alert> alerts = new ArrayList<Alert>();
         alerts.add(alert1);
         spa.setAlerts(alerts);
@@ -962,8 +962,8 @@ public class ModelTestBase {
         return spa;
     }
 
-    protected Spa addOverheatRedAlert(Spa spa) {
-        Alert alert1 = createAlert(spa, "OVERHEAT", "red", OHH_INDICATES, OHH_HAPPENS + OHH_CAUSE + OHH_ACTION, 1);
+    protected Spa addOverheatSevereAlert(Spa spa) {
+        Alert alert1 = createAlert(spa, "OVERHEAT", Alert.SeverityLevelEnum.SEVERE, OHH_INDICATES, OHH_HAPPENS + OHH_CAUSE + OHH_ACTION, 1);
         List<Alert> alerts = new ArrayList<Alert>();
         alerts.add(alert1);
         spa.setAlerts(alerts);
@@ -972,8 +972,8 @@ public class ModelTestBase {
     }
 
     protected Spa add2Alerts(Spa spa) {
-        Alert alert1 = createAlert(spa, "Low FLow", "yellow", LF_INDICATES, LF_WAPPENS + LF_CAUSE + LF_ACTION, 0);
-        Alert alert2 = createAlert(spa, "OVERHEAT", "red", OHH_INDICATES, OHH_HAPPENS + OHH_CAUSE + OHH_ACTION, 1);
+        Alert alert1 = createAlert(spa, "Low FLow", Alert.SeverityLevelEnum.ERROR, LF_INDICATES, LF_WAPPENS + LF_CAUSE + LF_ACTION, 0);
+        Alert alert2 = createAlert(spa, "OVERHEAT", Alert.SeverityLevelEnum.SEVERE, OHH_INDICATES, OHH_HAPPENS + OHH_CAUSE + OHH_ACTION, 1);
         List<Alert> alerts = Arrays.asList(alert1, alert2);
         spa.setAlerts(alerts);
         spa = spaRepository.save(spa);
