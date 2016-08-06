@@ -98,6 +98,8 @@ public class SpaState {
     Boolean accessLocked;
     Boolean maintenanceLocked;
 
+    Alert.SeverityLevelEnum alertState;
+
     public SpaState(){
         components = new ArrayList<ComponentState>();
     }
@@ -540,6 +542,14 @@ public class SpaState {
 
     public void setRs485AcquiredAddress(Integer rs485AcquiredAddress) {
         this.rs485AcquiredAddress = rs485AcquiredAddress;
+    }
+
+    public Alert.SeverityLevelEnum getAlertState() {
+        return alertState;
+    }
+
+    public void setAlertState(Alert.SeverityLevelEnum alertState) {
+        this.alertState = alertState;
     }
 
     @Override
