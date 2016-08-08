@@ -98,7 +98,7 @@ public class SpaState {
     Boolean accessLocked;
     Boolean maintenanceLocked;
 
-    Alert.SeverityLevelEnum alertState;
+    String alertState;
 
     public SpaState(){
         components = new ArrayList<ComponentState>();
@@ -544,11 +544,11 @@ public class SpaState {
         this.rs485AcquiredAddress = rs485AcquiredAddress;
     }
 
-    public Alert.SeverityLevelEnum getAlertState() {
+    public String getAlertState() {
         return alertState;
     }
 
-    public void setAlertState(Alert.SeverityLevelEnum alertState) {
+    public void setAlertState(String alertState) {
         this.alertState = alertState;
     }
 

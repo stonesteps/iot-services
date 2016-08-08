@@ -36,8 +36,7 @@ public class Alert extends ResourceSupport {
   private String dealerId;
   private Date creationDate;
   private Date clearedDate;
-  private Date acknowledgedDate;
-  private String acknowledgedUserId;
+  private String clearedBy;
   
   public String get_id() {
     return _id;
@@ -126,20 +125,12 @@ public class Alert extends ResourceSupport {
     this.clearedDate = clearedDate;
   }
 
-  public Date getAcknowledgedDate() {
-    return acknowledgedDate;
+  public String getClearedBy() {
+    return clearedBy;
   }
 
-  public void setAcknowledgedDate(Date acknowledgedDate) {
-    this.acknowledgedDate = acknowledgedDate;
-  }
-
-  public String getAcknowledgedUserId() {
-    return acknowledgedUserId;
-  }
-
-  public void setAcknowledgedUserId(String acknowledgedUserId) {
-    this.acknowledgedUserId = acknowledgedUserId;
+  public void setClearedBy(String clearedBy) {
+    this.clearedBy = clearedBy;
   }
 
   @Override
@@ -162,13 +153,12 @@ public class Alert extends ResourceSupport {
         Objects.equals(component, alert.component) &&
         Objects.equals(creationDate, alert.creationDate) &&
         Objects.equals(clearedDate, alert.clearedDate) &&
-        Objects.equals(acknowledgedDate, alert.acknowledgedDate) &&
-        Objects.equals(acknowledgedUserId, alert.acknowledgedUserId);
+        Objects.equals(clearedBy, alert.clearedBy);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_id, name, severityLevel, shortDescription, longDescription, spaId, creationDate, clearedDate, acknowledgedDate, acknowledgedUserId);
+    return Objects.hash(_id, name, severityLevel, shortDescription, longDescription, spaId, creationDate, clearedDate, clearedBy);
   }
 
   @Override
@@ -185,8 +175,7 @@ public class Alert extends ResourceSupport {
       sb.append("  component").append(component).append("\n");
       sb.append("  creationDate").append(creationDate).append("\n");
       sb.append("  clearedDate").append(clearedDate).append("\n");
-      sb.append("  acknowledgedDate").append(acknowledgedDate).append("\n");
-      sb.append("  acknowledgedUserId").append(acknowledgedUserId).append("\n");
+      sb.append("  clearedBy").append(clearedBy).append("\n");
       sb.append("}\n");
       return sb.toString();
   }

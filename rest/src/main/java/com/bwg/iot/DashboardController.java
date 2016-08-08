@@ -65,9 +65,13 @@ public class DashboardController {
 
     private DashboardInfo getDashboardInfo(User user) {
         Query alertQuery = new Query();
+        alertQuery.addCriteria(Criteria.where("clearedDate").is(null));
         Query warningAlertQuery = new Query();
+        warningAlertQuery.addCriteria(Criteria.where("clearedDate").is(null));
         Query errorAlertQuery = new Query();
+        errorAlertQuery.addCriteria(Criteria.where("clearedDate").is(null));
         Query severeAlertQuery = new Query();
+        severeAlertQuery.addCriteria(Criteria.where("clearedDate").is(null));
         Query spaQuery = new Query();
         Query unsoldSpaQuery = new Query();
         Query onlineSpaQuery = new Query();
