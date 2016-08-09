@@ -755,6 +755,27 @@ include::{snippets}/alert-update-example/curl-request.adoc[]
 
 include::{snippets}/alert-update-example/http-response.adoc[]
 
+
+[[resources-alert-clear]]
+=== Clear an alert
+
+A `POST` request is used to clear an alert. Sets clearedDate for alert and clearedByUserId. Updates also
+alertState of spa.currentState to the highest severity of active alert (with clearedDate set to null). Updates
+also alertState of respective components in spa.currentState.components.
+
+==== Request structure
+
+include::{snippets}/alert-clear-example/request-fields.adoc[]
+
+==== Example request
+
+include::{snippets}/alert-clear-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/alert-clear-example/http-response.adoc[]
+
+
 [[resources-dealer]]
 == Dealer
 

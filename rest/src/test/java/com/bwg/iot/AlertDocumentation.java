@@ -17,7 +17,9 @@
 package com.bwg.iot;
 
 import com.bwg.iot.model.Alert;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.bwg.iot.model.Spa;
+import com.bwg.iot.model.User;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,7 +35,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,19 +53,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = IotServicesApplication.class)
 @WebAppConfiguration
-public final class AlertDocumentation {
+public final class AlertDocumentation extends ModelTestBase {
 
 	@Rule
 	public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
-
-	@Autowired
-	private AlertRepository alertRepository;
-
-	@Autowired
-	private SpaRepository spaRepository;
-
-	@Autowired
-	private ObjectMapper objectMapper;
 
 	@Autowired
 	private WebApplicationContext context;
@@ -138,6 +131,29 @@ public final class AlertDocumentation {
 				.andDo(document("alert-update-example",
 						requestFields(fieldWithPath("severityLevel").description("Severity of the alert"))));
 	}
+
+	@Test
+	public void alertClearExample() throws Exception {
+		this.alertRepository.deleteAll();
+        this.spaRepository.deleteAll();
+        this.userRepository.deleteAll();
+
+        User owner = createUser("eblues", "Elwood", "Blues", "dealer2509", "oem001", createAddress(), Arrays.asList("OWNER"), null);
+        Spa spa = createFullSpaWithState("0blah345", "Shark", "Blue", "oem0000001", "101", owner, "mySpa001");
+		Alert alert = createAlert("ReplaceFilter", Alert.SeverityLevelEnum.ERROR, "Replace Filter", "The filter is old, please replace", "filter1", spa.get_id());
+        spa.getCurrentState().setAlertState(Alert.SeverityLevelEnum.ERROR.name());
+        spaRepository.save(spa);
+
+		this.mockMvc
+				.perform(post("/alerts/{0}/clear", alert.get_id())
+						.contentType(MediaTypes.HAL_JSON).header("remote_user", "userId"))
+				.andExpect(status().is2xxSuccessful())
+				.andDo(document("alert-clear-example"));
+
+        spa = spaRepository.findByUsername("eblues");
+        Assert.assertNotNull(spa);
+        Assert.assertEquals(Alert.SeverityLevelEnum.NONE.name(), spa.getCurrentState().getAlertState());
+    }
 
 	@Test
 	public void alertGetExample() throws Exception {

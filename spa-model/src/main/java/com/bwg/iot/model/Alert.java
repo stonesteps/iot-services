@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -21,7 +20,7 @@ import java.util.Objects;
 public class Alert extends ResourceSupport {
 
   public enum SeverityLevelEnum {
-    INFO, WARNING, ERROR, SEVERE
+    NONE, INFO, WARNING, ERROR, SEVERE
   };
 
   @Id
@@ -36,7 +35,7 @@ public class Alert extends ResourceSupport {
   private String dealerId;
   private Date creationDate;
   private Date clearedDate;
-  private String clearedBy;
+  private String clearedByUserId;
   
   public String get_id() {
     return _id;
@@ -125,12 +124,12 @@ public class Alert extends ResourceSupport {
     this.clearedDate = clearedDate;
   }
 
-  public String getClearedBy() {
-    return clearedBy;
+  public String getClearedByUserId() {
+    return clearedByUserId;
   }
 
-  public void setClearedBy(String clearedBy) {
-    this.clearedBy = clearedBy;
+  public void setClearedByUserId(String clearedByUserId) {
+    this.clearedByUserId = clearedByUserId;
   }
 
   @Override
@@ -153,12 +152,12 @@ public class Alert extends ResourceSupport {
         Objects.equals(component, alert.component) &&
         Objects.equals(creationDate, alert.creationDate) &&
         Objects.equals(clearedDate, alert.clearedDate) &&
-        Objects.equals(clearedBy, alert.clearedBy);
+        Objects.equals(clearedByUserId, alert.clearedByUserId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(_id, name, severityLevel, shortDescription, longDescription, spaId, creationDate, clearedDate, clearedBy);
+    return Objects.hash(_id, name, severityLevel, shortDescription, longDescription, spaId, creationDate, clearedDate, clearedByUserId);
   }
 
   @Override
@@ -175,7 +174,7 @@ public class Alert extends ResourceSupport {
       sb.append("  component").append(component).append("\n");
       sb.append("  creationDate").append(creationDate).append("\n");
       sb.append("  clearedDate").append(clearedDate).append("\n");
-      sb.append("  clearedBy").append(clearedBy).append("\n");
+      sb.append("  clearedByUserId").append(clearedByUserId).append("\n");
       sb.append("}\n");
       return sb.toString();
   }
