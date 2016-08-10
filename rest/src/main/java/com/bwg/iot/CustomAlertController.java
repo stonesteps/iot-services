@@ -3,12 +3,20 @@ package com.bwg.iot;
 import com.bwg.iot.model.Alert;
 import com.bwg.iot.model.ComponentState;
 import com.bwg.iot.model.Spa;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.mapreduce.MapReduceResults;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -17,6 +25,14 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/alerts")
 public class CustomAlertController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomAlertController.class);
+
+    private final static String ALERT_AGGREGATE_MAP_FUNCTION = "function () { emit(this.severityLevel, 1); }";
+    private final static String ALERT_AGGREGATE_REDUCE_FUNCTION = "function (key, values) { var sum = 0; for (var i = 0; i < values.length; i++) sum += values[i]; return sum; }";
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @Autowired
     private UserRepository userRepository;
@@ -69,34 +85,61 @@ public class CustomAlertController {
     }
 
     private String findHighestActiveAlertSeverityForSpa(final String spaId) {
-        Long alertCount = alertRepository.countBySpaIdAndSeverityLevelAndClearedDateIsNull(spaId, Alert.SeverityLevelEnum.SEVERE.name());
-        if (alertCount != null && alertCount.longValue() > 0) return Alert.SeverityLevelEnum.SEVERE.name();
+        final Query query = Query.query(Criteria.where("spaId").is(spaId)).addCriteria(Criteria.where("clearedDate").is(null));
+        final MapReduceResults<ValueObject> results = mongoTemplate.mapReduce(query, "alert", ALERT_AGGREGATE_MAP_FUNCTION, ALERT_AGGREGATE_REDUCE_FUNCTION, ValueObject.class);
 
-        alertCount = alertRepository.countBySpaIdAndSeverityLevelAndClearedDateIsNull(spaId, Alert.SeverityLevelEnum.ERROR.name());
-        if (alertCount != null && alertCount.longValue() > 0) return Alert.SeverityLevelEnum.ERROR.name();
+        return getHighestAlertSeverity(results);
+    }
 
-        alertCount = alertRepository.countBySpaIdAndSeverityLevelAndClearedDateIsNull(spaId, Alert.SeverityLevelEnum.WARNING.name());
-        if (alertCount != null && alertCount.longValue() > 0) return Alert.SeverityLevelEnum.WARNING.name();
+    private String findHighestActiveAlertSeverityForSpaAndComponent(final String spaId, final String component) {
+        final Query query = Query.query(Criteria.where("spaId").is(spaId)).addCriteria(Criteria.where("component").is(component)).addCriteria(Criteria.where("clearedDate").is(null));
+        final MapReduceResults<ValueObject> results = mongoTemplate.mapReduce(query, "alert", ALERT_AGGREGATE_MAP_FUNCTION, ALERT_AGGREGATE_REDUCE_FUNCTION, ValueObject.class);
 
-        alertCount = alertRepository.countBySpaIdAndSeverityLevelAndClearedDateIsNull(spaId, Alert.SeverityLevelEnum.INFO.name());
-        if (alertCount != null && alertCount.longValue() > 0) return Alert.SeverityLevelEnum.INFO.name();
+        return getHighestAlertSeverity(results);
+    }
+
+    private String getHighestAlertSeverity(final MapReduceResults<ValueObject> results) {
+        final Map<String, Integer> resultMap = new HashMap<>();
+        for (final ValueObject valueObject : results) {
+            resultMap.put(valueObject.getId(), valueObject.getValue());
+        }
+
+        Integer alertCount = resultMap.get(Alert.SeverityLevelEnum.SEVERE.name());
+        if (alertCount != null && alertCount.intValue() > 0) return Alert.SeverityLevelEnum.SEVERE.name();
+
+        alertCount = resultMap.get(Alert.SeverityLevelEnum.ERROR.name());
+        if (alertCount != null && alertCount.intValue() > 0) return Alert.SeverityLevelEnum.ERROR.name();
+
+        alertCount = resultMap.get(Alert.SeverityLevelEnum.WARNING.name());
+        if (alertCount != null && alertCount.intValue() > 0) return Alert.SeverityLevelEnum.WARNING.name();
+
+        alertCount = resultMap.get(Alert.SeverityLevelEnum.INFO.name());
+        if (alertCount != null && alertCount.intValue() > 0) return Alert.SeverityLevelEnum.INFO.name();
 
         return Alert.SeverityLevelEnum.NONE.name();
     }
 
-    private String findHighestActiveAlertSeverityForSpaAndComponent(final String spaId, final String component) {
-        Long alertCount = alertRepository.countBySpaIdAndSeverityLevelAndComponentAndClearedDateIsNull(spaId, Alert.SeverityLevelEnum.SEVERE.name(), component);
-        if (alertCount != null && alertCount.longValue() > 0) return Alert.SeverityLevelEnum.SEVERE.name();
+    /**
+     * Class used just for aggregate map reduce results.
+     */
+    private static final class ValueObject {
+        private String id;
+        private int value;
 
-        alertCount = alertRepository.countBySpaIdAndSeverityLevelAndComponentAndClearedDateIsNull(spaId, Alert.SeverityLevelEnum.ERROR.name(), component);
-        if (alertCount != null && alertCount.longValue() > 0) return Alert.SeverityLevelEnum.ERROR.name();
+        public int getValue() {
+            return value;
+        }
 
-        alertCount = alertRepository.countBySpaIdAndSeverityLevelAndComponentAndClearedDateIsNull(spaId, Alert.SeverityLevelEnum.WARNING.name(), component);
-        if (alertCount != null && alertCount.longValue() > 0) return Alert.SeverityLevelEnum.WARNING.name();
+        public void setValue(int value) {
+            this.value = value;
+        }
 
-        alertCount = alertRepository.countBySpaIdAndSeverityLevelAndComponentAndClearedDateIsNull(spaId, Alert.SeverityLevelEnum.INFO.name(), component);
-        if (alertCount != null && alertCount.longValue() > 0) return Alert.SeverityLevelEnum.INFO.name();
+        public String getId() {
+            return id;
+        }
 
-        return Alert.SeverityLevelEnum.NONE.name();
+        public void setId(String id) {
+            this.id = id;
+        }
     }
 }

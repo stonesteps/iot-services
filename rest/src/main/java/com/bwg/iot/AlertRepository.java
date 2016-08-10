@@ -18,8 +18,4 @@ public interface AlertRepository extends MongoRepository<Alert, String> {
     Page<Alert> findByDealerId(@Param("dealerId") String dealerId, Pageable pageable);
 
     Page<Alert> findByOemId(@Param("oemId") String oemId, Pageable pageable);
-
-    Long countBySpaIdAndSeverityLevelAndClearedDateIsNull(@Param("spaId") String spaId, @Param("severityLevel") String severityLevel);
-
-    Long countBySpaIdAndSeverityLevelAndComponentAndClearedDateIsNull(@Param("spaId") String spaId, @Param("severityLevel") String severityLevel, @Param("component") String component);
 }

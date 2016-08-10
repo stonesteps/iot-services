@@ -141,6 +141,7 @@ public final class AlertDocumentation extends ModelTestBase {
         User owner = createUser("eblues", "Elwood", "Blues", "dealer2509", "oem001", createAddress(), Arrays.asList("OWNER"), null);
         Spa spa = createFullSpaWithState("0blah345", "Shark", "Blue", "oem0000001", "101", owner, "mySpa001");
 		Alert alert = createAlert("ReplaceFilter", Alert.SeverityLevelEnum.ERROR, "Replace Filter", "The filter is old, please replace", "filter1", spa.get_id());
+		createAlert("ReplaceFilter", Alert.SeverityLevelEnum.WARNING, "Replace Filter", "The filter is old, please replace", "filter1", spa.get_id());
         spa.getCurrentState().setAlertState(Alert.SeverityLevelEnum.ERROR.name());
         spaRepository.save(spa);
 
@@ -152,7 +153,7 @@ public final class AlertDocumentation extends ModelTestBase {
 
         spa = spaRepository.findByUsername("eblues");
         Assert.assertNotNull(spa);
-        Assert.assertEquals(Alert.SeverityLevelEnum.NONE.name(), spa.getCurrentState().getAlertState());
+        Assert.assertEquals(Alert.SeverityLevelEnum.WARNING.name(), spa.getCurrentState().getAlertState());
     }
 
 	@Test
