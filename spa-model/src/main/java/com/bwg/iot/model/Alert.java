@@ -30,6 +30,7 @@ public class Alert extends ResourceSupport {
   private String shortDescription = null;
   private String longDescription = null;
   private String component;
+  private Integer portNo;
   private String spaId;
   private String oemId;
   private String dealerId;
@@ -92,6 +93,14 @@ public class Alert extends ResourceSupport {
     this.component = component;
   }
 
+  public Integer getPortNo() {
+    return portNo;
+  }
+
+  public void setPortNo(Integer portNo) {
+    this.portNo = portNo;
+  }
+
   public String getOemId() {
     return oemId;
   }
@@ -146,10 +155,10 @@ public class Alert extends ResourceSupport {
         Objects.equals(name, alert.name) &&
         Objects.equals(severityLevel, alert.severityLevel) &&
         Objects.equals(spaId, alert.spaId) &&
-        Objects.equals(severityLevel, alert.severityLevel) &&
         Objects.equals(shortDescription, alert.shortDescription) &&
         Objects.equals(longDescription, alert.longDescription) &&
         Objects.equals(component, alert.component) &&
+        Objects.equals(portNo, alert.portNo) &&
         Objects.equals(creationDate, alert.creationDate) &&
         Objects.equals(clearedDate, alert.clearedDate) &&
         Objects.equals(clearedByUserId, alert.clearedByUserId);
@@ -157,7 +166,7 @@ public class Alert extends ResourceSupport {
 
   @Override
   public int hashCode() {
-    return Objects.hash(_id, name, severityLevel, shortDescription, longDescription, spaId, creationDate, clearedDate, clearedByUserId);
+    return Objects.hash(_id, name, severityLevel, shortDescription, longDescription, spaId, component, portNo, creationDate, clearedDate, clearedByUserId);
   }
 
   @Override
@@ -172,6 +181,7 @@ public class Alert extends ResourceSupport {
       sb.append("  longDescription: ").append(longDescription).append("\n");
       sb.append("  spaId:").append(spaId).append("\n");
       sb.append("  component").append(component).append("\n");
+      sb.append("  portNo").append(portNo).append("\n");
       sb.append("  creationDate").append(creationDate).append("\n");
       sb.append("  clearedDate").append(clearedDate).append("\n");
       sb.append("  clearedByUserId").append(clearedByUserId).append("\n");
