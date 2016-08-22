@@ -1,6 +1,7 @@
 package com.bwg.iot;
 
 import com.bwg.iot.model.*;
+import com.mysema.query.types.path.DateTimePath;
 import com.mysema.query.types.path.StringPath;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 
+import java.util.Collection;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -40,5 +44,19 @@ public interface SpaRepository extends MongoRepository<Spa, String> , QueryDslPr
     default void customize(QuerydslBindings bindings, QSpa spa) {
         bindings.bind(spa.sold).first((StringPath path, String value) -> path.equalsIgnoreCase(value));
         bindings.bind(String.class).first((StringPath path, String value) -> path.containsIgnoreCase(value));
+        bindings.bind(Date.class).all((DateTimePath<Date> path, Collection<? extends Date> value) -> {
+            Iterator<? extends Date> it = value.iterator();
+            Date firstTimestamp = it.next();
+            if (it.hasNext()) {
+                Date secondTimestamp = it.next();
+                // make end date inclusive
+                secondTimestamp.setHours(23);
+                secondTimestamp.setMinutes(59);
+                secondTimestamp.setSeconds(59);
+                return path.between(firstTimestamp,secondTimestamp);
+            } else {
+                return path.after(firstTimestamp);
+            }
+        });
     }
 }
