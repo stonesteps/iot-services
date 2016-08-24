@@ -95,6 +95,7 @@ public class ModelTestBase {
         this.dealerRepository.deleteAll();
         this.oemRepository.deleteAll();
         this.spaRepository.deleteAll();
+        this.eventRepository.deleteAll();
         this.componentRepository.deleteAll();
         this.userRepository.deleteAll();
         this.alertRepository.deleteAll();
