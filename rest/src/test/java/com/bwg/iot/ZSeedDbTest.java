@@ -166,6 +166,10 @@ public final class ZSeedDbTest extends ModelTestBase {
         Spa spa22 = createDemoJacuzziSpa("150307", oem1.get_id(), dealer1.get_id(), owner1, "spa000022", GATEWAY_1_SN, st1.get_id(), maker1);
         createSpaRecipe(spa22.get_id(), "TGIF", "Some like it hot!");
         createSpaRecipe(spa22.get_id(), "Kids Play", "Body Temp", "98");
+        createSpaEvent(spa22.get_id(), "ALERT");
+        createSpaEvent(spa22.get_id(), "MEASUREMENT");
+        createSpaEvent(spa22.get_id(), "NOTIFICATION");
+        createSpaEvent(spa22.get_id(), "REQUEST");
 
         Spa spa24 = createDemoSpa2("160104", oem3.get_id(), dealer3.get_id(), owner2, "spa000024", GATEWAY_2_SN, st1.get_id(), sales3);
         Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", oem1.get_id(), dealer1.get_id(), owner3, "spa000025", GATEWAY_5_SN, st1.get_id(), sales2);
