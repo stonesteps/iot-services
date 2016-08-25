@@ -170,6 +170,11 @@ public final class ZSeedDbTest extends ModelTestBase {
         createSpaEvent(spa22.get_id(), "MEASUREMENT");
         createSpaEvent(spa22.get_id(), "NOTIFICATION");
         createSpaEvent(spa22.get_id(), "REQUEST");
+        createSpaWifiStat(spa22.get_id(), WifiConnectionHealth.AVG);
+        createSpaWifiStat(spa22.get_id(), WifiConnectionHealth.DISCONNECTED);
+        createSpaWifiStat(spa22.get_id(), WifiConnectionHealth.STRONG);
+        createSpaWifiStat(spa22.get_id(), WifiConnectionHealth.UNKONWN);
+        createSpaWifiStat(spa22.get_id(), WifiConnectionHealth.WEAK);
 
         Spa spa24 = createDemoSpa2("160104", oem3.get_id(), dealer3.get_id(), owner2, "spa000024", GATEWAY_2_SN, st1.get_id(), sales3);
         Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", oem1.get_id(), dealer1.get_id(), owner3, "spa000025", GATEWAY_5_SN, st1.get_id(), sales2);

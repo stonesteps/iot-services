@@ -96,6 +96,8 @@ public class ModelTestBase {
         this.oemRepository.deleteAll();
         this.spaRepository.deleteAll();
         this.eventRepository.deleteAll();
+        this.wifiStatRepository.deleteAll();
+        this.faultLogRepository.deleteAll();
         this.componentRepository.deleteAll();
         this.userRepository.deleteAll();
         this.alertRepository.deleteAll();
@@ -1003,7 +1005,7 @@ public class ModelTestBase {
     }
 
     protected void createSpaFaultLogAndDescription(String spaId) {
-        final FaultLog log = new FaultLog();
+        FaultLog log = new FaultLog();
         log.setSpaId(spaId);
         log.setControllerType("NGSC");
         log.setCode(1);
@@ -1017,10 +1019,31 @@ public class ModelTestBase {
         log.setSeverity(FaultLogSeverity.ERROR);
         faultLogRepository.save(log);
 
-        final FaultLogDescription description = new FaultLogDescription();
+        log = new FaultLog();
+        log.setSpaId(spaId);
+        log.setControllerType("NGSC");
+        log.setCode(2);
+        log.setDealerId("ABC");
+        log.setOemId("DEF");
+        log.setOwnerId("GHI");
+        log.setTimestamp(new Date());
+        log.setSensorATemp(22);
+        log.setSensorBTemp(11);
+        log.setTargetTemp(22);
+        log.setSeverity(FaultLogSeverity.WARNING);
+        faultLogRepository.save(log);
+
+        FaultLogDescription description = new FaultLogDescription();
         description.setCode(1);
         description.setSeverity(FaultLogSeverity.ERROR);
-        description.setDescription("Code description");
+        description.setDescription("Power Supply Failure");
+        description.setControllerType("NGSC");
+        faultLogDescriptionRepository.save(description);
+
+        description = new FaultLogDescription();
+        description.setCode(2);
+        description.setSeverity(FaultLogSeverity.WARNING);
+        description.setDescription("Temperature Sensor Mismatch");
         description.setControllerType("NGSC");
         faultLogDescriptionRepository.save(description);
     }
