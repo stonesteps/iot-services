@@ -2,6 +2,8 @@ package com.bwg.iot;
 
 import com.bwg.iot.model.*;
 import gluu.scim.client.ScimResponse;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,9 @@ public class CommonHelper {
 
     @Autowired
     SpaRepository spaRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     EntityLinks entityLinks;
@@ -74,5 +79,34 @@ public class CommonHelper {
         Object clazzObject = mapper.readValue(json, clazz);
 
         return clazzObject;
+    }
+
+    public Pair<String, String> getUserQualifier(String remote_user) {
+        User remoteUser = userRepository.findByUsername(remote_user);
+        if (remoteUser == null) {
+            throw new IllegalStateException("Remote User " + remote_user + " not found");
+        }
+        String key;
+        String value;
+        if (remoteUser.hasRole(User.Role.BWG.name())) {
+            return null;
+        } else if (remoteUser.hasRole(User.Role.OEM.name())) {
+            key = "oemId";
+            value = remoteUser.getOemId();
+        } else if (remoteUser.hasRole(User.Role.DEALER.name())) {
+            key = "dealerId";
+            value = remoteUser.getDealerId();
+        } else if (remoteUser.hasRole(User.Role.OWNER.name())) {
+            key = "spaId";
+            value = remoteUser.getSpaId();
+        } else {
+            throw new IllegalStateException("Remote User " + remote_user + " has invalid roles");
+        }
+
+        if (value == null){
+            throw new IllegalStateException("Remote User " + remote_user + " not authorized");
+        }
+
+        return new ImmutablePair(key, value);
     }
 }
