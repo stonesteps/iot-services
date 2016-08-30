@@ -24,7 +24,7 @@ public class ComponentResourceProcessor implements ResourceProcessor<Resource<co
         for (AssociatedSensor sensor : comp.getAssociatedSensors()) {
             if (sensor.getSensorId() != null) {
                 PageRequest request = new PageRequest(0, 100, new Sort(new Order(Direction.DESC, "timestamp")));
-                sensor.add(linkTo(methodOn(MeasurementReadingController.class).getMeasurementsBySensorId(sensor.getSensorId(), request, null)).withRel("measurements"));
+                sensor.add(linkTo(methodOn(MeasurementReadingController.class).getMeasurementsBySensorId(sensor.getSensorId(), null, request, null)).withRel("measurements"));
             }
         }
         return resource;
