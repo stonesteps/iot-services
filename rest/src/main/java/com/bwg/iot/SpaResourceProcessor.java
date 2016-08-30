@@ -85,7 +85,7 @@ public class SpaResourceProcessor implements ResourceProcessor<Resource<Spa>> {
                             if (sensor.getSensorId() != null) {
                                 processedSensorIds.add(sensor.getSensorId());
                                 PageRequest request = new PageRequest(0, 100, new Sort(new Order(Direction.DESC, "timestamp")));
-                                state.add(linkTo(methodOn(MeasurementReadingController.class).getMeasurementsBySensorId(sensor.getSensorId(), request, null)).withRel("measurements_sensor_" + ctr++));
+                                state.add(linkTo(methodOn(MeasurementReadingController.class).getMeasurementsBySensorId(sensor.getSensorId(), null, request, null)).withRel("measurements_sensor_" + ctr++));
                             }
                         }
                         if (Objects.equals(comp.getComponentType(), ComponentType.MOTE.name()) || Objects.equals(comp.getComponentType(), ComponentType.GATEWAY.name())) {
@@ -93,7 +93,7 @@ public class SpaResourceProcessor implements ResourceProcessor<Resource<Spa>> {
                             for (com.bwg.iot.model.Component sensor : attachedSensors) {
                                 if (!processedSensorIds.contains(sensor.get_id())) {
                                     PageRequest request = new PageRequest(0, 100, new Sort(new Order(Direction.DESC, "timestamp")));
-                                    state.add(linkTo(methodOn(MeasurementReadingController.class).getMeasurementsBySensorId(sensor.get_id(), request, null)).withRel("measurements_sensor_" + ctr++));
+                                    state.add(linkTo(methodOn(MeasurementReadingController.class).getMeasurementsBySensorId(sensor.get_id(), null, request, null)).withRel("measurements_sensor_" + ctr++));
                                 }
                             }
                         }
