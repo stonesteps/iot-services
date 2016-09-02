@@ -18,5 +18,4 @@ public interface AlertRepository extends MongoRepository<Alert, String> {
     Page<Alert> findByDealerId(@Param("dealerId") String dealerId, Pageable pageable);
 
     Page<Alert> findByOemId(@Param("oemId") String oemId, Pageable pageable);
-
 }

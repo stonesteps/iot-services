@@ -20,6 +20,7 @@ public class ComponentState extends ResourceSupport {
     private String name;
     private Date registeredTimestamp;
     private String componentId;
+    private String alertState;
 
     public String getMaterialType() {
         return materialType;
@@ -94,6 +95,14 @@ public class ComponentState extends ResourceSupport {
     public Date getRegisteredTimestamp() { return registeredTimestamp; }
 
     public void setRegisteredTimestamp(Date registeredTimestamp) { this.registeredTimestamp = registeredTimestamp; }
+
+    public String getAlertState() {
+        return alertState;
+    }
+
+    public void setAlertState(String alertState) {
+        this.alertState = alertState;
+    }
 
     @Override
     public boolean equals(Object o) {

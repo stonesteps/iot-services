@@ -24,7 +24,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.hateoas.MediaTypes;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -41,7 +40,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -140,7 +138,7 @@ public final class DashboardDocumentation extends ModelTestBase {
         Spa spa25 = createSmallSpaWithState("151122", "Fish", "Minnow", oem1.get_id(), dealer1.get_id(), owner3, "spa000025", "abcd", "67894", sales2);
         this.add2Alerts(spa25);
         Spa spa26 = createFullSpaWithState("160229", "Shark", "Tiger", oem2.get_id(), dealer2.get_id(), owner4, "spa000026", "abcd002", sales3, "76092", null);
-        spa26 = this.addOverheatRedAlert(spa26);
+        spa26 = this.addOverheatSevereAlert(spa26);
         Spa spa27 = createDemoSpa3("160315", oem1.get_id(), dealer1.get_id(), owner5, "spa000027", "abcd003", "template01", sales1);
 
         Spa spa23 = createSmallSpaWithState("160412", "Fish", "Minnow", oem1.get_id(), dealer2.get_id(), owner6, "spa000023", "abcd004", "template01", maker1);
@@ -162,7 +160,7 @@ public final class DashboardDocumentation extends ModelTestBase {
                                 linkWithRel("self").description("Link to this API")),
                         responseFields(
                                 fieldWithPath("alertCounts")
-                                        .description("A map containing counts for total alerts, red alerts, and yellow alerts"),
+                                        .description("A map containing counts for total alerts, SEVERE alerts, ERROR alerts, WARNING alerts and INFO alerts"),
                                 fieldWithPath("spaCounts")
                                         .description("A map of counts for total spas, sold spas, and online spas"),
                                 fieldWithPath("_links").description("<<resources-dashboard-links,Links>> to other resources"))));
