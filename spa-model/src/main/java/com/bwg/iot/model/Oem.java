@@ -2,18 +2,22 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
 import java.util.Objects;
 
-
+@Document
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class Oem extends ResourceSupport {
 
     @Id
     private String _id;
     private String name;
-    private int customerNumber;
+
+    @Indexed(unique=true, sparse=true)
+    private String customerNumber;
     private Address address;
     private String email;
     private String phone;
@@ -43,11 +47,11 @@ public class Oem extends ResourceSupport {
         this.address = address;
     }
 
-    public int getCustomerNumber() {
+    public String getCustomerNumber() {
         return customerNumber;
     }
 
-    public void setCustomerNumber(int customerNumber) {
+    public void setCustomerNumber(String customerNumber) {
         this.customerNumber = customerNumber;
     }
 
@@ -93,7 +97,7 @@ public class Oem extends ResourceSupport {
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + name.hashCode();
-        result = 31 * result + customerNumber;
+        result = 31 * result + customerNumber.hashCode();
         result = 31 * result + (address != null ? address.hashCode() : 0);
         return result;
     }

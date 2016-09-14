@@ -81,7 +81,7 @@ public final class AuthenticationDocumentation extends ModelTestBase{
 		this.userRepository.deleteAll();
 
 		List<Address> addresses = createAddresses(4);
-		Oem oem1 = createOem("Sundance Spas", 103498, addresses.get(1), "oem001");
+		Oem oem1 = createOem("Sundance Spas", "103498", addresses.get(1), "oem001");
 		Dealer dealer1 = createDealer("Pt. Loma Spas", addresses.get(2), oem1.get_id(), "dealer001");
 		Attachment logo = createLogoAttachment(mockMvc);
 		dealer1.setLogo(logo);

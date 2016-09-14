@@ -78,9 +78,9 @@ public final class ZSeedDbTest extends ModelTestBase {
         Attachment logo1 = createLogoAttachment(mockMvc);
 
         // create some oems and dealers
-        Oem oem1 = createOem("Sundance Spas", 103498, addresses.get(0), "oem001");
-        Oem oem2 = createOemWithLogo("Maax Spas Industries Corp.", 102188, addresses.get(1), "oem002", logo1);
-        Oem oem3 = createOem("Coast Spas Manufacturing Inc.", 100843, addresses.get(26), "oem003");
+        Oem oem1 = createOem("Sundance Spas", "103498", addresses.get(0), "oem001");
+        Oem oem2 = createOemWithLogo("Maax Spas Industries Corp.", "102188", addresses.get(1), "oem002", logo1);
+        Oem oem3 = createOem("Coast Spas Manufacturing Inc.", "100843", addresses.get(26), "oem003");
 
         Dealer dealer1 = createDealer("Sundance Spas", addresses.get(2), oem1.get_id(), "dealer001");
         Dealer dealer2 = createDealerWithLogo("Pt. Loma Spa Outlet", addresses.get(3), oem1.get_id(), "dealer002", logo1);
