@@ -78,9 +78,9 @@ public final class DashboardDocumentation extends ModelTestBase {
         List<Address> addresses = createAddresses(40);
 
         // create some oems and dealers
-        Oem oem1 = createOem("Sundance Spas", 103498, addresses.get(0), "oem001");
-        Oem oem2 = createOem("Maax Spas Industries Corp.", 102188, addresses.get(1), "oem002");
-        Oem oem3 = createOem("Coast Spas Manufacturing Inc.", 100843, addresses.get(26), "oem003");
+        Oem oem1 = createOem("Sundance Spas", "103498", addresses.get(0), "oem001");
+        Oem oem2 = createOem("Maax Spas Industries Corp.", "102188", addresses.get(1), "oem002");
+        Oem oem3 = createOem("Coast Spas Manufacturing Inc.", "100843", addresses.get(26), "oem003");
 
         Dealer dealer1 = createDealer("Sundance Spas", addresses.get(2), oem1.get_id(), "dealer001");
         Dealer dealer2 = createDealer("Pt. Loma Spa Outlet", addresses.get(3), oem1.get_id(), "dealer002");

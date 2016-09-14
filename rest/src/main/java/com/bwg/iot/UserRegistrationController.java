@@ -124,7 +124,7 @@ public class UserRegistrationController {
             return new ResponseEntity<String>("User with id " + id + " not found", HttpStatus.NOT_FOUND);
         }
 
-        currentUser.setUsername(user.getUsername());
+//        currentUser.setUsername(user.getUsername());  // Don't allow username updates
         currentUser.setFirstName(user.getFirstName());
         currentUser.setLastName(user.getLastName());
         currentUser.setAddress(user.getAddress());

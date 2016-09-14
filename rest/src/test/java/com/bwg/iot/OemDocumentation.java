@@ -126,7 +126,7 @@ public final class OemDocumentation extends ModelTestBase{
 
         Attachment logo = createLogoAttachment(mockMvc);
         Address address = createAddress();
-		Oem oem = createOem("Backyard Beach", 201450, address, null);
+		Oem oem = createOem("Backyard Beach", "201450", address, null);
 
         oem.setName("Spalicious");
         oem.setLogo(logo);
@@ -151,7 +151,7 @@ public final class OemDocumentation extends ModelTestBase{
 
         Attachment logo = createLogoAttachment(mockMvc);
         Address address = createAddress();
-        Oem oem = createOemWithLogo("Backyard Beach", 201450, address, null, logo);
+        Oem oem = createOemWithLogo("Backyard Beach", "201450", address, null, logo);
 
         this.mockMvc.perform(get("/oems/{0}", oem.get_id())).andExpect(status().isOk())
 				.andExpect(jsonPath("name", is(oem.getName())))

@@ -14,7 +14,7 @@ import java.util.Date;
 @Document
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 @CompoundIndexes({
-        @CompoundIndex(name = "mat_oem_ctype_idx", def = "{'oemId': 1, 'componentTYpe':1}")
+        @CompoundIndex(name = "mat_oem_mtype_idx", def = "{'oemId': 1, 'materialType':1}")
 })
 public class Material extends ResourceSupport {
 

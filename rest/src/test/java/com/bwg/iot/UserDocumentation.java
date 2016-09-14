@@ -338,8 +338,8 @@ public final class UserDocumentation extends ModelTestBase {
         List<Address> addresses = createAddresses(30);
 
         // create some oems and dealers
-        Oem oem1 = createOem("Mod Spas Inc.", 1968, addresses.get(0), "oem001");
-        Oem oem2 = createOem("Rockers Ltd.", 1972, addresses.get(1), "oem002");
+        Oem oem1 = createOem("Mod Spas Inc.", "1968", addresses.get(0), "oem001");
+        Oem oem2 = createOem("Rockers Ltd.", "1972", addresses.get(1), "oem002");
         Dealer dealer1 = createDealer("Fred's Spas", addresses.get(2), oem1.get_id(), "dealer001");
         Dealer dealer2 = createDealer("Pt. Loma Spa Outlet", addresses.get(3), oem1.get_id(), "dealer002");
         Dealer dealer3 = createDealer("SpaStic", addresses.get(15), oem2.get_id(), "dealer003");
