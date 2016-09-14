@@ -15,9 +15,6 @@ import org.springframework.util.StringUtils;
 import java.util.Date;
 import java.util.UUID;
 
-/**
- * Created by triton on 4/8/16.
- */
 @Component
 public class UserBeforeSaveListener extends AbstractMongoEventListener<User> {
 
@@ -37,8 +34,5 @@ public class UserBeforeSaveListener extends AbstractMongoEventListener<User> {
             BasicDBObject dboAddr = (BasicDBObject) dbo.get("address");
             dboAddr.put("_id", address.get_id());
         }
-
-        // set createdDate
-        dbo.put("createdDate", new Date());
     }
 }
