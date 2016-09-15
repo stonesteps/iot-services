@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.util.Date;
 import java.util.Objects;
 
 @Document
@@ -22,6 +23,8 @@ public class Oem extends ResourceSupport {
     private String email;
     private String phone;
     private Attachment logo;
+    private Date createdDate;
+    private Date modifiedDate;
 
     public String get_id() {
         return _id;
@@ -77,6 +80,22 @@ public class Oem extends ResourceSupport {
 
     public void setLogo(Attachment logo) {
         this.logo = logo;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 
     @Override
