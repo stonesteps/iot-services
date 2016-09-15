@@ -99,7 +99,7 @@ public final class OemDocumentation extends ModelTestBase{
 
 		final Map<String, Object> oem = new HashMap<>();
 		oem.put("name", "South Coast Spas");
-		oem.put("customerNumber", 15215);
+		oem.put("customerNumber", "15215");
 		oem.put("address", address);
 		oem.put("email", "matteo@sardinaspas.com");
 		oem.put("phone", "800-BUBBLES");
@@ -112,7 +112,7 @@ public final class OemDocumentation extends ModelTestBase{
 				.andDo(document("oem-create-example",
 						requestFields(fieldWithPath("name").description("Name of the oem"),
 //								fieldWithPath("id").description("Unique identifier for the oem"),
-								fieldWithPath("customerNumber").description("Balboa identifier for the oem"),
+								fieldWithPath("customerNumber").description("Balboa unique identifier for the oem"),
 								fieldWithPath("address").description("The address of the oem"),
 								fieldWithPath("email").description("The Manufacturer's email address").optional().type("String"),
 								fieldWithPath("phone").description("Phone number for the Manufacturer").optional().type("String"),

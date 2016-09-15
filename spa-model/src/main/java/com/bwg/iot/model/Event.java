@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -24,6 +25,7 @@ public class Event {
 
     private String eventType;
 
+    @Indexed(expireAfterSeconds = 604800)
     private Date eventOccuredTimestamp;
     private Date eventReceivedTimestamp;
     private Map<String, String> metadata;

@@ -1,9 +1,7 @@
 package com.bwg.iot.listeners;
 
 import com.bwg.iot.AddressRepository;
-import com.bwg.iot.model.Address;
-import com.bwg.iot.model.SpaTemplate;
-import com.bwg.iot.model.User;
+import com.bwg.iot.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +25,7 @@ public class UserEventHandler {
         log.debug("Before Create User: " + user.getUsername());
 
         // persist Address in its own collection
-        Address address = user.getAddress();
-        if (address != null && StringUtils.isEmpty(address.get_id())) {
-            address = addressRepository.save(address);
-            user.setAddress(address);
-        }
+        user.setAddress(persistAddress(user.getAddress()));
 
         // set createdDate
         user.setCreatedDate(new Date());
@@ -39,11 +33,43 @@ public class UserEventHandler {
 
     @HandleBeforeCreate
     public void handleSpaTemplateCreate(SpaTemplate spaTemplate) {
-        log.debug("Before Create SpaTemplate: " + spaTemplate.getModel());
+        log.info("Before Create SpaTemplate: " + spaTemplate.getModel());
         removeSpaTemplateLinks(spaTemplate);
 
         // set createdDate
         spaTemplate.setCreationDate(new Date());
+    }
+
+    @HandleBeforeCreate
+    public void handleOemCreate(Oem oem) {
+        log.info("Before Create Oem: " + oem.getName());
+
+        oem.setAddress(persistAddress(oem.getAddress()));
+        oem.setCreatedDate(new Date());
+    }
+
+    @HandleBeforeSave
+    public void handleOemUpdate(Oem oem) {
+        log.info("Before Save Edit Oem: " + oem.getName());
+
+        oem.setAddress(persistAddress(oem.getAddress()));
+        oem.setModifiedDate(new Date());
+    }
+
+    @HandleBeforeCreate
+    public void handleDealerCreate(Dealer dealer) {
+        log.info("Before Create Dealer: " + dealer.getName());
+
+        dealer.setAddress(persistAddress(dealer.getAddress()));
+        dealer.setCreatedDate(new Date());
+    }
+
+    @HandleBeforeSave
+    public void handleDealerUpdate(Dealer dealer) {
+        log.info("Before Save Edit Dealer: " + dealer.getName());
+
+        dealer.setAddress(persistAddress(dealer.getAddress()));
+        dealer.setModifiedDate(new Date());
     }
 
     @HandleBeforeSave
@@ -60,5 +86,12 @@ public class UserEventHandler {
             });
         }
         spaTemplate.removeLinks();
+    }
+
+    private Address persistAddress(Address address) {
+        if (address != null) {
+            address = addressRepository.save(address);
+        }
+        return address;
     }
 }

@@ -3,11 +3,13 @@ package com.bwg.iot.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.util.Date;
 import java.util.Objects;
 
-
+@Document
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
 public class Dealer extends ResourceSupport {
 
@@ -21,6 +23,8 @@ public class Dealer extends ResourceSupport {
     private String email;
     private String phone;
     private Attachment logo;
+    private Date createdDate;
+    private Date modifiedDate;
 
     public String get_id() {
         return _id;
@@ -76,6 +80,22 @@ public class Dealer extends ResourceSupport {
 
     public void setLogo(Attachment logo) {
         this.logo = logo;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 
     @Override
