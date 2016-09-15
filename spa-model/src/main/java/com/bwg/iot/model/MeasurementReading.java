@@ -29,6 +29,7 @@ public class MeasurementReading extends ResourceSupport {
     private String moteId;
     private String sensorId;
 
+    @Indexed(expireAfterSeconds = 604800)
     private Date timestamp;
     private String type;
     private String unitOfMeasure;

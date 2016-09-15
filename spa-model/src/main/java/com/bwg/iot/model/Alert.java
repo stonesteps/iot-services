@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -34,6 +35,8 @@ public class Alert extends ResourceSupport {
   private String spaId;
   private String oemId;
   private String dealerId;
+
+  @Indexed(expireAfterSeconds = 604800)
   private Date creationDate;
   private Date clearedDate;
   private String clearedByUserId;

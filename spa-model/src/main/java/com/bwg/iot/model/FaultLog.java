@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -24,6 +25,8 @@ public class FaultLog extends ResourceSupport {
     private String dealerId;
     private String oemId;
     private int code;
+
+    @Indexed(expireAfterSeconds = 604800)
     private Date timestamp;
     private FaultLogSeverity severity;
     private int targetTemp;
