@@ -2,6 +2,9 @@ package com.bwg.iot.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -12,11 +15,17 @@ import java.util.Map;
 
 @Document
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
+@CompoundIndexes({
+        @CompoundIndex(name = "oem_sku", def = "{ 'oemId' : 1 , 'sku' : 1 }", unique = true)
+})
+
 public class SpaTemplate extends ResourceSupport {
 
 
     @Id
     private String _id;
+
+    @Indexed
     private String oemId;
     private String productName;
     private String model;

@@ -3,8 +3,7 @@ package com.bwg.iot.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
-import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
+import org.springframework.data.mongodb.core.index.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.hateoas.ResourceSupport;
@@ -18,6 +17,10 @@ import java.util.stream.Stream;
 
 @Document
 @JsonInclude(value= JsonInclude.Include.NON_EMPTY)
+@CompoundIndexes({
+        @CompoundIndex(name = "owner_username", def = "{ 'owner.username': 1 }"),
+        @CompoundIndex(name = "spa_oem_serial_unique_idx", def = "{ 'oemId': 1, 'serialNumber': 1}", unique = true)
+})
 public class Spa extends ResourceSupport {
 
     @Id
@@ -25,9 +28,13 @@ public class Spa extends ResourceSupport {
     private String serialNumber;
     private String productName;
     private String model;
+
+    @Indexed
     private String dealerId;
     private User associate;
     private User technician;
+
+    @Indexed
     private String oemId;
     private String templateId;
 

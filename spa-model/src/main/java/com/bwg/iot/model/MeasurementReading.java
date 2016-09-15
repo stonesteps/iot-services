@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.hateoas.ResourceSupport;
 
@@ -12,7 +13,10 @@ import java.util.Map;
 
 @Document
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-@CompoundIndexes({@CompoundIndex(name = "measurementreading_spaid_timestamp_idx", def = "{'spaId': 1, 'timestamp': -1}")})
+@CompoundIndexes({
+        @CompoundIndex(name = "measurementreading_spaid_timestamp_idx", def = "{'spaId': 1, 'timestamp': -1}"),
+        @CompoundIndex(name = "measurementreading_spaid_type_idx", def = "{'spaId': 1, 'type': 1, 'timestamp': -1}")
+})
 public class MeasurementReading extends ResourceSupport {
 
     @Id
