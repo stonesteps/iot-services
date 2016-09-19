@@ -32,7 +32,7 @@ public interface SpaRepository extends MongoRepository<Spa, String> , QueryDslPr
     @RestResource
     public Page findByOemId(@Param("oemId") String oemId, Pageable p);
 
-    @Query(value = "{ 'owner.username' : ?0 }")
+    @Query(value = "{ 'owner.email' : ?0 }")
     public Spa findByUsername(@Param("username") String username);
 
     public List<Spa> findByTemplateId(@Param("templateId") String templateId);

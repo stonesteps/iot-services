@@ -198,7 +198,6 @@ public class ModelTestBase {
         if (StringUtils.isNotEmpty(id)) {
             user.set_id(id);
         }
-        user.setUsername(username);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setDealerId(dealerId);

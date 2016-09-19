@@ -25,7 +25,6 @@ public class User extends ResourceSupport {
 
     @Id
     private String _id;
-    private String username;
     private String dealerId;
     private String oemId;
     private String lastName;
@@ -47,6 +46,12 @@ public class User extends ResourceSupport {
         return firstName + " " + lastName;
     }
 
+    @Transient
+    private String username;
+    public String getUsername() {
+        return email;
+    }
+
     private String password;
 
 
@@ -58,13 +63,6 @@ public class User extends ResourceSupport {
         return roles.containsAll(roleList);
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -203,7 +201,6 @@ public class User extends ResourceSupport {
         if (_id != null ? !_id.equals(user._id) : user._id != null) return false;
         if (dealerId != null ? !dealerId.equals(user.dealerId) : user.dealerId != null) return false;
         if (oemId != null ? !oemId.equals(user.oemId) : user.oemId != null) return false;
-        if (username != null ? !username.equals(user.username) : user.username != null) return false;
         if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
         if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
         if (email != null ? !email.equals(user.email) : user.email != null) return false;
@@ -221,7 +218,6 @@ public class User extends ResourceSupport {
         int result = _id != null ? _id.hashCode() : 0;
         result = 31 * result + (dealerId != null ? dealerId.hashCode() : 0);
         result = 31 * result + (oemId != null ? oemId.hashCode() : 0);
-        result = 31 * result + (username != null ? username.hashCode() : 0);
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
         result = 31 * result + (address != null ? address.hashCode() : 0);
@@ -240,7 +236,6 @@ public class User extends ResourceSupport {
                 "id='" + _id + '\'' +
                 ", dealerId='" + dealerId + '\'' +
                 ", oemId='" + oemId + '\'' +
-                ", username='" + username + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", email='" + email + '\'' +
@@ -256,7 +251,7 @@ public class User extends ResourceSupport {
     public User toUserLite() {
         User lite = new User();
         lite.set_id(_id);
-        lite.setUsername(username);
+        lite.setEmail(email);
         lite.setFirstName(firstName);
         lite.setLastName(lastName);
         lite.setDealerId(dealerId);

@@ -151,7 +151,7 @@ public final class AlertDocumentation extends ModelTestBase {
 				.andExpect(status().is2xxSuccessful())
 				.andDo(document("alert-clear-example"));
 
-        spa = spaRepository.findByUsername("eblues");
+        spa = spaRepository.findByUsername("eblues@riot.com");
         Assert.assertNotNull(spa);
         Assert.assertEquals(Alert.SeverityLevelEnum.WARNING.name(), spa.getCurrentState().getAlertState());
     }
