@@ -150,7 +150,7 @@ public final class DashboardDocumentation extends ModelTestBase {
 
 
         this.mockMvc.perform(get("/dashboard")
-                    .header("remote_user","jpage"))
+                    .header("remote_user","jpage@mailinator.com"))
                 .andExpect(status().isOk())
                 .andDo(document("dashboard-oem-example",
                         links(

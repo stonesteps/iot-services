@@ -265,7 +265,7 @@ public class ApiDocumentation extends ModelTestBase{
 		User owner1 = createUser("braitt", "Bonnie", "Raitt", null, null, addresses.get(0), ownerRole, null);
 		Spa spa24 = createSmallSpaWithState("160104", "Shark", "Tiger", "oem00003", "101", owner1);
 
-		this.mockMvc.perform(get("/spas/search/findByUsername?username=braitt"))
+		this.mockMvc.perform(get("/spas/search/findByUsername?username=braitt@mailinator.com"))
 				.andExpect(status().isOk())
 				.andDo(document("spas-findbyUsername-example",
 					links(
@@ -619,7 +619,7 @@ public class ApiDocumentation extends ModelTestBase{
 		request.setComponents(components);
 
 		this.mockMvc.perform(post("/spas/buildSpa")
-				.header("remote_user", "jpage")
+				.header("remote_user", "jpage@mailinator.com")
 				.contentType(MediaTypes.HAL_JSON)
 				.content(this.objectMapper.writeValueAsString(request)))
 				.andExpect(status().is2xxSuccessful())

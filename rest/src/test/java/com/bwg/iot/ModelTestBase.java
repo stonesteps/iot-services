@@ -198,14 +198,13 @@ public class ModelTestBase {
         if (StringUtils.isNotEmpty(id)) {
             user.set_id(id);
         }
-        user.setUsername(username);
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setDealerId(dealerId);
         user.setOemId(oemId);
         user.setAddress(address);
         user.setRoles(roles);
-        user.setEmail(username + "@riot.com");
+        user.setEmail(username + "@mailinator.com");
         user.setPhone("(800) 471-2382");
         user.setCreatedDate(new Date());
         if (StringUtils.isBlank(notes)) {

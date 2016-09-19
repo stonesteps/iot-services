@@ -100,7 +100,7 @@ public final class DealerDocumentation extends ModelTestBase{
 		final Map<String, Object> dealer = new HashMap<>();
 		dealer.put("name", "South Coast Spas");
 		dealer.put("address", address);
-		dealer.put("email", "service@riot.com");
+		dealer.put("email", "service@mailinator.com");
 		dealer.put("phone", "800-iot-spas");
 		dealer.put("logo", logo);
 
