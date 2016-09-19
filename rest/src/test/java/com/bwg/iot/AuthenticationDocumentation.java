@@ -91,7 +91,7 @@ public final class AuthenticationDocumentation extends ModelTestBase{
 		Spa spa27 = createDemoSpa("160315", "Whale", "Beluga","oem02", "dealer0002", owner5, "spa000027", null);
 
 		this.mockMvc.perform(get("/auth/whoami")
-				.header("remote_user", "chynde@riot.com"))
+				.header("remote_user", "chynde@mailinator.com"))
 				.andExpect(status().isOk())
 				.andDo(document("whoami-example",
 						responseFields(
