@@ -130,13 +130,14 @@ public class UserRegistrationController {
         currentUser.setSpaId(user.getSpaId());
         currentUser.setDealerId(user.getDealerId());
         currentUser.setOemId(user.getOemId());
-        currentUser.setEmail(user.getEmail());
         currentUser.setPhone(user.getPhone());
         currentUser.setNotes(user.getNotes());
         currentUser.setRoles(user.getRoles());
         currentUser.setModifiedDate(new Date());
 
-        //todo: update gluu user  (probably not necessary) maybe if email changes??
+        //todo: update gluu user if email changes
+        // ?? who should be allowed to change email/username ??
+//        currentUser.setEmail(user.getEmail());
 
         currentUser = userRepository.save(currentUser);
         currentUser.add(entityLinks.linkToSingleResource(User.class, currentUser.get_id()).withSelfRel());
