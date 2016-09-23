@@ -22,9 +22,11 @@ public class SpaState {
     int errorCode;
     boolean cleanupCycle;
     Date uplinkTimestamp = null;
+    Date staleTimestamp = null;
     String heaterMode;
     int hour;
     int minute;
+    boolean online;
     boolean celsius;
     boolean demoMode;
     boolean timeNotSet;
@@ -343,6 +345,22 @@ public class SpaState {
     public int getWifiUpdateIntervalSeconds() { return wifiUpdateIntervalSeconds; }
 
     public void setWifiUpdateIntervalSeconds(int wifiUpdateIntervalSeconds) { this.wifiUpdateIntervalSeconds = wifiUpdateIntervalSeconds; }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+
+    public Date getStaleTimestamp() {
+        return staleTimestamp;
+    }
+
+    public void setStaleTimestamp(Date staleTimestamp) {
+        this.staleTimestamp = staleTimestamp;
+    }
 
     public Integer getReminderDaysClearRay() {
         return reminderDaysClearRay;
