@@ -26,6 +26,8 @@ public class Material extends ResourceSupport {
     private String materialType;
     private String brandName;
     private String description;
+
+    @Indexed
     private String sku;
     private String alternateSku;
     private int warrantyDays;
