@@ -52,6 +52,109 @@ include::{snippets}/index/1/http-response.adoc[]
 Note the `_links` in the JSON response. They are key to navigating the API.
 
 
+[getting-started-user-types-and-roles]
+== Users and Roles
+
+The system supports different types of users with various capabilities.
+The following describes different types of actors that use they system, and
+how their user experience with the application is determined by their role assignments.
+
+=== Owner
+
+The owner or person who is going to be using the spa.
+The primary UI for the owner is the mobile application.
+The web application may also be used by the owner.
+
+Within the web app, the owner may:
+
+* control their own spa
+* set temperature
+* control spa components
+* view their own spa
+* view system information
+* download Support Materials
+* view the spa equipment list with serial numbers
+* View Alerts
+* Manage their individual account
+* see warranty status and experation date
+
+=== Dealer
+
+A spa dealership may have a few different actors using the system for different needs. As such, there are 3 dealer roles
+that may be assigned to a dealer type user. (and must have at least one)
+
+
+ADMIN role:
+
+* May create new dealership users
+* May inactivate dealership user accounts
+* May inactivate owner accounts
+
+
+ASSOCIATE role:
+
+An associate sells spas to owners, and deals with customers. A DEALER user with ASSOCIATE role may:
+
+* view the dealership dashboard page
+* view a list of all spas associated with the dealership
+* view a list of all alerts for all dealership spas
+* view all alerts associated with a single spa
+* view the details associate with any individual alert
+* view a list of all of the dealership’s spas
+* view the details of any of the spas associated by the dealership including
+* view spa system information
+* view current state of all spa components
+* manage their own user account
+* may sell spas and create new owners
+
+* does not control a spa
+
+
+TECHNICIAN ROLE:
+
+A technician deals with customer service issues. In addition to the spa detail view functionality.
+A technician role assigned to a dealer opens access to additional diagnostic and support capabilities.
+
+* fault log
+* event log
+* wifi statistics
+* measurement readings
+* technician remote command / control of spa
+
+A technician role does not provide the ability to sell spas.
+
+A Dealer type user may have any or all of the 3 ADMIN, ASSOCIATE, and TECHNICIAN roles. And must have at least one.
+
+
+=== OEM
+
+An OEM user may view spas from multiple dealers.
+An OEM may not see spa or user data associated with other OEMs
+An OEM with ADMIN ROLE may:
+
+* create new OEM users
+* create Dealer entities
+* create Dealer user with ADMIN role (during createion of Dealer)
+
+=== BWG
+
+BWG users may see spa and user information for all spas in the system.
+
+A BWG user with Admin may
+
+* create other BWG users.
+* create OEM entitities
+* create a new OEM User with ADMIN role (during creation of the OEM)
+
+=== User Constraints
+
+An owner may not also have other roles. For example a single user may not be both an OWNER and a DEALER ASSOCIATE.
+For this use case. The person needs two accounts, one for work, one for home. Using separate email addresses.
+
+
+Only one spa per account. A person may have multiple accounts each using a unique email address.
+
+
 
 [getting-started-creating-a-spa]
 == Creating a spa
