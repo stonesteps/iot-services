@@ -1,19 +1,25 @@
 package com.bwg.iot;
 
+import com.bwg.iot.model.Spa;
 import com.bwg.iot.model.SpaCommand;
 import com.bwg.iot.model.util.SpaRequestUtil;
+import com.bwg.iot.util.DateTimeUtil;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
 import java.util.*;
 
 @Component
-public class SpaCommandHelper  {
+public class SpaCommandHelper {
 
     @Autowired
-    private  SpaCommandRepository spaCommandRepository;
+    private SpaCommandRepository spaCommandRepository;
+
+    @Autowired
+    private SpaRepository spaRepository;
 
     public SpaCommand setButtonCommand(String spaId, HashMap<String, String> body, int requestCode, HashMap<String, String> metadata, boolean save) throws ValidationException {
         if (spaId == null) {
@@ -65,7 +71,7 @@ public class SpaCommandHelper  {
         SpaCommand command = buildCommand(spaId, originatorId, SpaCommand.RequestType.HEATER.getCode(), values, metadata, save);
         return command;
     }
-    
+
     public SpaCommand setFilerCycleIntervals(String spaId, HashMap<String, String> body, int requestCode, HashMap<String, String> metadata, boolean save) throws ValidationException {
         if (spaId == null) {
             throw new ValidationException("Spa Id not provided");
@@ -96,6 +102,50 @@ public class SpaCommandHelper  {
         return command;
     }
 
+    public SpaCommand setTime(String spaId, HashMap<String, String> body, HashMap<String, String> metadata, boolean save) throws ValidationException {
+        if (spaId == null) {
+            throw new ValidationException("Spa Id not provided");
+        }
+
+        final HashMap<String, String> values = new HashMap<String, String>();
+
+        final String time = body.get(SpaCommand.REQUEST_TIME);
+        if (time == null) {
+            throw new ValidationException("Time required");
+        }
+        try {
+            final Map<Integer, Integer> parsedTime = DateTimeUtil.parseTime(time);
+            values.put(SpaCommand.COMMAND_TIME_HOUR, parsedTime.get(Calendar.HOUR_OF_DAY).toString());
+            values.put(SpaCommand.COMMAND_TIME_MINUTE, parsedTime.get(Calendar.MINUTE).toString());
+            values.put(SpaCommand.COMMAND_TIME_SECOND, parsedTime.get(Calendar.SECOND).toString());
+        } catch (final ParseException e) {
+            throw new ValidationException("Time format invalid");
+        }
+
+        if (isJacuzzi(spaId)) {
+            final String date = body.get(SpaCommand.REQUEST_DATE);
+            if (date == null) {
+                throw new ValidationException("Date required");
+            }
+            try {
+                final Map<Integer, Integer> parsedDate = DateTimeUtil.parseDate(date);
+                values.put(SpaCommand.COMMAND_DATE_DAY, parsedDate.get(Calendar.DAY_OF_MONTH).toString());
+                values.put(SpaCommand.COMMAND_DATE_MONTH, parsedDate.get(Calendar.MONTH).toString());
+                values.put(SpaCommand.COMMAND_DATE_YEAR, parsedDate.get(Calendar.YEAR).toString());
+            } catch (final ParseException e) {
+                throw new ValidationException("Date format invalid");
+            }
+        }
+
+        final String originatorId = body.get(SpaCommand.REQUEST_ORIGINATOR);
+        SpaCommand command = buildCommand(spaId, originatorId, SpaCommand.RequestType.SET_TIME.getCode(), values, metadata, save);
+        return command;
+    }
+
+    private boolean isJacuzzi(final String spaId) {
+        final Spa spa = spaRepository.findOne(spaId);
+        return spa != null && spa.getCurrentState() != null && spa.getCurrentState().getControllerType().equals("JACUZZI");
+    }
 
     public SpaCommand buildCommand(String spaId, String originatorId, int requestCode, HashMap<String, String> values, HashMap<String, String> metadata, boolean save) {
         SpaCommand command = new SpaCommand();
