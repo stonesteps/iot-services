@@ -1469,6 +1469,25 @@ include::{snippets}/control-agentsettings-example/curl-request.adoc[]
 include::{snippets}/control-agentsettings-example/http-response.adoc[]
 
 
+=== Set Time on Spa
+
+This command sets time on spa, if spa is JACUZZI then also date can be set (in such case date field is obligatory).
+
+==== Request structure
+
+include::{snippets}/control-settime-example/request-fields.adoc[]
+
+If the originatorId is not sent in the request, one will be created
+
+==== Example request
+
+include::{snippets}/control-settime-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/control-settime-example/http-response.adoc[]
+
+
 [[resources-tac]]
 == Terms And Agreements
 

@@ -238,10 +238,27 @@ public class SpaCommandController {
         return response;
     }
 
+    @RequestMapping(value = "/{spaId}/setTime", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> setTime(@PathVariable String spaId, @RequestBody HashMap<String, String> body,
+                                                     @RequestHeader(name="remote_user", required=false)String remote_user,
+                                                     @RequestHeader (value="x-forwarded-prefix", required=false) String pathPrefix) {
+        ResponseEntity<?> response;
+        HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
+
+        try {
+            SpaCommand command = helper.setTime(spaId, body, metadata, true);
+            response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
+        } catch (ValidationException ve) {
+            response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return response;
+    }
+
     private HashMap<String, String> setCommandMetadata(String remoteUser, String pathPrefix) {
         HashMap<String, String> metadata = new HashMap<String, String>(2);
         metadata.put(SpaCommand.REQUESTED_BY, (remoteUser == null) ? "Anonymous User" : remoteUser);
         metadata.put(SpaCommand.REQUEST_PATH, (pathPrefix == null) ? "Direct" : pathPrefix);
         return metadata;
     }
+
 }

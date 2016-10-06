@@ -18,11 +18,19 @@ public class SpaCommand {
     public static final String REQUEST_DESIRED_TEMP = "desiredTemp";
     public static final String REQUEST_FILTER_INTERVAL = "intervalNumber";
     public static final String REQUEST_ORIGINATOR = "originatorId";
+    public static final String REQUEST_DATE = "date";
+    public static final String REQUEST_TIME = "time";
 
     public static final String COMMAND_DEVICE_NUMBER = "PORT";
     public static final String COMMAND_DESIRED_STATE = "DESIREDSTATE";
     public static final String COMMAND_DESIRED_TEMP = "DESIREDTEMP";
     public static final String COMMAND_FILTER_INTERVAL = "FILTER_DURATION_15MINUTE_INTERVALS";
+    public static final String COMMAND_DATE_DAY = "DATE_DAY";
+    public static final String COMMAND_DATE_MONTH = "DATE_MONTH";
+    public static final String COMMAND_DATE_YEAR = "DATE_YEAR";
+    public static final String COMMAND_TIME_HOUR = "TIME_HOUR";
+    public static final String COMMAND_TIME_MINUTE = "TIME_MINUTE";
+    public static final String COMMAND_TIME_SECOND = "TIME_SECOND";
 
     public static final String REQUESTED_BY = "Requested By";
     public static final String REQUEST_PATH = "Via";
@@ -32,7 +40,7 @@ public class SpaCommand {
     public enum RequestType {
         PUMP(1), LIGHT(2), BLOWER(3), MISTER(4), FILTER(5), DIAG_REPORT(6), PANEL(7), HEATER(8), OZONE(9),
         MICROSILK(10), AUX(11), CIRCULATION_PUMP(12), RESTART_AGENT(13), REBOOT_GATEWAY(14),
-        UPDATE_AGENT_SETTINGS(15);
+        UPDATE_AGENT_SETTINGS(15), SET_TIME(16);
 
         private static HashMap<Integer, RequestType> codeValueMap = new HashMap<Integer, RequestType>(15);
 
