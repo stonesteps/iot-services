@@ -12,8 +12,8 @@ import java.util.Map;
  */
 public final class DateTimeUtil {
 
-    private static final String DATE_FORMAT_STR = "MM/dd/yyyy";
-    private static final String TIME_FORMAT_STR = "HH:mm:ss";
+    public static final String DATE_FORMAT_STR = "MM/dd/yyyy";
+    public static final String TIME_FORMAT_STR = "HH:mm:ss";
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(DATE_FORMAT_STR);
     private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat(TIME_FORMAT_STR);

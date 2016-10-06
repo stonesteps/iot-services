@@ -16,7 +16,10 @@
 
 package com.bwg.iot;
 
+import com.bwg.iot.model.Spa;
 import com.bwg.iot.model.SpaCommand;
+import com.bwg.iot.model.User;
+import com.bwg.iot.util.DateTimeUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Before;
 import org.junit.Rule;
@@ -44,16 +47,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = IotServicesApplication.class)
 @WebAppConfiguration
-public final class SpaCommandDocumentation {
+public final class SpaCommandDocumentation extends ModelTestBase {
 
     @Rule
     public final JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
 
     @Autowired
     private SpaCommandRepository spaCommandRepository;
-
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Autowired
     private WebApplicationContext context;
@@ -451,5 +451,48 @@ public final class SpaCommandDocumentation {
                                 fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
                                 fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
                                 fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"))));
+    }
+
+    @Test
+    public void setTime() throws Exception {
+        this.spaCommandRepository.deleteAll();
+        this.spaRepository.deleteAll();
+
+        // create sample spa
+        final Spa spa = createDemoSpa("0001", "spa001", "big one", "0001", "0001", null);
+        // make it jacuzzi
+        spa.getCurrentState().setControllerType("JACUZZI");
+        spaRepository.save(spa);
+
+        final Map<String, String> command = new HashMap<>();
+        command.put(SpaCommand.REQUEST_ORIGINATOR, "optional-tag-0001");
+        command.put(SpaCommand.REQUEST_TIME, "13:04:59");
+        command.put(SpaCommand.REQUEST_DATE, "10/06/2016");
+
+        this.mockMvc
+                .perform(post("/control/" + spa.get_id() + "/setTime").contentType(MediaTypes.HAL_JSON)
+                        .content(this.objectMapper.writeValueAsString(command)))
+                .andExpect(status().is2xxSuccessful())
+                .andDo(document("control-settime-example",
+                        requestFields(fieldWithPath(SpaCommand.REQUEST_ORIGINATOR).description("Optional tag for tracking request").optional(),
+                                fieldWithPath(SpaCommand.REQUEST_TIME).description("Obligatory field containing time to be set on spa, time format is " + DateTimeUtil.TIME_FORMAT_STR),
+                                fieldWithPath(SpaCommand.REQUEST_DATE).description("Obligatory field for JACUZZI spa type, contains date to be set on spa in format " + DateTimeUtil.DATE_FORMAT_STR))))
+                .andDo(document("control-settime-response-example",
+                        responseFields(fieldWithPath("_id").description("Unique Id of the control request"),
+                                fieldWithPath("spaId").description("Unique Id for the spa"),
+                                fieldWithPath("requestTypeId").description("The type of request"),
+                                fieldWithPath(SpaCommand.REQUEST_ORIGINATOR).description("A unique id for this request"),
+                                fieldWithPath("sentTimestamp").description("The time the command was sent"),
+                                fieldWithPath("processedTimestamp").description("The time the command was processed").optional().type("String"),
+                                fieldWithPath("processedResult").description("Indicates if processing was successful or not").optional().type("String"),
+                                fieldWithPath("ackTimestamp").description("The time the spa acknowledged the command").optional().type("String"),
+                                fieldWithPath("metadata").description("Extra info related to the command").optional().type("HashMap"),
+                                fieldWithPath("ackResponseCode").description("The ack response from device").optional().type("String"),
+                                fieldWithPath("values."+SpaCommand.COMMAND_DATE_DAY).description("Day (part of date) to be set on spa, values 1-31").type("String"),
+                                fieldWithPath("values."+SpaCommand.COMMAND_DATE_MONTH).description("Month (part of date) to be set on spa, values 0-11").type("String"),
+                                fieldWithPath("values."+SpaCommand.COMMAND_DATE_YEAR).description("Year (part of date) to be set on spa").type("String"),
+                                fieldWithPath("values."+SpaCommand.COMMAND_TIME_HOUR).description("Hour (part of time) to be set on spa, 0-23").type("String"),
+                                fieldWithPath("values."+SpaCommand.COMMAND_TIME_MINUTE).description("Minute (part of time) to be set on spa, 0-59").type("String"),
+                                fieldWithPath("values."+SpaCommand.COMMAND_TIME_SECOND).description("Second (part of time) to be set on spa, 0-59").type("String"))));
     }
 }

@@ -123,6 +123,7 @@ public class SpaCommandHelper {
         }
 
         if (isJacuzzi(spaId)) {
+            // date obligatory only for JACUZZI
             final String date = body.get(SpaCommand.REQUEST_DATE);
             if (date == null) {
                 throw new ValidationException("Date required");

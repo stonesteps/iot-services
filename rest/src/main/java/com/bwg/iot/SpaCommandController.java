@@ -246,7 +246,7 @@ public class SpaCommandController {
         HashMap<String, String> metadata = setCommandMetadata(remote_user, pathPrefix);
 
         try {
-            SpaCommand command = helper.setTime(spaId, body, RequestType.SET_TIME.getCode(), metadata, true);
+            SpaCommand command = helper.setTime(spaId, body, metadata, true);
             response = new ResponseEntity<Object>(command, HttpStatus.ACCEPTED);
         } catch (ValidationException ve) {
             response = new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
