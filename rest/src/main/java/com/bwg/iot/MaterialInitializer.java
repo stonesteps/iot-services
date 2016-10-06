@@ -92,7 +92,7 @@ public class MaterialInitializer {
         lineMapper.setFieldSetMapper(fields -> {
             Material material = new Material();
 
-            List<Oem> oems = operations.find(query(where("customerNumber").is(fields.readInt("customerNumber"))), Oem.class);
+            List<Oem> oems = operations.find(query(where("customerNumber").is(fields.readString("customerNumber"))), Oem.class);
 
             String oemId;
             if (oems.isEmpty()) {
