@@ -704,9 +704,9 @@ customerNumber,materialType,brandName,description,sku,alternateSku,warrantyDays,
 103504,GATEWAY,Triton Gateway: Beta 01,rPi : Agent 1.0.0,17092-83280-1a,,1096
 103504,GATEWAY,Triton Gateway: Beta 03,ts7970 : Agent 1.0.0,17092-83280-1b,,1096
 103504,GATEWAY,Triton Gateway: Beta 02,renasas beta : Agent 1.0.0,17092-83280-1z31096,,366
-102881,GATEWAY,Triton Gateway: Beta 01,rPi : Agent 1.0.0,17092-83280-1a,,1096
-102881,GATEWAY,Triton Gateway: Beta 03,ts7970 : Agent 1.0.0,17092-83280-1b,,1096
-102881,GATEWAY,Triton Gateway: Beta 02,renasas beta : Agent 1.0.0,17092-83280-1z31096,,366
+102811,GATEWAY,Triton Gateway: Beta 01,rPi : Agent 1.0.0,17092-83280-1a,,1096
+102811,GATEWAY,Triton Gateway: Beta 03,ts7970 : Agent 1.0.0,17092-83280-1b,,1096
+102811,GATEWAY,Triton Gateway: Beta 02,renasas beta : Agent 1.0.0,17092-83280-1z31096,,366
 105631,GATEWAY,Triton Gateway: Beta 01,rPi : Agent 1.0.0,17092-83280-1a,,1096
 105631,GATEWAY,Triton Gateway: Beta 03,ts7970 : Agent 1.0.0,17092-83280-1b,,1096
 105631,GATEWAY,Triton Gateway: Beta 02,renasas beta : Agent 1.0.0,17092-83280-1z31096,,366
