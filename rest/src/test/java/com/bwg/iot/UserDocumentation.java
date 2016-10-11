@@ -34,6 +34,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.hateoas.EntityLinks;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.restdocs.JUnitRestDocumentation;
 import org.springframework.test.context.ActiveProfiles;
@@ -85,8 +87,14 @@ public final class UserDocumentation extends ModelTestBase {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private EntityLinks entityLinks;
+
     @InjectMocks
     private UserRegistrationController userRegistrationController;
+
+    @Autowired
+    private EntityLinks realEntityLinks;
 
     @Autowired
     private WebApplicationContext context;
@@ -271,6 +279,149 @@ public final class UserDocumentation extends ModelTestBase {
     }
 
     @Test
+    public void userRemoveExample() throws Throwable {
+        ScimPerson scimPerson = new ScimPerson();
+        scimPerson.setUserName("dmw@mailinator.com");
+
+
+        this.realUserRepository.deleteAll();
+        this.addressRepository.deleteAll();
+
+        Address address = createAddress();
+        User admin = createUser("boss", "Boss", "Tones", "111", "222", address, Arrays.asList("DEALER","ADMIN"), null);
+        User user = createUser("dmw", "Dedman", "Walkin", "111", "222", address, Arrays.asList("DEALER","ASSOCIATE"), null);
+        userRepository.save(admin);
+        userRepository.save(user);
+
+        Link mockLink = realEntityLinks.linkToSingleResource(User.class, user.get_id());
+
+        when(gluuHelper.findPerson(any(User.class))).thenReturn(scimPerson);
+        when(gluuHelper.deletePerson(any(ScimPerson.class))).thenReturn(scimPerson);
+        when(gluuHelper.createUser(any(User.class))).thenReturn(scimPerson);
+        when(userRepository.findByUsername(admin.getUsername())).thenReturn(admin);
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
+        when(userRepository.findOne(any(String.class))).thenReturn(user);
+        when(userRepository.save(any(User.class))).thenReturn(user);
+        when(entityLinks.linkToSingleResource(User.class, user.get_id())).thenReturn(mockLink);
+
+
+        // verify user is in db
+        this.mockMvc.perform(get("/users/{0}", user.get_id())).andExpect(status().isOk())
+                .andExpect(jsonPath("firstName", is(user.getFirstName())))
+                .andExpect(jsonPath("active", is(Boolean.TRUE)));
+
+        // perform removeUser
+        this.userRegMockMvc
+                .perform(post("/user-registration/{0}/remove", user.get_id()).contentType(MediaTypes.HAL_JSON)
+                        .header("remote_user", "boss@mailinator.com"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("active", is(Boolean.FALSE)))
+                .andDo(document("user-remove-example",
+                responseFields(
+                        fieldWithPath("_id").description("Object Id"),
+                        fieldWithPath("username").description("Unique string for the user"),
+                        fieldWithPath("firstName").description("First name of the user"),
+                        fieldWithPath("lastName").description("Last name of the user"),
+                        fieldWithPath("fullName").description("First and Last name"),
+                        fieldWithPath("dealerId").description("dealer id"),
+                        fieldWithPath("oemId").description("Manufacturer id"),
+                        fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),
+                        fieldWithPath("email").description("The user's email address"),
+                        fieldWithPath("phone").description("The user's phone number"),
+                        fieldWithPath("address").description("User's address"),
+                        fieldWithPath("createdDate").description("User creation date").type("Date"),
+                        fieldWithPath("modifiedDate").description("Date of last update").optional().type("Date"),
+                        fieldWithPath("active").description("Date of last update").optional().type("boolean"),
+                        fieldWithPath("inactivatedDate").description("Date user inactivated").optional().type("Date"),
+                        fieldWithPath("inactivatedBy").description("who performed the inactivation").optional().type("String"),
+                        fieldWithPath("_links")
+                                .description("<<resources-user-links,Links>> to other resources").optional().type(Object.class),
+                        fieldWithPath("links").ignored(),
+                        fieldWithPath("notes").description("User's notes"))));
+
+    }
+
+
+    @Test
+    public void userRestoreExample() throws Throwable {
+        ScimPerson scimPerson = new ScimPerson();
+        scimPerson.setUserName("dmw@mailinator.com");
+
+        this.realUserRepository.deleteAll();
+        this.addressRepository.deleteAll();
+
+        Address address = createAddress();
+        User admin = createUser("boss", "Boss", "Tones", "111", "222", address, Arrays.asList("DEALER","ADMIN"), null);
+        User user = createUser("dmw", "Dedman", "Walkin", "111", "222", address, Arrays.asList("DEALER","ASSOCIATE"), null);
+        userRepository.save(admin);
+        userRepository.save(user);
+
+        Link mockLink = realEntityLinks.linkToSingleResource(User.class, user.get_id());
+
+        when(gluuHelper.findPerson(any(User.class))).thenReturn(scimPerson);
+        when(gluuHelper.deletePerson(any(ScimPerson.class))).thenReturn(scimPerson);
+        when(gluuHelper.createUser(any(User.class))).thenReturn(scimPerson);
+        when(userRepository.findByUsername(admin.getUsername())).thenReturn(admin);
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
+        when(userRepository.findOne(any(String.class))).thenReturn(user);
+        when(userRepository.save(any(User.class))).thenReturn(user);
+        when(entityLinks.linkToSingleResource(User.class, user.get_id())).thenReturn(mockLink);
+
+
+        // verify user is in db
+        this.mockMvc.perform(get("/users/{0}", user.get_id())).andExpect(status().isOk())
+                .andExpect(jsonPath("firstName", is(user.getFirstName())))
+                .andExpect(jsonPath("active", is(Boolean.TRUE)));
+
+        // perform removeUser
+        this.userRegMockMvc
+                .perform(post("/user-registration/{0}/remove", user.get_id()).contentType(MediaTypes.HAL_JSON)
+                        .header("remote_user", "boss@mailinator.com"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("active", is(Boolean.FALSE)));
+
+
+
+        // perform user restore
+        this.userRegMockMvc
+                .perform(post("/user-registration/{0}/restore", user.get_id()).contentType(MediaTypes.HAL_JSON)
+                        .header("remote_user", "boss@mailinator.com"))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("active", is(Boolean.TRUE)))
+                .andDo(document("user-restore-example",
+                        responseFields(
+                                fieldWithPath("_id").description("Object Id"),
+                                fieldWithPath("username").description("Unique string for the user"),
+                                fieldWithPath("firstName").description("First name of the user"),
+                                fieldWithPath("lastName").description("Last name of the user"),
+                                fieldWithPath("fullName").description("First and Last name"),
+                                fieldWithPath("dealerId").description("dealer id"),
+                                fieldWithPath("oemId").description("Manufacturer id"),
+                                fieldWithPath("roles").description("User roles. Supported role values: OWNER, ASSOCIATE, TECHNICIAN, DEALER, OEM, BWG, ADMIN").type("List<String>"),
+                                fieldWithPath("email").description("The user's email address"),
+                                fieldWithPath("phone").description("The user's phone number"),
+                                fieldWithPath("address").description("User's address"),
+                                fieldWithPath("createdDate").description("User creation date").type("Date"),
+                                fieldWithPath("modifiedDate").description("Date of last update").optional().type("Date"),
+                                fieldWithPath("active").description("Date of last update").optional().type("boolean"),
+                                fieldWithPath("_links")
+                                        .description("<<resources-user-links,Links>> to other resources").optional().type(Object.class),
+                                fieldWithPath("links").ignored(),
+                                fieldWithPath("notes").description("User's notes"))));
+
+
+        //verify that user is active again
+        this.mockMvc.perform(get("/users/{0}", user.get_id())).andExpect(status().isOk())
+                .andExpect(jsonPath("firstName", is(user.getFirstName())))
+                .andExpect(jsonPath("active", is(Boolean.TRUE)));
+
+        // verify find by user works
+        this.mockMvc.perform(get("/users/search/findByUsername?username={0}", user.getUsername()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("firstName", is(user.getFirstName())));
+    }
+
+    @Test
     public void userGetExample() throws Exception {
         this.realUserRepository.deleteAll();
         this.addressRepository.deleteAll();
@@ -278,7 +429,7 @@ public final class UserDocumentation extends ModelTestBase {
         Address address = createAddress();
         User user = createUser("afranklin", "Aretha", "Franklin", "111", "222", address, Arrays.asList("USER"), null);
 
-        this.mockMvc.perform(get("/users/{0}", user.get_id())).andExpect(status().isOk())
+        this.mockMvc.perform(get("/users/{0}?active=true", user.get_id())).andExpect(status().isOk())
                 .andExpect(jsonPath("firstName", is(user.getFirstName())))
                 .andDo(document("user-get-example",
                         links(linkWithRel("self").description("This <<resources-user,user>>"),
@@ -297,6 +448,9 @@ public final class UserDocumentation extends ModelTestBase {
                                 fieldWithPath("address").description("User's address"),
                                 fieldWithPath("createdDate").description("User creation date").type("Date"),
                                 fieldWithPath("modifiedDate").description("Date of last update").optional().type("Date"),
+                                fieldWithPath("active").description("Date of last update").optional().type("boolean"),
+                                fieldWithPath("inactivatedDate").description("Date user inactivated").optional().type("Date"),
+                                fieldWithPath("inactivatedBy").description("who performed the inactivation").optional().type("String"),
                                 fieldWithPath("_links")
                                         .description("<<resources-user-links,Links>> to other resources"),
                                 fieldWithPath("notes").description("User's notes"))));
@@ -329,6 +483,9 @@ public final class UserDocumentation extends ModelTestBase {
                                 fieldWithPath("address").description("User's address"),
                                 fieldWithPath("createdDate").description("User creation date").type("Date"),
                                 fieldWithPath("modifiedDate").description("Date of last update").optional().type("Date"),
+                                fieldWithPath("active").description("Date of last update").optional().type("boolean"),
+                                fieldWithPath("inactivatedDate").description("Date user inactivated").optional().type("Date"),
+                                fieldWithPath("inactivatedBy").description("who performed the inactivation").optional().type("String"),
                                 fieldWithPath("_links")
                                         .description("<<resources-user-links,Links>> to other resources"),
                                 fieldWithPath("notes").description("User's notes"))));
