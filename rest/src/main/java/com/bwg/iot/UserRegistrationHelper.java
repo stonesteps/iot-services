@@ -267,6 +267,22 @@ public class UserRegistrationHelper {
         return personRetrieved;
     }
 
+    public ScimPerson deletePerson(ScimPerson person) throws Throwable {
+        ScimClient scimClient = ScimClient.umaInstance(domain, umaMetaDataUrl, umaAatClientId, umaAatClientJwks, umaAatClientKeyId);
+        ScimResponse response = scimClient.deletePerson(person.getId());
+
+        // throw exception if the code is not 2xx
+        if (response.getStatusCode() < 200
+                || response.getStatusCode() > 299) {
+            log.error("SCIM-Client attempt to delete person reported status " + response.getStatusCode());
+            throw new RuntimeException("SCIM-client returned error: " + response.getStatusCode());
+        } else {
+            log.info("SCIM-Client deletePerson " + person.getId() +  ", returned status " + response.getStatusCode());
+        }
+        ScimPerson personReturned = (ScimPerson) commonHelper.jsonToObject(response, ScimPerson.class);
+        return personReturned;
+    }
+
     public String getDomain() {
         return domain;
     }

@@ -188,4 +188,126 @@ public class UserRegistrationController {
         ResponseEntity<?> response = new ResponseEntity<User>(remoteUser, status);
         return response;
     }
+
+    @RequestMapping(value = "/{id}/remove", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> remove(@RequestHeader(name="remote_user")String remote_user,
+                                            @PathVariable("id") String id) throws Throwable {
+        User remoteUser = userRepository.findByUsername(remote_user);
+        if (remoteUser == null || !remoteUser.hasRole(User.Role.ADMIN.name())) {
+            return new ResponseEntity<String>("Need Admin Role to perform this function", HttpStatus.FORBIDDEN);
+        }
+        // TODO: Better Validation
+        // can a user remove themselves?  Perhaps an owner
+        // can an admin be removed from OEM, Dealer or BWG is there is only one?
+        // can OEM admin remove dealer users
+        // can BWG admin remove delear users, oem users, and owners?
+
+        User currentUser = userRepository.findOne(id);
+        if (currentUser == null) {
+            log.info("User with id " + id + " not found");
+            return new ResponseEntity<String>("User with id " + id + " not found", HttpStatus.NOT_FOUND);
+        }
+
+        // remove user from gluu idm server.
+        ScimPerson person = null;
+        try {
+            person = gluuHelper.findPerson(currentUser);
+            if (person != null) {
+                log.info("deleting gluu user: " + currentUser.getUsername());
+                person = gluuHelper.deletePerson(person);
+                log.info("Gluu person removed" + currentUser.getUsername());
+            } else {
+                log.warn("removing user with no existing gluu account. id: " + currentUser.getUsername());
+            }
+        } catch (Throwable t) {
+            log.error("exception in gluuHelper: " + t.getMessage());
+            log.error("stacktrace: ", t);
+        }
+
+        // if already inactive, do nothing
+        if (!currentUser.isActive()) {
+            log.info("User with id " + id + " is already inactive");
+            return new ResponseEntity<String>("User with id " + id + " is already inactive", HttpStatus.ALREADY_REPORTED);
+        }
+
+        return doActivate(currentUser, false, remote_user);
+
+        //TODO: send email to deleted account
+    }
+
+    @RequestMapping(value = "/{id}/restore", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<?> restore(@RequestHeader(name="remote_user")String remote_user,
+                                    @PathVariable("id") String id) throws Throwable {
+        User remoteUser = userRepository.findByUsername(remote_user);
+        if (remoteUser == null || !remoteUser.hasRole(User.Role.ADMIN.name())) {
+            return new ResponseEntity<String>("Need Admin Role to perform this function", HttpStatus.FORBIDDEN);
+        }
+
+        User currentUser = userRepository.findOne(id);
+        if (currentUser == null) {
+            log.info("User with id " + id + " not found");
+            return new ResponseEntity<String>("User with id " + id + " not found", HttpStatus.NOT_FOUND);
+        }
+
+        // check if already active, do nothing.
+        if (currentUser.isActive()) {
+            log.info("User with id " + id + " is already active");
+            return new ResponseEntity<String>("User with id " + id + " is already active", HttpStatus.ALREADY_REPORTED);
+        }
+
+        // Create Gluu User Account
+        ScimPerson person = null;
+        try {
+            log.info("creating new gluu user: " + currentUser.getUsername());
+            if (StringUtils.isNotBlank(currentUser.getUsername())) {
+                person = gluuHelper.createUser(currentUser);
+                log.info("New user added with Gluu id " + person.getUserName());
+            } else {
+                log.error("username is undefined, aborting user creation");
+            }
+        } catch (Throwable t) {
+            currentUser.setErrorMessage(t.getMessage());
+            log.error("exception in gluuHelper: " + t.getMessage());
+            log.error("stacktrace: ", t);
+        }
+        // please note! Having an error message set implies a 500 error
+        HttpStatus status = StringUtils.isBlank(currentUser.getErrorMessage()) ?
+                HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
+
+        // save the user on mongo only if the user was succesfully created on Gluu
+        if (status == HttpStatus.OK) {
+            // send email to user
+            try {
+                if (person != null) {
+                    String role = (currentUser.hasRole(User.Role.OWNER.name())) ? User.Role.OWNER.name() : currentUser.getRoles().get(0);
+                    gluuHelper.sendGmailRegistrationMail(person, role);
+                }
+            } catch (Exception ex) {
+                log.error("Unable to send registration email to user: " + currentUser.getUsername());
+                log.error("Exception", ex.getMessage());
+            }
+
+            return doActivate(currentUser, true, remote_user);
+        }
+
+        log.error("user restore aborted because of previous errors");
+        return new ResponseEntity<String>("user restore aborted because of previous errors", HttpStatus.CONFLICT);
+    }
+
+    private ResponseEntity<?> doActivate(User currentUser, boolean active, String remote_user) {
+        currentUser.setActive(active);
+        currentUser.setInactivatedBy(remote_user);
+        currentUser.setInactivatedDate(new Date());
+        if (active) {
+            currentUser.setInactivatedBy(null);
+            currentUser.setInactivatedDate(null);
+        } else {
+            currentUser.setInactivatedBy(remote_user);
+            currentUser.setInactivatedDate(new Date());
+        }
+        currentUser = userRepository.save(currentUser);
+
+        currentUser.add(entityLinks.linkToSingleResource(User.class, currentUser.get_id()).withSelfRel());
+        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+    }
 }

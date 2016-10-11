@@ -1058,6 +1058,48 @@ include::{snippets}/user-password-update-example/curl-request.adoc[]
 
 include::{snippets}/user-password-update-example/http-response.adoc[]
 
+=== Remove User
+
+*/user-registration/{id}/remove*
+
+A `POST` request is used to remove a user.
+This operation may only be performed by an admin.
+
+Users records will remain in the database but are marked as inactive.
+
+User Login Accounts are deleted from the identity management server.
+
+
+==== Example request
+
+include::{snippets}/user-remove-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/user-remove-example/http-response.adoc[]
+
+
+=== Restore User
+
+*/user-registration/{id}/restore*
+
+A `POST` request is used to restore a previously removed user.
+This operation may only be performed by an admin.
+
+Users records must already exist in the database and marked as inactive.
+They will be restored to active following the successful completion of this command.
+
+User Login Accounts are created in the identity management server.
+
+
+==== Example request
+
+include::{snippets}/user-restore-example/curl-request.adoc[]
+
+==== Example response
+
+include::{snippets}/user-restore-example/http-response.adoc[]
+
 
 === Find Current User
 
