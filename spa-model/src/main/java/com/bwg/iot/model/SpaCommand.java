@@ -30,7 +30,6 @@ public class SpaCommand {
     public static final String COMMAND_DATE_YEAR = "DATE_YEAR";
     public static final String COMMAND_TIME_HOUR = "TIME_HOUR";
     public static final String COMMAND_TIME_MINUTE = "TIME_MINUTE";
-    public static final String COMMAND_TIME_SECOND = "TIME_SECOND";
 
     public static final String REQUESTED_BY = "Requested By";
     public static final String REQUEST_PATH = "Via";

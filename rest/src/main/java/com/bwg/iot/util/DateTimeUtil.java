@@ -29,12 +29,10 @@ public final class DateTimeUtil {
         calendar.setTime(date);
         final int hour = calendar.get(Calendar.HOUR_OF_DAY);
         final int minute = calendar.get(Calendar.MINUTE);
-        final int second = calendar.get(Calendar.SECOND);
 
         final Map<Integer, Integer> map = new HashMap<>();
         map.put(Calendar.HOUR_OF_DAY, hour);
         map.put(Calendar.MINUTE, minute);
-        map.put(Calendar.SECOND, second);
 
         return map;
     }

@@ -117,7 +117,6 @@ public class SpaCommandHelper {
             final Map<Integer, Integer> parsedTime = DateTimeUtil.parseTime(time);
             values.put(SpaCommand.COMMAND_TIME_HOUR, parsedTime.get(Calendar.HOUR_OF_DAY).toString());
             values.put(SpaCommand.COMMAND_TIME_MINUTE, parsedTime.get(Calendar.MINUTE).toString());
-            values.put(SpaCommand.COMMAND_TIME_SECOND, parsedTime.get(Calendar.SECOND).toString());
         } catch (final ParseException e) {
             throw new ValidationException("Time format invalid");
         }
