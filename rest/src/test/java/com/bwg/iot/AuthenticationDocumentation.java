@@ -109,6 +109,9 @@ public final class AuthenticationDocumentation extends ModelTestBase{
 								fieldWithPath("address").description("User's address"),
 								fieldWithPath("createdDate").description("User creation date").type("Date"),
 								fieldWithPath("modifiedDate").description("Date of last update").optional().type("Date"),
+								fieldWithPath("active").description("Date of last update").optional().type("boolean"),
+								fieldWithPath("inactivatedDate").description("Date user inactivated").optional().type("Date"),
+								fieldWithPath("inactivatedBy").description("who performed the inactivation").optional().type("String"),
 								fieldWithPath("_links")
 										.description("<<resources-user-links,Links>> to other resources"),
 								fieldWithPath("notes").description("User's notes"))));

@@ -36,6 +36,9 @@ public class User extends ResourceSupport {
     private Date createdDate;
     private Date modifiedDate;
     private String notes;
+    private boolean active = true;
+    private Date inactivatedDate;
+    private String inactivatedBy;
 
     private String spaId;
     private String errorMessage;
@@ -180,14 +183,37 @@ public class User extends ResourceSupport {
         return _id;
     }
 
-  public String getErrorMessage() {
+    public String getErrorMessage() {
     return errorMessage;
   }
 
-  public void setErrorMessage(String errorMessage) {
+    public void setErrorMessage(String errorMessage) {
     this.errorMessage = errorMessage;
   }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Date getInactivatedDate() {
+        return inactivatedDate;
+    }
+
+    public void setInactivatedDate(Date inactivatedDate) {
+        this.inactivatedDate = inactivatedDate;
+    }
+
+    public String getInactivatedBy() {
+        return inactivatedBy;
+    }
+
+    public void setInactivatedBy(String inactivatedBy) {
+        this.inactivatedBy = inactivatedBy;
+    }
 
     public void set_id(String _id) { this._id = _id; }
 
@@ -245,6 +271,9 @@ public class User extends ResourceSupport {
                 ", createdDate='" + cdate + '\'' +
                 ", modifiedDate='" + mdate + '\'' +
                 ", notes='" + notes + '\'' +
+                ", active='" + active + '\'' +
+                ", inactivatedDate='" + inactivatedDate + '\'' +
+                ", inactivatedBy='" + inactivatedBy + '\'' +
                 '}';
     }
 

@@ -23,13 +23,13 @@ import java.util.List;
 public interface UserRepository extends MongoRepository<User, String>, QueryDslPredicateExecutor<User>,
         QuerydslBinderCustomizer<QUser> {
 
-    @Query(value = "{ 'email' : ?0 }")
+    @Query(value = "{ 'email' : ?0 , 'active' : true }")
     public User findByUsername(@Param("username") String username);
 
-    @RestResource
+    @Query(value = "{ 'dealerId' : ?0 , 'active' : true }")
     public Page findByDealerId(@Param("dealerId") String dealerId, Pageable p);
 
-    @RestResource
+    @Query(value = "{ 'oemId' : ?0 , 'active' : true }")
     public Page findByOemId(@Param("oemId") String oemId, Pageable p);
 
     @Override
