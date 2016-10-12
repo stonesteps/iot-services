@@ -214,7 +214,7 @@ public class UserRegistrationController {
             person = gluuHelper.findPerson(currentUser);
             if (person != null) {
                 log.info("deleting gluu user: " + currentUser.getUsername());
-                person = gluuHelper.deletePerson(person);
+                gluuHelper.deletePerson(person);
                 log.info("Gluu person removed" + currentUser.getUsername());
                 gluuHelper.sendUserDeletedMail(person, remote_user);
                 log.info("User Nofitied of removal");

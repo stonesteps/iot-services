@@ -299,7 +299,7 @@ public class UserRegistrationHelper {
         return personRetrieved;
     }
 
-    public ScimPerson deletePerson(ScimPerson person) throws Throwable {
+    public void deletePerson(ScimPerson person) throws Throwable {
         ScimClient scimClient = ScimClient.umaInstance(domain, umaMetaDataUrl, umaAatClientId, umaAatClientJwks, umaAatClientKeyId);
         ScimResponse response = scimClient.deletePerson(person.getId());
 
@@ -311,8 +311,7 @@ public class UserRegistrationHelper {
         } else {
             log.info("SCIM-Client deletePerson " + person.getId() +  ", returned status " + response.getStatusCode());
         }
-        ScimPerson personReturned = (ScimPerson) commonHelper.jsonToObject(response, ScimPerson.class);
-        return personReturned;
+        return;
     }
 
     public String getDomain() {
