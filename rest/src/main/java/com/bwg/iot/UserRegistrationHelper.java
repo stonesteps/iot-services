@@ -160,6 +160,26 @@ public class UserRegistrationHelper {
         transport.close();
     }
 
+    public void sendUserDeletedMail(ScimPerson person, String by) throws AddressException, MessagingException {
+        getMailSession = Session.getDefaultInstance(mailServerProperties, null);
+        MimeMessage generateMailMessage = new MimeMessage(getMailSession);
+        generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(person.getEmails().get(0).getValue()));
+        generateMailMessage.setSubject(environment.getProperty(PropertyNames.MAIL_TEMPLATE_SUBJECT_DELETED));
+        String template = environment.getProperty(PropertyNames.MAIL_TEMPLATE_DELETED);
+        if (StringUtils.isNotBlank(template)) {
+            template = String.format(template, person.getDisplayName(), by);
+        }
+        generateMailMessage.setContent(template, "text/html");
+
+        Transport transport = getMailSession.getTransport("smtp");
+
+        // if you have 2FA enabled then provide App Specific Password
+        //		transport.connect("smtp.gmail.com", "controlmyspa@gmail.com", "4thoseabout2rock");
+        transport.connect(mailServer, mailerUsername, mailerPassword);
+        transport.sendMessage(generateMailMessage, generateMailMessage.getAllRecipients());
+        transport.close();
+    }
+
 
     private ScimPerson createPerson(com.bwg.iot.model.User user) throws Throwable {
         ScimPerson person = new ScimPerson();
