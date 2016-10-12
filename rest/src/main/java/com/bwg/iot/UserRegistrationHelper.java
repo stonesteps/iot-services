@@ -119,6 +119,17 @@ public class UserRegistrationHelper {
     }
 
     /**
+     * strip of email domain from username if it exists
+     * @param username
+     * @return
+     */
+    private String generateTrivialPassword(String username){
+        int index = username.indexOf('@');
+        String pw = (index > 0) ? username.substring(0,index) : username;
+        return pw;
+    }
+
+    /**
      * Process mail tempate
      *
      * @param person
@@ -183,7 +194,8 @@ public class UserRegistrationHelper {
 
     private ScimPerson createPerson(com.bwg.iot.model.User user) throws Throwable {
         ScimPerson person = new ScimPerson();
-        String password = ("dev".equalsIgnoreCase(activeProfile)) ? user.getUsername() : generateRandomPassword();
+        String password = ("dev".equalsIgnoreCase(activeProfile))
+                ? generateTrivialPassword(user.getUsername()) : generateRandomPassword();
 
         if (null != user) {
             List<String> schema = new ArrayList<String>();
