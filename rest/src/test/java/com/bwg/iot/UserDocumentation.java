@@ -296,7 +296,6 @@ public final class UserDocumentation extends ModelTestBase {
         Link mockLink = realEntityLinks.linkToSingleResource(User.class, user.get_id());
 
         when(gluuHelper.findPerson(any(User.class))).thenReturn(scimPerson);
-        when(gluuHelper.deletePerson(any(ScimPerson.class))).thenReturn(scimPerson);
         when(gluuHelper.createUser(any(User.class))).thenReturn(scimPerson);
         when(userRepository.findByUsername(admin.getUsername())).thenReturn(admin);
         when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
@@ -359,7 +358,6 @@ public final class UserDocumentation extends ModelTestBase {
         Link mockLink = realEntityLinks.linkToSingleResource(User.class, user.get_id());
 
         when(gluuHelper.findPerson(any(User.class))).thenReturn(scimPerson);
-        when(gluuHelper.deletePerson(any(ScimPerson.class))).thenReturn(scimPerson);
         when(gluuHelper.createUser(any(User.class))).thenReturn(scimPerson);
         when(userRepository.findByUsername(admin.getUsername())).thenReturn(admin);
         when(userRepository.findByUsername(user.getUsername())).thenReturn(user);
