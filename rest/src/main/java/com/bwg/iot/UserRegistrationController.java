@@ -216,6 +216,8 @@ public class UserRegistrationController {
                 log.info("deleting gluu user: " + currentUser.getUsername());
                 person = gluuHelper.deletePerson(person);
                 log.info("Gluu person removed" + currentUser.getUsername());
+                gluuHelper.sendUserDeletedMail(person, remote_user);
+                log.info("User Nofitied of removal");
             } else {
                 log.warn("removing user with no existing gluu account. id: " + currentUser.getUsername());
             }
@@ -230,9 +232,8 @@ public class UserRegistrationController {
             return new ResponseEntity<String>("User with id " + id + " is already inactive", HttpStatus.ALREADY_REPORTED);
         }
 
-        return doActivate(currentUser, false, remote_user);
-
-        //TODO: send email to deleted account
+        currentUser = doActivate(currentUser, false, remote_user);
+        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/{id}/restore", method = RequestMethod.POST, produces = "application/json")
@@ -287,14 +288,15 @@ public class UserRegistrationController {
                 log.error("Exception", ex.getMessage());
             }
 
-            return doActivate(currentUser, true, remote_user);
+            currentUser =  doActivate(currentUser, true, remote_user);
+            return new ResponseEntity<User>(currentUser, HttpStatus.OK);
         }
 
         log.error("user restore aborted because of previous errors");
         return new ResponseEntity<String>("user restore aborted because of previous errors", HttpStatus.CONFLICT);
     }
 
-    private ResponseEntity<?> doActivate(User currentUser, boolean active, String remote_user) {
+    private User doActivate(User currentUser, boolean active, String remote_user) {
         currentUser.setActive(active);
         currentUser.setInactivatedBy(remote_user);
         currentUser.setInactivatedDate(new Date());
@@ -308,6 +310,6 @@ public class UserRegistrationController {
         currentUser = userRepository.save(currentUser);
 
         currentUser.add(entityLinks.linkToSingleResource(User.class, currentUser.get_id()).withSelfRel());
-        return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+        return currentUser;
     }
 }
