@@ -29,16 +29,23 @@ public class RemoteUserAuthenticationProvider implements AuthenticationProvider 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
+        log.info("Entering Authentication Provider");
+
         RemoteUserToken remoteUserToken = (RemoteUserToken) authentication;
         String currentUser = remoteUserToken.getPrincipal().toString();
         if (StringUtils.isEmpty(currentUser)){
             throw new UsernameNotFoundException("Could not authenticate user: No Username Provided");
         }
 
+        log.info("Auth  remote_user " + currentUser );
+
+
         User user = userRepository.findByUsername(currentUser);
         if (user == null) {
             throw new UsernameNotFoundException("Could not find user: " + currentUser);
         }
+        log.info("Auth  Found User: " + user.getUsername() );
+
         List<GrantedAuthority> authorityList = new ArrayList<GrantedAuthority>();
         user.getRoles().stream().forEach((role) -> {
             authorityList.add(new SimpleGrantedAuthority(role));
