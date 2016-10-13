@@ -2,6 +2,8 @@ package com.bwg.iot;
 
 import com.bwg.iot.model.User;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -19,6 +21,7 @@ import java.util.List;
  */
 @Component
 public class RemoteUserAuthenticationProvider implements AuthenticationProvider {
+    private final Logger log = LoggerFactory.getLogger(RemoteUserAuthenticationProvider.class);
 
     @Autowired
     UserRepository userRepository;
@@ -40,6 +43,7 @@ public class RemoteUserAuthenticationProvider implements AuthenticationProvider 
         user.getRoles().stream().forEach((role) -> {
             authorityList.add(new SimpleGrantedAuthority(role));
         });
+        log.info("user " + user.getUsername() + "authenticated successfully");
         return new RemoteUserToken(user.getUsername(), null, authorityList);
     }
 
