@@ -43,6 +43,9 @@ public class User extends ResourceSupport {
     private String spaId;
     private String errorMessage;
 
+    // for push notifications
+    private String deviceToken;
+
     @Transient
     private String fullName;
     public String getFullName() {
@@ -217,6 +220,14 @@ public class User extends ResourceSupport {
 
     public void set_id(String _id) { this._id = _id; }
 
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -274,6 +285,7 @@ public class User extends ResourceSupport {
                 ", active='" + active + '\'' +
                 ", inactivatedDate='" + inactivatedDate + '\'' +
                 ", inactivatedBy='" + inactivatedBy + '\'' +
+                ", deviceToken='" + deviceToken + '\'' +
                 '}';
     }
 
