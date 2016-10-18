@@ -7,9 +7,9 @@ package com.bwg.iot;
 import com.bwg.iot.model.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jboss.resteasy.spi.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Page;
@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.ValidationException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -130,8 +131,8 @@ public class CustomSpaController {
     public ResponseEntity<?> buildSpa(@RequestHeader(name="remote_user")String remote_user, @RequestBody BuildSpaRequest request) {
         // validate user, get oemid
         User remoteUser = userRepository.findByUsername(remote_user);
-        if (!remoteUser.hasRole(User.Role.OEM.toString())) {
-            return new ResponseEntity<String>("User does not have OEM role", HttpStatus.FORBIDDEN);
+        if (remoteUser == null || !remoteUser.hasRole(User.Role.OEM.toString())) {
+            throw new UnauthorizedException("User does not have the required OEM role");
         }
 
         // TODO: validate minimal set of components
@@ -144,7 +145,7 @@ public class CustomSpaController {
                 .filter(c -> Component.ComponentType.GATEWAY.name().equalsIgnoreCase(c.getComponentType()))
                 .collect(Collectors.toList());
         if (gateways.isEmpty()) {
-            return new ResponseEntity<String>("Spa must have at least 1 Gateway Component", HttpStatus.BAD_REQUEST);
+            throw new ValidationException("Spa must have at least 1 Gateway Component");
         }
 
         Spa myNewSpa = new Spa();
@@ -159,8 +160,8 @@ public class CustomSpaController {
         }
         if (existingGateway != null) {
             if (!existingGateway.isFactoryInit()) {
-                return new ResponseEntity<String>("A Gateway Board with serial number:"
-                        + gatewaySerialNumber + " is already in use.", HttpStatus.BAD_REQUEST);
+                throw new ValidationException("A Gateway Board with serial number:"
+                        + gatewaySerialNumber + " is already in use.");
             }
             existingGateway.setSku(gatewayComponent.getSku());
             existingGateway.setName(gatewayComponent.getName());
@@ -193,7 +194,7 @@ public class CustomSpaController {
         // validate spaTemplate, get productName, model, sku
         SpaTemplate spaTemplate = spaTemplateRepository.findOne(requestSpa.getTemplateId());
         if (spaTemplate == null) {
-            return new ResponseEntity<String>("Invalid Spa Template ID", HttpStatus.BAD_REQUEST);
+            throw new ValidationException("Invalid Spa Template ID");
         }
 
         myNewSpa.setTemplateId(requestSpa.getTemplateId());
