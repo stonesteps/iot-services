@@ -192,14 +192,16 @@ public class CustomSpaController {
         myNewSpa.setOemId(remoteUser.getOemId());
 
         // validate spaTemplate, get productName, model, sku
-        SpaTemplate spaTemplate = spaTemplateRepository.findOne(requestSpa.getTemplateId());
-        if (spaTemplate == null) {
-            throw new ValidationException("Invalid Spa Template ID");
+        if (requestSpa.getTemplateId() != null) {
+            SpaTemplate spaTemplate = spaTemplateRepository.findOne(requestSpa.getTemplateId());
+            if (spaTemplate == null) {
+                throw new ValidationException("Invalid Spa Template ID");
+            }
+            myNewSpa.setTemplateId(requestSpa.getTemplateId());
+            myNewSpa.setProductName(spaTemplate.getProductName());
+            myNewSpa.setModel(spaTemplate.getModel());
         }
 
-        myNewSpa.setTemplateId(requestSpa.getTemplateId());
-        myNewSpa.setProductName(spaTemplate.getProductName());
-        myNewSpa.setModel(spaTemplate.getModel());
         myNewSpa.setSerialNumber(requestSpa.getSerialNumber());
 
         myNewSpa = spaRepository.save(myNewSpa);
