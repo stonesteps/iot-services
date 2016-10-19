@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RepositoryRestController
 @RequestMapping("/spaTemplates")
@@ -39,7 +40,7 @@ public class SpaTemplateController {
         // get spaTemplate, verify it exists
         SpaTemplate existingTemplate = spaTemplateRepository.findOne(id);
         if (existingTemplate == null) {
-            return new ResponseEntity<String>("Spa Template '" + id + "' not found.",HttpStatus.NOT_FOUND);
+            throw new NoSuchElementException("Spa Template '" + id + "' not found.");
         }
 
         // see if spa template is used in any spas

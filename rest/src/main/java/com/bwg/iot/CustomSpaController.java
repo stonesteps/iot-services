@@ -12,12 +12,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.ValidationException;
@@ -73,23 +75,28 @@ public class CustomSpaController {
 
         Spa spa = spaRepository.findOne(spaId);
         if (spa == null) {
-            return new ResponseEntity<String>("Invalid Spa ID, spa not found",HttpStatus.BAD_REQUEST);
+            throw new NoSuchElementException("Spa not found. Spa ID: "+spaId);
         }
 
         User owner = userRepository.findOne(ownerId);
         if (owner == null) {
-            return new ResponseEntity<String>("Invalid Owner ID, owner not found",HttpStatus.BAD_REQUEST);
+            throw new UsernameNotFoundException("Owner not found, Owner ID:" + ownerId);
         }
         if (StringUtils.isNotEmpty(owner.getSpaId())) {
-            return new ResponseEntity<String>("This person already owns a spa. We currently only allow 1 spa per user account.", HttpStatus.BAD_REQUEST);
+            throw new ValidationException("This person already owns a spa. We currently only allow 1 spa per user account.");
+        }
+        if (owner.hasRole(User.Role.BWG.name())
+            || owner.hasRole(User.Role.OEM.name())
+            || owner.hasRole(User.Role.DEALER.name())) {
+            throw new ValidationException("An employee in the system may not also be a spa owner. Please use a different email address for the owner account.");
         }
 
         User associate = userRepository.findOne(associateId);
         if (associate == null) {
-            return new ResponseEntity<String>("Invalid associate ID, associate not found.",HttpStatus.BAD_REQUEST);
+            throw new ValidationException("Invalid associate ID, associate not found.");
         } 
         if (!associate.hasRole(User.Role.ASSOCIATE.toString())) {
-            return new ResponseEntity<String>("Invalid associate ID, user does not have ASSOCIATE role.",HttpStatus.BAD_REQUEST);
+            throw new ValidationException("Invalid associate ID, user does not have ASSOCIATE role.");
         }
         associate = associate.toMinimal();
 
@@ -97,7 +104,7 @@ public class CustomSpaController {
         if (technicianId != null) {
             technician = userRepository.findOne(technicianId);
             if (technician != null && !technician.hasRole(User.Role.TECHNICIAN.toString())) {
-                return new ResponseEntity<String>("Invalid technician ID, user does not have TECHNICIAN role.", HttpStatus.BAD_REQUEST);
+                throw new ValidationException("Invalid technician ID, user does not have TECHNICIAN role.");
             }
         }
 
@@ -247,7 +254,7 @@ public class CustomSpaController {
         long maxRecipeCount = Long.valueOf(environment.getProperty(PropertyNames.MAX_RECIPES));
         long spaRecipeCount = recipeRepository.countBySpaId(spaId);
         if (spaRecipeCount >= maxRecipeCount) {
-            return new ResponseEntity<String>("Maximum number of recipes exceeded for this spa.", HttpStatus.CONFLICT);
+            throw new DataIntegrityViolationException("Maximum number of recipes exceeded for this spa.");
         }
 
         Recipe recipe = new Recipe();
@@ -285,10 +292,10 @@ public class CustomSpaController {
             }
         } catch (ValidationException ve) {
             LOGGER.error(ve.getMessage());
-            return new ResponseEntity<Object>(ve.getMessage(), HttpStatus.BAD_REQUEST);
+            throw ve;
         } catch (IllegalArgumentException ex) {
             LOGGER.error(ex.getMessage());
-            return new ResponseEntity<Object>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+            throw ex;
         }
 
         recipe.setSpaId(spaId);
@@ -335,7 +342,7 @@ public class CustomSpaController {
         Recipe recipe = recipeRepository.findOne(id);
         if (recipe == null) {
             LOGGER.info("Spa Recipe with id " + id + " not found");
-            return new ResponseEntity<String>("Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
+            throw new NoSuchElementException("Spa Recipe with id " + id + " not found");
         }
         RecipeDTO dto = RecipeDTO.fromRecipe(recipe);
         dto.add(entityLinks.linkFor(com.bwg.iot.model.Spa.class)
@@ -350,7 +357,7 @@ public class CustomSpaController {
         Recipe currentRecipe = recipeRepository.findOne(id);
         if (currentRecipe == null) {
             LOGGER.info("Spa Recipe with id " + id + " not found");
-            return new ResponseEntity<String>("Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
+            throw new NoSuchElementException("Spa Recipe with id " + id + " not found");
         }
 
         if (currentRecipe.isSystem()) {
@@ -384,10 +391,10 @@ public class CustomSpaController {
         Recipe currentRecipe = recipeRepository.findOne(id);
         if (currentRecipe == null) {
             LOGGER.info("Unable to delete: Spa Recipe with id " + id + " not found");
-            return new ResponseEntity<String>("Unable to delete: Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
+            throw new NoSuchElementException("Unable to delete: Spa Recipe with id " + id + " not found");
         }
         if (currentRecipe.isSystem()) {
-            return new ResponseEntity<String>("Cannot Delete System Presets", HttpStatus.FORBIDDEN);
+            throw new DataIntegrityViolationException("Cannot Delete System Presets");
         }
 
         recipeRepository.delete(id);
@@ -401,7 +408,7 @@ public class CustomSpaController {
         Recipe recipe = recipeRepository.findOne(id);
         if (recipe == null) {
             LOGGER.info("Spa Recipe with id " + id + " not found");
-            return new ResponseEntity<String>("Spa Recipe with id " + id + " not found", HttpStatus.NOT_FOUND);
+            throw new NoSuchElementException("Spa Recipe with id " + id + " not found");
         }
 
         recipe.getSettings().forEach(spaCommand -> {
