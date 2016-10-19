@@ -7,6 +7,7 @@ import com.bwg.iot.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -92,13 +93,13 @@ public class SpaRegistrationController {
         User user = request.getUser();
 
         if (regKey == null || spaId == null) {
-            return new ResponseEntity<String>("Missing required parameter(s).",HttpStatus.BAD_REQUEST);
+            throw new ValidationException("Missing required parameter(s).");
         }
 
         // validate regKey
         Spa mySpa = mongoOps.findById(spaId, Spa.class);
         if (mySpa == null || mySpa.getRegKey() == null || !mySpa.getRegKey().equals(regKey)) {
-//            return new ResponseEntity<String>("Invalid spaId or regKey does not match", HttpStatus.BAD_REQUEST);
+//            throw new ValidationException("Invalid spaId or regKey does not match");
         }
 
         // if existing user, validate auth token
@@ -117,7 +118,7 @@ public class SpaRegistrationController {
             token = authenticateUser(user);
         } else {
             // Neither auth token or new user passed in, bad request
-            return new ResponseEntity<String>("Missing either new user object or existing user access token.", HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("Missing either new user object or existing user access token.");
         }
 
         // set lat/lon if not null

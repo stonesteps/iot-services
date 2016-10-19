@@ -17,6 +17,7 @@ import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -52,12 +53,12 @@ public class DashboardController {
     public @ResponseBody ResponseEntity<?> getDealerDashboardInfo(@RequestHeader(name="remote_user")String remote_user) {
         User remoteUser = userRepository.findByUsername(remote_user);
         if (remoteUser == null) {
-            return new ResponseEntity<String>("User does not exist", HttpStatus.NOT_FOUND);
+            throw new UsernameNotFoundException("User does not exist");
         }
 
         DashboardInfo dashboardInfo = getDashboardInfo(remoteUser);
         if (dashboardInfo == null) {
-            return new ResponseEntity<>("No Landing Page for this type of user", HttpStatus.BAD_REQUEST);
+            throw new IllegalArgumentException("No Landing Page for this type of user");
         }
 
         return new ResponseEntity<DashboardInfo>(dashboardInfo, HttpStatus.OK);

@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.logging.Level;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
@@ -20,14 +21,17 @@ import javax.validation.Valid;
 
 import gluu.scim.client.model.ScimPerson;
 import org.apache.commons.lang.StringUtils;
+import org.jboss.resteasy.spi.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -121,7 +125,7 @@ public class UserRegistrationController {
         User currentUser = userRepository.findOne(id);
         if (currentUser == null) {
             log.info("User with id " + id + " not found");
-            return new ResponseEntity<String>("User with id " + id + " not found", HttpStatus.NOT_FOUND);
+            throw new UsernameNotFoundException("User with id " + id + " not found");
         }
 
         currentUser.setFirstName(user.getFirstName());
@@ -150,7 +154,7 @@ public class UserRegistrationController {
                                             @RequestBody User user) throws Throwable {
         User remoteUser = userRepository.findByUsername(remote_user);
         if (remoteUser == null || !id.equals(remoteUser.get_id())) {
-            return new ResponseEntity<String>("Only the user can change their own password", HttpStatus.FORBIDDEN);
+            throw new UnauthorizedException("Only the user can change their own password");
         }
 
         ScimPerson person = null;
@@ -194,7 +198,7 @@ public class UserRegistrationController {
                                             @PathVariable("id") String id) throws Throwable {
         User remoteUser = userRepository.findByUsername(remote_user);
         if (remoteUser == null || !remoteUser.hasRole(User.Role.ADMIN.name())) {
-            return new ResponseEntity<String>("Need Admin Role to perform this function", HttpStatus.FORBIDDEN);
+            throw new UnauthorizedException("Need Admin Role to perform this function");
         }
         // TODO: Better Validation
         // can a user remove themselves?  Perhaps an owner
@@ -205,7 +209,7 @@ public class UserRegistrationController {
         User currentUser = userRepository.findOne(id);
         if (currentUser == null) {
             log.info("User with id " + id + " not found");
-            return new ResponseEntity<String>("User with id " + id + " not found", HttpStatus.NOT_FOUND);
+            throw new UsernameNotFoundException("User with id " + id + " not found");
         }
 
         // remove user from gluu idm server.
@@ -229,7 +233,7 @@ public class UserRegistrationController {
         // if already inactive, do nothing
         if (!currentUser.isActive()) {
             log.info("User with id " + id + " is already inactive");
-            return new ResponseEntity<String>("User with id " + id + " is already inactive", HttpStatus.ALREADY_REPORTED);
+            throw new InputMismatchException("User with id " + id + " is already inactive");
         }
 
         currentUser = doActivate(currentUser, false, remote_user);
@@ -241,19 +245,18 @@ public class UserRegistrationController {
                                     @PathVariable("id") String id) throws Throwable {
         User remoteUser = userRepository.findByUsername(remote_user);
         if (remoteUser == null || !remoteUser.hasRole(User.Role.ADMIN.name())) {
-            return new ResponseEntity<String>("Need Admin Role to perform this function", HttpStatus.FORBIDDEN);
+            throw new UnauthorizedException("Need Admin Role to perform this function");
         }
 
         User currentUser = userRepository.findOne(id);
         if (currentUser == null) {
-            log.info("User with id " + id + " not found");
-            return new ResponseEntity<String>("User with id " + id + " not found", HttpStatus.NOT_FOUND);
+            throw new UsernameNotFoundException("User with id " + id + " not found");
         }
 
         // check if already active, do nothing.
         if (currentUser.isActive()) {
             log.info("User with id " + id + " is already active");
-            return new ResponseEntity<String>("User with id " + id + " is already active", HttpStatus.ALREADY_REPORTED);
+            throw new InputMismatchException("User with id " + id + " is already active");
         }
 
         // Create Gluu User Account
@@ -293,7 +296,7 @@ public class UserRegistrationController {
         }
 
         log.error("user restore aborted because of previous errors");
-        return new ResponseEntity<String>("user restore aborted because of previous errors", HttpStatus.CONFLICT);
+        throw new DataIntegrityViolationException("user restore aborted because of previous errors");
     }
 
     private User doActivate(User currentUser, boolean active, String remote_user) {
